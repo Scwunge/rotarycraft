@@ -329,6 +329,8 @@
   "block.rotarycraft.mob_radar": "Mob Radar",
   "block.rotarycraft.gpr": "Ground-Penetrating Radar",
   "block.rotarycraft.chunk_loader": "Chunk Loader",
+  "block.rotarycraft.weather_controller": "Weather Controller",
+  "item.rotarycraft.silver_iodide": "Silver Iodide",
   "item.rotarycraft.wood_gear": "Wooden Gear",
   "item.rotarycraft.wood_gear_unit_2": "Wooden Gear Unit (2:1)",
   "item.rotarycraft.wood_gear_unit_4": "Wooden Gear Unit (4:1)",

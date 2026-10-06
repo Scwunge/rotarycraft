@@ -28,6 +28,7 @@ public class RotaryConfig {
     // ---- utility machines that load or change the world (off unless the server turns them on) ----
     public static final java.util.Map<String, ModConfigSpec.BooleanValue> WORLD_MACHINES = new java.util.LinkedHashMap<>();
     public static final ModConfigSpec.IntValue CHUNK_LOADER_RADIUS;
+    public static final ModConfigSpec.BooleanValue WEATHER_BANS_RAIN;
 
     static {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
@@ -78,6 +79,8 @@ public class RotaryConfig {
         }
         CHUNK_LOADER_RADIUS = b.comment("Most chunks out from its own that a chunk loader holds loaded (the original's default is 8).")
                 .defineInRange("chunkLoaderMaxRadius", 8, 0, 32);
+        WEATHER_BANS_RAIN = b.comment("The weather controller will not make rain, thunder or storms (it can still clear the sky).")
+                .define("weatherControllerBansRain", false);
         b.pop();
 
         SPEC = b.build();

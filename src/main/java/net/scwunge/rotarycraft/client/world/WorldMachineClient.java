@@ -6,6 +6,7 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.scwunge.rotarycraft.RotaryCraft;
@@ -19,6 +20,12 @@ public final class WorldMachineClient {
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(WorldMachineRegistry.CHUNK_LOADER_BE.get(), c -> new ChunkLoaderRenderer());
+        event.registerBlockEntityRenderer(WorldMachineRegistry.WEATHER_CONTROLLER_BE.get(), c -> new WeatherControllerRenderer());
+    }
+
+    @SubscribeEvent
+    public static void screens(RegisterMenuScreensEvent event) {
+        event.register(WorldMachineRegistry.WEATHER_MENU.get(), WeatherScreen::new);
     }
 
     @SubscribeEvent
@@ -35,5 +42,17 @@ public final class WorldMachineClient {
                 return renderer;
             }
         }, WorldMachineRegistry.CHUNK_LOADER.get().asItem());
+        event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    Minecraft mc = Minecraft.getInstance();
+                    renderer = new WeatherControllerRenderer.Item(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels());
+                }
+                return renderer;
+            }
+        }, WorldMachineRegistry.WEATHER_CONTROLLER.get().asItem());
     }
 }

@@ -37,6 +37,14 @@ MACHINES = []
 MODELS = []
 
 
+def sprite(sheet, index, name):
+    """An item icon cut from the original's sprite sheets (sheet 0 is items.png, sheet n is items<n+1>.png)."""
+    from PIL import Image
+    im = Image.open('%s/Textures/Items/items%s.png' % (REF, '' if sheet == 0 else sheet + 1)).convert('RGBA')
+    im.crop(((index % 16) * 16, (index // 16) * 16, (index % 16 + 1) * 16, (index // 16 + 1) * 16)).save('%s/item/%s.png' % (T, name))
+    w('%s/models/item/%s.json' % (A, name), {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/' + name}})
+
+
 def rendered_machine(name, facings=('up', 'down', 'north', 'south', 'east', 'west'), particle='rotarycraft:block/shaft_steel'):
     """A machine drawn entirely by its renderer: the block model only gives break particles; the item is drawn by the renderer too."""
     MACHINES.append(name)
@@ -74,8 +82,23 @@ MODELS.append('ModelChunkLoader:chunk_loader')
 shaped('chunk_loader', ['sSs', 'BSB', 'PGP'], {'s': {'item': 'minecraft:nether_star'}, 'S': item('bedrock_shaft_core'), 'B': STEEL,
                                                'P': item('base_panel'), 'G': item('bedrock_gear_unit_16')})
 
+# ---- Weather Controller (and the silver iodide it makes rain with) ----
+model_texture('iotex.png', 'weather_controller')
+rendered_machine('weather_controller')
+MODELS.append('ModelIodide:iodide')
+os.makedirs(T + '/gui', exist_ok=True)
+shutil.copy(REF + '/Textures/GUI/basicstorage.png', T + '/gui/basic_storage.png')
+sprite(0, 8 * 16 + 7, 'silver_iodide')
+shaped('weather_controller', ['s s', 'sls', 'pcp'], {'s': STEEL, 'l': {'item': 'minecraft:daylight_detector'}, 'c': item('circuit_board'),
+                                                     'p': item('base_panel')})
+w(D + '/recipe/silver_iodide.json', {'type': 'minecraft:crafting_shapeless', 'category': 'misc',
+                                     'ingredients': [item('salt'), tag('c:ingots/silver')], 'result': {'id': 'rotarycraft:silver_iodide', 'count': 1}})
+w(R + '/data/c/tags/item/dusts/wood.json', {'values': ['rotarycraft:sawdust']})
+
 lang.update({
     'block.rotarycraft.chunk_loader': 'Chunk Loader',
+    'block.rotarycraft.weather_controller': 'Weather Controller',
+    'item.rotarycraft.silver_iodide': 'Silver Iodide',
 })
 w(lang_path, lang)
 

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "s s",
+    "sls",
+    "pcp"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "l": {
+      "item": "minecraft:daylight_detector"
+    },
+    "c": {
+      "item": "rotarycraft:circuit_board"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:weather_controller",
+    "count": 1
+  }
+}

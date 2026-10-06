@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/weather_controller"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/weather_controller"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/weather_controller"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/weather_controller"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/weather_controller"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/weather_controller"
+    }
+  }
+}

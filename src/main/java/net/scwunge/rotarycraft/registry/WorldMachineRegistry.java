@@ -1,16 +1,25 @@
 package net.scwunge.rotarycraft.registry;
 
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.common.world.chunk.RegisterTicketControllersEvent;
 import net.neoforged.neoforge.common.world.chunk.TicketController;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.block.ChunkLoaderBlock;
+import net.scwunge.rotarycraft.block.WeatherControllerBlock;
 import net.scwunge.rotarycraft.blockentity.ChunkLoaderBlockEntity;
+import net.scwunge.rotarycraft.blockentity.WeatherControllerBlockEntity;
+import net.scwunge.rotarycraft.menu.WeatherMenu;
 
 /**
  * The machines that load or change the world (chunk loader, weather controller, terraformer, borers): their blocks, block entities
@@ -28,14 +37,31 @@ public final class WorldMachineRegistry {
             RotaryBlockEntities.TYPES.register("chunk_loader",
                     () -> BlockEntityType.Builder.of(ChunkLoaderBlockEntity::new, CHUNK_LOADER.get()).build(null));
 
+    // ---- Weather Controller ----
+    public static final DeferredItem<Item> SILVER_IODIDE = RotaryItems.add(RotaryItems.ITEMS.registerSimpleItem("silver_iodide"));
+    public static final DeferredBlock<WeatherControllerBlock> WEATHER_CONTROLLER = RotaryBlocks.BLOCKS.register("weather_controller",
+            () -> new WeatherControllerBlock(RotaryBlocks.machineProps().noOcclusion(), WorldMachineRegistry.WEATHER_CONTROLLER_BE,
+                    WeatherControllerBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WeatherControllerBlockEntity>> WEATHER_CONTROLLER_BE =
+            RotaryBlockEntities.TYPES.register("weather_controller",
+                    () -> BlockEntityType.Builder.of(WeatherControllerBlockEntity::new, WEATHER_CONTROLLER.get()).build(null));
+    public static final DeferredHolder<MenuType<?>, MenuType<WeatherMenu>> WEATHER_MENU = RotaryMenus.MENUS.register("weather_controller",
+            () -> IMenuTypeExtension.create(WeatherMenu::fromNetwork));
+
     static {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(CHUNK_LOADER));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(WEATHER_CONTROLLER));
     }
 
     private WorldMachineRegistry() {}
 
     /** Loads the class, so its entries join the shared registers. */
     public static void init(IEventBus modBus) {
+    }
+
+    @SubscribeEvent
+    public static void capabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, WEATHER_CONTROLLER_BE.get(), (be, side) -> be.automationItems());
     }
 
     @SubscribeEvent
