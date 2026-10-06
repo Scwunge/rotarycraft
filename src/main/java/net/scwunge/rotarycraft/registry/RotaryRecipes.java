@@ -52,6 +52,11 @@ public class RotaryRecipes {
     public static final DeferredHolder<RecipeSerializer<?>, CentrifugeRecipe.Serializer> CENTRIFUGE_SERIALIZER =
             SERIALIZERS.register("centrifuge", CentrifugeRecipe.Serializer::new);
 
+    public static final DeferredHolder<RecipeType<?>, RecipeType<net.scwunge.rotarycraft.recipe.CrystallizingRecipe>> CRYSTALLIZING =
+            TYPES.register("crystallizing", () -> RecipeType.simple(RotaryCraft.id("crystallizing")));
+    public static final DeferredHolder<RecipeSerializer<?>, net.scwunge.rotarycraft.recipe.CrystallizingRecipe.Serializer> CRYSTALLIZING_SERIALIZER =
+            SERIALIZERS.register("crystallizing", net.scwunge.rotarycraft.recipe.CrystallizingRecipe.Serializer::new);
+
     public static final DeferredHolder<RecipeType<?>, RecipeType<MeltingRecipe>> MELTING =
             TYPES.register("melting", () -> RecipeType.simple(RotaryCraft.id("melting")));
     public static final DeferredHolder<RecipeSerializer<?>, MeltingRecipe.Serializer> MELTING_SERIALIZER =

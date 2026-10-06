@@ -30,6 +30,7 @@ public final class RotaryClient {
         event.register(RotaryMenus.ROCK_MELTER.get(), RockMelterScreen::new);
         event.register(RotaryMenus.FRACTIONATOR.get(), FractionatorScreen::new);
         event.register(RotaryMenus.COMPACTOR.get(), CompactorScreen::new);
+        event.register(RotaryMenus.CRYSTALLIZER.get(), CrystallizerScreen::new);
         event.register(RotaryMenus.FUEL_ENGINE.get(), FuelEngineScreen::new);
         event.register(RotaryMenus.PERFORMANCE_ENGINE.get(), PerformanceEngineScreen::new);
         event.register(RotaryMenus.TURBINE.get(), TurbineScreen::new);

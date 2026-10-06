@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:crystallizing",
+  "fluid": {
+    "id": "minecraft:lava",
+    "amount": 1000
+  },
+  "result": {
+    "id": "minecraft:stone",
+    "count": 1
+  }
+}

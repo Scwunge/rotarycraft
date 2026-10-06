@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:crystallizing",
+  "fluid": {
+    "id": "minecraft:water",
+    "amount": 200
+  },
+  "result": {
+    "id": "minecraft:snowball",
+    "count": 1
+  }
+}

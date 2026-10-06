@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:crystallizing",
+  "fluid": {
+    "id": "minecraft:water",
+    "amount": 1000
+  },
+  "result": {
+    "id": "minecraft:ice",
+    "count": 1
+  }
+}

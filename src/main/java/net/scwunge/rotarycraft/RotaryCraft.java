@@ -89,6 +89,10 @@ public class RotaryCraft {
                 (be, side) -> FluidAccess.fillOnly(be.fuelHandler(side)));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.COMPACTOR.get(),
                 (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.CRYSTALLIZER.get(),
+                (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.CRYSTALLIZER.get(),
+                (be, side) -> side == be.inputSide() ? null : be.fluidHandler());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.FRACTIONATOR.get(),
                 (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.FRACTIONATOR.get(),

@@ -376,6 +376,7 @@ shaped('blast_furnace', ['BBB', 'BrB', 'BBB'], {'B': item('minecraft:stone_brick
 shaped('friction_heater', ['S  ', 'Sss', 'SPP'], {'P': PANEL, 'S': STEEL_I, 's': ROD})
 shaped('fermenter', ['BPB', 'PIP', 'BPB'], {'B': STEEL_I, 'I': item('impeller'), 'P': PANEL})
 shaped('centrifuge', ['SGS', 'S S', 'PgP'], {'P': PANEL, 'g': item('steel_gear_unit_4'), 'S': STEEL_I, 'G': tag('c:glass_panes')})
+shaped('crystallizer', ['SFS', 'FIF', 'BBB'], {'S': STEEL_I, 'F': item('cooling_fin'), 'I': item('impeller'), 'B': PANEL})
 shaped('rock_melter', ['SRS', 'PGP', 'SsS'], {'s': ROD, 'S': STEEL_I, 'R': item('reservoir'), 'P': PANEL, 'G': GEAR})
 shaped('fractionator', ['GFG', 'GIG', 'GPG'], {'P': PANEL, 'I': item('mixer'), 'G': GOLD_I, 'F': item('fuel_line')})
 shaped('magnetizer', ['p p', 'gmg', 'prp'], {'r': REDSTONE, 'p': PANEL, 'm': MOUNT, 'g': item('gold_coil')})

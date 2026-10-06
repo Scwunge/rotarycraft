@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rotarycraft:block/crystallizer"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/crystallizer",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/crystallizer",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/crystallizer",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "rotarycraft:block/crystallizer",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/crystallizer",
+      "x": 90
+    }
+  }
+}

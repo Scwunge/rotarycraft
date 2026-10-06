@@ -119,6 +119,7 @@ public class MachineBlock extends BaseEntityBlock {
                     : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.FuelEngineBlockEntity f ? f.items()
                     : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.menu.OneSlotMenu.Host h ? h.items()
                     : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.FractionatorBlockEntity fr ? fr.items()
+                    : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.CrystallizerBlockEntity cr ? cr.items()
                     : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.CompactorBlockEntity cp ? cp.items() : null;
             if (items != null) {
                 for (int i = 0; i < items.getSlots(); i++) {

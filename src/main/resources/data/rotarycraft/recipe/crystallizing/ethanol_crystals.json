@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:crystallizing",
+  "fluid": {
+    "id": "rotarycraft:ethanol",
+    "amount": 1000
+  },
+  "result": {
+    "id": "rotarycraft:ethanol_crystals",
+    "count": 1
+  }
+}

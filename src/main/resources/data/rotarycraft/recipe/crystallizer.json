@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SFS",
+    "FIF",
+    "BBB"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "F": {
+      "item": "rotarycraft:cooling_fin"
+    },
+    "I": {
+      "item": "rotarycraft:impeller"
+    },
+    "B": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:crystallizer",
+    "count": 1
+  }
+}

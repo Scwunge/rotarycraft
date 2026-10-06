@@ -107,7 +107,9 @@ public class RotaryBlocks {
             () -> new net.scwunge.rotarycraft.block.CoolingFinBlock(machineProps().noOcclusion()));
     public static final DeferredBlock<MachineBlock> COMPACTOR = BLOCKS.register("compactor",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.COMPACTOR, net.scwunge.rotarycraft.blockentity.CompactorBlockEntity::new));
-    public static final DeferredBlock<Block> ANTHRACITE_BLOCK = BLOCKS.registerSimpleBlock("anthracite_block",
+    public static final DeferredBlock<MachineBlock> CRYSTALLIZER = BLOCKS.register("crystallizer",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.CRYSTALLIZER, net.scwunge.rotarycraft.blockentity.CrystallizerBlockEntity::new));
+    public static final DeferredBlock<Block> ANTHRACITE_BLOCK =BLOCKS.registerSimpleBlock("anthracite_block",
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(5.0F, 6.0F).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> LONSDALEITE_BLOCK = BLOCKS.registerSimpleBlock("lonsdaleite_block",
             BlockBehaviour.Properties.of().mapColor(MapColor.DIAMOND).strength(5.0F, 6.0F).requiresCorrectToolForDrops());
