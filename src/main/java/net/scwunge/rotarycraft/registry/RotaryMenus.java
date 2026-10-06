@@ -45,6 +45,8 @@ public class RotaryMenus {
             MENUS.register("pulse_furnace", () -> IMenuTypeExtension.create(net.scwunge.rotarycraft.menu.PulseFurnaceMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<net.scwunge.rotarycraft.menu.RefrigeratorMenu>> REFRIGERATOR =
             MENUS.register("refrigerator", () -> IMenuTypeExtension.create(net.scwunge.rotarycraft.menu.RefrigeratorMenu::new));
+    public static final DeferredHolder<MenuType<?>, MenuType<net.scwunge.rotarycraft.menu.DryerMenu>> DRYER =
+            MENUS.register("dryer", () -> IMenuTypeExtension.create(net.scwunge.rotarycraft.menu.DryerMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<RockMelterMenu>> ROCK_MELTER =
             MENUS.register("rock_melter", () -> IMenuTypeExtension.create(RockMelterMenu::new));
 

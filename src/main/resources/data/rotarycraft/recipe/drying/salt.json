@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:drying",
+  "fluid": {
+    "id": "minecraft:water",
+    "amount": 250
+  },
+  "result": {
+    "id": "rotarycraft:salt",
+    "count": 1
+  }
+}

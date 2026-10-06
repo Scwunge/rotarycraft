@@ -77,6 +77,13 @@ public final class ReikaModel {
         pose.scale(1, -1, -1);
     }
 
+    /** Draws every part of the model. */
+    public void renderAll(PoseStack pose, VertexConsumer buffer, int light, int overlay) {
+        for (ModelPart part : parts().values()) {
+            part.render(pose, buffer, light, overlay);
+        }
+    }
+
     /** Draws the named parts. */
     public void render(PoseStack pose, VertexConsumer buffer, int light, int overlay, String... names) {
         Map<String, ModelPart> all = parts();

@@ -216,6 +216,7 @@
   "block.rotarycraft.refrigerator": "Refrigerator",
   "item.rotarycraft.salt": "Salt",
   "gui.rotarycraft.refrigerator.needs": "Needs 2048 N*m (any speed) and 32 kW; one ice block makes liquid nitrogen each cycle",
+  "block.rotarycraft.dryer": "Dryer",
   "item.rotarycraft.barrel": "Barrel",
   "item.rotarycraft.lens": "Lens",
   "item.rotarycraft.bulb": "Bulb",
