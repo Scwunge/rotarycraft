@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "psp",
+    "sts",
+    "psp"
+  ],
+  "key": {
+    "t": {
+      "item": "rotarycraft:turbine"
+    },
+    "s": {
+      "item": "rotarycraft:sonar_unit"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:sonic_weapon",
+    "count": 1
+  }
+}

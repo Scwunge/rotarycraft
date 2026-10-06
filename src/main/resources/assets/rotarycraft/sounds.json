@@ -16,5 +16,11 @@
       "rotarycraft:flameturret"
     ],
     "subtitle": "subtitles.rotarycraft.flameturret"
+  },
+  "sonic": {
+    "sounds": [
+      "rotarycraft:sonic"
+    ],
+    "subtitle": "subtitles.rotarycraft.sonic"
   }
 }

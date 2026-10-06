@@ -1,7 +1,6 @@
 package net.scwunge.rotarycraft.weapon.turret;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -20,10 +19,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
-import net.scwunge.rotarycraft.blockentity.ConsumerBlockEntity;
 import net.scwunge.rotarycraft.config.RotaryConfig;
 import net.scwunge.rotarycraft.menu.OneSlotMenu;
-import net.scwunge.rotarycraft.power.IShaftPowerOutput;
 import net.scwunge.rotarycraft.power.PowerRequirement;
 import net.scwunge.rotarycraft.registry.WeaponRegistry;
 import net.scwunge.rotarycraft.weapon.CannonMenu;
@@ -36,7 +33,7 @@ import org.jetbrains.annotations.Nullable;
  * speed set on its screen. Its top speed is sqrt(power / 67.5) blocks a second and its top elevation depends on torque. In target
  * mode it works out the speed and angle that put the shot on a block you name, and sets the fuse to go off on arrival.
  */
-public class TntCannonBlockEntity extends ConsumerBlockEntity implements MenuProvider, OneSlotMenu.Host {
+public class TntCannonBlockEntity extends OmniConsumerBlockEntity implements MenuProvider, OneSlotMenu.Host {
     public static final PowerRequirement REQUIREMENT = new PowerRequirement(1, 1, 65536);
     public static final int SLOTS = 11;
     public static final double TORQUE_CAP = 32768;
@@ -99,7 +96,6 @@ public class TntCannonBlockEntity extends ConsumerBlockEntity implements MenuPro
     /** The solved shot for target mode: elevation, speed and flight time, with what it was solved for. */
     private int solvedTheta, solvedVelocity, solvedTicks;
     private long solvedFor = Long.MIN_VALUE;
-    private int syncedTorque, syncedOmega;
 
     public TntCannonBlockEntity(BlockPos pos, BlockState state) {
         super(WeaponRegistry.TNT_CANNON_BE.get(), pos, state);
@@ -173,32 +169,6 @@ public class TntCannonBlockEntity extends ConsumerBlockEntity implements MenuPro
         solvedFor = Long.MIN_VALUE;
         setChanged();
         syncNow();
-    }
-
-    private void syncNow() {
-        if (level != null) {
-            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
-        }
-    }
-
-    /** Takes power from any side and adds it up, as the original: the speed of the fastest shaft, the torque the total power makes at it. */
-    @Override
-    public void serverTick() {
-        long total = 0;
-        int fastest = 0;
-        for (Direction side : Direction.values()) {
-            IShaftPowerOutput.Reading in = IShaftPowerOutput.readInput(level, worldPosition, side);
-            total += (long) in.torque() * in.omega();
-            fastest = Math.max(fastest, in.omega());
-        }
-        setPower(fastest == 0 ? 0 : (int) Math.min(Integer.MAX_VALUE, total / fastest), fastest);
-        // the screen shows what the power allows, so tell clients when it changes (at most once a second)
-        if ((torque != syncedTorque || omega != syncedOmega) && level.getGameTime() % 20 == 0) {
-            syncedTorque = torque;
-            syncedOmega = omega;
-            syncNow();
-        }
-        machineTick(hasEnoughPower());
     }
 
     @Override
@@ -338,8 +308,7 @@ public class TntCannonBlockEntity extends ConsumerBlockEntity implements MenuPro
         tag.putInt("fuse", fuse);
         tag.putBoolean("targetMode", targetMode);
         tag.putLong("target", target.asLong());
-        tag.putInt("torque", torque);
-        tag.putInt("omega", omega);
+        writePower(tag);
     }
 
     private void readSettings(CompoundTag tag) {
@@ -349,8 +318,7 @@ public class TntCannonBlockEntity extends ConsumerBlockEntity implements MenuPro
         fuse = tag.getInt("fuse");
         targetMode = tag.getBoolean("targetMode");
         target = BlockPos.of(tag.getLong("target"));
-        torque = tag.getInt("torque");
-        omega = tag.getInt("omega");
+        readPower(tag);
     }
 
     @Override

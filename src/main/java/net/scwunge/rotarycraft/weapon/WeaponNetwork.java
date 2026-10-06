@@ -28,6 +28,7 @@ public final class WeaponNetwork {
         registrar.playToClient(SafePlayers.TYPE, SafePlayers.CODEC, (p, ctx) -> ctx.enqueueWork(() -> WeaponClientHooks.openSafePlayers(p.pos(), p.names())));
         registrar.playToServer(RemoveSafePlayer.TYPE, RemoveSafePlayer.CODEC, (p, ctx) -> ctx.enqueueWork(() -> RemoveSafePlayer.handle(p, ctx)));
         registrar.playToServer(CannonSettings.TYPE, CannonSettings.CODEC, (p, ctx) -> ctx.enqueueWork(() -> CannonSettings.handle(p, ctx)));
+        registrar.playToServer(SonicVolume.TYPE, SonicVolume.CODEC, (p, ctx) -> ctx.enqueueWork(() -> SonicVolume.handle(p, ctx)));
     }
 
     public record SafePlayers(BlockPos pos, List<String> names) implements CustomPacketPayload {
@@ -62,6 +63,27 @@ public final class WeaponNetwork {
             if (player.distanceToSqr(p.pos.getCenter()) <= 64 && player.level().isLoaded(p.pos)
                     && player.level().getBlockEntity(p.pos) instanceof net.scwunge.rotarycraft.weapon.turret.TntCannonBlockEntity cannon) {
                 cannon.configure(p.targetMode, p.phi, p.theta, p.velocity, p.fuse, p.target);
+            }
+        }
+    }
+
+    /** The Sonic Weapon's screen setting its volume in decibels. */
+    public record SonicVolume(BlockPos pos, int decibels) implements CustomPacketPayload {
+        public static final Type<SonicVolume> TYPE = new Type<>(RotaryCraft.id("sonic_volume"));
+        public static final StreamCodec<ByteBuf, SonicVolume> CODEC = StreamCodec.composite(BlockPos.STREAM_CODEC, SonicVolume::pos,
+                ByteBufCodecs.INT, SonicVolume::decibels, SonicVolume::new);
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
+        }
+
+        /** Only someone standing at the weapon can change it. */
+        static void handle(SonicVolume p, IPayloadContext ctx) {
+            Player player = ctx.player();
+            if (player.distanceToSqr(p.pos.getCenter()) <= 64 && player.level().isLoaded(p.pos)
+                    && player.level().getBlockEntity(p.pos) instanceof net.scwunge.rotarycraft.weapon.turret.SonicWeaponBlockEntity sonic) {
+                sonic.setDecibels(p.decibels);
             }
         }
     }

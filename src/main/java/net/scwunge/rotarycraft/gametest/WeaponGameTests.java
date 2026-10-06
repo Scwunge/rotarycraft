@@ -372,4 +372,102 @@ public class WeaponGameTests {
             });
         });
     }
+
+    static net.scwunge.rotarycraft.weapon.turret.SonicWeaponBlockEntity sonic(GameTestHelper helper, int decibels) {
+        spinningFlywheel(helper, TURRET.below(), 65536, 1024);
+        helper.setBlock(TURRET, WeaponRegistry.SONIC.get().defaultBlockState());
+        net.scwunge.rotarycraft.weapon.turret.SonicWeaponBlockEntity gun = helper.getBlockEntity(TURRET);
+        gun.setDecibels(decibels);
+        return gun;
+    }
+
+    /** Loud enough, a mob nearby is blinded and dazed. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 100)
+    public static void sonicWeaponBlindsAndConfusesNearbyMobs(GameTestHelper helper) {
+        sonic(helper, 140);
+        var cow = helper.spawnWithNoFreeWill(net.minecraft.world.entity.EntityType.COW, new BlockPos(4, 2, 2));
+        helper.succeedWhen(() -> {
+            helper.assertTrue(cow.hasEffect(net.minecraft.world.effect.MobEffects.BLINDNESS), "not blinded");
+            helper.assertTrue(cow.hasEffect(net.minecraft.world.effect.MobEffects.CONFUSION), "not confused");
+        });
+    }
+
+    /** Quiet, it does nothing. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void sonicWeaponIsHarmlessWhenQuiet(GameTestHelper helper) {
+        sonic(helper, 20);
+        var cow = helper.spawnWithNoFreeWill(net.minecraft.world.entity.EntityType.COW, new BlockPos(4, 2, 2));
+        helper.runAfterDelay(30, () -> {
+            helper.assertFalse(cow.hasEffect(net.minecraft.world.effect.MobEffects.BLINDNESS), "blinded by a quiet sound");
+            helper.succeed();
+        });
+    }
+
+    /** Sound falls off with the square of the distance. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void sonicWeaponFadesWithDistance(GameTestHelper helper) {
+        sonic(helper, 140);
+        var far = helper.spawnWithNoFreeWill(net.minecraft.world.entity.EntityType.COW, new BlockPos(4, 2, 4));
+        far.teleportTo(helper.absolutePos(new BlockPos(2, 2, 2)).getX() + 15.5, helper.absolutePos(new BlockPos(2, 2, 2)).getY(), helper.absolutePos(new BlockPos(2, 2, 2)).getZ() + 0.5);
+        helper.runAfterDelay(30, () -> {
+            helper.assertFalse(far.hasEffect(net.minecraft.world.effect.MobEffects.CONFUSION), "dazed from far away");
+            helper.succeed();
+        });
+    }
+
+    /** A helmet or creative mode spares a player. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 20)
+    public static void sonicWeaponSparesHelmetsAndCreative(GameTestHelper helper) {
+        var bare = helper.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        var helmeted = helper.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        var creative = helper.makeMockPlayer(net.minecraft.world.level.GameType.CREATIVE);
+        helmeted.setItemSlot(net.minecraft.world.entity.EquipmentSlot.HEAD, new ItemStack(Items.IRON_HELMET));
+        helper.assertTrue(net.scwunge.rotarycraft.weapon.turret.SonicWeaponBlockEntity.isVulnerable(bare), "bare head spared");
+        helper.assertFalse(net.scwunge.rotarycraft.weapon.turret.SonicWeaponBlockEntity.isVulnerable(helmeted), "helmet did not protect");
+        helper.assertFalse(net.scwunge.rotarycraft.weapon.turret.SonicWeaponBlockEntity.isVulnerable(creative), "creative not spared");
+        helper.succeed();
+    }
+
+    /** What the power can make caps the volume. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void sonicWeaponVolumeIsLimitedByPower(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 64, 64);
+        helper.setBlock(TURRET, WeaponRegistry.SONIC.get().defaultBlockState());
+        net.scwunge.rotarycraft.weapon.turret.SonicWeaponBlockEntity gun = helper.getBlockEntity(TURRET);
+        gun.setDecibels(200);
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(gun.volume() <= gun.maxVolume() / 1_000_000D + 1e-6, "volume above the maximum");
+            helper.assertTrue(gun.volume() < Math.pow(10, 20), "not limited");
+            helper.succeed();
+        });
+    }
+
+    /** Infested stone shaken by a loud weapon turns back to stone. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 300)
+    public static void sonicWeaponShakesSilverfishOut(GameTestHelper helper) {
+        sonic(helper, 120);
+        var rule = helper.getLevel().getGameRules().getRule(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        rule.set(true, helper.getLevel().getServer());
+        for (int x = 0; x < 5; x++) {
+            for (int y = 1; y < 4; y++) {
+                for (int z = 0; z < 5; z++) {
+                    BlockPos at = new BlockPos(x, y, z);
+                    if (helper.getBlockState(at).isAir()) {
+                        helper.setBlock(at, net.minecraft.world.level.block.Blocks.INFESTED_STONE);
+                    }
+                }
+            }
+        }
+        helper.succeedWhen(() -> {
+            boolean any = false;
+            for (int x = 0; x < 5; x++) {
+                for (int y = 1; y < 4; y++) {
+                    for (int z = 0; z < 5; z++) {
+                        any |= helper.getBlockState(new BlockPos(x, y, z)).is(net.minecraft.world.level.block.Blocks.STONE);
+                    }
+                }
+            }
+            helper.assertTrue(any, "no infested stone cleared");
+        });
+    }
 }

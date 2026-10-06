@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/sonic_weapon"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/sonic_weapon"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/sonic_weapon"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/sonic_weapon"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/sonic_weapon"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/sonic_weapon"
+    }
+  }
+}

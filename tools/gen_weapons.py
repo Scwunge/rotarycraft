@@ -156,6 +156,16 @@ rendered_machine('tnt_cannon', particle='rotarycraft:block/shaft_steel')
 shaped('tnt_cannon', ['sgc', 'pcp', 'pCr'], {'s': STEEL, 'g': {'item': 'minecraft:redstone_block'}, 'c': item('circuit_board'), 'p': item('base_panel'),
                                              'C': item('compressor'), 'r': {'item': 'minecraft:chest'}})
 
+# ---- Sonic Weapon ----
+model_texture('sonictex.png', 'sonic_weapon')
+shutil.copy(REF + '/Textures/GUI/sonicgui3.png', T + '/gui/sonic.png')
+shutil.copy(REF + '/Sounds/sonic.ogg', A + '/sounds/sonic.ogg')
+sounds = json.load(open(A + '/sounds.json'))
+sounds['sonic'] = {'sounds': ['rotarycraft:sonic'], 'subtitle': 'subtitles.rotarycraft.sonic'}
+w(A + '/sounds.json', sounds)
+rendered_machine('sonic_weapon', particle='rotarycraft:block/shaft_steel')
+shaped('sonic_weapon', ['psp', 'sts', 'psp'], {'t': item('turbine'), 's': item('sonar_unit'), 'p': item('base_panel')})
+
 # ---- Cannon Key ----
 sprite(1, 4, 'cannon_key')
 shaped('cannon_key', ['s', 's', 'P'], {'P': item('base_panel'), 's': STEEL})
@@ -175,6 +185,10 @@ lang.update({
     'block.rotarycraft.flame_turret': 'Flame Turret',
     'entity.rotarycraft.flame_shot': 'Flame',
     'subtitles.rotarycraft.flameturret': 'Flame Turret burns',
+    'block.rotarycraft.sonic_weapon': 'Sonic Weapon',
+    'gui.rotarycraft.sonic.volume': 'Volume:',
+    'gui.rotarycraft.sonic.max': 'Loudest it can make: %s dB',
+    'subtitles.rotarycraft.sonic': 'Sonic Weapon blares',
     'block.rotarycraft.tnt_cannon': 'TNT Cannon',
     'entity.rotarycraft.cannon_tnt': 'Primed TNT',
     'gui.rotarycraft.cannon.mode_manual': 'Manual',
@@ -204,5 +218,5 @@ data = json.load(open(path))
 data['values'] += ['rotarycraft:' + m for m in MACHINES if 'rotarycraft:' + m not in data['values']]
 w(path, data)
 
-subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling', 'ModelLaserGun:laser_gun', 'ModelFlameTurret:flame_turret', 'ModelCannon:cannon'], check=True)
+subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling', 'ModelLaserGun:laser_gun', 'ModelFlameTurret:flame_turret', 'ModelCannon:cannon', 'ModelSonicWeapon:sonic'], check=True)
 print('weapons ok,', len(MACHINES), 'machines')

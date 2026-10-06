@@ -102,6 +102,16 @@ public final class WeaponRegistry {
     public static final DeferredHolder<net.minecraft.sounds.SoundEvent, net.minecraft.sounds.SoundEvent> GATLING_SOUND = sound("gatling");
     public static final DeferredHolder<net.minecraft.sounds.SoundEvent, net.minecraft.sounds.SoundEvent> GATLING_RELOAD_SOUND = sound("gatlingreload");
 
+    // ---- Sonic Weapon ----
+    public static final DeferredBlock<net.scwunge.rotarycraft.weapon.SonicBlock> SONIC = RotaryBlocks.BLOCKS.register("sonic_weapon",
+            () -> new net.scwunge.rotarycraft.weapon.SonicBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.SONIC_BE));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.weapon.turret.SonicWeaponBlockEntity>> SONIC_BE =
+            RotaryBlockEntities.TYPES.register("sonic_weapon",
+                    () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.weapon.turret.SonicWeaponBlockEntity::new, SONIC.get()).build(null));
+    public static final DeferredHolder<MenuType<?>, MenuType<net.scwunge.rotarycraft.weapon.SonicMenu>> SONIC_MENU = RotaryMenus.MENUS.register("sonic_weapon",
+            () -> IMenuTypeExtension.create(net.scwunge.rotarycraft.weapon.SonicMenu::fromNetwork));
+    public static final DeferredHolder<net.minecraft.sounds.SoundEvent, net.minecraft.sounds.SoundEvent> SONIC_SOUND = sound("sonic");
+
     // ---- Laser Gun and Flame Turret ----
     public static final DeferredBlock<TurretBlock> LASER_GUN = RotaryBlocks.BLOCKS.register("laser_gun",
             () -> new TurretBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.LASER_GUN_BE, LaserGunBlockEntity::new));
@@ -145,6 +155,7 @@ public final class WeaponRegistry {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(ANTI_AIR));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(GATLING));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(TNT_CANNON));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(SONIC));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(LASER_GUN));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(FLAME_TURRET));
         for (int i = 0; i < 16; i++) {
