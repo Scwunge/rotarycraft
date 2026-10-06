@@ -41,6 +41,10 @@ public class RotaryCraft {
                 (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.BLAST_FURNACE.get(),
                 (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.FERMENTER.get(),
+                (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.FERMENTER.get(),
+                (be, side) -> side == be.inputSide() ? null : be.water());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.EXTRACTOR.get(),
                 (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.EXTRACTOR.get(),

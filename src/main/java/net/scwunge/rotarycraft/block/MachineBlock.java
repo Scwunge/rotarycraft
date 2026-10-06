@@ -10,6 +10,7 @@ import net.minecraft.world.MenuProvider;
 import net.minecraft.server.level.ServerPlayer;
 import net.scwunge.rotarycraft.blockentity.BlastFurnaceBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ExtractorBlockEntity;
+import net.scwunge.rotarycraft.blockentity.FermenterBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GrinderBlockEntity;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -111,7 +112,8 @@ public class MachineBlock extends BaseEntityBlock {
         if (!state.is(newState.getBlock())) {
             net.neoforged.neoforge.items.ItemStackHandler items = level.getBlockEntity(pos) instanceof GrinderBlockEntity g ? g.items()
                     : level.getBlockEntity(pos) instanceof ExtractorBlockEntity e ? e.items()
-                    : level.getBlockEntity(pos) instanceof BlastFurnaceBlockEntity b ? b.items() : null;
+                    : level.getBlockEntity(pos) instanceof BlastFurnaceBlockEntity b ? b.items()
+                    : level.getBlockEntity(pos) instanceof FermenterBlockEntity f ? f.items() : null;
             if (items != null) {
                 for (int i = 0; i < items.getSlots(); i++) {
                     Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), items.getStackInSlot(i));

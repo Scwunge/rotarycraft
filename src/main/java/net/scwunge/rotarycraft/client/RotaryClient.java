@@ -18,6 +18,7 @@ public final class RotaryClient {
         event.register(RotaryMenus.GRINDER.get(), GrinderScreen::new);
         event.register(RotaryMenus.EXTRACTOR.get(), ExtractorScreen::new);
         event.register(RotaryMenus.BLAST_FURNACE.get(), BlastFurnaceScreen::new);
+        event.register(RotaryMenus.FERMENTER.get(), FermenterScreen::new);
     }
 
     /** Extractor products are tinted with their ore's colour. */

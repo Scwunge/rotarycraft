@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rotarycraft:block/fermenter"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/fermenter",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/fermenter",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/fermenter",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "rotarycraft:block/fermenter",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/fermenter",
+      "x": 90
+    }
+  }
+}

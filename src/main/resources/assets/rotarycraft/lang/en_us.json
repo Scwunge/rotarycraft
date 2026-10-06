@@ -90,5 +90,9 @@
   "item.rotarycraft.spring_steel_ingot": "Spring Steel Ingot",
   "gui.rotarycraft.temperature": "Temperature: %s C",
   "gui.rotarycraft.blast_furnace.hot": "Hot enough for steel (%s C)",
-  "gui.rotarycraft.blast_furnace.cold": "Steel needs %s C: heat with lava, fire or a Friction Heater"
+  "gui.rotarycraft.blast_furnace.cold": "Steel needs %s C: heat with lava, fire or a Friction Heater",
+  "block.rotarycraft.fermenter": "Fermenter",
+  "item.rotarycraft.yeast": "Yeast",
+  "item.rotarycraft.sludge": "Sludge",
+  "gui.rotarycraft.fermenter.best": "Best: 25 C for yeast, 35 C for sludge; yeast dies at 60 C"
 }
