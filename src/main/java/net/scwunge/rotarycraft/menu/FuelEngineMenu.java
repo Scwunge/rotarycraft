@@ -15,7 +15,7 @@ import net.neoforged.neoforge.items.SlotItemHandler;
 import net.scwunge.rotarycraft.blockentity.FuelEngineBlockEntity;
 
 /**
- * Liquid-fuel engine screens. One slot: the original ethanol engine layout. Two slots (Performance Engine): fuel and
+ * Liquid-fuel engine screens. No slots: the turbines (jet fuel through pipes only). One slot: the original ethanol engine layout. Two slots (Performance Engine): fuel and
  * additive slots, with water, temperature and additive gauges synced too.
  */
 public class FuelEngineMenu extends AbstractContainerMenu {
@@ -42,7 +42,7 @@ public class FuelEngineMenu extends AbstractContainerMenu {
         machineSlots = items.getSlots();
         if (machineSlots == 1) {
             addSlot(new SlotItemHandler(items, 0, 61, 36));
-        } else {
+        } else if (machineSlots == 2) {
             addSlot(new SlotItemHandler(items, 0, 58, 36));
             addSlot(new SlotItemHandler(items, 1, 103, 36));
         }

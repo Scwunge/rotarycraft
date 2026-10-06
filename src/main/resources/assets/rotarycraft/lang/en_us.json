@@ -131,6 +131,7 @@
   "item.rotarycraft.scrap": "Scrap",
   "gui.rotarycraft.additives": "Additives: %s / %s",
   "gui.rotarycraft.performance_engine.limit": "Explodes above %s C; water cools it",
+  "block.rotarycraft.microturbine": "Microturbine",
   "item.rotarycraft.coal_dust": "Coal Dust",
   "block.rotarycraft.fractionator": "Fractionation Unit",
   "gui.rotarycraft.jet_fuel": "Jet fuel: %s / %s mB",

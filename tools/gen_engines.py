@@ -104,6 +104,18 @@ shaped('performance_engine', ['CgC', 'BEs', 'IRI'], {'C': {'item': 'minecraft:pi
        'B': {'item': 'minecraft:blaze_rod'}, 'E': {'item': 'rotarycraft:gas_engine'}, 's': {'item': 'rotarycraft:shaft_steel'},
        'I': {'tag': 'c:ingots/steel'}, 'R': {'tag': 'c:dusts/redstone'}})
 
+# Microturbine: an intake with turbine blades
+im, g = panel()
+g.ellipse([2, 2, 13, 13], fill=(40, 42, 48, 255), outline=(150, 155, 165, 255))
+for i in range(8):
+    import math
+    a = i * math.pi / 4
+    g.line([(7.5, 7.5), (7.5 + 5 * math.cos(a), 7.5 + 5 * math.sin(a))], fill=(170, 180, 192, 255))
+im.save(T + '/block/microturbine_front.png')
+shutil.copy('reference/RotaryCraft/Textures/GUI/jetgui.png', T + '/gui/turbine.png')
+shaped('microturbine', ['IGI', 'TsT', 'IPI'], {'I': {'tag': 'c:ingots/steel'}, 'G': {'tag': 'c:ingots/gold'},
+       'T': {'item': 'rotarycraft:tungsten_ingot'}, 's': {'item': 'rotarycraft:shaft_diamond'}, 'P': {'item': 'minecraft:piston'}})
+
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))
 lang.update({
@@ -122,6 +134,7 @@ lang.update({
     'item.rotarycraft.scrap': 'Scrap',
     'gui.rotarycraft.additives': 'Additives: %s / %s',
     'gui.rotarycraft.performance_engine.limit': 'Explodes above %s C; water cools it',
+    'block.rotarycraft.microturbine': 'Microturbine',
 })
 with open(lang_path, 'w') as f:
     json.dump(lang, f, indent=2)

@@ -31,6 +31,7 @@ public class RotaryMenus {
     public static final DeferredHolder<MenuType<?>, MenuType<FuelEngineMenu>> FUEL_ENGINE =
             fuelEngine("fuel_engine", 1);
     public static final DeferredHolder<MenuType<?>, MenuType<FuelEngineMenu>> PERFORMANCE_ENGINE = fuelEngine("performance_engine", 2);
+    public static final DeferredHolder<MenuType<?>, MenuType<FuelEngineMenu>> TURBINE = fuelEngine("turbine", 0);
     public static final DeferredHolder<MenuType<?>, MenuType<OneSlotMenu>> MAGNETIZER = oneSlot("magnetizer");
     public static final DeferredHolder<MenuType<?>, MenuType<OneSlotMenu>> AC_ENGINE = oneSlot("ac_engine");
     public static final DeferredHolder<MenuType<?>, MenuType<net.scwunge.rotarycraft.menu.FractionatorMenu>> FRACTIONATOR =

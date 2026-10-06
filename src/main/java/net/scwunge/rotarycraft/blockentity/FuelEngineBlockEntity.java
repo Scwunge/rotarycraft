@@ -84,7 +84,7 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
     /** The fluid a fuel item turns into. */
     protected abstract Fluid fuelFluid();
 
-    /** The item that adds a bucket of fuel when put in the fuel slot. */
+    /** The item that adds a bucket of fuel when put in the fuel slot (engines without slots return air). */
     protected abstract Item fuelItem();
 
     /** Ticks per {@link #FUEL_PER_UNIT} mB at full speed. */
@@ -162,7 +162,7 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
 
     @Override
     protected void afterTick(boolean running) {
-        ItemStack in = items.getStackInSlot(SLOT_FUEL);
+        ItemStack in = items.getSlots() > SLOT_FUEL ? items.getStackInSlot(SLOT_FUEL) : ItemStack.EMPTY;
         if (!in.isEmpty() && in.is(fuelItem()) && fuel.getFluidAmount() + 1000 <= CAPACITY) {
             items.extractItem(SLOT_FUEL, 1, false);
             fuel.fill(new FluidStack(fuelFluid(), 1000), FluidTank.FluidAction.EXECUTE);

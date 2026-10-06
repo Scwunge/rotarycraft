@@ -59,6 +59,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.GAS_ENGINE);
         blockItem(RotaryBlocks.PERFORMANCE_ENGINE);
         blockItem(RotaryBlocks.AC_ENGINE);
+        blockItem(RotaryBlocks.MICROTURBINE);
         RotaryBlocks.SHAFTS.values().forEach(RotaryItems::blockItem);
         RotaryBlocks.GEARBOXES.values().forEach(RotaryItems::blockItem);
         blockItem(RotaryBlocks.BEVEL_GEAR);

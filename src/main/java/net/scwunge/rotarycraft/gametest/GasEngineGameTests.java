@@ -80,6 +80,18 @@ public class GasEngineGameTests {
         });
     }
 
+    @GameTest(template = TEMPLATE, timeoutTicks = 2400)
+    public static void microturbineSpinsUpOnJetFuel(GameTestHelper helper) {
+        helper.setBlock(ENGINE, RotaryBlocks.MICROTURBINE.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        IFluidHandler in = helper.getLevel().getCapability(Capabilities.FluidHandler.BLOCK, helper.absolutePos(ENGINE), Direction.WEST);
+        helper.assertTrue(in.fill(new FluidStack(RotaryFluids.ETHANOL.get(), 1000), IFluidHandler.FluidAction.EXECUTE) == 0, "took ethanol");
+        helper.assertTrue(in.fill(new FluidStack(RotaryFluids.JET_FUEL.get(), 10_000), IFluidHandler.FluidAction.EXECUTE) == 10_000, "refused jet fuel");
+        helper.succeedWhen(() -> {
+            var m = (net.scwunge.rotarycraft.blockentity.MicroturbineBlockEntity) helper.getBlockEntity(ENGINE);
+            helper.assertTrue(m.getOmega() == 131072 && m.getTorque() == 16, "expected 16 N*m at 131072 rad/s, got " + m.getTorque() + " at " + m.getOmega());
+        });
+    }
+
     @GameTest(template = TEMPLATE, timeoutTicks = 200)
     public static void burnsTenMillibucketsEveryTwelveTicksAtSpeed(GameTestHelper helper) {
         GasEngineBlockEntity e = engine(helper);

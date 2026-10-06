@@ -56,6 +56,8 @@ public class RotaryCraft {
                 (be, side) -> be.items());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.PERFORMANCE_ENGINE.get(),
                 (be, side) -> be.fuelHandler(side));
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.MICROTURBINE.get(),
+                (be, side) -> be.fuelHandler(side));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.AC_ENGINE.get(),
                 (be, side) -> be.items());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.MAGNETIZER.get(),
