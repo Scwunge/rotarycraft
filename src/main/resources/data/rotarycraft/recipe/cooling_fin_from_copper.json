@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "SSS",
+    "PPP"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/copper"
+    },
+    "P": {
+      "tag": "c:ingots/tin"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:cooling_fin",
+    "count": 2
+  }
+}

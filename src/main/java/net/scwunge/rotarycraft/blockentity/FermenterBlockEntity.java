@@ -29,6 +29,7 @@ import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.menu.FermenterMenu;
 import net.scwunge.rotarycraft.power.Ambient;
 import net.scwunge.rotarycraft.power.PowerRequirement;
+import net.scwunge.rotarycraft.power.Heatable;
 import net.scwunge.rotarycraft.registry.RotaryBlockEntities;
 import net.scwunge.rotarycraft.registry.RotaryItems;
 
@@ -38,7 +39,7 @@ import net.scwunge.rotarycraft.registry.RotaryItems;
  * (yeast used 1 time in 2). Speed depends on temperature: best at 25 C for yeast and 35 C for sludge, slow below 20 C or
  * above 40 C, and yeast dies at 60 C. Plant values come from the item tags rotarycraft:mulch/1, /2, /4 and /8.
  */
-public class FermenterBlockEntity extends ConsumerBlockEntity implements MenuProvider {
+public class FermenterBlockEntity extends ConsumerBlockEntity implements MenuProvider, Heatable {
     public static final PowerRequirement REQUIREMENT = new PowerRequirement(1, 32, 1024);
     public static final int SLOT_A = 0;
     public static final int SLOT_B = 1;
@@ -344,5 +345,31 @@ public class FermenterBlockEntity extends ConsumerBlockEntity implements MenuPro
         water.readFromNBT(registries, tag.getCompound("water"));
         temperature = tag.contains("temperature") ? tag.getInt("temperature") : Integer.MIN_VALUE;
         cookTime = tag.getInt("cookTime");
+    }
+
+    @Override
+    public int getTemperature() {
+        return temperature();
+    }
+
+    @Override
+    public int getMaxTemperature() {
+        return 100;
+    }
+
+    @Override
+    public void addTemperature(int amount) {
+        temperature = temperature() + amount;
+        setChanged();
+    }
+
+    @Override
+    public boolean canBeFrictionHeated() {
+        return false;
+    }
+
+    @Override
+    public boolean canBeCooledWithFins() {
+        return true;
     }
 }

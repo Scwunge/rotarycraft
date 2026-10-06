@@ -170,6 +170,11 @@ public class CompactorBlockEntity extends ConsumerBlockEntity implements MenuPro
     }
 
     @Override
+    public boolean canBeCooledWithFins() {
+        return true;
+    }
+
+    @Override
     public void addTemperature(int amount) {
         temperature = temperature() + amount;
         setChanged();

@@ -24,6 +24,7 @@ import net.scwunge.rotarycraft.menu.RockMelterMenu;
 import net.scwunge.rotarycraft.power.Ambient;
 import net.scwunge.rotarycraft.power.PowerRequirement;
 import net.scwunge.rotarycraft.recipe.MeltingRecipe;
+import net.scwunge.rotarycraft.power.Heatable;
 import net.scwunge.rotarycraft.registry.RotaryBlockEntities;
 import net.scwunge.rotarycraft.registry.RotaryRecipes;
 
@@ -34,7 +35,7 @@ import java.util.Optional;
  * above ambient). Once it is hot enough for the first meltable item, the power goes into that item until the recipe's
  * energy is reached, then the item becomes fluid in the 64-bucket tank. The tank empties from the four sides only.
  */
-public class RockMelterBlockEntity extends ConsumerBlockEntity implements MenuProvider {
+public class RockMelterBlockEntity extends ConsumerBlockEntity implements MenuProvider, Heatable {
     public static final PowerRequirement REQUIREMENT = new PowerRequirement(1, 1, 1);
     public static final int CAPACITY = 64_000;
     public static final int MAX_TEMPERATURE = 1800;
@@ -302,5 +303,31 @@ public class RockMelterBlockEntity extends ConsumerBlockEntity implements MenuPr
         tank.readFromNBT(registries, tag.getCompound("tank"));
         temperature = tag.contains("temperature") ? tag.getInt("temperature") : Integer.MIN_VALUE;
         energy = tag.getLong("energy");
+    }
+
+    @Override
+    public int getTemperature() {
+        return temperature();
+    }
+
+    @Override
+    public int getMaxTemperature() {
+        return 1800;
+    }
+
+    @Override
+    public void addTemperature(int amount) {
+        temperature = temperature() + amount;
+        setChanged();
+    }
+
+    @Override
+    public boolean canBeFrictionHeated() {
+        return false;
+    }
+
+    @Override
+    public boolean canBeCooledWithFins() {
+        return true;
     }
 }

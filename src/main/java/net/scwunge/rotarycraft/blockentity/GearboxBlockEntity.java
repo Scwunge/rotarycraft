@@ -23,6 +23,7 @@ import net.scwunge.rotarycraft.item.GearboxState;
 import net.scwunge.rotarycraft.power.Ambient;
 import net.scwunge.rotarycraft.power.IShaftPowerOutput;
 import net.scwunge.rotarycraft.power.ShaftMaterial;
+import net.scwunge.rotarycraft.power.Heatable;
 import net.scwunge.rotarycraft.registry.RotaryBlockEntities;
 import net.scwunge.rotarycraft.registry.RotaryComponents;
 import net.scwunge.rotarycraft.registry.RotaryFluids;
@@ -43,7 +44,7 @@ import net.scwunge.rotarycraft.registry.RotaryParts;
  * repair it, with a bearing to fit a better bearing (changes how fast it uses lubricant). It breaks like a shaft of its
  * material when the load exceeds the material's limits.
  */
-public class GearboxBlockEntity extends PowerBlockEntity {
+public class GearboxBlockEntity extends PowerBlockEntity implements Heatable {
     public static final int MAX_DAMAGE = 480;
     private static final double BEARING_REDUCTION = 0.25;
     private static final double BEARING_INCREASE = 1.0;
@@ -355,5 +356,31 @@ public class GearboxBlockEntity extends PowerBlockEntity {
         temperature = tag.contains("temperature") ? tag.getInt("temperature") : Integer.MIN_VALUE;
         lubricant.readFromNBT(registries, tag.getCompound("lubricant"));
         bearing = tag.contains("bearing") ? ShaftMaterial.valueOf(tag.getString("bearing").toUpperCase(java.util.Locale.ROOT)) : null;
+    }
+
+    @Override
+    public int getTemperature() {
+        return temperature();
+    }
+
+    @Override
+    public int getMaxTemperature() {
+        return 120;
+    }
+
+    @Override
+    public void addTemperature(int amount) {
+        temperature = temperature() + amount;
+        setChanged();
+    }
+
+    @Override
+    public boolean canBeFrictionHeated() {
+        return false;
+    }
+
+    @Override
+    public boolean canBeCooledWithFins() {
+        return true;
     }
 }

@@ -68,7 +68,7 @@ public class FrictionHeaterBlockEntity extends ConsumerBlockEntity {
             return null;
         }
         BlockEntity be = level.getBlockEntity(worldPosition.relative(facing()));
-        return be instanceof Heatable h ? h : null;
+        return be instanceof Heatable h && h.canBeFrictionHeated() ? h : null;
     }
 
     private AbstractFurnaceBlockEntity furnace() {

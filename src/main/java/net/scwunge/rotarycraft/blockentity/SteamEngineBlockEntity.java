@@ -15,6 +15,7 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.scwunge.rotarycraft.config.RotaryConfig;
 import net.scwunge.rotarycraft.power.Ambient;
+import net.scwunge.rotarycraft.power.Heatable;
 import net.scwunge.rotarycraft.registry.RotaryBlockEntities;
 
 /**
@@ -22,7 +23,7 @@ import net.scwunge.rotarycraft.registry.RotaryBlockEntities;
  * Heats 1 C per second over fire and 2 C over lava, runs from 100 C, and overheats above 150 C: with water left it bursts,
  * dry it melts into lava. Running dry while hot and then getting water makes it explode. Values from the original.
  */
-public class SteamEngineBlockEntity extends EngineBlockEntity {
+public class SteamEngineBlockEntity extends EngineBlockEntity implements Heatable {
     public static final int TORQUE = 32;
     public static final int SPEED = 512;
     public static final int WATER_CAPACITY = 60_000;
@@ -178,5 +179,31 @@ public class SteamEngineBlockEntity extends EngineBlockEntity {
         water.readFromNBT(registries, tag.getCompound("water"));
         temperature = tag.contains("temperature") ? tag.getInt("temperature") : Integer.MIN_VALUE;
         dryTicks = tag.getInt("dryTicks");
+    }
+
+    @Override
+    public int getTemperature() {
+        return temperature();
+    }
+
+    @Override
+    public int getMaxTemperature() {
+        return 150;
+    }
+
+    @Override
+    public void addTemperature(int amount) {
+        temperature = temperature() + amount;
+        setChanged();
+    }
+
+    @Override
+    public boolean canBeFrictionHeated() {
+        return false;
+    }
+
+    @Override
+    public boolean canBeCooledWithFins() {
+        return true;
     }
 }

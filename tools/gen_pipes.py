@@ -154,6 +154,35 @@ w('%s/recipe/reservoir_covered.json' % D, {'type': 'minecraft:crafting_shaped', 
 shaped('pump', ['SGS', 'pIp', 'PpP'], {'S': STEEL, 'G': {'tag': 'c:glass_panes'}, 'p': {'item': 'rotarycraft:pipe'},
        'I': {'item': 'rotarycraft:impeller'}, 'P': PANEL}, 1)
 
+# Cooling Fin: ribbed plate
+im = Image.new('RGBA', (16, 16))
+px = im.load()
+for x in range(16):
+    for y in range(16):
+        px[x, y] = shade((170, 180, 192), rnd.randint(-8, 8))
+g = ImageDraw.Draw(im)
+for y in range(1, 15, 3):
+    g.line([(0, y), (15, y)], fill=(95, 100, 112, 255))
+im.save(T + '/cooling_fin.png')
+tex = 'rotarycraft:block/cooling_fin'
+fin = [{'from': [1, 0, 1], 'to': [15, 4, 15], 'faces': {d: {'texture': '#all'} for d in ('north', 'south', 'east', 'west', 'up', 'down')}}]
+for i in range(4):
+    fin.append({'from': [2 + 3 * i, 4, 1], 'to': [3 + 3 * i, 14, 15], 'faces': {d: {'texture': '#all'} for d in ('north', 'south', 'east', 'west', 'up')}})
+w('%s/models/block/cooling_fin.json' % A, {'parent': 'minecraft:block/block', 'textures': {'all': tex, 'particle': tex}, 'elements': fin})
+variants = {}
+for facing, rot in {'down': {}, 'up': {'x': 180}, 'north': {'x': 90}, 'south': {'x': 90, 'y': 180}, 'west': {'x': 90, 'y': 270}, 'east': {'x': 90, 'y': 90}}.items():
+    v = {'model': 'rotarycraft:block/cooling_fin'}
+    v.update(rot)
+    variants['facing=' + facing] = v
+w('%s/blockstates/cooling_fin.json' % A, {'variants': variants})
+w('%s/models/item/cooling_fin.json' % A, {'parent': 'rotarycraft:block/cooling_fin'})
+w('%s/loot_table/blocks/cooling_fin.json' % D, {'type': 'minecraft:block', 'pools': [{
+    'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'rotarycraft:cooling_fin'}], 'conditions': [{'condition': 'minecraft:survives_explosion'}]}]})
+add_tag(R + '/data/minecraft/tags/block/mineable/pickaxe.json', ['rotarycraft:cooling_fin'])
+shaped('cooling_fin', ['SSS', 'SSS', 'PPP'], {'S': {'item': 'rotarycraft:steel_rod'}, 'P': {'item': 'rotarycraft:base_panel'}}, 3)
+w('%s/recipe/cooling_fin_from_copper.json' % D, {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['SSS', 'SSS', 'PPP'],
+  'key': {'S': {'tag': 'c:ingots/copper'}, 'P': {'tag': 'c:ingots/tin'}}, 'result': {'id': 'rotarycraft:cooling_fin', 'count': 2}})
+
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))
 for name, (_, title) in PIPES.items():
@@ -162,6 +191,10 @@ lang['message.rotarycraft.meter.pipe'] = '%s: %s mB (%s kPa)'
 lang['message.rotarycraft.meter.pipe_empty'] = 'Empty pipe'
 lang['block.rotarycraft.reservoir'] = 'Reservoir'
 lang['block.rotarycraft.pump'] = 'Pump'
+lang['block.rotarycraft.cooling_fin'] = 'Cooling Fin'
+lang['message.rotarycraft.fin.full'] = 'Cooling every %s ticks (full), fin at %s C'
+lang['message.rotarycraft.fin.half'] = 'Cooling every %s ticks (half), fin at %s C'
+lang['message.rotarycraft.fin.quarter'] = 'Cooling every %s ticks (quarter), fin at %s C'
 with open(lang_path, 'w') as f:
     json.dump(lang, f, indent=2)
     f.write('\n')

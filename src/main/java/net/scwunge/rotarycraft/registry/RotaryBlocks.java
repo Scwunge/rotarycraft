@@ -103,6 +103,8 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.MAGNETIZER, net.scwunge.rotarycraft.blockentity.MagnetizerBlockEntity::new));
     public static final DeferredBlock<MachineBlock> FRACTIONATOR = BLOCKS.register("fractionator",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.FRACTIONATOR, net.scwunge.rotarycraft.blockentity.FractionatorBlockEntity::new));
+    public static final DeferredBlock<net.scwunge.rotarycraft.block.CoolingFinBlock> COOLING_FIN = BLOCKS.register("cooling_fin",
+            () -> new net.scwunge.rotarycraft.block.CoolingFinBlock(machineProps().noOcclusion()));
     public static final DeferredBlock<MachineBlock> COMPACTOR = BLOCKS.register("compactor",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.COMPACTOR, net.scwunge.rotarycraft.blockentity.CompactorBlockEntity::new));
     public static final DeferredBlock<Block> ANTHRACITE_BLOCK = BLOCKS.registerSimpleBlock("anthracite_block",

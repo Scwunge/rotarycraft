@@ -92,6 +92,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.ROCK_MELTER);
         blockItem(RotaryBlocks.PUMP);
         blockItem(RotaryBlocks.COMPACTOR);
+        blockItem(RotaryBlocks.COOLING_FIN);
         blockItem(RotaryBlocks.ANTHRACITE_BLOCK);
         blockItem(RotaryBlocks.LONSDALEITE_BLOCK);
         blockItem(RotaryBlocks.RESERVOIR);

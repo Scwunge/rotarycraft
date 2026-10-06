@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "SSS",
+    "PPP"
+  ],
+  "key": {
+    "S": {
+      "item": "rotarycraft:steel_rod"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:cooling_fin",
+    "count": 3
+  }
+}
