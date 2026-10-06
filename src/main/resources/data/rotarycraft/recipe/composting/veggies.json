@@ -1,0 +1,27 @@
+{
+  "type": "rotarycraft:composting",
+  "value": 2,
+  "ingredient": [
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:carrot"
+    },
+    {
+      "item": "minecraft:baked_potato"
+    },
+    {
+      "item": "minecraft:poisonous_potato"
+    },
+    {
+      "item": "minecraft:bread"
+    },
+    {
+      "item": "minecraft:apple"
+    },
+    {
+      "item": "minecraft:melon_slice"
+    }
+  ]
+}

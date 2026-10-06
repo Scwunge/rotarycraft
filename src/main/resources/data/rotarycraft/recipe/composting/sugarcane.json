@@ -1,0 +1,7 @@
+{
+  "type": "rotarycraft:composting",
+  "value": 2,
+  "ingredient": {
+    "item": "minecraft:sugar_cane"
+  }
+}

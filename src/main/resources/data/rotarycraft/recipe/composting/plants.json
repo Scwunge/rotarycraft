@@ -1,0 +1,21 @@
+{
+  "type": "rotarycraft:composting",
+  "value": 1,
+  "ingredient": [
+    {
+      "tag": "minecraft:saplings"
+    },
+    {
+      "item": "minecraft:lily_pad"
+    },
+    {
+      "tag": "minecraft:small_flowers"
+    },
+    {
+      "item": "minecraft:brown_mushroom"
+    },
+    {
+      "item": "minecraft:red_mushroom"
+    }
+  ]
+}

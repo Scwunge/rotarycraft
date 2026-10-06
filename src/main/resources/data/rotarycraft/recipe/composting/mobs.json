@@ -1,0 +1,12 @@
+{
+  "type": "rotarycraft:composting",
+  "value": 3,
+  "ingredient": [
+    {
+      "item": "minecraft:rotten_flesh"
+    },
+    {
+      "item": "minecraft:spider_eye"
+    }
+  ]
+}

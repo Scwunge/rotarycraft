@@ -1,0 +1,24 @@
+{
+  "type": "rotarycraft:composting",
+  "value": 4,
+  "ingredient": [
+    {
+      "item": "minecraft:beef"
+    },
+    {
+      "item": "minecraft:cooked_beef"
+    },
+    {
+      "item": "minecraft:cooked_porkchop"
+    },
+    {
+      "item": "minecraft:porkchop"
+    },
+    {
+      "item": "minecraft:cooked_chicken"
+    },
+    {
+      "item": "minecraft:chicken"
+    }
+  ]
+}

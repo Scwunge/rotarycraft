@@ -111,6 +111,8 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.CRYSTALLIZER, net.scwunge.rotarycraft.blockentity.CrystallizerBlockEntity::new));
     public static final DeferredBlock<net.scwunge.rotarycraft.block.VanDeGraffBlock> VAN_DE_GRAAFF = BLOCKS.register("van_de_graaff",
             () -> new net.scwunge.rotarycraft.block.VanDeGraffBlock(machineProps().noOcclusion(), RotaryBlockEntities.VAN_DE_GRAAFF, net.scwunge.rotarycraft.blockentity.VanDeGraffBlockEntity::new));
+    public static final DeferredBlock<net.scwunge.rotarycraft.block.ComposterBlock> COMPOSTER = BLOCKS.register("composter",
+            () -> new net.scwunge.rotarycraft.block.ComposterBlock(machineProps().noOcclusion()));
     public static final DeferredBlock<net.scwunge.rotarycraft.block.DryerBlock> DRYER = BLOCKS.register("dryer",
             () -> new net.scwunge.rotarycraft.block.DryerBlock(machineProps().noOcclusion()));
     public static final DeferredBlock<MachineBlock> REFRIGERATOR = BLOCKS.register("refrigerator",

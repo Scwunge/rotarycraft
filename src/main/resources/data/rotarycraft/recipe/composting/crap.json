@@ -1,0 +1,21 @@
+{
+  "type": "rotarycraft:composting",
+  "value": 1,
+  "ingredient": [
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "item": "minecraft:cookie"
+    },
+    {
+      "item": "minecraft:wheat"
+    },
+    {
+      "item": "rotarycraft:canola_seeds"
+    },
+    {
+      "item": "rotarycraft:canola_husks"
+    }
+  ]
+}

@@ -101,6 +101,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.VAN_DE_GRAAFF);
         blockItem(RotaryBlocks.REFRIGERATOR);
         blockItem(RotaryBlocks.DRYER);
+        blockItem(RotaryBlocks.COMPOSTER);
         blockItem(RotaryBlocks.BLAST_GLASS);
         blockItem(RotaryBlocks.ANTHRACITE_BLOCK);
         blockItem(RotaryBlocks.LONSDALEITE_BLOCK);

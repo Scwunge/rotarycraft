@@ -88,6 +88,8 @@ public class RotaryBlockEntities {
             () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.CrystallizerBlockEntity::new, RotaryBlocks.CRYSTALLIZER.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.VanDeGraffBlockEntity>> VAN_DE_GRAAFF = TYPES.register("van_de_graaff",
             () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.VanDeGraffBlockEntity::new, RotaryBlocks.VAN_DE_GRAAFF.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.ComposterBlockEntity>> COMPOSTER = TYPES.register("composter",
+            () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.ComposterBlockEntity::new, RotaryBlocks.COMPOSTER.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.DryerBlockEntity>> DRYER = TYPES.register("dryer",
             () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.DryerBlockEntity::new, RotaryBlocks.DRYER.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.RefrigeratorBlockEntity>> REFRIGERATOR = TYPES.register("refrigerator",

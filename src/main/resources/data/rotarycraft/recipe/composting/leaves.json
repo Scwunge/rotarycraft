@@ -1,0 +1,27 @@
+{
+  "type": "rotarycraft:composting",
+  "value": 2,
+  "ingredient": [
+    {
+      "tag": "minecraft:leaves"
+    },
+    {
+      "item": "minecraft:grass_block"
+    },
+    {
+      "item": "minecraft:vine"
+    },
+    {
+      "item": "minecraft:short_grass"
+    },
+    {
+      "item": "minecraft:tall_grass"
+    },
+    {
+      "item": "minecraft:fern"
+    },
+    {
+      "item": "minecraft:large_fern"
+    }
+  ]
+}
