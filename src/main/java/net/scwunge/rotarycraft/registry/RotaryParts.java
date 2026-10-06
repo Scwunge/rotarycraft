@@ -56,7 +56,7 @@ public final class RotaryParts {
                 "radiator", "condenser", "gold_coil", "igniter", "water_plate", "compound_turbine", "compound_compressor",
                 // misc parts (MISCCRAFT / BORECRAFT)
                 "propeller", "hub", "mirror", "generator_unit", "linear_induction_motor", "power_module",
-                "circuit_board", "screen", "drill", "saw", "mixer", "radar_unit", "sonar_unit",
+                "circuit_board", "screen", "drill", "saw", "mixer", "radar_unit", "sonar_unit", "press_head",
                 // alloys and materials (COMPACTS / POWDERS)
                 "silicon", "aluminum_powder", "aluminum_ingot", "silumin_ingot", "red_gold_dust", "red_gold_ingot",
                 "spring_tungsten_ingot", "bedrock_dust", "bedrock_ingot",

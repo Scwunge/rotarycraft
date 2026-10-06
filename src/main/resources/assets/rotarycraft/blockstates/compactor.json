@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rotarycraft:block/compactor"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/compactor",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/compactor",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/compactor",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "rotarycraft:block/compactor",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/compactor",
+      "x": 90
+    }
+  }
+}

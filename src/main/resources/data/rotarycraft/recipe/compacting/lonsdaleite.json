@@ -1,0 +1,13 @@
+{
+  "type": "rotarycraft:compacting",
+  "ingredient": {
+    "item": "rotarycraft:prismane"
+  },
+  "result": {
+    "id": "rotarycraft:lonsdaleite",
+    "count": 2
+  },
+  "pressure": 550000,
+  "temperature": 800,
+  "stage": 3
+}

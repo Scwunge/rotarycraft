@@ -37,6 +37,8 @@ public class RotaryMenus {
     public static final DeferredHolder<MenuType<?>, MenuType<OneSlotMenu>> AC_ENGINE = oneSlot("ac_engine");
     public static final DeferredHolder<MenuType<?>, MenuType<net.scwunge.rotarycraft.menu.FractionatorMenu>> FRACTIONATOR =
             MENUS.register("fractionator", () -> IMenuTypeExtension.create(net.scwunge.rotarycraft.menu.FractionatorMenu::new));
+    public static final DeferredHolder<MenuType<?>, MenuType<net.scwunge.rotarycraft.menu.CompactorMenu>> COMPACTOR =
+            MENUS.register("compactor", () -> IMenuTypeExtension.create(net.scwunge.rotarycraft.menu.CompactorMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<RockMelterMenu>> ROCK_MELTER =
             MENUS.register("rock_melter", () -> IMenuTypeExtension.create(RockMelterMenu::new));
 

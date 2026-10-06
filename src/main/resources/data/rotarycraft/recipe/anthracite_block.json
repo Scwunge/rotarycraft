@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BBB",
+    "BBB",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:anthracite"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:anthracite_block",
+    "count": 1
+  }
+}

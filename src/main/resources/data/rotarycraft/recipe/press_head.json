@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SOD",
+    "ODB",
+    "DBB"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "D": {
+      "tag": "c:gems/diamond"
+    },
+    "O": {
+      "tag": "c:obsidians"
+    },
+    "B": {
+      "item": "rotarycraft:bedrock_dust"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:press_head",
+    "count": 1
+  }
+}

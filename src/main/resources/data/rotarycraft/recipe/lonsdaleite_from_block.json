@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "rotarycraft:lonsdaleite_block"
+    }
+  ],
+  "result": {
+    "id": "rotarycraft:lonsdaleite",
+    "count": 9
+  }
+}

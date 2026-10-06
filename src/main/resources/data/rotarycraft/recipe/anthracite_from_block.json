@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "rotarycraft:anthracite_block"
+    }
+  ],
+  "result": {
+    "id": "rotarycraft:anthracite",
+    "count": 9
+  }
+}

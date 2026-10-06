@@ -27,6 +27,7 @@
     "rotarycraft:jet_engine",
     "rotarycraft:hydro_engine",
     "rotarycraft:pump",
+    "rotarycraft:compactor",
     "rotarycraft:flywheel_wood",
     "rotarycraft:flywheel_stone",
     "rotarycraft:flywheel_iron",
@@ -61,6 +62,8 @@
     "rotarycraft:separator",
     "rotarycraft:bypass",
     "rotarycraft:suction_pipe",
-    "rotarycraft:reservoir"
+    "rotarycraft:reservoir",
+    "rotarycraft:anthracite_block",
+    "rotarycraft:lonsdaleite_block"
   ]
 }

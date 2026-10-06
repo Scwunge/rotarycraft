@@ -1,0 +1,13 @@
+{
+  "type": "rotarycraft:compacting",
+  "ingredient": {
+    "item": "minecraft:blaze_powder"
+  },
+  "result": {
+    "id": "minecraft:glowstone",
+    "count": 1
+  },
+  "pressure": 2000,
+  "temperature": 600,
+  "stage": 1
+}

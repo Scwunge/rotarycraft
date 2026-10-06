@@ -1,0 +1,13 @@
+{
+  "type": "rotarycraft:compacting",
+  "ingredient": {
+    "item": "minecraft:charcoal"
+  },
+  "result": {
+    "id": "rotarycraft:anthracite",
+    "count": 3
+  },
+  "pressure": 550000,
+  "temperature": 800,
+  "stage": 1
+}

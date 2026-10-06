@@ -1,0 +1,13 @@
+{
+  "type": "rotarycraft:compacting",
+  "ingredient": {
+    "item": "minecraft:ice"
+  },
+  "result": {
+    "id": "minecraft:packed_ice",
+    "count": 2
+  },
+  "pressure": 24000,
+  "temperature": -80,
+  "stage": 1
+}

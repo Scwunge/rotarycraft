@@ -1,5 +1,6 @@
 package net.scwunge.rotarycraft.registry;
 
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -102,6 +103,12 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.MAGNETIZER, net.scwunge.rotarycraft.blockentity.MagnetizerBlockEntity::new));
     public static final DeferredBlock<MachineBlock> FRACTIONATOR = BLOCKS.register("fractionator",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.FRACTIONATOR, net.scwunge.rotarycraft.blockentity.FractionatorBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> COMPACTOR = BLOCKS.register("compactor",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.COMPACTOR, net.scwunge.rotarycraft.blockentity.CompactorBlockEntity::new));
+    public static final DeferredBlock<Block> ANTHRACITE_BLOCK = BLOCKS.registerSimpleBlock("anthracite_block",
+            BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(5.0F, 6.0F).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> LONSDALEITE_BLOCK = BLOCKS.registerSimpleBlock("lonsdaleite_block",
+            BlockBehaviour.Properties.of().mapColor(MapColor.DIAMOND).strength(5.0F, 6.0F).requiresCorrectToolForDrops());
     public static final DeferredBlock<MachineBlock> PUMP = BLOCKS.register("pump",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.PUMP, net.scwunge.rotarycraft.blockentity.PumpBlockEntity::new));
     public static final DeferredBlock<net.scwunge.rotarycraft.block.ReservoirBlock> RESERVOIR = BLOCKS.register("reservoir",

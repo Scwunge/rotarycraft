@@ -48,6 +48,15 @@ public class RotaryItems {
     /** The original's afterburner engine upgrade: right-click a Jet Engine to fit it. */
     public static final DeferredItem<Item> AFTERBURNER_UPGRADE = add(ITEMS.register("afterburner_upgrade", () -> new Item(new Item.Properties().stacksTo(16))));
     public static final DeferredItem<Item> ETHANOL_CRYSTALS = add(ITEMS.registerSimpleItem("ethanol_crystals"));
+    /** The Compactor's coal stages (anthracite also burns 24 items in a furnace, as in the original). */
+    public static final DeferredItem<Item> ANTHRACITE = add(ITEMS.register("anthracite", () -> new Item(new Item.Properties()) {
+        @Override
+        public int getBurnTime(ItemStack stack, net.minecraft.world.item.crafting.RecipeType<?> type) {
+            return 24 * 200;
+        }
+    }));
+    public static final DeferredItem<Item> PRISMANE = add(ITEMS.registerSimpleItem("prismane"));
+    public static final DeferredItem<Item> LONSDALEITE = add(ITEMS.registerSimpleItem("lonsdaleite"));
     public static final DeferredItem<Item> COKE = add(ITEMS.registerSimpleItem("coke"));
     public static final DeferredItem<Item> SPRING_STEEL_INGOT = add(ITEMS.registerSimpleItem("spring_steel_ingot"));
     public static final DeferredItem<Item> SILVER_INGOT = add(ITEMS.registerSimpleItem("silver_ingot"));
@@ -82,6 +91,9 @@ public class RotaryItems {
         blockItem(RotaryBlocks.CENTRIFUGE);
         blockItem(RotaryBlocks.ROCK_MELTER);
         blockItem(RotaryBlocks.PUMP);
+        blockItem(RotaryBlocks.COMPACTOR);
+        blockItem(RotaryBlocks.ANTHRACITE_BLOCK);
+        blockItem(RotaryBlocks.LONSDALEITE_BLOCK);
         blockItem(RotaryBlocks.RESERVOIR);
         blockItem(RotaryBlocks.MAGNETIZER);
         blockItem(RotaryBlocks.FRACTIONATOR);

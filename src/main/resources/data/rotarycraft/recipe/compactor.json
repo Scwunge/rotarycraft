@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SPS",
+    "PGP",
+    "#P#"
+  ],
+  "key": {
+    "#": {
+      "item": "rotarycraft:base_panel"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "P": {
+      "item": "rotarycraft:press_head"
+    },
+    "G": {
+      "item": "rotarycraft:tungsten_gear_unit_16"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:compactor",
+    "count": 1
+  }
+}

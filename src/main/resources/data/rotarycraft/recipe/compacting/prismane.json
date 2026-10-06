@@ -1,0 +1,13 @@
+{
+  "type": "rotarycraft:compacting",
+  "ingredient": {
+    "item": "rotarycraft:anthracite"
+  },
+  "result": {
+    "id": "rotarycraft:prismane",
+    "count": 2
+  },
+  "pressure": 550000,
+  "temperature": 800,
+  "stage": 2
+}
