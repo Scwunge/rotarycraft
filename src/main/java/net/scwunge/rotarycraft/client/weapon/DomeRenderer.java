@@ -49,7 +49,7 @@ public class DomeRenderer<T extends DomeBlockEntity> implements BlockEntityRende
         double millis = System.currentTimeMillis();
         pose.pushPose();
         pose.translate(0.5, 0.5, 0.5);
-        field(pose, buffers.getBuffer(RenderType.entityTranslucentEmissive(FIELD)), r, red, green, blue, millis);
+        field(pose, buffers.getBuffer(DomeRenderTypes.FIELD), r, red, green, blue, millis);
         pose.popPose();
     }
 
@@ -89,7 +89,7 @@ public class DomeRenderer<T extends DomeBlockEntity> implements BlockEntityRende
     }
 
     private static void vertex(VertexConsumer vc, PoseStack.Pose p, double x, double y, double z, double u, double v, float red, float green, float blue, int r) {
-        vc.addVertex(p, (float) x, (float) y, (float) z).setColor((int) (red * 255), (int) (green * 255), (int) (blue * 255), 120).setUv((float) u, (float) v)
+        vc.addVertex(p, (float) x, (float) y, (float) z).setColor((int) (red * 255), (int) (green * 255), (int) (blue * 255), 150).setUv((float) u, (float) v)
                 .setOverlay(OverlayTexture.NO_OVERLAY).setLight(LightTexture.FULL_BRIGHT).setNormal(p, (float) (x / r), (float) (y / r), (float) (z / r));
     }
 

@@ -52,7 +52,7 @@ def rendered_machine(name, facings=('up', 'down', 'north', 'south', 'east', 'wes
     """A machine drawn entirely by its renderer: the block model only gives break particles; the item is drawn by the renderer too."""
     MACHINES.append(name)
     w('%s/models/block/%s.json' % (A, name), {'textures': {'particle': particle}})
-    w('%s/blockstates/%s.json' % (A, name), {'variants': {'facing=' + f: {'model': 'rotarycraft:block/' + name} for f in facings}})
+    w('%s/blockstates/%s.json' % (A, name), {'variants': {'': {'model': 'rotarycraft:block/' + name}} if facings is None else {'facing=' + f: {'model': 'rotarycraft:block/' + name} for f in facings}})
     w('%s/models/item/%s.json' % (A, name), {'parent': 'minecraft:builtin/entity', 'gui_light': 'side', 'textures': {'particle': particle},
                                              'display': BLOCK_DISPLAY})
     loot(name)
@@ -110,8 +110,8 @@ model_texture('screentex.png', 'cctv_screen')
 gui('cctvgui.png', 'cctv')
 gui('spycamgui.png', 'spy_cam')
 gui('screengui.png', 'cctv_screen')
-rendered_machine('cctv')
-rendered_machine('spy_cam')
+rendered_machine('cctv', facings=None)
+rendered_machine('spy_cam', facings=None)
 rendered_machine('cctv_screen')
 PANE = {'tag': 'c:glass_panes'}
 shaped('cctv', [' g ', 'brs', ' p '], {'p': item('base_panel'), 's': STEEL, 'b': PANE, 'r': {'item': 'minecraft:redstone'}, 'g': {'tag': 'c:ingots/gold'}})

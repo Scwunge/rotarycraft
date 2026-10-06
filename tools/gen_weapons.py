@@ -49,7 +49,7 @@ def rendered_machine(name, facings=('up', 'down', 'north', 'south', 'east', 'wes
     """A machine drawn entirely by its renderer: the block model only gives break particles; the item is drawn by the renderer too."""
     MACHINES.append(name)
     w('%s/models/block/%s.json' % (A, name), {'textures': {'particle': particle}})
-    w('%s/blockstates/%s.json' % (A, name), {'variants': {'facing=' + f: {'model': 'rotarycraft:block/' + name} for f in facings}})
+    w('%s/blockstates/%s.json' % (A, name), {'variants': {'': {'model': 'rotarycraft:block/' + name}} if facings is None else {'facing=' + f: {'model': 'rotarycraft:block/' + name} for f in facings}})
     w('%s/models/item/%s.json' % (A, name), {'parent': 'minecraft:builtin/entity', 'gui_light': 'side', 'textures': {'particle': particle},
                                              'display': BLOCK_DISPLAY})
     w('%s/loot_table/blocks/%s.json' % (D, name), {'type': 'minecraft:block', 'pools': [{
@@ -195,7 +195,7 @@ rendered_machine('winder', particle='rotarycraft:block/shaft_steel')
 shaped('winder', [' ss', ' hg', 'ppp'], {'s': STEEL, 'h': item('shaft_steel'), 'g': item('steel_gear_unit_2'), 'p': item('base_panel')})
 model_texture('landminetex.png', 'landmine')
 shutil.copy(REF + '/Textures/GUI/landminegui.png', T + '/gui/landmine.png')
-rendered_machine('landmine', particle='rotarycraft:block/shaft_steel')
+rendered_machine('landmine', facings=None, particle='rotarycraft:block/shaft_steel')
 shaped('landmine', [' P ', 'RGR', 'SIS'], {'P': {'item': 'minecraft:stone_pressure_plate'}, 'S': STEEL, 'I': item('igniter'),
                                           'R': {'item': 'minecraft:redstone'}, 'G': {'item': 'minecraft:gold_ingot'}})
 

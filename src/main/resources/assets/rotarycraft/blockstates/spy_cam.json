@@ -1,21 +1,6 @@
 {
   "variants": {
-    "facing=up": {
-      "model": "rotarycraft:block/spy_cam"
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/spy_cam"
-    },
-    "facing=north": {
-      "model": "rotarycraft:block/spy_cam"
-    },
-    "facing=south": {
-      "model": "rotarycraft:block/spy_cam"
-    },
-    "facing=east": {
-      "model": "rotarycraft:block/spy_cam"
-    },
-    "facing=west": {
+    "": {
       "model": "rotarycraft:block/spy_cam"
     }
   }

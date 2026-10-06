@@ -15,7 +15,7 @@ public class SlideItem extends Item {
     private final int index;
 
     public SlideItem(Properties props, int index) {
-        super(props.stacksTo(1));
+        super(props);
         this.index = index;
     }
 
