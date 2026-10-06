@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "  s",
+    " S ",
+    "s  "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stone"
+    },
+    "s": {
+      "item": "rotarycraft:stone_rod"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:stone_shaft_core",
+    "count": 1
+  }
+}

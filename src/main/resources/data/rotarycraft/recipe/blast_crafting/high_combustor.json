@@ -1,0 +1,28 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "SiS",
+    "iRi",
+    "SGS"
+  ],
+  "key": {
+    "i": {
+      "item": "rotarycraft:red_gold_ingot"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "G": {
+      "item": "rotarycraft:igniter"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:high_combustor",
+    "count": 1
+  },
+  "temperature": 1100,
+  "speed": 1
+}

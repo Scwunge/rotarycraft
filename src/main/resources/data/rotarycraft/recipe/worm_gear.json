@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S  ",
+    " G ",
+    "  S"
+  ],
+  "key": {
+    "S": {
+      "item": "rotarycraft:steel_rod"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:worm_gear",
+    "count": 1
+  }
+}

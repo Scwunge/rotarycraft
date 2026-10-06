@@ -28,6 +28,7 @@ public class RotaryCraft {
         net.scwunge.rotarycraft.registry.RotaryFluids.FLUIDS.register(modBus);
         RotaryBlocks.BLOCKS.register(modBus);
         RotaryItems.ITEMS.register(modBus);
+        net.scwunge.rotarycraft.registry.RotaryParts.init();
         RotaryItems.TABS.register(modBus);
         RotaryBlockEntities.TYPES.register(modBus);
         net.scwunge.rotarycraft.registry.RotaryRecipes.TYPES.register(modBus);

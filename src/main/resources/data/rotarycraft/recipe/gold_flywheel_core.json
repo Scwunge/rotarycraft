@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "WWW",
+    "WGW",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "tag": "c:ingots/gold"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:gold_flywheel_core",
+    "count": 1
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    "SIS",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "I": {
+      "item": "rotarycraft:impeller"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:mixer",
+    "count": 1
+  }
+}

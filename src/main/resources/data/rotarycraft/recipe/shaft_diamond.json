@@ -2,20 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "X",
     "S",
-    "X"
+    "M"
   ],
   "key": {
-    "X": {
-      "tag": "c:gems/diamond"
+    "M": {
+      "item": "rotarycraft:mount"
     },
     "S": {
-      "item": "rotarycraft:shaft_steel"
+      "item": "rotarycraft:diamond_rod"
     }
   },
   "result": {
     "id": "rotarycraft:shaft_diamond",
-    "count": 2
+    "count": 8
   }
 }

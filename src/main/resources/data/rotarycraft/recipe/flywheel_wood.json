@@ -2,16 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "MMM",
-    "MSM",
-    "MMM"
+    "W",
+    "M"
   ],
   "key": {
-    "M": {
-      "tag": "minecraft:logs"
+    "W": {
+      "item": "rotarycraft:wood_flywheel_core"
     },
-    "S": {
-      "item": "rotarycraft:shaft_steel"
+    "M": {
+      "item": "rotarycraft:mount"
     }
   },
   "result": {

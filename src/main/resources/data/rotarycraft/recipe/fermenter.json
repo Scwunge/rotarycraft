@@ -2,25 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "IGI",
-    "BSB",
-    "IHI"
+    "BPB",
+    "PIP",
+    "BPB"
   ],
   "key": {
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "G": {
-      "tag": "c:glass_blocks"
-    },
     "B": {
-      "item": "minecraft:bucket"
+      "tag": "c:ingots/steel"
     },
-    "S": {
-      "item": "rotarycraft:shaft_stone"
+    "I": {
+      "item": "rotarycraft:impeller"
     },
-    "H": {
-      "item": "minecraft:hopper"
+    "P": {
+      "item": "rotarycraft:base_panel"
     }
   },
   "result": {

@@ -2,22 +2,22 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "IFI",
+    "B B",
     "SGS",
-    "III"
+    "PPP"
   ],
   "key": {
-    "I": {
+    "B": {
       "tag": "c:ingots/steel"
     },
-    "F": {
-      "item": "minecraft:flint"
+    "G": {
+      "item": "rotarycraft:steel_gear"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
     },
     "S": {
-      "item": "rotarycraft:shaft_steel"
-    },
-    "G": {
-      "item": "rotarycraft:gearbox_2x"
+      "item": "rotarycraft:saw"
     }
   },
   "result": {

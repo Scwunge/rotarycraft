@@ -2,31 +2,31 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "CgC",
-    "BEs",
-    "IRI"
+    "CrC",
+    "SGs",
+    "PIP"
   ],
   "key": {
     "C": {
-      "item": "minecraft:piston"
+      "item": "rotarycraft:silumin_cylinder"
     },
-    "g": {
-      "tag": "c:ingots/gold"
-    },
-    "B": {
-      "item": "minecraft:blaze_rod"
-    },
-    "E": {
-      "item": "rotarycraft:gas_engine"
-    },
-    "s": {
-      "item": "rotarycraft:shaft_steel"
+    "S": {
+      "item": "rotarycraft:igniter"
     },
     "I": {
-      "tag": "c:ingots/steel"
+      "item": "rotarycraft:impeller"
     },
-    "R": {
-      "tag": "c:dusts/redstone"
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "s": {
+      "item": "rotarycraft:steel_rod"
+    },
+    "r": {
+      "item": "rotarycraft:radiator"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear_unit_2"
     }
   },
   "result": {

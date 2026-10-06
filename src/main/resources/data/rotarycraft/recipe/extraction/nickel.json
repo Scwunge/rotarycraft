@@ -5,5 +5,16 @@
   },
   "ore_type": "nickel",
   "color": 14343336,
-  "rarity": "common"
+  "rarity": "common",
+  "bonus": {
+    "id": "rotarycraft:ore_flakes",
+    "count": 1,
+    "components": {
+      "rotarycraft:ore_product": {
+        "type": "platinum",
+        "color": 10477813
+      }
+    }
+  },
+  "bonus_chance": 0.5
 }

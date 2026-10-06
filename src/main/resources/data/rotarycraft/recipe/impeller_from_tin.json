@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    "SGS",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/tin"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:impeller",
+    "count": 1
+  }
+}

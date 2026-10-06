@@ -1,0 +1,22 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "LLL",
+    "LSL",
+    "LLL"
+  ],
+  "key": {
+    "L": {
+      "item": "rotarycraft:bedrock_dust"
+    },
+    "S": {
+      "item": "rotarycraft:steel_bearing"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_bearing",
+    "count": 1
+  },
+  "temperature": 1450,
+  "speed": 2
+}

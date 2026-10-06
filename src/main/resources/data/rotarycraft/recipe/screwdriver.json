@@ -2,16 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "  I",
-    " I ",
-    "S  "
+    "I  ",
+    " S ",
+    "  W"
   ],
   "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
     "I": {
       "tag": "c:ingots/iron"
     },
-    "S": {
-      "item": "minecraft:stick"
+    "W": {
+      "tag": "minecraft:planks"
     }
   },
   "result": {

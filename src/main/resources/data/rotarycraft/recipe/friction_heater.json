@@ -2,22 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "ISI",
-    "FGF",
-    "III"
+    "S  ",
+    "Sss",
+    "SPP"
   ],
   "key": {
-    "I": {
-      "tag": "c:ingots/iron"
+    "P": {
+      "item": "rotarycraft:base_panel"
     },
     "S": {
-      "item": "rotarycraft:shaft_stone"
+      "tag": "c:ingots/steel"
     },
-    "F": {
-      "item": "minecraft:flint"
-    },
-    "G": {
-      "item": "rotarycraft:gearbox_2x"
+    "s": {
+      "item": "rotarycraft:steel_rod"
     }
   },
   "result": {

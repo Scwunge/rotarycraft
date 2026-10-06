@@ -2,20 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "X",
     "S",
-    "X"
+    "M"
   ],
   "key": {
-    "X": {
-      "tag": "c:ingots/steel"
+    "M": {
+      "item": "rotarycraft:mount"
     },
     "S": {
-      "item": "minecraft:stick"
+      "item": "rotarycraft:steel_rod"
     }
   },
   "result": {
     "id": "rotarycraft:shaft_steel",
-    "count": 2
+    "count": 8
   }
 }

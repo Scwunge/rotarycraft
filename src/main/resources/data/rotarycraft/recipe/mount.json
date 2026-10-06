@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S S",
+    "SBS"
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:base_panel"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:mount",
+    "count": 1
+  }
+}

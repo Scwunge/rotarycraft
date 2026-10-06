@@ -2,12 +2,11 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "X",
-    "S",
-    "X"
+    "BSB",
+    "BBB"
   ],
   "key": {
-    "X": {
+    "B": {
       "tag": "minecraft:planks"
     },
     "S": {
@@ -16,6 +15,6 @@
   },
   "result": {
     "id": "rotarycraft:shaft_wood",
-    "count": 2
+    "count": 8
   }
 }

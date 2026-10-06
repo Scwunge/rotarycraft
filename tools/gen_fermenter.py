@@ -65,10 +65,6 @@ for _ in range(6):
     g.point((x, y), fill=(200, 220, 150, 255))
 im.save(T + '/block/fermenter_front.png')
 
-w(D + '/recipe/fermenter.json', {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['IGI', 'BSB', 'IHI'],
-    'key': {'I': {'tag': 'c:ingots/iron'}, 'G': {'tag': 'c:glass_blocks'}, 'B': {'item': 'minecraft:bucket'},
-            'S': {'item': 'rotarycraft:shaft_stone'}, 'H': {'item': 'minecraft:hopper'}},
-    'result': {'id': 'rotarycraft:fermenter', 'count': 1}})
 
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

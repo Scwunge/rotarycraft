@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "  B",
+    " B ",
+    "B  "
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:spring_tungsten_ingot"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:tungsten_rod",
+    "count": 3
+  }
+}

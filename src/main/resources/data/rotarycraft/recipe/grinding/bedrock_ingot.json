@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "rotarycraft:bedrock_ingot"
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_dust",
+    "count": 4
+  }
+}

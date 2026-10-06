@@ -5,5 +5,16 @@
   },
   "ore_type": "quartz",
   "color": 15196373,
-  "rarity": "nether"
+  "rarity": "nether",
+  "bonus": {
+    "id": "rotarycraft:ore_flakes",
+    "count": 1,
+    "components": {
+      "rotarycraft:ore_product": {
+        "type": "certus_quartz",
+        "color": 13166320
+      }
+    }
+  },
+  "bonus_chance": 0.0625
 }

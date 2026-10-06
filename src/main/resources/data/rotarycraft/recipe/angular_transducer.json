@@ -2,19 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    " R ",
-    "ICI",
-    "III"
+    " W ",
+    "WEW",
+    "SSS"
   ],
   "key": {
-    "I": {
-      "tag": "c:ingots/iron"
+    "S": {
+      "tag": "c:ingots/steel"
     },
-    "R": {
-      "item": "minecraft:redstone"
+    "E": {
+      "tag": "c:dusts/redstone"
     },
-    "C": {
-      "item": "minecraft:compass"
+    "W": {
+      "tag": "minecraft:planks"
     }
   },
   "result": {

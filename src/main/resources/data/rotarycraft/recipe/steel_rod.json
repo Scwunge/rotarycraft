@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "  B",
+    " B ",
+    "B  "
+  ],
+  "key": {
+    "B": {
+      "tag": "c:ingots/steel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:steel_rod",
+    "count": 3
+  }
+}

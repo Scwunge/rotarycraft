@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "LLL",
+    "LSL",
+    "LLL"
+  ],
+  "key": {
+    "L": {
+      "item": "rotarycraft:ball_bearing"
+    },
+    "S": {
+      "item": "rotarycraft:diamond_gear"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:diamond_bearing",
+    "count": 1
+  }
+}

@@ -120,12 +120,6 @@ w(A + '/models/block/blast_furnace.json', {'parent': 'minecraft:block/cube', 'te
     'particle': 'rotarycraft:block/blast_furnace_side'}})
 
 # crafting: the blast furnace needs no steel (it is how steel is made)
-w(D + '/recipe/blast_furnace.json', {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['BBB', 'BFB', 'BIB'],
-    'key': {'B': {'item': 'minecraft:bricks'}, 'F': {'item': 'minecraft:furnace'}, 'I': {'tag': 'c:storage_blocks/iron'}},
-    'result': {'id': 'rotarycraft:blast_furnace', 'count': 1}})
-w(D + '/recipe/friction_heater.json', {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['ISI', 'FGF', 'III'],
-    'key': {'I': {'tag': 'c:ingots/iron'}, 'S': {'item': 'rotarycraft:shaft_stone'}, 'F': {'item': 'minecraft:flint'},
-            'G': {'item': 'rotarycraft:gearbox_2x'}}, 'result': {'id': 'rotarycraft:friction_heater', 'count': 1}})
 
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

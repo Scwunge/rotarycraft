@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PGP",
+    "RER",
+    "GPG"
+  ],
+  "key": {
+    "P": {
+      "tag": "c:ingots/steel"
+    },
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    },
+    "E": {
+      "item": "rotarycraft:silicon"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:circuit_board",
+    "count": 3
+  }
+}

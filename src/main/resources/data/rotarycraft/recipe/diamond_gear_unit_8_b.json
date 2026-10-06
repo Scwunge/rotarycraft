@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " gB",
+    "BG "
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:diamond_rod"
+    },
+    "G": {
+      "item": "rotarycraft:diamond_gear_unit_2"
+    },
+    "g": {
+      "item": "rotarycraft:diamond_gear_unit_4"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:diamond_gear_unit_8",
+    "count": 1
+  }
+}

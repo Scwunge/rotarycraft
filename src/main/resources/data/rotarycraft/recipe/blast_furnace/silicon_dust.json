@@ -1,0 +1,26 @@
+{
+  "type": "rotarycraft:blast_furnace",
+  "main": {
+    "tag": "c:sands"
+  },
+  "result": {
+    "id": "rotarycraft:silicon_dust",
+    "count": 1
+  },
+  "temperature": 700,
+  "center": {
+    "ingredient": {
+      "tag": "c:dusts/aluminum"
+    },
+    "chance": 0.25,
+    "count": 1
+  },
+  "lower": {
+    "ingredient": {
+      "item": "minecraft:blaze_powder"
+    },
+    "chance": 0.025,
+    "count": 1
+  },
+  "bonus_yield": 0.8
+}

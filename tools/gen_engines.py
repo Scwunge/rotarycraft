@@ -42,11 +42,6 @@ for x0 in (2, 9):
 g.rectangle([6, 13, 9, 14], fill=(92, 197, 178, 255))
 im.save(T + '/block/gas_engine_front.png')
 
-w(D + '/recipe/gas_engine.json', {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['CgC', 'FGs', 'IHI'],
-    'key': {'C': {'item': 'minecraft:piston'}, 'g': {'tag': 'c:ingots/gold'}, 'F': {'item': 'minecraft:flint_and_steel'},
-            'G': {'item': 'rotarycraft:gearbox_2x'}, 's': {'item': 'rotarycraft:shaft_steel'}, 'I': {'tag': 'c:ingots/steel'},
-            'H': {'item': 'minecraft:hopper'}},
-    'result': {'id': 'rotarycraft:gas_engine', 'count': 1}})
 
 # AC Engine: copper coils around a core; Magnetizer: a core between two coils
 im, g = panel()
@@ -76,12 +71,6 @@ def shaped(name, pattern, key):
     w('%s/recipe/%s.json' % (D, name), {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': pattern, 'key': key,
       'result': {'id': 'rotarycraft:' + name, 'count': 1}})
 
-shaped('shaft_core', ['  s', ' S ', 's  '], {'S': {'tag': 'c:ingots/steel'}, 's': {'item': 'rotarycraft:shaft_steel'}})
-shaped('tungsten_shaft_core', ['  s', ' S ', 's  '], {'S': {'item': 'rotarycraft:tungsten_ingot'}, 's': {'item': 'rotarycraft:shaft_steel'}})
-shaped('ac_engine', ['GGG', 'GCs', 'PRP'], {'G': {'tag': 'c:ingots/gold'}, 'C': {'tag': 'c:storage_blocks/copper'},
-       's': {'item': 'rotarycraft:shaft_steel'}, 'P': {'tag': 'c:ingots/steel'}, 'R': {'tag': 'c:dusts/redstone'}})
-shaped('magnetizer', ['P P', 'CMC', 'PRP'], {'P': {'tag': 'c:ingots/steel'}, 'C': {'tag': 'c:storage_blocks/copper'},
-       'M': {'item': 'rotarycraft:shaft_steel'}, 'R': {'tag': 'c:dusts/redstone'}})
 
 # Performance Engine: red cylinders and a blue water jacket
 im, g = panel()
@@ -100,9 +89,6 @@ for _ in range(7):
 im.save(T + '/item/scrap.png')
 w('%s/models/item/scrap.json' % A, {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/scrap'}})
 
-shaped('performance_engine', ['CgC', 'BEs', 'IRI'], {'C': {'item': 'minecraft:piston'}, 'g': {'tag': 'c:ingots/gold'},
-       'B': {'item': 'minecraft:blaze_rod'}, 'E': {'item': 'rotarycraft:gas_engine'}, 's': {'item': 'rotarycraft:shaft_steel'},
-       'I': {'tag': 'c:ingots/steel'}, 'R': {'tag': 'c:dusts/redstone'}})
 
 # Microturbine: an intake with turbine blades
 im, g = panel()
@@ -113,8 +99,6 @@ for i in range(8):
     g.line([(7.5, 7.5), (7.5 + 5 * math.cos(a), 7.5 + 5 * math.sin(a))], fill=(170, 180, 192, 255))
 im.save(T + '/block/microturbine_front.png')
 shutil.copy('reference/RotaryCraft/Textures/GUI/jetgui.png', T + '/gui/turbine.png')
-shaped('microturbine', ['IGI', 'TsT', 'IPI'], {'I': {'tag': 'c:ingots/steel'}, 'G': {'tag': 'c:ingots/gold'},
-       'T': {'item': 'rotarycraft:tungsten_ingot'}, 's': {'item': 'rotarycraft:shaft_diamond'}, 'P': {'item': 'minecraft:piston'}})
 
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

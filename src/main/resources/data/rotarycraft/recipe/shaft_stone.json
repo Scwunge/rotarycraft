@@ -2,20 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "X",
-    "S",
-    "X"
+    "BSB",
+    "BBB"
   ],
   "key": {
-    "X": {
-      "item": "minecraft:stone"
+    "B": {
+      "item": "minecraft:smooth_stone_slab"
     },
     "S": {
-      "item": "minecraft:stick"
+      "item": "rotarycraft:stone_rod"
     }
   },
   "result": {
     "id": "rotarycraft:shaft_stone",
-    "count": 2
+    "count": 8
   }
 }

@@ -8,10 +8,10 @@
   ],
   "key": {
     "S": {
-      "item": "rotarycraft:tungsten_ingot"
+      "item": "rotarycraft:spring_tungsten_ingot"
     },
     "s": {
-      "item": "rotarycraft:shaft_steel"
+      "item": "rotarycraft:tungsten_rod"
     }
   },
   "result": {

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " GB",
+    "BG "
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:stone_rod"
+    },
+    "G": {
+      "item": "rotarycraft:stone_gear"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:stone_gear_unit_2",
+    "count": 1
+  }
+}

@@ -2,22 +2,22 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "P P",
-    "CMC",
-    "PRP"
+    "p p",
+    "gmg",
+    "prp"
   ],
   "key": {
-    "P": {
-      "tag": "c:ingots/steel"
-    },
-    "C": {
-      "tag": "c:storage_blocks/copper"
-    },
-    "M": {
-      "item": "rotarycraft:shaft_steel"
-    },
-    "R": {
+    "r": {
       "tag": "c:dusts/redstone"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    },
+    "m": {
+      "item": "rotarycraft:mount"
+    },
+    "g": {
+      "item": "rotarycraft:gold_coil"
     }
   },
   "result": {

@@ -2,26 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "PPP",
-    "PSP",
-    "IGI"
+    "SSS",
+    "SHS",
+    "SSS"
   ],
   "key": {
-    "P": {
-      "tag": "minecraft:planks"
-    },
     "S": {
-      "item": "rotarycraft:shaft_steel"
+      "item": "rotarycraft:propeller"
     },
-    "I": {
-      "tag": "c:ingots/iron"
-    },
-    "G": {
-      "item": "rotarycraft:gearbox_2x"
+    "H": {
+      "item": "rotarycraft:hub"
     }
   },
   "result": {
     "id": "rotarycraft:wind_engine",
-    "count": 1
+    "count": 2
   }
 }

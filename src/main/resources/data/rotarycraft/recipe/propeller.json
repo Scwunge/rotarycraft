@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    " I ",
+    " P "
+  ],
+  "key": {
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "S": {
+      "item": "rotarycraft:steel_rod"
+    },
+    "I": {
+      "tag": "c:ingots/steel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:propeller",
+    "count": 1
+  }
+}

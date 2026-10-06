@@ -89,7 +89,7 @@ public class RotaryItems {
             })
             .build());
 
-    private static <T extends Item> DeferredItem<T> add(DeferredItem<T> item) {
+    static <T extends Item> DeferredItem<T> add(DeferredItem<T> item) {
         TAB_ORDER.add(item);
         return item;
     }

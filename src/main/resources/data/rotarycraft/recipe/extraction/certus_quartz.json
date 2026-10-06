@@ -1,0 +1,20 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/certus_quartz"
+  },
+  "ore_type": "certus_quartz",
+  "color": 13166320,
+  "rarity": "common",
+  "bonus": {
+    "id": "rotarycraft:ore_flakes",
+    "count": 1,
+    "components": {
+      "rotarycraft:ore_product": {
+        "type": "quartz",
+        "color": 15196373
+      }
+    }
+  },
+  "bonus_chance": 0.5
+}

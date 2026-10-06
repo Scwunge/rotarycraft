@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " gB",
+    "BG "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:stick"
+    },
+    "G": {
+      "item": "rotarycraft:wood_gear_unit_2"
+    },
+    "g": {
+      "item": "rotarycraft:wood_gear_unit_8"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:wood_gear_unit_16",
+    "count": 1
+  }
+}

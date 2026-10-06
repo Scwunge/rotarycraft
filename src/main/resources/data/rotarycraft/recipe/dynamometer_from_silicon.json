@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " S ",
+    " E ",
+    " Ms"
+  ],
+  "key": {
+    "s": {
+      "item": "rotarycraft:screen"
+    },
+    "M": {
+      "item": "rotarycraft:mount"
+    },
+    "S": {
+      "item": "rotarycraft:steel_rod"
+    },
+    "E": {
+      "item": "rotarycraft:silicon"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:dynamometer",
+    "count": 4
+  }
+}

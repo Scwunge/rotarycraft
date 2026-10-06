@@ -2,23 +2,26 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "IS ",
-    "SG ",
-    "   "
+    "ISB",
+    "SGB",
+    "BBB"
   ],
   "key": {
+    "B": {
+      "item": "rotarycraft:base_panel"
+    },
     "I": {
       "tag": "c:ingots/steel"
     },
     "S": {
-      "item": "rotarycraft:shaft_steel"
+      "item": "rotarycraft:steel_rod"
     },
     "G": {
-      "item": "rotarycraft:gearbox_2x"
+      "item": "rotarycraft:steel_gear"
     }
   },
   "result": {
     "id": "rotarycraft:bevel_gear",
-    "count": 1
+    "count": 4
   }
 }

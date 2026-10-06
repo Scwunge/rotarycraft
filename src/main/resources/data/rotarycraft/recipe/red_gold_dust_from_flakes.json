@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "c:dusts/redstone"
+    },
+    {
+      "type": "neoforge:components",
+      "items": "rotarycraft:ore_flakes",
+      "components": {
+        "rotarycraft:ore_product": {
+          "type": "gold",
+          "color": 16576075
+        }
+      }
+    }
+  ],
+  "result": {
+    "id": "rotarycraft:red_gold_dust",
+    "count": 2
+  }
+}

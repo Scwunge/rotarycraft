@@ -2,25 +2,25 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "IRI",
+    "SRS",
     "PGP",
-    "ISI"
+    "SsS"
   ],
   "key": {
-    "I": {
+    "s": {
+      "item": "rotarycraft:steel_rod"
+    },
+    "S": {
       "tag": "c:ingots/steel"
     },
     "R": {
       "item": "minecraft:cauldron"
     },
     "P": {
-      "item": "minecraft:smooth_stone_slab"
+      "item": "rotarycraft:base_panel"
     },
     "G": {
-      "item": "rotarycraft:gearbox_2x"
-    },
-    "S": {
-      "item": "rotarycraft:shaft_steel"
+      "item": "rotarycraft:steel_gear"
     }
   },
   "result": {

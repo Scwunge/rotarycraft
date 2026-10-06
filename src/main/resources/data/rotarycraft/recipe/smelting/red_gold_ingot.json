@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "rotarycraft:red_gold_dust"
+  },
+  "result": {
+    "id": "rotarycraft:red_gold_ingot",
+    "count": 1
+  },
+  "experience": 0.4,
+  "cookingtime": 200
+}

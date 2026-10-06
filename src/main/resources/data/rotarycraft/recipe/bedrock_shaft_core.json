@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "  s",
+    " S ",
+    "s  "
+  ],
+  "key": {
+    "S": {
+      "item": "rotarycraft:bedrock_ingot"
+    },
+    "s": {
+      "item": "rotarycraft:bedrock_rod"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_shaft_core",
+    "count": 1
+  }
+}

@@ -3,30 +3,30 @@
   "category": "misc",
   "pattern": [
     "CgC",
-    "FGs",
-    "IHI"
+    "SGs",
+    "PIP"
   ],
   "key": {
-    "C": {
-      "item": "minecraft:piston"
-    },
     "g": {
       "tag": "c:ingots/gold"
     },
-    "F": {
-      "item": "minecraft:flint_and_steel"
-    },
-    "G": {
-      "item": "rotarycraft:gearbox_2x"
-    },
-    "s": {
-      "item": "rotarycraft:shaft_steel"
+    "S": {
+      "item": "rotarycraft:igniter"
     },
     "I": {
-      "tag": "c:ingots/steel"
+      "item": "rotarycraft:impeller"
     },
-    "H": {
-      "item": "minecraft:hopper"
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "s": {
+      "item": "rotarycraft:steel_rod"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    },
+    "C": {
+      "item": "rotarycraft:cylinder"
     }
   },
   "result": {

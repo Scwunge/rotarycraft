@@ -259,28 +259,10 @@ def shaped(name, pattern, key, count=1):
                                        'key': key, 'result': {'id': 'rotarycraft:' + name, 'count': count}})
 
 
-shaped('shaft_wood', ['X', 'S', 'X'], {'X': {'tag': 'minecraft:planks'}, 'S': {'item': 'minecraft:stick'}}, 2)
-shaped('shaft_stone', ['X', 'S', 'X'], {'X': {'item': 'minecraft:stone'}, 'S': {'item': 'minecraft:stick'}}, 2)
-shaped('shaft_steel', ['X', 'S', 'X'], {'X': STEEL, 'S': {'item': 'minecraft:stick'}}, 2)
-shaped('shaft_diamond', ['X', 'S', 'X'], {'X': {'tag': 'c:gems/diamond'}, 'S': STEEL_SHAFT}, 2)
-shaped('dc_engine', ['IRI', 'ICI', 'ISI'], {'I': IRON, 'R': {'item': 'minecraft:redstone'}, 'C': COPPER, 'S': STEEL_SHAFT})
-shaped('gearbox_2x', ['ISI', 'S S', 'ISI'], {'I': STEEL, 'S': STEEL_SHAFT})
 for a, b in [(2, 4), (4, 8), (8, 16)]:
     w('%s/recipe/gearbox_%dx.json' % (D, b), {'type': 'minecraft:crafting_shapeless', 'category': 'misc',
         'ingredients': [{'item': 'rotarycraft:gearbox_%dx' % a}, {'item': 'rotarycraft:gearbox_%dx' % a}],
         'result': {'id': 'rotarycraft:gearbox_%dx' % b, 'count': 1}})
-shaped('dynamometer', ['I I', 'SCS', 'III'], {'I': STEEL, 'S': STEEL_SHAFT, 'C': {'item': 'minecraft:clock'}})
-shaped('generator', ['ICI', 'SRS', 'ICI'], {'I': STEEL, 'C': COPPER, 'S': STEEL_SHAFT, 'R': {'item': 'minecraft:redstone_block'}})
-shaped('electric_motor', ['ICI', 'RSR', 'ICI'], {'I': STEEL, 'C': COPPER, 'S': STEEL_SHAFT, 'R': {'item': 'minecraft:redstone'}})
-shaped('wind_engine', ['PPP', 'PSP', 'IGI'], {'P': {'tag': 'minecraft:planks'}, 'S': STEEL_SHAFT, 'I': IRON, 'G': {'item': 'rotarycraft:gearbox_2x'}})
-shaped('steam_engine', ['III', 'BSB', 'IFI'], {'I': STEEL, 'B': {'item': 'minecraft:bucket'}, 'S': STEEL_SHAFT, 'F': {'item': 'minecraft:furnace'}})
-shaped('clutch', ['ISI', 'RSR', 'ISI'], {'I': STEEL, 'S': STEEL_SHAFT, 'R': {'item': 'minecraft:redstone'}})
-shaped('splitter', ['ISI', 'SGS', 'I I'], {'I': STEEL, 'S': STEEL_SHAFT, 'G': {'item': 'rotarycraft:gearbox_2x'}})
-shaped('bevel_gear', ['IS ', 'SG ', '   '], {'I': STEEL, 'S': STEEL_SHAFT, 'G': {'item': 'rotarycraft:gearbox_2x'}})
-for f, mat in [('wood', {'tag': 'minecraft:logs'}), ('stone', {'item': 'minecraft:stone'}), ('iron', {'tag': 'c:storage_blocks/iron'}), ('gold', {'tag': 'c:storage_blocks/gold'})]:
-    shaped('flywheel_' + f, ['MMM', 'MSM', 'MMM'], {'M': mat, 'S': STEEL_SHAFT})
-shaped('screwdriver', ['  I', ' I ', 'S  '], {'I': IRON, 'S': {'item': 'minecraft:stick'}})
-shaped('angular_transducer', [' R ', 'ICI', 'III'], {'I': IRON, 'R': {'item': 'minecraft:redstone'}, 'C': {'item': 'minecraft:compass'}})
 
 
 def grind(name, ingredient, result, count=1):
@@ -343,8 +325,6 @@ for name, ing, res, n in [
     ('red_tulip', 'red'), ('orange_tulip', 'orange'), ('white_tulip', 'light_gray'), ('pink_tulip', 'pink'),
     ('oxeye_daisy', 'light_gray'), ('lilac', 'magenta'), ('rose_bush', 'red'), ('peony', 'pink')]]:
     grind(name, ing, res, n)
-shaped('extractor', ['IGI', 'SBS', 'IPI'], {'I': STEEL, 'G': {'item': 'rotarycraft:grinder'}, 'S': STEEL_SHAFT, 'B': {'item': 'minecraft:bucket'}, 'P': {'item': 'minecraft:piston'}})
-shaped('grinder', ['IFI', 'SGS', 'III'], {'I': STEEL, 'F': {'item': 'minecraft:flint'}, 'S': STEEL_SHAFT, 'G': {'item': 'rotarycraft:gearbox_2x'}})
 
 # lang ----------------------------------------------------------------------------------------------------------------
 lang = {
@@ -400,3 +380,4 @@ runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_centrifuge.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_melter.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_engines.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_fractionator.py'))
+runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_parts.py'))

@@ -37,6 +37,8 @@ and angular speed, shafts and gearboxes carry and transform it, and machines use
 | Angular Transducer | Shows torque, speed and power at a machine |
 | HSLA Steel Ingot | Structural steel (tagged `c:ingots/steel`, so any mod's steel works in recipes and packs with Almost Unified merge them); made in the Blast Furnace |
 
+Crafting follows the original: machines are built from its components (base panels, mounts, gears, gear units, bearings and rods in six materials, shaft cores, impellers, compressors, turbines, igniters, cylinders, coils, circuit boards and the rest), and the alloys come from the Blast Furnace (silicon, silumin, spring tungsten, bedrock alloy), which also does the original's high-temperature 3x3 crafting (high-temperature combustor, diamond and bedrock gears, bedrock rods and bearings). Aluminium comes from the Extractor (a bonus from redstone and lapis ore) or any mod's aluminium. Until the pipes and reservoir are ported, recipes that need them use copper ingots, a cauldron or a bucket.
+
 Engines spin up gradually and coast down when they stop, as in the original. Machines take power in at the back and pass it out of the front. When placed they face where you are looking.
 Shaft limits use the original's formulas from each material's shear and tensile strength and density.
 

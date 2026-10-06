@@ -2,22 +2,22 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "IRI",
-    "ICI",
-    "ISI"
+    "SSS",
+    "SRs",
+    "PRP"
   ],
   "key": {
-    "I": {
-      "tag": "c:ingots/iron"
+    "S": {
+      "tag": "c:ingots/steel"
     },
     "R": {
-      "item": "minecraft:redstone"
+      "tag": "c:dusts/redstone"
     },
-    "C": {
-      "tag": "c:ingots/copper"
+    "P": {
+      "item": "rotarycraft:base_panel"
     },
-    "S": {
-      "item": "rotarycraft:shaft_steel"
+    "s": {
+      "item": "rotarycraft:steel_rod"
     }
   },
   "result": {

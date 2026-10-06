@@ -1,0 +1,18 @@
+{
+  "type": "rotarycraft:blast_furnace",
+  "main": {
+    "tag": "c:ingots/steel"
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_ingot",
+    "count": 1
+  },
+  "temperature": 1450,
+  "center": {
+    "ingredient": {
+      "item": "rotarycraft:bedrock_dust"
+    },
+    "chance": 1.0,
+    "count": 4
+  }
+}

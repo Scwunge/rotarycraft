@@ -1,0 +1,32 @@
+{
+  "type": "rotarycraft:blast_furnace",
+  "main": {
+    "item": "rotarycraft:spring_steel_ingot"
+  },
+  "result": {
+    "id": "rotarycraft:spring_tungsten_ingot",
+    "count": 1
+  },
+  "temperature": 1100,
+  "center": {
+    "ingredient": {
+      "type": "neoforge:components",
+      "items": "rotarycraft:ore_flakes",
+      "components": {
+        "rotarycraft:ore_product": {
+          "type": "tungsten",
+          "color": 5923952
+        }
+      }
+    },
+    "chance": 0.05,
+    "count": 1
+  },
+  "upper": {
+    "ingredient": {
+      "item": "minecraft:obsidian"
+    },
+    "chance": 0.2,
+    "count": 1
+  }
+}

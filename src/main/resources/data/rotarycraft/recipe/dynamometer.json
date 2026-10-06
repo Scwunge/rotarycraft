@@ -2,23 +2,26 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "I I",
-    "SCS",
-    "III"
+    " S ",
+    " E ",
+    " Ms"
   ],
   "key": {
-    "I": {
-      "tag": "c:ingots/steel"
+    "s": {
+      "item": "rotarycraft:screen"
+    },
+    "M": {
+      "item": "rotarycraft:mount"
     },
     "S": {
-      "item": "rotarycraft:shaft_steel"
+      "item": "rotarycraft:steel_rod"
     },
-    "C": {
-      "item": "minecraft:clock"
+    "E": {
+      "tag": "c:ender_pearls"
     }
   },
   "result": {
     "id": "rotarycraft:dynamometer",
-    "count": 1
+    "count": 2
   }
 }

@@ -2,22 +2,25 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "ICI",
-    "RSR",
-    "ICI"
+    "cGS",
+    "BCB",
+    "SGS"
   ],
   "key": {
-    "I": {
+    "c": {
       "tag": "c:ingots/steel"
     },
-    "C": {
-      "tag": "c:ingots/copper"
+    "G": {
+      "item": "rotarycraft:gold_coil"
     },
     "S": {
-      "item": "rotarycraft:shaft_steel"
+      "tag": "c:ingots/steel"
     },
-    "R": {
-      "item": "minecraft:redstone"
+    "B": {
+      "item": "rotarycraft:base_panel"
+    },
+    "C": {
+      "item": "rotarycraft:diamond_shaft_core"
     }
   },
   "result": {

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PPP",
+    "PPP",
+    "SSS"
+  ],
+  "key": {
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "S": {
+      "item": "rotarycraft:spring_steel_ingot"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:water_plate",
+    "count": 1
+  }
+}

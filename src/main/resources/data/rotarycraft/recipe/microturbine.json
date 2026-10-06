@@ -2,25 +2,28 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "IGI",
-    "TsT",
-    "IPI"
+    "CSS",
+    "cTs",
+    "PPP"
   ],
   "key": {
-    "I": {
-      "tag": "c:ingots/steel"
+    "S": {
+      "item": "rotarycraft:silumin_ingot"
     },
-    "G": {
-      "tag": "c:ingots/gold"
+    "C": {
+      "item": "rotarycraft:compressor"
+    },
+    "c": {
+      "item": "rotarycraft:high_combustor"
     },
     "T": {
-      "item": "rotarycraft:tungsten_ingot"
-    },
-    "s": {
-      "item": "rotarycraft:shaft_diamond"
+      "item": "rotarycraft:turbine"
     },
     "P": {
-      "item": "minecraft:piston"
+      "item": "rotarycraft:base_panel"
+    },
+    "s": {
+      "item": "rotarycraft:steel_rod"
     }
   },
   "result": {

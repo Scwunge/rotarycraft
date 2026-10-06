@@ -2,22 +2,28 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "ICI",
-    "SRS",
-    "ICI"
+    "gpS",
+    "iGs",
+    "psp"
   ],
   "key": {
-    "I": {
+    "S": {
       "tag": "c:ingots/steel"
     },
-    "C": {
-      "tag": "c:ingots/copper"
+    "p": {
+      "item": "rotarycraft:base_panel"
     },
-    "S": {
-      "item": "rotarycraft:shaft_steel"
+    "g": {
+      "tag": "c:ingots/gold"
     },
-    "R": {
-      "item": "minecraft:redstone_block"
+    "G": {
+      "item": "rotarycraft:generator_unit"
+    },
+    "i": {
+      "item": "rotarycraft:impeller"
+    },
+    "s": {
+      "item": "rotarycraft:shaft_core"
     }
   },
   "result": {

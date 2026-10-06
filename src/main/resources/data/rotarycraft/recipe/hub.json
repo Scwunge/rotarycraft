@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "  B",
+    " C ",
+    "G  "
+  ],
+  "key": {
+    "G": {
+      "item": "rotarycraft:steel_gear"
+    },
+    "B": {
+      "item": "rotarycraft:steel_bearing"
+    },
+    "C": {
+      "item": "rotarycraft:shaft_core"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:hub",
+    "count": 1
+  }
+}

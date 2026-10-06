@@ -70,10 +70,6 @@ for cx, cy, r in ((6, 9, 3), (10, 7, 3), (8, 12, 2), (11, 11, 2)):
 im.save(T + '/item/ethanol_crystals.png')
 w('%s/models/item/ethanol_crystals.json' % A, {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/ethanol_crystals'}})
 
-w(D + '/recipe/rock_melter.json', {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['IRI', 'PGP', 'ISI'],
-    'key': {'I': {'tag': 'c:ingots/steel'}, 'R': {'item': 'minecraft:cauldron'}, 'P': {'item': 'minecraft:smooth_stone_slab'},
-            'G': {'item': 'rotarycraft:gearbox_2x'}, 'S': {'item': 'rotarycraft:shaft_steel'}},
-    'result': {'id': 'rotarycraft:rock_melter', 'count': 1}})
 
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "WWW",
+    "WGW",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "tag": "minecraft:planks"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:wood_flywheel_core",
+    "count": 1
+  }
+}

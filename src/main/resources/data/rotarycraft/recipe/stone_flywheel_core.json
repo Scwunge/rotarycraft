@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "WWW",
+    "WGW",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:stone"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:stone_flywheel_core",
+    "count": 1
+  }
+}

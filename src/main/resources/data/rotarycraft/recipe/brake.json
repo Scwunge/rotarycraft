@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " g ",
+    "SBS",
+    " G "
+  ],
+  "key": {
+    "g": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear"
+    },
+    "S": {
+      "item": "rotarycraft:steel_rod"
+    },
+    "B": {
+      "item": "rotarycraft:steel_bearing"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:brake",
+    "count": 1
+  }
+}

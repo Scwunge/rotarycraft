@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " W ",
+    "WWW",
+    " W "
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:stone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:stone_gear",
+    "count": 2
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "bWb",
+    "WWW",
+    "bWb"
+  ],
+  "key": {
+    "b": {
+      "item": "rotarycraft:bedrock_dust"
+    },
+    "W": {
+      "tag": "c:ingots/steel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_gear",
+    "count": 8
+  },
+  "temperature": 1450,
+  "speed": 2
+}

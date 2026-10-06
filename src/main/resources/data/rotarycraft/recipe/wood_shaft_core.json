@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "  s",
+    " S ",
+    "s  "
+  ],
+  "key": {
+    "S": {
+      "tag": "minecraft:planks"
+    },
+    "s": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:wood_shaft_core",
+    "count": 1
+  }
+}

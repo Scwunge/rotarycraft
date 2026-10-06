@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "c:dusts/redstone"
+    },
+    {
+      "tag": "c:dusts/gold"
+    }
+  ],
+  "result": {
+    "id": "rotarycraft:red_gold_dust",
+    "count": 2
+  }
+}

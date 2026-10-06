@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S",
+    "M"
+  ],
+  "key": {
+    "M": {
+      "item": "rotarycraft:mount"
+    },
+    "S": {
+      "item": "rotarycraft:bedrock_rod"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:shaft_bedrock",
+    "count": 8
+  }
+}

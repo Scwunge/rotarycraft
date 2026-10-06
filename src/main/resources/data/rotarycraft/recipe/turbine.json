@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sss",
+    "sGs",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "item": "rotarycraft:propeller"
+    },
+    "G": {
+      "item": "rotarycraft:compressor"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:turbine",
+    "count": 1
+  }
+}

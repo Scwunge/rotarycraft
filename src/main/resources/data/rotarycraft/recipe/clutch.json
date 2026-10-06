@@ -2,19 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "ISI",
-    "RSR",
-    "ISI"
+    "S",
+    "M",
+    "R"
   ],
   "key": {
-    "I": {
-      "tag": "c:ingots/steel"
+    "M": {
+      "item": "rotarycraft:mount"
     },
     "S": {
-      "item": "rotarycraft:shaft_steel"
+      "item": "rotarycraft:steel_rod"
     },
     "R": {
-      "item": "minecraft:redstone"
+      "tag": "c:dusts/redstone"
     }
   },
   "result": {

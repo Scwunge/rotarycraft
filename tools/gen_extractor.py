@@ -32,22 +32,25 @@ TUNGSTEN = 0x5A6470
 SILVER = 0xC7D7E0
 GOLD = 0xFCEE4B
 NICKEL = 0xDADCA8
+PLATINUM = 0x9FE0F5
+CERTUS = 0xC8E6F0
+ALUMINUM_POWDER = {'id': 'rotarycraft:aluminum_powder', 'count': 1}
 ORES = {
     'coal':     ('c:ores/coal', 0x3A3A3A, 'common', 'item:minecraft:coal', 1, 'Coal', {'id': 'minecraft:gunpowder', 'count': 1}, 0.0625),
     'iron':     ('c:ores/iron', 0xD8AF93, 'common', 'c:ingots/iron', 1, 'Iron', flakes('tungsten', TUNGSTEN), 0.025),
     'gold':     ('c:ores/gold', GOLD, 'common', 'c:ingots/gold', 1, 'Gold', flakes('silver', SILVER), 0.125),
     'copper':   ('c:ores/copper', 0xE77C56, 'common', 'c:ingots/copper', 1, 'Copper', flakes('gold', GOLD), 0.25),
-    'redstone': ('c:ores/redstone', 0xAA0F01, 'common', 'item:minecraft:redstone', 4, 'Redstone', None, 0),
-    'lapis':    ('c:ores/lapis', 0x1F4FB0, 'common', 'item:minecraft:lapis_lazuli', 4, 'Lapis', None, 0),
+    'redstone': ('c:ores/redstone', 0xAA0F01, 'common', 'item:minecraft:redstone', 4, 'Redstone', ALUMINUM_POWDER, 0.25),
+    'lapis':    ('c:ores/lapis', 0x1F4FB0, 'common', 'item:minecraft:lapis_lazuli', 4, 'Lapis', ALUMINUM_POWDER, 0.125),
     'diamond':  ('c:ores/diamond', 0x5DECF5, 'common', 'item:minecraft:diamond', 1, 'Diamond', None, 0),
     'emerald':  ('c:ores/emerald', 0x17DD62, 'rare', 'item:minecraft:emerald', 1, 'Emerald', None, 0),
-    'quartz':   ('c:ores/quartz', 0xE7E0D5, 'nether', 'item:minecraft:quartz', 1, 'Nether Quartz', None, 0),
+    'quartz':   ('c:ores/quartz', 0xE7E0D5, 'nether', 'item:minecraft:quartz', 1, 'Nether Quartz', flakes('certus_quartz', CERTUS), 0.0625),
     'netherite_scrap': ('c:ores/netherite_scrap', 0x5C4038, 'nether', 'item:minecraft:netherite_scrap', 1, 'Netherite Scrap', None, 0),
     # other mods' ores: only active when the pack has them
     'tin':      ('c:ores/tin', 0xD7E2E8, 'common', 'c:ingots/tin', 1, 'Tin', None, 0),
     'lead':     ('c:ores/lead', 0x5D6280, 'common', 'c:ingots/lead', 1, 'Lead', flakes('nickel', NICKEL), 0.25),
     'silver':   ('c:ores/silver', SILVER, 'common', 'c:ingots/silver', 1, 'Silver', None, 0),
-    'nickel':   ('c:ores/nickel', NICKEL, 'common', 'c:ingots/nickel', 1, 'Nickel', None, 0),
+    'nickel':   ('c:ores/nickel', NICKEL, 'common', 'c:ingots/nickel', 1, 'Nickel', flakes('platinum', PLATINUM), 0.5),
     'aluminum': ('c:ores/aluminum', 0xE1E6E8, 'common', 'c:ingots/aluminum', 1, 'Aluminum', None, 0),
     'uranium':  ('c:ores/uranium', 0x5E8A3C, 'common', 'c:ingots/uranium', 1, 'Uranium', None, 0),
     'osmium':   ('c:ores/osmium', 0x9CB6D0, 'common', 'c:ingots/osmium', 1, 'Osmium', flakes('iron', 0xD8AF93), 0.125),
@@ -55,6 +58,7 @@ ORES = {
     'platinum': ('c:ores/platinum', 0x9FE0F5, 'common', 'c:ingots/platinum', 1, 'Platinum', None, 0),
     'tungsten': ('c:ores/tungsten', TUNGSTEN, 'common', 'c:ingots/tungsten', 1, 'Tungsten', flakes('iron', 0xD8AF93), 0.75),
     'thorium':  ('c:ores/thorium', 0x3D3D3D, 'common', 'c:ingots/thorium', 1, 'Thorium', None, 0),
+    'certus_quartz': ('c:ores/certus_quartz', CERTUS, 'common', 'c:gems/certus_quartz', 1, 'Certus Quartz', flakes('quartz', 0xE7E0D5), 0.5),
 }
 
 for t, (tag, color, rarity, result, count, name, bonus, chance) in ORES.items():

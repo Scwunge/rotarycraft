@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " tS",
+    "tst",
+    "St "
+  ],
+  "key": {
+    "S": {
+      "item": "rotarycraft:turbine"
+    },
+    "s": {
+      "item": "rotarycraft:tungsten_shaft_core"
+    },
+    "t": {
+      "item": "rotarycraft:tungsten_ingot"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:compound_turbine",
+    "count": 1
+  }
+}

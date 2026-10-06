@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "rotarycraft:aluminum_powder"
+  },
+  "result": {
+    "id": "rotarycraft:aluminum_ingot",
+    "count": 1
+  },
+  "experience": 0.4,
+  "cookingtime": 200
+}

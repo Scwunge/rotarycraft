@@ -2,16 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "MMM",
-    "MSM",
-    "MMM"
+    "W",
+    "M"
   ],
   "key": {
-    "M": {
-      "item": "minecraft:stone"
+    "W": {
+      "item": "rotarycraft:stone_flywheel_core"
     },
-    "S": {
-      "item": "rotarycraft:shaft_steel"
+    "M": {
+      "item": "rotarycraft:mount"
     }
   },
   "result": {

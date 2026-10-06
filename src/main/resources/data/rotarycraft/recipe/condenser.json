@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SPS",
+    "PSP",
+    "SPS"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "P": {
+      "tag": "c:ingots/copper"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:condenser",
+    "count": 2
+  }
+}

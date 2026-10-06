@@ -108,10 +108,6 @@ for a in range(4):
     g.point((x, y), fill=(230, 230, 235, 255))
 im.save(T + '/block/centrifuge_front.png')
 
-w(D + '/recipe/centrifuge.json', {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['IGI', 'I I', 'SXS'],
-    'key': {'I': {'tag': 'c:ingots/steel'}, 'G': {'tag': 'c:glass_panes'}, 'S': {'item': 'rotarycraft:shaft_steel'},
-            'X': {'item': 'rotarycraft:gearbox_4x'}},
-    'result': {'id': 'rotarycraft:centrifuge', 'count': 1}})
 
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

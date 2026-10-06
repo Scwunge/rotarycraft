@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "  G",
+    " C ",
+    "G  "
+  ],
+  "key": {
+    "G": {
+      "item": "rotarycraft:gold_coil"
+    },
+    "C": {
+      "item": "rotarycraft:shaft_core"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:generator_unit",
+    "count": 1
+  }
+}

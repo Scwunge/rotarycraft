@@ -14,6 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Blocks;
@@ -24,10 +25,13 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import net.scwunge.rotarycraft.menu.BlastFurnaceMenu;
 import net.scwunge.rotarycraft.power.Ambient;
 import net.scwunge.rotarycraft.power.Heatable;
+import net.scwunge.rotarycraft.recipe.BlastCraftingRecipe;
 import net.scwunge.rotarycraft.recipe.BlastFurnaceRecipe;
 import net.scwunge.rotarycraft.registry.RotaryBlockEntities;
 import net.scwunge.rotarycraft.registry.RotaryRecipes;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -271,6 +275,40 @@ public class BlastFurnaceBlockEntity extends PowerBlockEntity implements MenuPro
         return Optional.empty();
     }
 
+    /** A shaped recipe laid out in the grid that the furnace is hot enough for, with room for its result. */
+    private Optional<BlastCraftingRecipe> findCrafting() {
+        List<ItemStack> grid = new ArrayList<>(9);
+        for (int slot = 1; slot <= 9; slot++) {
+            grid.add(items.getStackInSlot(slot));
+        }
+        CraftingInput input = CraftingInput.of(3, 3, grid);
+        if (input.isEmpty()) {
+            return Optional.empty();
+        }
+        int t = getTemperature();
+        return level.getRecipeManager().getRecipeFor(RotaryRecipes.BLAST_CRAFTING.get(), input, level)
+                .map(RecipeHolder::value)
+                .filter(r -> t >= r.temperature() && outputSlotFor(r.result()) >= 0);
+    }
+
+    private void craft(BlastCraftingRecipe c) {
+        ItemStack out = c.result().copy();
+        int slot = outputSlotFor(out);
+        if (slot < 0) {
+            return;
+        }
+        ItemStack cur = items.getStackInSlot(slot);
+        items.setStackInSlot(slot, cur.isEmpty() ? out : cur.copyWithCount(cur.getCount() + out.getCount()));
+        for (int s = 1; s <= 9; s++) {
+            if (!items.getStackInSlot(s).isEmpty()) {
+                items.extractItem(s, 1, false);
+            }
+        }
+        if (c.xp() > 0 && level instanceof ServerLevel server) {
+            ExperienceOrb.award(server, Vec3.atCenterOf(worldPosition).add(0, 0.7, 0), Math.round(c.xp() * out.getCount()));
+        }
+    }
+
     private int outputSlotFor(ItemStack out) {
         for (int slot : OUTPUT_SLOTS) {
             ItemStack cur = items.getStackInSlot(slot);
@@ -288,6 +326,20 @@ public class BlastFurnaceBlockEntity extends PowerBlockEntity implements MenuPro
         }
         if (++tickCount % 20 == 0) {
             updateTemperature();
+        }
+        Optional<BlastCraftingRecipe> crafting = findCrafting();
+        if (crafting.isPresent()) {
+            BlastCraftingRecipe c = crafting.get();
+            operationTime = operationTime(getTemperature());
+            if (c.speed() <= 1 || level.getGameTime() % c.speed() == 0) {
+                smeltTime++;
+            }
+            if (smeltTime >= operationTime) {
+                smeltTime = 0;
+                craft(c);
+            }
+            setChanged();
+            return;
         }
         Optional<Match> match = findRecipe();
         if (match.isEmpty()) {

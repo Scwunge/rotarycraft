@@ -1,0 +1,18 @@
+{
+  "type": "rotarycraft:blast_furnace",
+  "main": {
+    "tag": "c:ingots/aluminum"
+  },
+  "result": {
+    "id": "rotarycraft:silumin_ingot",
+    "count": 1
+  },
+  "temperature": 900,
+  "center": {
+    "ingredient": {
+      "item": "rotarycraft:silicon_dust"
+    },
+    "chance": 0.2,
+    "count": 1
+  }
+}

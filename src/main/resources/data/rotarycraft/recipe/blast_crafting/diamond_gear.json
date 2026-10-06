@@ -1,0 +1,22 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    " W ",
+    "WGW",
+    " W "
+  ],
+  "key": {
+    "W": {
+      "tag": "c:gems/diamond"
+    },
+    "G": {
+      "item": "rotarycraft:tungsten_gear"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:diamond_gear",
+    "count": 6
+  },
+  "temperature": 1400,
+  "speed": 1
+}

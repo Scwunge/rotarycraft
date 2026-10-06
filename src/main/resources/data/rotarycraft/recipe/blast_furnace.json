@@ -3,18 +3,15 @@
   "category": "misc",
   "pattern": [
     "BBB",
-    "BFB",
-    "BIB"
+    "BrB",
+    "BBB"
   ],
   "key": {
     "B": {
-      "item": "minecraft:bricks"
+      "item": "minecraft:stone_bricks"
     },
-    "F": {
-      "item": "minecraft:furnace"
-    },
-    "I": {
-      "tag": "c:storage_blocks/iron"
+    "r": {
+      "tag": "c:dusts/redstone"
     }
   },
   "result": {

@@ -2,16 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "ISI",
-    "S S",
-    "ISI"
+    "G",
+    "M"
   ],
   "key": {
-    "I": {
-      "tag": "c:ingots/steel"
+    "M": {
+      "item": "rotarycraft:mount"
     },
-    "S": {
-      "item": "rotarycraft:shaft_steel"
+    "G": {
+      "item": "rotarycraft:steel_gear_unit_2"
     }
   },
   "result": {

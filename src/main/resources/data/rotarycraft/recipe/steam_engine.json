@@ -2,22 +2,28 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "III",
-    "BSB",
-    "IFI"
+    "ccc",
+    "CIs",
+    "PGP"
   ],
   "key": {
+    "c": {
+      "item": "minecraft:cobblestone"
+    },
     "I": {
-      "tag": "c:ingots/steel"
+      "item": "rotarycraft:impeller"
     },
-    "B": {
-      "item": "minecraft:bucket"
+    "P": {
+      "item": "rotarycraft:base_panel"
     },
-    "S": {
-      "item": "rotarycraft:shaft_steel"
+    "s": {
+      "item": "rotarycraft:steel_rod"
     },
-    "F": {
-      "item": "minecraft:furnace"
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "C": {
+      "item": "rotarycraft:condenser"
     }
   },
   "result": {

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " gB",
+    "BG "
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:bedrock_rod"
+    },
+    "G": {
+      "item": "rotarycraft:bedrock_gear_unit_8"
+    },
+    "g": {
+      "item": "rotarycraft:bedrock_gear_unit_2"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_gear_unit_16",
+    "count": 1
+  }
+}

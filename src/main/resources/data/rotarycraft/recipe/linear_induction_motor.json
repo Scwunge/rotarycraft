@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "WRW",
+    "NNN"
+  ],
+  "key": {
+    "W": {
+      "item": "rotarycraft:gold_coil"
+    },
+    "N": {
+      "tag": "c:ingots/steel"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:linear_induction_motor",
+    "count": 1
+  }
+}

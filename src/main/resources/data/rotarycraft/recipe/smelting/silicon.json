@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "item": "rotarycraft:silicon_dust"
+  },
+  "result": {
+    "id": "rotarycraft:silicon",
+    "count": 1
+  },
+  "experience": 0.4,
+  "cookingtime": 200
+}

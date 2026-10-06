@@ -1,0 +1,22 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    " D ",
+    "DSD",
+    " D "
+  ],
+  "key": {
+    "D": {
+      "item": "rotarycraft:bedrock_dust"
+    },
+    "S": {
+      "item": "rotarycraft:steel_rod"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_rod",
+    "count": 4
+  },
+  "temperature": 1450,
+  "speed": 2
+}

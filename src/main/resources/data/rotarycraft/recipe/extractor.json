@@ -2,25 +2,34 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "IGI",
-    "SBS",
-    "IPI"
+    "SWS",
+    "siD",
+    "PIN"
   ],
   "key": {
-    "I": {
-      "tag": "c:ingots/steel"
-    },
-    "G": {
-      "item": "rotarycraft:grinder"
-    },
-    "S": {
-      "item": "rotarycraft:shaft_steel"
-    },
-    "B": {
-      "item": "minecraft:bucket"
+    "D": {
+      "item": "rotarycraft:drill"
     },
     "P": {
-      "item": "minecraft:piston"
+      "item": "rotarycraft:base_panel"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "I": {
+      "item": "rotarycraft:steel_rod"
+    },
+    "s": {
+      "item": "minecraft:stone"
+    },
+    "i": {
+      "item": "rotarycraft:impeller"
+    },
+    "N": {
+      "item": "minecraft:netherrack"
+    },
+    "W": {
+      "tag": "minecraft:planks"
     }
   },
   "result": {

@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "tag": "c:ingots/aluminum"
+  },
+  "result": {
+    "id": "rotarycraft:aluminum_powder",
+    "count": 1
+  }
+}

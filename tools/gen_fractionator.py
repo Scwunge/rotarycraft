@@ -48,10 +48,6 @@ g.rectangle([3, 2, 7, 13], fill=(251, 92, 144, 255), outline=(120, 40, 70, 255))
 g.rectangle([9, 2, 12, 13], fill=(92, 197, 178, 255), outline=(40, 110, 100, 255))
 im.save(T + '/block/fractionator_front.png')
 
-w(D + '/recipe/fractionator.json', {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['GFG', 'GMG', 'GPG'],
-    'key': {'G': {'tag': 'c:ingots/gold'}, 'F': {'item': 'minecraft:bucket'}, 'M': {'item': 'rotarycraft:gearbox_4x'},
-            'P': {'tag': 'c:ingots/steel'}},
-    'result': {'id': 'rotarycraft:fractionator', 'count': 1}})
 
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

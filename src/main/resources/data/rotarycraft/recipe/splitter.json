@@ -2,23 +2,26 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "ISI",
-    "SGS",
-    "I I"
+    "ISP",
+    "SGP",
+    "ISP"
   ],
   "key": {
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
     "I": {
       "tag": "c:ingots/steel"
     },
     "S": {
-      "item": "rotarycraft:shaft_steel"
+      "item": "rotarycraft:steel_rod"
     },
     "G": {
-      "item": "rotarycraft:gearbox_2x"
+      "item": "rotarycraft:steel_gear"
     }
   },
   "result": {
     "id": "rotarycraft:splitter",
-    "count": 1
+    "count": 2
   }
 }
