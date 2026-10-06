@@ -30,6 +30,7 @@ import net.scwunge.rotarycraft.weapon.GatlingShot;
 import net.scwunge.rotarycraft.weapon.turret.FlameTurretBlockEntity;
 import net.scwunge.rotarycraft.weapon.turret.LaserGunBlockEntity;
 import net.scwunge.rotarycraft.weapon.turret.GatlingBlockEntity;
+import net.scwunge.rotarycraft.weapon.turret.TntCannonBlockEntity;
 import net.scwunge.rotarycraft.weapon.FreezeEffect;
 import net.scwunge.rotarycraft.weapon.FreezeShot;
 import net.scwunge.rotarycraft.weapon.turret.AntiAirBlockEntity;
@@ -115,6 +116,17 @@ public final class WeaponRegistry {
                     .noSave().fireImmune().build("flame_shot"));
     public static final DeferredHolder<net.minecraft.sounds.SoundEvent, net.minecraft.sounds.SoundEvent> FLAME_TURRET_SOUND = sound("flameturret");
 
+    // ---- TNT Cannon ----
+    public static final DeferredBlock<net.scwunge.rotarycraft.weapon.CannonBlock> TNT_CANNON = RotaryBlocks.BLOCKS.register("tnt_cannon",
+            () -> new net.scwunge.rotarycraft.weapon.CannonBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.TNT_CANNON_BE, TntCannonBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TntCannonBlockEntity>> TNT_CANNON_BE = RotaryBlockEntities.TYPES.register("tnt_cannon",
+            () -> BlockEntityType.Builder.of(TntCannonBlockEntity::new, TNT_CANNON.get()).build(null));
+    public static final DeferredHolder<EntityType<?>, EntityType<net.scwunge.rotarycraft.weapon.CannonTnt>> CANNON_TNT = ENTITIES.register("cannon_tnt",
+            () -> EntityType.Builder.<net.scwunge.rotarycraft.weapon.CannonTnt>of(net.scwunge.rotarycraft.weapon.CannonTnt::new, MobCategory.MISC).fireImmune()
+                    .sized(0.98f, 0.98f).eyeHeight(0.15f).clientTrackingRange(10).updateInterval(10).build("cannon_tnt"));
+    public static final DeferredHolder<MenuType<?>, MenuType<net.scwunge.rotarycraft.weapon.CannonMenu>> CANNON_MENU = RotaryMenus.MENUS.register("tnt_cannon",
+            () -> IMenuTypeExtension.create(net.scwunge.rotarycraft.weapon.CannonMenu::fromNetwork));
+
     /** Turret parts (the original's barrel, lens, bulb, rail head, turret base and aiming unit). */
     public static final java.util.Map<String, DeferredItem<Item>> PARTS = new java.util.LinkedHashMap<>();
 
@@ -132,6 +144,7 @@ public final class WeaponRegistry {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(FREEZE_GUN));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(ANTI_AIR));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(GATLING));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(TNT_CANNON));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(LASER_GUN));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(FLAME_TURRET));
         for (int i = 0; i < 16; i++) {
@@ -160,6 +173,7 @@ public final class WeaponRegistry {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FREEZE_GUN_BE.get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ANTI_AIR_BE.get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, GATLING_BE.get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TNT_CANNON_BE.get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, FLAME_TURRET_BE.get(), (be, side) -> be.intake());
     }
 }

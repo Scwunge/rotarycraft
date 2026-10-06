@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sgc",
+    "pcp",
+    "pCr"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "g": {
+      "item": "minecraft:redstone_block"
+    },
+    "c": {
+      "item": "rotarycraft:circuit_board"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    },
+    "C": {
+      "item": "rotarycraft:compressor"
+    },
+    "r": {
+      "item": "minecraft:chest"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:tnt_cannon",
+    "count": 1
+  }
+}

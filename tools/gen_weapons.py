@@ -147,6 +147,15 @@ sounds = json.load(open(A + '/sounds.json'))
 sounds['flameturret'] = {'sounds': ['rotarycraft:flameturret'], 'subtitle': 'subtitles.rotarycraft.flameturret'}
 w(A + '/sounds.json', sounds)
 
+# ---- TNT Cannon ----
+model_texture('tntcannontex.png', 'tnt_cannon')
+os.makedirs(T + '/gui', exist_ok=True)
+shutil.copy(REF + '/Textures/GUI/cannongui.png', T + '/gui/cannon.png')
+rendered_machine('tnt_cannon', particle='rotarycraft:block/shaft_steel')
+# the original's pattern gives c twice (screen, then circuit board); the circuit board is what counts
+shaped('tnt_cannon', ['sgc', 'pcp', 'pCr'], {'s': STEEL, 'g': {'item': 'minecraft:redstone_block'}, 'c': item('circuit_board'), 'p': item('base_panel'),
+                                             'C': item('compressor'), 'r': {'item': 'minecraft:chest'}})
+
 # ---- Cannon Key ----
 sprite(1, 4, 'cannon_key')
 shaped('cannon_key', ['s', 's', 'P'], {'P': item('base_panel'), 's': STEEL})
@@ -166,6 +175,15 @@ lang.update({
     'block.rotarycraft.flame_turret': 'Flame Turret',
     'entity.rotarycraft.flame_shot': 'Flame',
     'subtitles.rotarycraft.flameturret': 'Flame Turret burns',
+    'block.rotarycraft.tnt_cannon': 'TNT Cannon',
+    'entity.rotarycraft.cannon_tnt': 'Primed TNT',
+    'gui.rotarycraft.cannon.mode_manual': 'Manual',
+    'gui.rotarycraft.cannon.mode_target': 'Target',
+    'gui.rotarycraft.cannon.launch_angle': 'Launch Angle',
+    'gui.rotarycraft.cannon.compass_angle': 'Compass Angle',
+    'gui.rotarycraft.cannon.velocity': 'Velocity',
+    'gui.rotarycraft.cannon.fuse': 'Fuse Time',
+    'gui.rotarycraft.cannon.limits': 'Up to %s m/s, %s degrees',
     'block.rotarycraft.gatling': 'Gatling Gun',
     'entity.rotarycraft.gatling_shot': 'Gatling Round',
     'subtitles.rotarycraft.gatling': 'Gatling Gun fires',
@@ -186,5 +204,5 @@ data = json.load(open(path))
 data['values'] += ['rotarycraft:' + m for m in MACHINES if 'rotarycraft:' + m not in data['values']]
 w(path, data)
 
-subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling', 'ModelLaserGun:laser_gun', 'ModelFlameTurret:flame_turret'], check=True)
+subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling', 'ModelLaserGun:laser_gun', 'ModelFlameTurret:flame_turret', 'ModelCannon:cannon'], check=True)
 print('weapons ok,', len(MACHINES), 'machines')

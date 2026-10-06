@@ -61,6 +61,8 @@ public final class WeaponClient {
         event.registerBlockEntityRenderer(WeaponRegistry.LASER_GUN_BE.get(), c -> new LaserRenderer(LASER_GUN));
         event.registerBlockEntityRenderer(WeaponRegistry.FLAME_TURRET_BE.get(), c -> new TurretRenderer<>(FLAME_TURRET));
         event.registerEntityRenderer(WeaponRegistry.FLAME_SHOT.get(), c -> new StarShotRenderer(c, "flame_shot", 0.5f, true));
+        event.registerBlockEntityRenderer(WeaponRegistry.TNT_CANNON_BE.get(), c -> new CannonRenderer());
+        event.registerEntityRenderer(WeaponRegistry.CANNON_TNT.get(), net.minecraft.client.renderer.entity.TntRenderer::new);
         event.registerEntityRenderer(WeaponRegistry.RAILGUN_SHOT.get(), c -> new StarShotRenderer(c, "railgun_shot"));
         event.registerEntityRenderer(WeaponRegistry.FREEZE_SHOT.get(), c -> new StarShotRenderer(c, "freeze_shot"));
         event.registerEntityRenderer(WeaponRegistry.FLAK_SHOT.get(), c -> new ItemShotRenderer(c, () -> new net.minecraft.world.item.ItemStack(RotaryItems.SCRAP.get())));
@@ -69,6 +71,7 @@ public final class WeaponClient {
     @SubscribeEvent
     public static void screens(RegisterMenuScreensEvent event) {
         event.register(WeaponRegistry.AMMO_MENU.get(), AmmoScreen::new);
+        event.register(WeaponRegistry.CANNON_MENU.get(), CannonScreen::new);
     }
 
     @SubscribeEvent
@@ -77,6 +80,18 @@ public final class WeaponClient {
         event.registerItem(turretItem(FREEZE_GUN), WeaponRegistry.FREEZE_GUN.get().asItem());
         event.registerItem(turretItem(ANTI_AIR), WeaponRegistry.ANTI_AIR.get().asItem());
         event.registerItem(turretItem(GATLING), WeaponRegistry.GATLING.get().asItem());
+        event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    Minecraft mc = Minecraft.getInstance();
+                    renderer = new CannonRenderer.Item(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels());
+                }
+                return renderer;
+            }
+        }, WeaponRegistry.TNT_CANNON.get().asItem());
         event.registerItem(turretItem(LASER_GUN), WeaponRegistry.LASER_GUN.get().asItem());
         event.registerItem(turretItem(FLAME_TURRET), WeaponRegistry.FLAME_TURRET.get().asItem());
     }

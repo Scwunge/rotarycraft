@@ -27,6 +27,7 @@ public final class WeaponNetwork {
         // The handler body only runs on the client, so the client hooks never load on a dedicated server.
         registrar.playToClient(SafePlayers.TYPE, SafePlayers.CODEC, (p, ctx) -> ctx.enqueueWork(() -> WeaponClientHooks.openSafePlayers(p.pos(), p.names())));
         registrar.playToServer(RemoveSafePlayer.TYPE, RemoveSafePlayer.CODEC, (p, ctx) -> ctx.enqueueWork(() -> RemoveSafePlayer.handle(p, ctx)));
+        registrar.playToServer(CannonSettings.TYPE, CannonSettings.CODEC, (p, ctx) -> ctx.enqueueWork(() -> CannonSettings.handle(p, ctx)));
     }
 
     public record SafePlayers(BlockPos pos, List<String> names) implements CustomPacketPayload {
@@ -37,6 +38,31 @@ public final class WeaponNetwork {
         @Override
         public Type<? extends CustomPacketPayload> type() {
             return TYPE;
+        }
+    }
+
+    /** The TNT Cannon's screen sending its settings: mode, compass bearing, elevation, speed, fuse and target block. */
+    public record CannonSettings(BlockPos pos, boolean targetMode, int phi, int theta, int velocity, int fuse, BlockPos target) implements CustomPacketPayload {
+        public static final Type<CannonSettings> TYPE = new Type<>(RotaryCraft.id("cannon_settings"));
+        public static final StreamCodec<ByteBuf, CannonSettings> CODEC = StreamCodec.of((buf, p) -> {
+            BlockPos.STREAM_CODEC.encode(buf, p.pos);
+            buf.writeBoolean(p.targetMode).writeInt(p.phi).writeInt(p.theta).writeInt(p.velocity).writeInt(p.fuse);
+            BlockPos.STREAM_CODEC.encode(buf, p.target);
+        }, buf -> new CannonSettings(BlockPos.STREAM_CODEC.decode(buf), buf.readBoolean(), buf.readInt(), buf.readInt(), buf.readInt(), buf.readInt(),
+                BlockPos.STREAM_CODEC.decode(buf)));
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
+        }
+
+        /** Only someone standing at the cannon can change it. */
+        static void handle(CannonSettings p, IPayloadContext ctx) {
+            Player player = ctx.player();
+            if (player.distanceToSqr(p.pos.getCenter()) <= 64 && player.level().isLoaded(p.pos)
+                    && player.level().getBlockEntity(p.pos) instanceof net.scwunge.rotarycraft.weapon.turret.TntCannonBlockEntity cannon) {
+                cannon.configure(p.targetMode, p.phi, p.theta, p.velocity, p.fuse, p.target);
+            }
         }
     }
 

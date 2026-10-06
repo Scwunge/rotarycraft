@@ -239,7 +239,7 @@ public class WeaponGameTests {
         });
     }
 
-    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    @GameTest(template = TEMPLATE, batch = "weapon_laserneedsfullpowerandrespectsmobgriefing", timeoutTicks = 60)
     public static void laserNeedsFullPowerAndRespectsMobGriefing(GameTestHelper helper) {
         // 4096 N*m at 1024 rad/s is 4.2 MW: not enough for the laser's 8.4 MW
         LaserGunBlockEntity weak = laser(helper, 1024);
@@ -296,5 +296,80 @@ public class WeaponGameTests {
         helper.getLevel().addFreshEntity(new net.scwunge.rotarycraft.weapon.FlameShot(helper.getLevel(), from.x, from.y, from.z, new Vec3(0, -0.2, 0),
                 null, null, attack));
         helper.succeedWhen(() -> helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.FIRE, new BlockPos(2, 2, 2)));
+    }
+
+    static net.scwunge.rotarycraft.weapon.turret.TntCannonBlockEntity cannon(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 4096, 1024);
+        helper.setBlock(TURRET, WeaponRegistry.TNT_CANNON.get().defaultBlockState());
+        return helper.getBlockEntity(TURRET);
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 100)
+    public static void tntCannonLaunchesTnt(GameTestHelper helper) {
+        var gun = cannon(helper);
+        helper.assertTrue(gun.items().insertItem(0, new ItemStack(Items.TNT, 3), false).isEmpty(), "refused TNT");
+        helper.assertTrue(gun.items().insertItem(1, new ItemStack(Items.DIRT), true).getCount() == 1, "accepted dirt");
+        gun.configure(false, 90, 45, 20, 100, BlockPos.ZERO);
+        helper.succeedWhen(() -> {
+            helper.assertTrue(gun.items().getStackInSlot(0).getCount() < 3, "no TNT used");
+            var tnt = helper.getLevel().getEntitiesOfClass(net.scwunge.rotarycraft.weapon.CannonTnt.class, new net.minecraft.world.phys.AABB(helper.absolutePos(BlockPos.ZERO)).inflate(30));
+            helper.assertFalse(tnt.isEmpty(), "no TNT in flight");
+            helper.assertTrue(tnt.get(0).getDeltaMovement().x > 0, "not flying east");
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void tntCannonOnlyFiresWithEnoughPower(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 64, 64);
+        helper.setBlock(TURRET, WeaponRegistry.TNT_CANNON.get().defaultBlockState());
+        var gun = (net.scwunge.rotarycraft.weapon.turret.TntCannonBlockEntity) helper.getBlockEntity(TURRET);
+        gun.items().setStackInSlot(0, new ItemStack(Items.TNT, 3));
+        gun.configure(false, 90, 45, 20, 100, BlockPos.ZERO);
+        helper.runAfterDelay(30, () -> {
+            helper.assertTrue(gun.items().getStackInSlot(0).getCount() == 3, "fired without power");
+            helper.succeed();
+        });
+    }
+
+    /** In target mode it solves a shot onto the named block and sets the fuse to go off there. */
+    @GameTest(template = WIDE, batch = "weapon_tntcannontargeting", timeoutTicks = 400)
+    public static void tntCannonHitsItsTarget(GameTestHelper helper) {
+        var gun = cannon(helper);
+        gun.items().setStackInSlot(0, new ItemStack(Items.TNT, 1));
+        BlockPos target = new BlockPos(16, 2, 2);
+        gun.configure(true, 0, 0, 0, 0, helper.absolutePos(target));
+        var rule = helper.getLevel().getGameRules().getRule(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        rule.set(false, helper.getLevel().getServer());
+        Vec3[] last = new Vec3[1];
+        helper.onEachTick(() -> helper.getLevel().getEntitiesOfClass(net.scwunge.rotarycraft.weapon.CannonTnt.class,
+                new net.minecraft.world.phys.AABB(helper.absolutePos(BlockPos.ZERO)).inflate(40)).forEach(t -> last[0] = t.position()));
+        helper.succeedWhen(() -> {
+            helper.assertTrue(gun.items().getStackInSlot(0).isEmpty(), "not fired yet");
+            helper.assertTrue(last[0] != null, "TNT never flew");
+            helper.assertTrue(helper.getLevel().getEntitiesOfClass(net.scwunge.rotarycraft.weapon.CannonTnt.class,
+                    new net.minecraft.world.phys.AABB(helper.absolutePos(BlockPos.ZERO)).inflate(40)).isEmpty(), "still flying");
+            double miss = last[0].distanceTo(Vec3.atCenterOf(helper.absolutePos(target)));
+            rule.set(true, helper.getLevel().getServer());
+            helper.assertTrue(miss < 3, "missed by " + miss + " blocks");
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "weapon_cannontntrespectsmobgriefing", timeoutTicks = 60)
+    public static void cannonTntRespectsMobGriefing(GameTestHelper helper) {
+        helper.setBlock(new BlockPos(2, 1, 2), net.minecraft.world.level.block.Blocks.DIRT);
+        helper.setBlock(new BlockPos(3, 1, 2), net.minecraft.world.level.block.Blocks.DIRT);
+        var rule = helper.getLevel().getGameRules().getRule(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        rule.set(false, helper.getLevel().getServer());
+        Vec3 at = Vec3.atCenterOf(helper.absolutePos(new BlockPos(2, 2, 2)));
+        helper.getLevel().addFreshEntity(new net.scwunge.rotarycraft.weapon.CannonTnt(helper.getLevel(), at.x, at.y, at.z, 2, null));
+        helper.runAfterDelay(15, () -> {
+            helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.DIRT, new BlockPos(2, 1, 2));
+            rule.set(true, helper.getLevel().getServer());
+            helper.getLevel().addFreshEntity(new net.scwunge.rotarycraft.weapon.CannonTnt(helper.getLevel(), at.x, at.y, at.z, 2, null));
+            helper.runAfterDelay(15, () -> {
+                helper.assertBlockNotPresent(net.minecraft.world.level.block.Blocks.DIRT, new BlockPos(2, 1, 2));
+                helper.succeed();
+            });
+        });
     }
 }
