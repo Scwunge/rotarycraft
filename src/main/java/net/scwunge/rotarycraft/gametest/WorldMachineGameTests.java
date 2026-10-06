@@ -1,6 +1,7 @@
 package net.scwunge.rotarycraft.gametest;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.server.level.ServerLevel;
@@ -8,10 +9,13 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import net.scwunge.rotarycraft.RotaryCraft;
+import net.scwunge.rotarycraft.block.MachineBlock;
+import net.scwunge.rotarycraft.blockentity.BorerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ChunkLoaderBlockEntity;
 import net.scwunge.rotarycraft.blockentity.WeatherControllerBlockEntity;
 import net.scwunge.rotarycraft.registry.RotaryItems;
@@ -241,10 +245,16 @@ public class WorldMachineGameTests {
     @GameTest(template = TEMPLATE, batch = "world_weathernosky", timeoutTicks = 80)
     public static void weatherControllerNeedsOpenSky(GameTestHelper helper) {
         Runnable restore = enable("weatherController");
-        WeatherControllerBlockEntity controller = weatherController(helper);
         helper.setBlock(MACHINE.above(), Blocks.STONE);
-        controller.items().setStackInSlot(0, new ItemStack(WorldMachineRegistry.SILVER_IODIDE.get(), 2));
-        helper.runAfterDelay(30, () -> {
+        helper.runAfterDelay(3, () -> {
+            WeatherControllerBlockEntity controller = weatherController(helper);
+            controller.items().setStackInSlot(0, new ItemStack(WorldMachineRegistry.SILVER_IODIDE.get(), 2));
+            helper.runAfterDelay(30, () -> checkUnderRoof(helper, controller, restore));
+        });
+    }
+
+    private static void checkUnderRoof(GameTestHelper helper, WeatherControllerBlockEntity controller, Runnable restore) {
+        {
             try {
                 helper.assertFalse(helper.getLevel().getLevelData().isRaining(), "made rain from under a roof (sees sky "
                         + helper.getLevel().canSeeSky(helper.absolutePos(MACHINE.above())) + ", items " + controller.items().getStackInSlot(0).getCount()
@@ -255,7 +265,7 @@ public class WorldMachineGameTests {
                 helper.setBlock(MACHINE.above(), Blocks.AIR);
                 finishWeather(helper, restore);
             }
-        });
+        }
     }
 
     @GameTest(template = TEMPLATE, batch = "world_weatherbanrain", timeoutTicks = 80)
@@ -288,6 +298,209 @@ public class WorldMachineGameTests {
         helper.assertFalse(controller.items().isItemValid(0, new ItemStack(Items.COBBLESTONE)), "cobblestone accepted");
         helper.assertTrue(controller.automationItems().extractItem(0, 1, true).isEmpty(), "automation could take items out");
         helper.setBlock(MACHINE, Blocks.AIR);
+        helper.succeed();
+    }
+
+    // ---- Borer ----
+    static final BlockPos BORER = new BlockPos(2, 1, 3);
+    static final String LONG = "empty20x8x7";
+    /** A speed that makes a slice take a single tick (the original's cutting time falls with the logarithm of the speed). */
+    static final int FAST = 1 << 20;
+
+    /** A borer facing east with a flywheel behind it, in a space where every slice at x = 3 and beyond is solid stone. */
+    static BorerBlockEntity borer(GameTestHelper helper, int torque, int omega) {
+        WeaponGameTests.spinningFlywheel(helper, BORER.west(), torque, omega, Direction.EAST);
+        helper.setBlock(BORER, WorldMachineRegistry.BORER.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        for (int x = 3; x <= 8; x++) {
+            for (int y = 1; y <= 5; y++) {
+                for (int z = 0; z <= 6; z++) {
+                    helper.setBlock(new BlockPos(x, y, z), Blocks.STONE);
+                }
+            }
+        }
+        return helper.getBlockEntity(BORER);
+    }
+
+    static boolean isPipe(GameTestHelper helper, BlockPos pos) {
+        return helper.getBlockState(pos).is(WorldMachineRegistry.MINING_PIPE.get());
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100)
+    public static void borerCutsTheFirstSliceWholeAndLeavesPipes(GameTestHelper helper) {
+        BorerBlockEntity borer = borer(helper, 1024, FAST);
+        borer.setCutMask(1L << (3 * BorerBlockEntity.ROWS + 4));
+        helper.setBlock(BORER.south(), Blocks.CHEST);
+        helper.succeedWhen(() -> {
+            for (int y = 1; y <= 5; y++) {
+                for (int z = 0; z <= 6; z++) {
+                    helper.assertTrue(isPipe(helper, new BlockPos(3, y, z)), "no pipe at the first slice " + y + ", " + z);
+                }
+            }
+            helper.assertFalse(isPipe(helper, new BlockPos(4, 2, 2)), "cut a cell that was not picked");
+            helper.assertTrue(helper.getBlockState(new BlockPos(3, 3, 3)).getValue(net.scwunge.rotarycraft.block.MiningPipeBlock.KIND)
+                    == net.scwunge.rotarycraft.block.MiningPipeBlock.Kind.COLLAR, "the first slice should be a collar");
+            net.minecraft.world.Container chest = helper.getBlockEntity(BORER.south());
+            helper.assertTrue(chest.hasAnyMatching(s -> s.is(Items.COBBLESTONE)), "the cobblestone did not go into the neighbouring chest");
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 200)
+    public static void borerCutsOnlyThePickedCellsAfterTheFirstSlice(GameTestHelper helper) {
+        BorerBlockEntity borer = borer(helper, 1024, FAST);
+        borer.setCutMask(1L << (3 * BorerBlockEntity.ROWS + 4));
+        helper.succeedWhen(() -> {
+            BlockPos centre = new BlockPos(5, 1, 3);
+            helper.assertTrue(isPipe(helper, centre), "the picked cell was not cut");
+            helper.assertTrue(helper.getBlockState(centre).getValue(net.scwunge.rotarycraft.block.MiningPipeBlock.KIND)
+                    == net.scwunge.rotarycraft.block.MiningPipeBlock.Kind.X, "a pipe along the tunnel should run east-west");
+            helper.assertTrue(helper.getBlockState(new BlockPos(5, 1, 4)).is(Blocks.STONE), "cut a cell that was not picked");
+            helper.assertTrue(helper.getBlockState(new BlockPos(5, 2, 3)).is(Blocks.STONE), "cut a cell above that was not picked");
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 60)
+    public static void borerNeedsEnoughTorque(GameTestHelper helper) {
+        BorerBlockEntity borer = borer(helper, 1, FAST);
+        borer.setCutMask(1L);
+        helper.runAfterDelay(30, () -> {
+            helper.assertTrue(borer.isJammed(), "a borer without the torque should jam");
+            helper.assertFalse(isPipe(helper, new BlockPos(3, 3, 3)), "cut without the torque");
+            helper.assertTrue(borer.requiredTorque() > 1, "required torque " + borer.requiredTorque());
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 60)
+    public static void borerCannotCutBedrock(GameTestHelper helper) {
+        BorerBlockEntity borer = borer(helper, 1 << 20, FAST);
+        borer.setCutMask(1L);
+        helper.setBlock(new BlockPos(3, 3, 3), Blocks.BEDROCK);
+        helper.runAfterDelay(30, () -> {
+            helper.assertTrue(borer.isJammed(), "bedrock should jam the borer");
+            helper.assertTrue(helper.getBlockState(new BlockPos(3, 3, 3)).is(Blocks.BEDROCK), "bedrock was cut");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, batch = "world_boreriength", timeoutTicks = 100)
+    public static void borerStopsAtItsMaximumLength(GameTestHelper helper) {
+        var max = RotaryConfig.BORER_MAX_LENGTH;
+        int before = max.get();
+        max.set(4);
+        BorerBlockEntity borer = borer(helper, 1024, FAST);
+        borer.setCutMask(1L << (3 * BorerBlockEntity.ROWS + 4));
+        helper.runAfterDelay(40, () -> {
+            try {
+                helper.assertTrue(borer.isJammed(), "a borer at its maximum length should jam");
+                helper.assertTrue(borer.step() == 5, "should stop after slice 4, at " + borer.step());
+                helper.assertTrue(helper.getBlockState(new BlockPos(7, 1, 3)).is(Blocks.STONE), "bored past its maximum length");
+                helper.succeed();
+            } finally {
+                max.set(before);
+            }
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100)
+    public static void borerDropsCanBeTurnedOff(GameTestHelper helper) {
+        BorerBlockEntity borer = borer(helper, 1024, FAST);
+        borer.setCutMask(1L);
+        borer.toggleDrops();
+        helper.setBlock(BORER.south(), Blocks.CHEST);
+        helper.runAfterDelay(30, () -> {
+            helper.assertTrue(isPipe(helper, new BlockPos(3, 3, 3)), "did not cut");
+            net.minecraft.world.Container chest = helper.getBlockEntity(BORER.south());
+            helper.assertTrue(chest.isEmpty(), "dropped items with drops off");
+            helper.assertTrue(helper.getEntities(net.minecraft.world.entity.EntityType.ITEM).isEmpty(), "threw items out with drops off");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100)
+    public static void borerWithSilkTouchKeepsTheBlock(GameTestHelper helper) {
+        BorerBlockEntity borer = borer(helper, 1024, FAST);
+        borer.setCutMask(1L);
+        borer.enchantments().set(net.minecraft.world.item.enchantment.Enchantments.SILK_TOUCH, 1);
+        helper.setBlock(BORER.south(), Blocks.CHEST);
+        helper.runAfterDelay(30, () -> {
+            net.minecraft.world.Container chest = helper.getBlockEntity(BORER.south());
+            helper.assertTrue(chest.hasAnyMatching(s -> s.is(Items.STONE)), "silk touch should keep the stone");
+            helper.assertFalse(chest.hasAnyMatching(s -> s.is(Items.COBBLESTONE)), "silk touch gave cobblestone");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, batch = "world_borermobgriefing", timeoutTicks = 100)
+    public static void borerRespectsMobGriefing(GameTestHelper helper) {
+        net.minecraft.world.level.GameRules.BooleanValue rule = helper.getLevel().getGameRules().getRule(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        rule.set(false, helper.getLevel().getServer());
+        BorerBlockEntity borer = borer(helper, 1024, FAST);
+        borer.setCutMask(1L);
+        helper.runAfterDelay(30, () -> {
+            try {
+                helper.assertTrue(borer.isJammed(), "a borer where blocks may not be changed should jam");
+                helper.assertTrue(helper.getBlockState(new BlockPos(3, 3, 3)).is(Blocks.STONE), "cut with mobGriefing off");
+                helper.succeed();
+            } finally {
+                rule.set(true, helper.getLevel().getServer());
+            }
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 200)
+    public static void borerPicksUpWhereItLeftOffAfterPowerCutsOut(GameTestHelper helper) {
+        BorerBlockEntity borer = borer(helper, 1024, FAST);
+        borer.setCutMask(1L << (3 * BorerBlockEntity.ROWS + 4));
+        helper.runAfterDelay(20, () -> {
+            helper.assertTrue(borer.step() > 2, "should have cut a few slices, at " + borer.step());
+            WeaponGameTests.spinningFlywheel(helper, BORER.west(), 0, 0, Direction.EAST);
+        });
+        helper.runAfterDelay(30, () -> {
+            helper.assertTrue(borer.step() == 1, "step should reset without power, at " + borer.step());
+            WeaponGameTests.spinningFlywheel(helper, BORER.west(), 1024, FAST, Direction.EAST);
+        });
+        helper.runAfterDelay(45, () -> {
+            helper.assertTrue(borer.step() > 2, "should have found its place again from its pipes, at " + borer.step());
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100)
+    public static void breakingAPipeClearsItsLine(GameTestHelper helper) {
+        BlockState pipe = WorldMachineRegistry.MINING_PIPE.get().defaultBlockState().setValue(net.scwunge.rotarycraft.block.MiningPipeBlock.KIND,
+                net.scwunge.rotarycraft.block.MiningPipeBlock.Kind.X);
+        for (int x = 2; x <= 10; x++) {
+            helper.setBlock(new BlockPos(x, 2, 2), pipe);
+        }
+        helper.setBlock(new BlockPos(11, 2, 3), pipe);
+        net.minecraft.world.entity.player.Player player = helper.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        BlockPos middle = helper.absolutePos(new BlockPos(6, 2, 2));
+        pipe.getBlock().playerWillDestroy(helper.getLevel(), middle, helper.getLevel().getBlockState(middle), player);
+        for (int x = 2; x <= 10; x++) {
+            helper.assertFalse(isPipe(helper, new BlockPos(x, 2, 2)) && x != 6, "pipe left at x " + x);
+        }
+        helper.assertTrue(isPipe(helper, new BlockPos(11, 2, 3)), "cleared a pipe that was not in the line");
+        helper.succeed();
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 40)
+    public static void borerTakesEnchantedBooksAndKnowsItsTorqueMath(GameTestHelper helper) {
+        helper.assertTrue(BorerBlockEntity.torqueForHardness(1.5f, 0) == 16, "stone torque " + BorerBlockEntity.torqueForHardness(1.5f, 0));
+        helper.assertTrue(BorerBlockEntity.torqueForHardness(0f, 0) == 1, "air-soft torque " + BorerBlockEntity.torqueForHardness(0f, 0));
+        helper.assertTrue(BorerBlockEntity.torqueForHardness(50f, 0) == 512, "obsidian torque " + BorerBlockEntity.torqueForHardness(50f, 0));
+        helper.assertTrue(BorerBlockEntity.torqueForHardness(50f, 3) <= 512, "sharpness should not raise the torque");
+        BorerBlockEntity borer = borer(helper, 1, 1);
+        net.minecraft.world.item.ItemStack book = new net.minecraft.world.item.ItemStack(Items.ENCHANTED_BOOK);
+        var lookup = helper.getLevel().registryAccess().lookupOrThrow(net.minecraft.core.registries.Registries.ENCHANTMENT);
+        net.minecraft.world.item.enchantment.ItemEnchantments.Mutable stored = new net.minecraft.world.item.enchantment.ItemEnchantments.Mutable(
+                net.minecraft.world.item.enchantment.ItemEnchantments.EMPTY);
+        stored.set(lookup.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.FORTUNE), 3);
+        stored.set(lookup.getOrThrow(net.minecraft.world.item.enchantment.Enchantments.MENDING), 1);
+        book.set(net.minecraft.core.component.DataComponents.STORED_ENCHANTMENTS, stored.toImmutable());
+        helper.assertTrue(borer.enchantments().apply(book), "the book gave nothing");
+        helper.assertTrue(borer.enchantments().level(net.minecraft.world.item.enchantment.Enchantments.FORTUNE) == 3, "fortune not taken");
+        helper.assertFalse(borer.enchantments().has(net.minecraft.world.item.enchantment.Enchantments.MENDING), "took an enchantment it does not use");
+        helper.assertTrue(borer.operationTime() >= 1, "operation time");
         helper.succeed();
     }
 }

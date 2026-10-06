@@ -1,0 +1,76 @@
+{
+  "textures": {
+    "pipe": "rotarycraft:block/mining_pipe",
+    "particle": "rotarycraft:block/mining_pipe"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        5.28,
+        5.28
+      ],
+      "to": [
+        16,
+        10.72,
+        10.72
+      ],
+      "faces": {
+        "down": {
+          "texture": "#pipe",
+          "uv": [
+            0,
+            5,
+            16,
+            11
+          ]
+        },
+        "up": {
+          "texture": "#pipe",
+          "uv": [
+            0,
+            5,
+            16,
+            11
+          ]
+        },
+        "north": {
+          "texture": "#pipe",
+          "uv": [
+            0,
+            5,
+            16,
+            11
+          ]
+        },
+        "south": {
+          "texture": "#pipe",
+          "uv": [
+            0,
+            5,
+            16,
+            11
+          ]
+        },
+        "west": {
+          "texture": "#pipe",
+          "uv": [
+            0,
+            5,
+            16,
+            11
+          ]
+        },
+        "east": {
+          "texture": "#pipe",
+          "uv": [
+            0,
+            5,
+            16,
+            11
+          ]
+        }
+      }
+    }
+  ]
+}

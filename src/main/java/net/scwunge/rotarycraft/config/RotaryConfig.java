@@ -29,6 +29,11 @@ public class RotaryConfig {
     public static final java.util.Map<String, ModConfigSpec.BooleanValue> WORLD_MACHINES = new java.util.LinkedHashMap<>();
     public static final ModConfigSpec.IntValue CHUNK_LOADER_RADIUS;
     public static final ModConfigSpec.BooleanValue WEATHER_BANS_RAIN;
+    // ---- digging machines (borer, bedrock breaker, sonic borer): on by default; they act as their owner, so claims and mobGriefing stop them ----
+    public static final java.util.Map<String, ModConfigSpec.BooleanValue> DIGGERS = new java.util.LinkedHashMap<>();
+    public static final ModConfigSpec.DoubleValue BORER_POWER_FACTOR;
+    public static final ModConfigSpec.BooleanValue BORER_MAINTENANCE;
+    public static final ModConfigSpec.IntValue BORER_MAX_LENGTH;
 
     static {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
@@ -83,6 +88,17 @@ public class RotaryConfig {
                 .define("weatherControllerBansRain", false);
         b.pop();
 
+        b.push("digging_machines");
+        for (String m : new String[] {"borer", "bedrockBreaker", "sonicBorer"}) {
+            DIGGERS.put(m, b.comment("Enable the " + m + ". Off: it stays placed but does nothing. It acts as its owner, so claim and protection mods can stop it,",
+                    "and it needs the mobGriefing rule.").define(m, true));
+        }
+        BORER_POWER_FACTOR = b.comment("Scales the power the borer needs to cut a block (1 is the original).").defineInRange("borerPowerFactor", 1.0, 0.5, 8.0);
+        BORER_MAX_LENGTH = b.comment("Longest tunnel a borer will bore, in blocks (the original has no limit, so a borer left running in open country keeps",
+                "generating the land ahead of it for ever). It jams when it gets there.").defineInRange("borerMaxLength", 1024, 8, 30_000_000);
+        BORER_MAINTENANCE = b.comment("The borer wears out its drill (256 blocks) and needs a new Drill item to carry on.").define("borerRequiresMaintenance", false);
+        b.pop();
+
         SPEC = b.build();
     }
 
@@ -94,6 +110,11 @@ public class RotaryConfig {
     /** Whether the named world machine (a key of {@link #WORLD_MACHINES}) is enabled. */
     public static boolean worldMachineEnabled(String name) {
         return get(WORLD_MACHINES.get(name));
+    }
+
+    /** Whether the named digging machine (a key of {@link #DIGGERS}) is enabled. */
+    public static boolean diggerEnabled(String name) {
+        return get(DIGGERS.get(name));
     }
 
     public static <T> T get(ModConfigSpec.ConfigValue<T> value) {

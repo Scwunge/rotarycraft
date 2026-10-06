@@ -26,6 +26,7 @@ public final class WorldMachineClient {
     @SubscribeEvent
     public static void screens(RegisterMenuScreensEvent event) {
         event.register(WorldMachineRegistry.WEATHER_MENU.get(), WeatherScreen::new);
+        event.register(WorldMachineRegistry.BORER_MENU.get(), BorerScreen::new);
     }
 
     @SubscribeEvent

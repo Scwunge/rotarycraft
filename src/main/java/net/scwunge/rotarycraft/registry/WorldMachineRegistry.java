@@ -15,10 +15,14 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.scwunge.rotarycraft.RotaryCraft;
+import net.scwunge.rotarycraft.block.BorerBlock;
 import net.scwunge.rotarycraft.block.ChunkLoaderBlock;
+import net.scwunge.rotarycraft.block.MiningPipeBlock;
 import net.scwunge.rotarycraft.block.WeatherControllerBlock;
+import net.scwunge.rotarycraft.blockentity.BorerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ChunkLoaderBlockEntity;
 import net.scwunge.rotarycraft.blockentity.WeatherControllerBlockEntity;
+import net.scwunge.rotarycraft.menu.BorerMenu;
 import net.scwunge.rotarycraft.menu.WeatherMenu;
 
 /**
@@ -48,8 +52,18 @@ public final class WorldMachineRegistry {
     public static final DeferredHolder<MenuType<?>, MenuType<WeatherMenu>> WEATHER_MENU = RotaryMenus.MENUS.register("weather_controller",
             () -> IMenuTypeExtension.create(WeatherMenu::fromNetwork));
 
+    // ---- Borer ----
+    public static final DeferredBlock<MiningPipeBlock> MINING_PIPE = RotaryBlocks.BLOCKS.register("mining_pipe", () -> new MiningPipeBlock(MiningPipeBlock.props()));
+    public static final DeferredBlock<BorerBlock> BORER = RotaryBlocks.BLOCKS.register("borer",
+            () -> new BorerBlock(RotaryBlocks.machineProps(), WorldMachineRegistry.BORER_BE, BorerBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BorerBlockEntity>> BORER_BE =
+            RotaryBlockEntities.TYPES.register("borer", () -> BlockEntityType.Builder.of(BorerBlockEntity::new, BORER.get()).build(null));
+    public static final DeferredHolder<MenuType<?>, MenuType<BorerMenu>> BORER_MENU = RotaryMenus.MENUS.register("borer",
+            () -> IMenuTypeExtension.create(BorerMenu::fromNetwork));
+
     static {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(CHUNK_LOADER));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(BORER));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(WEATHER_CONTROLLER));
     }
 

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    "DGC",
+    "BBB"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "D": {
+      "item": "rotarycraft:drill"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    },
+    "C": {
+      "item": "rotarycraft:circuit_board"
+    },
+    "B": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:borer",
+    "count": 1
+  }
+}

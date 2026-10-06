@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "kind=x": {
+      "model": "rotarycraft:block/mining_pipe_x"
+    },
+    "kind=z": {
+      "model": "rotarycraft:block/mining_pipe_z"
+    },
+    "kind=collar": {
+      "model": "rotarycraft:block/mining_pipe_collar"
+    }
+  }
+}
