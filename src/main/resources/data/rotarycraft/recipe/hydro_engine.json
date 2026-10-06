@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PPP",
+    "PGP",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "rotarycraft:water_plate"
+    },
+    "G": {
+      "item": "rotarycraft:diamond_shaft_core"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:hydro_engine",
+    "count": 1
+  }
+}

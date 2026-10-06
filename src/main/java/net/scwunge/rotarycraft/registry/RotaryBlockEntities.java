@@ -72,6 +72,8 @@ public class RotaryBlockEntities {
             () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.MicroturbineBlockEntity::new, RotaryBlocks.MICROTURBINE.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.JetEngineBlockEntity>> JET_ENGINE = TYPES.register("jet_engine",
             () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.JetEngineBlockEntity::new, RotaryBlocks.JET_ENGINE.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.HydroEngineBlockEntity>> HYDRO_ENGINE = TYPES.register("hydro_engine",
+            () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.HydroEngineBlockEntity::new, RotaryBlocks.HYDRO_ENGINE.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.ACEngineBlockEntity>> AC_ENGINE = TYPES.register("ac_engine",
             () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.ACEngineBlockEntity::new, RotaryBlocks.AC_ENGINE.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.MagnetizerBlockEntity>> MAGNETIZER = TYPES.register("magnetizer",

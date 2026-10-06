@@ -130,6 +130,7 @@
   "gui.rotarycraft.performance_engine.limit": "Explodes above %s C; water cools it",
   "block.rotarycraft.microturbine": "Microturbine",
   "block.rotarycraft.jet_engine": "Jet Engine",
+  "block.rotarycraft.hydro_engine": "Hydrokinetic Engine",
   "item.rotarycraft.afterburner_upgrade": "Afterburner Upgrade",
   "gui.rotarycraft.afterburner_on": "AB on",
   "gui.rotarycraft.afterburner_off": "AB off",

@@ -117,6 +117,14 @@ im.save(A + '/textures/item/afterburner_upgrade.png')
 w('%s/models/item/afterburner_upgrade.json' % A, {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/afterburner_upgrade'}})
 w(D + '/damage_type/jet_ingest.json', {'message_id': 'rotarycraft.jet_ingest', 'scaling': 'never', 'exhaustion': 0.0})
 
+# Hydrokinetic Engine: a paddle wheel
+im, g = panel()
+g.ellipse([2, 2, 13, 13], fill=(60, 90, 150, 255), outline=(30, 45, 80, 255))
+for i in range(8):
+    a = i * math.pi / 4
+    g.line([(7.5, 7.5), (7.5 + 6 * math.cos(a), 7.5 + 6 * math.sin(a))], fill=(170, 180, 192, 255), width=2)
+im.save(T + '/block/hydro_engine_front.png')
+
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))
 lang.update({
@@ -137,6 +145,7 @@ lang.update({
     'gui.rotarycraft.performance_engine.limit': 'Explodes above %s C; water cools it',
     'block.rotarycraft.microturbine': 'Microturbine',
     'block.rotarycraft.jet_engine': 'Jet Engine',
+    'block.rotarycraft.hydro_engine': 'Hydrokinetic Engine',
     'item.rotarycraft.afterburner_upgrade': 'Afterburner Upgrade',
     'gui.rotarycraft.afterburner_on': 'AB on',
     'gui.rotarycraft.afterburner_off': 'AB off',

@@ -94,6 +94,8 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.MICROTURBINE, net.scwunge.rotarycraft.blockentity.MicroturbineBlockEntity::new));
     public static final DeferredBlock<net.scwunge.rotarycraft.block.JetEngineBlock> JET_ENGINE = BLOCKS.register("jet_engine",
             () -> new net.scwunge.rotarycraft.block.JetEngineBlock(machineProps()));
+    public static final DeferredBlock<net.scwunge.rotarycraft.block.HydroEngineBlock> HYDRO_ENGINE = BLOCKS.register("hydro_engine",
+            () -> new net.scwunge.rotarycraft.block.HydroEngineBlock(machineProps()));
     public static final DeferredBlock<MachineBlock> AC_ENGINE = BLOCKS.register("ac_engine",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.AC_ENGINE, net.scwunge.rotarycraft.blockentity.ACEngineBlockEntity::new));
     public static final DeferredBlock<MachineBlock> MAGNETIZER = BLOCKS.register("magnetizer",
