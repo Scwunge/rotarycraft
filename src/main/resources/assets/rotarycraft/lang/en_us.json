@@ -328,6 +328,7 @@
   "block.rotarycraft.cave_scanner": "Cave Scanner",
   "block.rotarycraft.mob_radar": "Mob Radar",
   "block.rotarycraft.gpr": "Ground-Penetrating Radar",
+  "block.rotarycraft.chunk_loader": "Chunk Loader",
   "item.rotarycraft.wood_gear": "Wooden Gear",
   "item.rotarycraft.wood_gear_unit_2": "Wooden Gear Unit (2:1)",
   "item.rotarycraft.wood_gear_unit_4": "Wooden Gear Unit (4:1)",

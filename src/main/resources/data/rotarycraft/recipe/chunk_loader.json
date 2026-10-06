@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sSs",
+    "BSB",
+    "PGP"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:nether_star"
+    },
+    "S": {
+      "item": "rotarycraft:bedrock_shaft_core"
+    },
+    "B": {
+      "tag": "c:ingots/steel"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "G": {
+      "item": "rotarycraft:bedrock_gear_unit_16"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:chunk_loader",
+    "count": 1
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/chunk_loader"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/chunk_loader"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/chunk_loader"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/chunk_loader"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/chunk_loader"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/chunk_loader"
+    }
+  }
+}

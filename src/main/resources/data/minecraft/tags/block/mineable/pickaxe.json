@@ -94,6 +94,7 @@
     "rotarycraft:spy_cam",
     "rotarycraft:cctv_screen",
     "rotarycraft:display",
-    "rotarycraft:projector"
+    "rotarycraft:projector",
+    "rotarycraft:chunk_loader"
   ]
 }

@@ -27,6 +27,7 @@ public class RotaryConfig {
     public static final java.util.Map<String, ModConfigSpec.BooleanValue> WEAPONS = new java.util.LinkedHashMap<>();
     // ---- utility machines that load or change the world (off unless the server turns them on) ----
     public static final java.util.Map<String, ModConfigSpec.BooleanValue> WORLD_MACHINES = new java.util.LinkedHashMap<>();
+    public static final ModConfigSpec.IntValue CHUNK_LOADER_RADIUS;
 
     static {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
@@ -75,6 +76,8 @@ public class RotaryConfig {
         for (String m : new String[] {"chunkLoader", "terraformer", "weatherController"}) {
             WORLD_MACHINES.put(m, b.comment("Enable the " + m + ", which loads or changes the world (off by default).").define(m, false));
         }
+        CHUNK_LOADER_RADIUS = b.comment("Most chunks out from its own that a chunk loader holds loaded (the original's default is 8).")
+                .defineInRange("chunkLoaderMaxRadius", 8, 0, 32);
         b.pop();
 
         SPEC = b.build();
