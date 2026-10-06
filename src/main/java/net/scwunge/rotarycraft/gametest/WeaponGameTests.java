@@ -708,4 +708,111 @@ public class WeaponGameTests {
         helper.assertFalse(auto.extractItem(0, 1, true).isEmpty(), "held a run-down coil");
         helper.succeed();
     }
+
+    static net.scwunge.rotarycraft.weapon.turret.ForceFieldBlockEntity forceField(GameTestHelper helper, int torque, int omega, int set) {
+        spinningFlywheel(helper, TURRET.below(), torque, omega);
+        helper.setBlock(TURRET, WeaponRegistry.FORCE_FIELD.get().defaultBlockState());
+        net.scwunge.rotarycraft.weapon.turret.ForceFieldBlockEntity field = helper.getBlockEntity(TURRET);
+        field.setSetRange(set);
+        return field;
+    }
+
+    /** 2 blocks at the minimum power and one more for each 32 kW above it, held to what was set. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void forceFieldRadiusFollowsPower(GameTestHelper helper) {
+        var field = forceField(helper, 4096, 256, 50);
+        helper.runAfterDelay(15, () -> {
+            helper.assertTrue(field.maxRange() == 18, "max radius " + field.maxRange() + ", not 18");
+            helper.assertTrue(field.range() == 18, "radius " + field.range());
+            field.setSetRange(6);
+            helper.assertTrue(field.range() == 6, "set radius not kept to 6: " + field.range());
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void forceFieldNeedsItsMinimumPower(GameTestHelper helper) {
+        var field = forceField(helper, 256, 256, 50);
+        helper.runAfterDelay(15, () -> {
+            helper.assertTrue(field.range() == 0, "made a field on 65 kW");
+            helper.succeed();
+        });
+    }
+
+    /** Anything that blocks light overhead, within the radius, switches the field off. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void forceFieldIsOffUnderARoof(GameTestHelper helper) {
+        var field = forceField(helper, 4096, 256, 10);
+        helper.setBlock(new BlockPos(2, 3, 2), net.minecraft.world.level.block.Blocks.STONE);
+        helper.runAfterDelay(25, () -> {
+            helper.assertTrue(field.range() == 0, "field under a roof: " + field.range());
+            helper.setBlock(new BlockPos(2, 3, 2), net.minecraft.world.level.block.Blocks.AIR);
+        });
+        helper.runAfterDelay(50, () -> {
+            helper.assertTrue(field.range() == 10, "field not back: " + field.range());
+            helper.succeed();
+        });
+    }
+
+    /** Primed TNT at the skin goes off there, and the blast does not break blocks. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 100)
+    public static void forceFieldDetonatesTntAtItsEdgeWithoutBreakingBlocks(GameTestHelper helper) {
+        forceField(helper, 4096, 256, 6);
+        helper.setBlock(new BlockPos(4, 2, 4), net.minecraft.world.level.block.Blocks.DIRT);
+        Vec3 at = helper.absoluteVec(new Vec3(2.5, 2.5, 2.5)).add(5.5, 0, 0);
+        var tnt = new net.minecraft.world.entity.item.PrimedTnt(helper.getLevel(), at.x, at.y, at.z, null);
+        tnt.setFuse(200);
+        tnt.setNoGravity(true);
+        helper.getLevel().addFreshEntity(tnt);
+        helper.runAfterDelay(30, () -> {
+            helper.assertTrue(tnt.isRemoved(), "tnt not stopped");
+            helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.DIRT, new BlockPos(4, 2, 4));
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void forceFieldHoldsArrowsInTheAir(GameTestHelper helper) {
+        forceField(helper, 4096, 256, 8);
+        Vec3 at = helper.absoluteVec(new Vec3(2.5, 3.5, 2.5)).add(3, 0, 0);
+        var arrow = new net.minecraft.world.entity.projectile.Arrow(helper.getLevel(), at.x, at.y, at.z, new ItemStack(Items.ARROW), null);
+        arrow.setNoGravity(true);
+        arrow.setDeltaMovement(0.5, 0, 0.3);
+        helper.getLevel().addFreshEntity(arrow);
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(Math.abs(arrow.getDeltaMovement().x) < 1e-6 && Math.abs(arrow.getDeltaMovement().z) < 1e-6, "arrow still flying: " + arrow.getDeltaMovement());
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void forceFieldOffSwitchStopsIt(GameTestHelper helper) {
+        var rule = net.scwunge.rotarycraft.config.RotaryConfig.WEAPONS.get("forceField");
+        helper.assertTrue(rule != null && rule.getDefault(), "no switch for the force field");
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void containmentHasMoreRangeForItsPower(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 4096, 256);
+        helper.setBlock(TURRET, WeaponRegistry.CONTAINMENT.get().defaultBlockState());
+        net.scwunge.rotarycraft.weapon.turret.ContainmentBlockEntity c = helper.getBlockEntity(TURRET);
+        c.setSetRange(100);
+        helper.runAfterDelay(15, () -> {
+            helper.assertTrue(c.maxRange() == 2 + (1_048_576 - 131_072) / 8_192, "max radius " + c.maxRange());
+            helper.succeed();
+        });
+    }
+
+    /** A hostile creature near the skin is turned back in. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 100)
+    public static void containmentPushesHostilesBackIn(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 4096, 256);
+        helper.setBlock(TURRET, WeaponRegistry.CONTAINMENT.get().defaultBlockState());
+        net.scwunge.rotarycraft.weapon.turret.ContainmentBlockEntity c = helper.getBlockEntity(TURRET);
+        c.setSetRange(4);
+        Husk husk = helper.spawnWithNoFreeWill(EntityType.HUSK, new Vec3(2.5 + 4.2, 2, 2.5));
+        double start = husk.getX();
+        helper.succeedWhen(() -> helper.assertTrue(husk.getX() < start - 0.3, "husk not pushed in (x " + husk.getX() + " from " + start + ")"));
+    }
 }

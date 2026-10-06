@@ -175,6 +175,22 @@ public final class WeaponRegistry {
     public static final DeferredHolder<MenuType<?>, MenuType<net.scwunge.rotarycraft.weapon.CannonMenu>> CANNON_MENU = RotaryMenus.MENUS.register("tnt_cannon",
             () -> IMenuTypeExtension.create(net.scwunge.rotarycraft.weapon.CannonMenu::fromNetwork));
 
+    // ---- Force Field and Containment ----
+    public static final DeferredHolder<MenuType<?>, MenuType<net.scwunge.rotarycraft.weapon.RangeMenu>> RANGE_MENU = RotaryMenus.MENUS.register("range",
+            () -> IMenuTypeExtension.create(net.scwunge.rotarycraft.weapon.RangeMenu::fromNetwork));
+    public static final DeferredBlock<net.scwunge.rotarycraft.weapon.OwnedMachineBlock> FORCE_FIELD = RotaryBlocks.BLOCKS.register("force_field",
+            () -> new net.scwunge.rotarycraft.weapon.OwnedMachineBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.FORCE_FIELD_BE,
+                    net.scwunge.rotarycraft.weapon.turret.ForceFieldBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.weapon.turret.ForceFieldBlockEntity>> FORCE_FIELD_BE =
+            RotaryBlockEntities.TYPES.register("force_field",
+                    () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.weapon.turret.ForceFieldBlockEntity::new, FORCE_FIELD.get()).build(null));
+    public static final DeferredBlock<net.scwunge.rotarycraft.weapon.OwnedMachineBlock> CONTAINMENT = RotaryBlocks.BLOCKS.register("containment",
+            () -> new net.scwunge.rotarycraft.weapon.OwnedMachineBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.CONTAINMENT_BE,
+                    net.scwunge.rotarycraft.weapon.turret.ContainmentBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.weapon.turret.ContainmentBlockEntity>> CONTAINMENT_BE =
+            RotaryBlockEntities.TYPES.register("containment",
+                    () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.weapon.turret.ContainmentBlockEntity::new, CONTAINMENT.get()).build(null));
+
     /** Turret parts (the original's barrel, lens, bulb, rail head, turret base and aiming unit). */
     public static final java.util.Map<String, DeferredItem<Item>> PARTS = new java.util.LinkedHashMap<>();
 
@@ -200,6 +216,8 @@ public final class WeaponRegistry {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(LANDMINE));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(LASER_GUN));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(FLAME_TURRET));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(FORCE_FIELD));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(CONTAINMENT));
         for (int i = 0; i < 16; i++) {
             int tier = i;
             RAILGUN_AMMO.add(RotaryItems.add(RotaryItems.ITEMS.register("railgun_ammo_" + i, () -> new RailgunAmmoItem(new Item.Properties(), tier))));

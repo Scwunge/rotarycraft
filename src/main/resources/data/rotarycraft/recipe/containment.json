@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "lnl",
+    "ddd",
+    "sgs"
+  ],
+  "key": {
+    "d": {
+      "tag": "c:gems/diamond"
+    },
+    "s": {
+      "item": "rotarycraft:base_panel"
+    },
+    "n": {
+      "item": "minecraft:nether_star"
+    },
+    "g": {
+      "tag": "c:ingots/gold"
+    },
+    "l": {
+      "tag": "c:dyes/purple"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:containment",
+    "count": 1
+  }
+}

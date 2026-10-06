@@ -149,6 +149,11 @@ public abstract class TurretShot extends Entity {
         }
     }
 
+    /** Sets it off where it is now (a force field detonating it at its edge). */
+    public final void strikeNow(ServerLevel level) {
+        strike(level);
+    }
+
     private void strike(ServerLevel level) {
         impact(level);
         discard();

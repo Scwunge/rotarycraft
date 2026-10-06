@@ -67,6 +67,8 @@ public final class WeaponClient {
         event.registerBlockEntityRenderer(WeaponRegistry.EMP_BE.get(), c -> new EmpRenderer());
         event.registerBlockEntityRenderer(WeaponRegistry.WINDER_BE.get(), c -> new WinderRenderer());
         event.registerBlockEntityRenderer(WeaponRegistry.LANDMINE_BE.get(), c -> new LandmineRenderer());
+        event.registerBlockEntityRenderer(WeaponRegistry.FORCE_FIELD_BE.get(), c -> new DomeRenderer<>("force_field"));
+        event.registerBlockEntityRenderer(WeaponRegistry.CONTAINMENT_BE.get(), c -> new DomeRenderer<>("containment"));
         event.registerEntityRenderer(WeaponRegistry.CANNON_TNT.get(), net.minecraft.client.renderer.entity.TntRenderer::new);
         event.registerEntityRenderer(WeaponRegistry.RAILGUN_SHOT.get(), c -> new StarShotRenderer(c, "railgun_shot"));
         event.registerEntityRenderer(WeaponRegistry.FREEZE_SHOT.get(), c -> new StarShotRenderer(c, "freeze_shot"));
@@ -80,6 +82,7 @@ public final class WeaponClient {
         event.register(WeaponRegistry.SONIC_MENU.get(), SonicScreen::new);
         event.register(WeaponRegistry.WINDER_MENU.get(), WinderScreen::new);
         event.register(WeaponRegistry.LANDMINE_MENU.get(), LandmineScreen::new);
+        event.register(WeaponRegistry.RANGE_MENU.get(), RangeScreen::new);
     }
 
     @SubscribeEvent
@@ -162,6 +165,23 @@ public final class WeaponClient {
         }, WeaponRegistry.LANDMINE.get().asItem());
         event.registerItem(turretItem(LASER_GUN), WeaponRegistry.LASER_GUN.get().asItem());
         event.registerItem(turretItem(FLAME_TURRET), WeaponRegistry.FLAME_TURRET.get().asItem());
+        event.registerItem(domeItem("force_field"), WeaponRegistry.FORCE_FIELD.get().asItem());
+        event.registerItem(domeItem("containment"), WeaponRegistry.CONTAINMENT.get().asItem());
+    }
+
+    private static IClientItemExtensions domeItem(String texture) {
+        return new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    Minecraft mc = Minecraft.getInstance();
+                    renderer = new DomeRenderer.Item(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), texture);
+                }
+                return renderer;
+            }
+        };
     }
 
     private static IClientItemExtensions turretItem(TurretRenderer.Look look) {

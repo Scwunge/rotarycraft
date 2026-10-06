@@ -84,6 +84,8 @@
     "rotarycraft:heat_ray",
     "rotarycraft:emp",
     "rotarycraft:winder",
-    "rotarycraft:landmine"
+    "rotarycraft:landmine",
+    "rotarycraft:force_field",
+    "rotarycraft:containment"
   ]
 }

@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/force_field"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/force_field"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/force_field"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/force_field"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/force_field"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/force_field"
+    }
+  }
+}

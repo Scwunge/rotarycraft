@@ -29,6 +29,7 @@ public final class WeaponNetwork {
         registrar.playToServer(RemoveSafePlayer.TYPE, RemoveSafePlayer.CODEC, (p, ctx) -> ctx.enqueueWork(() -> RemoveSafePlayer.handle(p, ctx)));
         registrar.playToServer(CannonSettings.TYPE, CannonSettings.CODEC, (p, ctx) -> ctx.enqueueWork(() -> CannonSettings.handle(p, ctx)));
         registrar.playToServer(WinderMode.TYPE, WinderMode.CODEC, (p, ctx) -> ctx.enqueueWork(() -> WinderMode.handle(p, ctx)));
+        registrar.playToServer(SetRange.TYPE, SetRange.CODEC, (p, ctx) -> ctx.enqueueWork(() -> SetRange.handle(p, ctx)));
         registrar.playToServer(SonicVolume.TYPE, SonicVolume.CODEC, (p, ctx) -> ctx.enqueueWork(() -> SonicVolume.handle(p, ctx)));
     }
 
@@ -64,6 +65,27 @@ public final class WeaponNetwork {
             if (player.distanceToSqr(p.pos.getCenter()) <= 64 && player.level().isLoaded(p.pos)
                     && player.level().getBlockEntity(p.pos) instanceof net.scwunge.rotarycraft.weapon.turret.TntCannonBlockEntity cannon) {
                 cannon.configure(p.targetMode, p.phi, p.theta, p.velocity, p.fuse, p.target);
+            }
+        }
+    }
+
+    /** A range screen (Force Field, Containment) setting its radius. */
+    public record SetRange(BlockPos pos, int range) implements CustomPacketPayload {
+        public static final Type<SetRange> TYPE = new Type<>(RotaryCraft.id("set_range"));
+        public static final StreamCodec<ByteBuf, SetRange> CODEC = StreamCodec.composite(BlockPos.STREAM_CODEC, SetRange::pos,
+                ByteBufCodecs.INT, SetRange::range, SetRange::new);
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
+        }
+
+        /** Only someone standing at the machine can change it. */
+        static void handle(SetRange p, IPayloadContext ctx) {
+            Player player = ctx.player();
+            if (player.distanceToSqr(p.pos.getCenter()) <= 64 && player.level().isLoaded(p.pos)
+                    && player.level().getBlockEntity(p.pos) instanceof RangeHost host) {
+                host.setSetRange(p.range);
             }
         }
     }

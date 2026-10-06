@@ -22,6 +22,7 @@ public class RotaryConfig {
     public static final ModConfigSpec.BooleanValue TURRETS_TARGET_PLAYERS;
     public static final ModConfigSpec.BooleanValue WEAPON_BLOCK_DAMAGE;
     public static final ModConfigSpec.BooleanValue RAILGUN_BLOCK_DAMAGE;
+    public static final ModConfigSpec.IntValue FORCE_FIELD_RANGE;
     public static final java.util.Map<String, ModConfigSpec.BooleanValue> WEAPONS = new java.util.LinkedHashMap<>();
     // ---- utility machines that load or change the world (off unless the server turns them on) ----
     public static final java.util.Map<String, ModConfigSpec.BooleanValue> WORLD_MACHINES = new java.util.LinkedHashMap<>();
@@ -57,6 +58,7 @@ public class RotaryConfig {
                         "mobGriefing rule, and act as their owner, so claim and protection mods can stop them.")
                 .define("weaponBlockDamage", true);
         RAILGUN_BLOCK_DAMAGE = b.comment("Rail gun shots damage blocks (as well as weaponBlockDamage).").define("railgunBlockDamage", true);
+        FORCE_FIELD_RANGE = b.comment("The largest radius the Force Field and Containment can make (never under 64).").defineInRange("forceFieldRange", 128, 1, 512);
         for (String w : new String[] {"railgun", "freezeGun", "antiAir", "gatling", "laserGun", "flameTurret", "heatRay", "tntCannon",
                 "sonicWeapon", "emp", "landmine", "forceField", "containment"}) {
             WEAPONS.put(w, b.comment("Enable the " + w + ". Off: it stays placed but does nothing.").define(w, true));

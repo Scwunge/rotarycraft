@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/containment"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/containment"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/containment"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/containment"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/containment"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/containment"
+    }
+  }
+}

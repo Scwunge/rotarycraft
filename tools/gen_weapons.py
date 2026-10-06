@@ -199,6 +199,18 @@ rendered_machine('landmine', particle='rotarycraft:block/shaft_steel')
 shaped('landmine', [' P ', 'RGR', 'SIS'], {'P': {'item': 'minecraft:stone_pressure_plate'}, 'S': STEEL, 'I': item('igniter'),
                                           'R': {'item': 'minecraft:redstone'}, 'G': {'item': 'minecraft:gold_ingot'}})
 
+# ---- Force Field and Containment ----
+model_texture('forcetex2.png', 'force_field')
+model_texture('containtex.png', 'containment')
+shutil.copy(REF + '/Textures/GUI/rangegui.png', T + '/gui/range.png')
+shutil.copy(REF + '/Textures/forcefield.png', T + '/effect/forcefield.png')
+rendered_machine('force_field', particle='rotarycraft:block/shaft_steel')
+rendered_machine('containment', particle='rotarycraft:block/shaft_steel')
+shaped('force_field', ['lnl', 'ddd', 'sgs'], {'d': tag('c:gems/diamond'), 's': item('base_panel'), 'n': {'item': 'minecraft:nether_star'},
+                                              'g': tag('c:ingots/gold'), 'l': tag('c:gems/lapis')})
+shaped('containment', ['lnl', 'ddd', 'sgs'], {'d': tag('c:gems/diamond'), 's': item('base_panel'), 'n': {'item': 'minecraft:nether_star'},
+                                              'g': tag('c:ingots/gold'), 'l': tag('c:dyes/purple')})
+
 # ---- Cannon Key ----
 sprite(1, 4, 'cannon_key')
 shaped('cannon_key', ['s', 's', 'P'], {'P': item('base_panel'), 's': STEEL})
@@ -226,6 +238,9 @@ lang.update({
     'block.rotarycraft.emp': 'EMP',
     'block.rotarycraft.winder': 'Winder',
     'block.rotarycraft.landmine': 'Landmine',
+    'block.rotarycraft.force_field': 'Force Field',
+    'block.rotarycraft.containment': 'Containment Field',
+    'gui.rotarycraft.range.radius': 'Field Radius:',
     'item.rotarycraft.spring': 'Spring',
     'item.rotarycraft.strong_coil': 'Strong Coil',
     'item.rotarycraft.coil.charge': 'Wound: %s / %s',
@@ -260,5 +275,5 @@ data = json.load(open(path))
 data['values'] += ['rotarycraft:' + m for m in MACHINES if 'rotarycraft:' + m not in data['values']]
 w(path, data)
 
-subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling', 'ModelLaserGun:laser_gun', 'ModelFlameTurret:flame_turret', 'ModelCannon:cannon', 'ModelSonicWeapon:sonic', 'ModelHRay:heat_ray', 'ModelEMP:emp', 'ModelLandmine:landmine', 'ModelWinder:winder'], check=True)
+subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling', 'ModelLaserGun:laser_gun', 'ModelFlameTurret:flame_turret', 'ModelCannon:cannon', 'ModelSonicWeapon:sonic', 'ModelHRay:heat_ray', 'ModelEMP:emp', 'ModelLandmine:landmine', 'ModelWinder:winder', 'ModelDomeEmitter:dome_emitter'], check=True)
 print('weapons ok,', len(MACHINES), 'machines')
