@@ -37,7 +37,7 @@ public class RotaryCraft {
         RotaryItems.ITEMS.register(modBus);
         net.scwunge.rotarycraft.registry.RotaryParts.init();
         net.scwunge.rotarycraft.registry.WeaponRegistry.init(modBus);
-        net.scwunge.rotarycraft.registry.SurveyRegistry.init();
+        net.scwunge.rotarycraft.registry.SurveyRegistry.init(modBus);
         RotaryItems.TABS.register(modBus);
         RotaryBlockEntities.TYPES.register(modBus);
         net.scwunge.rotarycraft.registry.RotaryRecipes.TYPES.register(modBus);

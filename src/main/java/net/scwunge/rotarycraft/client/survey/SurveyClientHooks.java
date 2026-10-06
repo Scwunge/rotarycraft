@@ -21,4 +21,15 @@ public final class SurveyClientHooks {
             menu.setData(data.range(), data.centre(), data.palette(), data.columns());
         }
     }
+
+    public static void spyCamData(SurveyNetwork.SpyCamData data) {
+        if (Minecraft.getInstance().player != null && Minecraft.getInstance().player.containerMenu instanceof net.scwunge.rotarycraft.survey.SpyCamMenu menu
+                && menu.containerId == data.containerId()) {
+            menu.setView(data.colors(), data.mobs());
+        }
+    }
+
+    public static void viewCamera(net.minecraft.core.BlockPos pos) {
+        CameraView.start(pos);
+    }
 }

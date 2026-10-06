@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/projector"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/projector"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/projector"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/projector"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/projector"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/projector"
+    }
+  }
+}

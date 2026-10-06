@@ -89,6 +89,11 @@
     "rotarycraft:containment",
     "rotarycraft:mob_radar",
     "rotarycraft:gpr",
-    "rotarycraft:cave_scanner"
+    "rotarycraft:cave_scanner",
+    "rotarycraft:cctv",
+    "rotarycraft:spy_cam",
+    "rotarycraft:cctv_screen",
+    "rotarycraft:display",
+    "rotarycraft:projector"
   ]
 }

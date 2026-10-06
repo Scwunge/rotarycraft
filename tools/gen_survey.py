@@ -103,7 +103,53 @@ model_texture('cavetex.png', 'cave_scanner')
 rendered_machine('cave_scanner')
 shaped('cave_scanner', ['sps', 'pcp', 'sns'], {'n': item('sonar_unit'), 's': STEEL, 'c': item('circuit_board'), 'p': item('base_panel')})
 
+# ---- CCTV, Spy Cam and the CCTV Screen ----
+model_texture('cctvtex.png', 'cctv')
+model_texture('spycamtex.png', 'spy_cam')
+model_texture('screentex.png', 'cctv_screen')
+gui('cctvgui.png', 'cctv')
+gui('spycamgui.png', 'spy_cam')
+gui('screengui.png', 'cctv_screen')
+rendered_machine('cctv')
+rendered_machine('spy_cam')
+rendered_machine('cctv_screen')
+PANE = {'tag': 'c:glass_panes'}
+shaped('cctv', [' g ', 'brs', ' p '], {'p': item('base_panel'), 's': STEEL, 'b': PANE, 'r': {'item': 'minecraft:redstone'}, 'g': {'tag': 'c:ingots/gold'}})
+shaped('spy_cam', ['SCS', 'PRP', 'SGS'], {'P': item('base_panel'), 'S': STEEL, 'C': item('circuit_board'), 'G': PANE, 'R': {'item': 'minecraft:redstone'}})
+shaped('cctv_screen', ['sss', 'mcs', 'ppp'], {'p': item('base_panel'), 's': STEEL, 'm': item('screen'), 'c': item('circuit_board')})
+
+# ---- Display ----
+model_texture('displaytex.png', 'display')
+rendered_machine('display', facings=('north', 'south', 'east', 'west'))
+shaped('display', ['SES', 'SCS', ' P '], {'P': item('base_panel'), 'E': item('silicon'), 'S': STEEL, 'C': item('circuit_board')})
+
+# ---- Projector and Slides ----
+model_texture('projtex.png', 'projector')
+gui('projectorgui.png', 'projector')
+os.makedirs(T + '/projector', exist_ok=True)
+for i in range(24):
+    shutil.copy('%s/Textures/Projector/image%d.png' % (REF, i), '%s/projector/image%d.png' % (T, i))
+rendered_machine('projector', facings=('up', 'down', 'north', 'south', 'east', 'west'))
+shaped('projector', ['sss', 'gcl', 'ppp'], {'c': item('circuit_board'), 's': STEEL, 'g': {'item': 'minecraft:glass'}, 'l': {'item': 'minecraft:glowstone'}, 'p': item('base_panel')})
+sheet0 = Image.open(REF + '/Textures/Items/items.png').convert('RGBA')
+slide_icon = sheet0.crop((32, 0, 48, 16))
+for i in range(24):
+    slide_icon.save('%s/item/slide_%d.png' % (T, i))
+    w('%s/models/item/slide_%d.json' % (A, i), {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/slide_%d' % i}})
+    lang['item.rotarycraft.slide_%d' % i] = 'Slide (%d)' % i
+shaped('slide_0', ['PPP', 'PGP', 'PPP'], {'P': {'item': 'minecraft:paper'}, 'G': {'tag': 'c:glass_panes'}}, count=4)
+w(D + '/recipe/slide_dye.json', {'type': 'rotarycraft:slide_dye', 'category': 'misc'})
+
 lang.update({
+    'item.rotarycraft.slide': 'Slide (%s)',
+    'item.rotarycraft.slide.tooltip': 'Goes in a Projector (a dye changes the picture)',
+    'block.rotarycraft.projector': 'Projector',
+    'block.rotarycraft.display': 'Display',
+    'block.rotarycraft.cctv': 'CCTV',
+    'block.rotarycraft.spy_cam': 'Spy Cam',
+    'block.rotarycraft.cctv_screen': 'CCTV Screen',
+    'gui.rotarycraft.camera_select': 'Camera Select',
+    'gui.rotarycraft.spy_cam': 'Spy Cam',
     'block.rotarycraft.cave_scanner': 'Cave Scanner',
     'block.rotarycraft.mob_radar': 'Mob Radar',
     'block.rotarycraft.gpr': 'Ground-Penetrating Radar',
@@ -115,5 +161,5 @@ data = json.load(open(path))
 data['values'] += ['rotarycraft:' + m for m in MACHINES if 'rotarycraft:' + m not in data['values']]
 w(path, data)
 
-subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRadar:radar', 'ModelCave:cave'], check=True)
+subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRadar:radar', 'ModelCave:cave', 'ModelCCTV:cctv', 'ModelSpyCam:spy_cam', 'ModelScreen:screen', 'ModelDisplay:display', 'ModelProjector:projector'], check=True)
 print('survey ok,', len(MACHINES), 'machines')

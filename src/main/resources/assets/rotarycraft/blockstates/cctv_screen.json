@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/cctv_screen"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/cctv_screen"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/cctv_screen"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/cctv_screen"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/cctv_screen"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/cctv_screen"
+    }
+  }
+}

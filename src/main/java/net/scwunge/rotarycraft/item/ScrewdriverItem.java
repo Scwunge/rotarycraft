@@ -23,6 +23,13 @@ public class ScrewdriverItem extends Item {
     public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
         BlockState state = level.getBlockState(context.getClickedPos());
+        if (level.getBlockEntity(context.getClickedPos()) instanceof net.scwunge.rotarycraft.survey.CctvBlockEntity cctv) {
+            // the camera has no facing: the screwdriver pans it, or with sneak tilts it
+            if (!level.isClientSide()) {
+                cctv.aim(context.getPlayer() != null && context.getPlayer().isShiftKeyDown());
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide());
+        }
         if (!(state.getBlock() instanceof MachineBlock)) {
             return InteractionResult.PASS;
         }

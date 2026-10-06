@@ -811,7 +811,7 @@ public class WeaponGameTests {
         helper.setBlock(TURRET, WeaponRegistry.CONTAINMENT.get().defaultBlockState());
         net.scwunge.rotarycraft.weapon.turret.ContainmentBlockEntity c = helper.getBlockEntity(TURRET);
         c.setSetRange(4);
-        Husk husk = helper.spawnWithNoFreeWill(EntityType.HUSK, new Vec3(2.5 + 4.2, 2, 2.5));
+        Husk husk = helper.spawn(EntityType.HUSK, new Vec3(2.5 + 4.2, 2, 2.5));
         double start = husk.getX();
         helper.succeedWhen(() -> helper.assertTrue(husk.getX() < start - 0.3, "husk not pushed in (x " + husk.getX() + " from " + start + ")"));
     }

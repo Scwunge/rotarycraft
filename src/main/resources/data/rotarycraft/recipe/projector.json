@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sss",
+    "gcl",
+    "ppp"
+  ],
+  "key": {
+    "c": {
+      "item": "rotarycraft:circuit_board"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "g": {
+      "item": "minecraft:glass"
+    },
+    "l": {
+      "item": "minecraft:glowstone"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:projector",
+    "count": 1
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sss",
+    "mcs",
+    "ppp"
+  ],
+  "key": {
+    "p": {
+      "item": "rotarycraft:base_panel"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "m": {
+      "item": "rotarycraft:screen"
+    },
+    "c": {
+      "item": "rotarycraft:circuit_board"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:cctv_screen",
+    "count": 1
+  }
+}

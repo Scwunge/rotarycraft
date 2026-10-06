@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " g ",
+    "brs",
+    " p "
+  ],
+  "key": {
+    "p": {
+      "item": "rotarycraft:base_panel"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "b": {
+      "tag": "c:glass_panes"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "g": {
+      "tag": "c:ingots/gold"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:cctv",
+    "count": 1
+  }
+}

@@ -27,6 +27,8 @@ public final class SurveyNetwork {
         // The handler bodies only run on the client, so the client hooks never load on a dedicated server.
         registrar.playToClient(RadarData.TYPE, RadarData.CODEC, (p, ctx) -> ctx.enqueueWork(() -> SurveyClientHooks.radarData(p)));
         registrar.playToClient(GprData.TYPE, GprData.CODEC, (p, ctx) -> ctx.enqueueWork(() -> SurveyClientHooks.gprData(p)));
+        registrar.playToClient(ViewCamera.TYPE, ViewCamera.CODEC, (p, ctx) -> ctx.enqueueWork(() -> SurveyClientHooks.viewCamera(p.pos())));
+        registrar.playToClient(SpyCamData.TYPE, SpyCamData.CODEC, (p, ctx) -> ctx.enqueueWork(() -> SurveyClientHooks.spyCamData(p)));
         registrar.playToServer(GprShift.TYPE, GprShift.CODEC, (p, ctx) -> ctx.enqueueWork(() -> GprShift.handle(p, ctx)));
     }
 
@@ -91,6 +93,31 @@ public final class SurveyNetwork {
                     && player.level().getBlockEntity(p.pos) instanceof GprBlockEntity gpr) {
                 gpr.shift(Integer.signum(p.amount));
             }
+        }
+    }
+
+    /** A Screen calling up a CCTV for a player: their view moves into the camera at this position. */
+    public record ViewCamera(BlockPos pos) implements CustomPacketPayload {
+        public static final Type<ViewCamera> TYPE = new Type<>(RotaryCraft.id("view_camera"));
+        public static final StreamCodec<ByteBuf, ViewCamera> CODEC = StreamCodec.composite(BlockPos.STREAM_CODEC, ViewCamera::pos, ViewCamera::new);
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
+        }
+    }
+
+    /** The Spy Cam's view for the open screen: a colour for each of the 49 x 49 columns, and creatures as x index, z index, icon. */
+    public record SpyCamData(int containerId, int[] colors, List<Integer> mobs) implements CustomPacketPayload {
+        public static final Type<SpyCamData> TYPE = new Type<>(RotaryCraft.id("spy_cam_data"));
+        public static final StreamCodec<ByteBuf, SpyCamData> CODEC = StreamCodec.composite(ByteBufCodecs.VAR_INT, SpyCamData::containerId,
+                ByteBufCodecs.VAR_INT.apply(ByteBufCodecs.list(4096)).map(l -> l.stream().mapToInt(Integer::intValue).toArray(),
+                        a -> java.util.Arrays.stream(a).boxed().toList()), SpyCamData::colors,
+                ByteBufCodecs.VAR_INT.apply(ByteBufCodecs.list(1024)), SpyCamData::mobs, SpyCamData::new);
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
         }
     }
 }
