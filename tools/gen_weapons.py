@@ -182,6 +182,23 @@ rendered_machine('emp', particle='rotarycraft:block/shaft_steel')
 shaped('emp', ['GDG', 'GsG', 'PnP'], {'G': item('gold_coil'), 'D': {'item': 'minecraft:diamond_block'}, 's': item('bedrock_shaft_core'),
                                       'P': item('base_panel'), 'n': {'item': 'minecraft:nether_star'}})
 
+# ---- Coils, Winder and Landmine ----
+sprite(1, 96, 'spring')
+sprite(1, 99, 'strong_coil')
+shaped('spring', [' S ', 'S S', ' S '], {'S': STEEL})
+w(D + '/recipe/blast_crafting/strong_coil.json', {'type': 'rotarycraft:blast_crafting', 'pattern': ['SDS', 'BCB', 'SDS'],
+    'key': {'S': item('spring_steel_ingot'), 'C': item('spring'), 'B': item('bedrock_dust'), 'D': {'item': 'minecraft:diamond'}},
+    'result': {'id': 'rotarycraft:strong_coil', 'count': 1}, 'temperature': 1000, 'speed': 4})
+model_texture('windertex.png', 'winder')
+shutil.copy(REF + '/Textures/GUI/windergui.png', T + '/gui/winder.png')
+rendered_machine('winder', particle='rotarycraft:block/shaft_steel')
+shaped('winder', [' ss', ' hg', 'ppp'], {'s': STEEL, 'h': item('shaft_steel'), 'g': item('steel_gear_unit_2'), 'p': item('base_panel')})
+model_texture('landminetex.png', 'landmine')
+shutil.copy(REF + '/Textures/GUI/landminegui.png', T + '/gui/landmine.png')
+rendered_machine('landmine', particle='rotarycraft:block/shaft_steel')
+shaped('landmine', [' P ', 'RGR', 'SIS'], {'P': {'item': 'minecraft:stone_pressure_plate'}, 'S': STEEL, 'I': item('igniter'),
+                                          'R': {'item': 'minecraft:redstone'}, 'G': {'item': 'minecraft:gold_ingot'}})
+
 # ---- Cannon Key ----
 sprite(1, 4, 'cannon_key')
 shaped('cannon_key', ['s', 's', 'P'], {'P': item('base_panel'), 's': STEEL})
@@ -207,6 +224,13 @@ lang.update({
     'subtitles.rotarycraft.sonic': 'Sonic Weapon blares',
     'block.rotarycraft.heat_ray': 'Heat Ray',
     'block.rotarycraft.emp': 'EMP',
+    'block.rotarycraft.winder': 'Winder',
+    'block.rotarycraft.landmine': 'Landmine',
+    'item.rotarycraft.spring': 'Spring',
+    'item.rotarycraft.strong_coil': 'Strong Coil',
+    'item.rotarycraft.coil.charge': 'Wound: %s / %s',
+    'gui.rotarycraft.winder.winding': 'Winding',
+    'gui.rotarycraft.winder.unwinding': 'Unwinding',
     'block.rotarycraft.tnt_cannon': 'TNT Cannon',
     'entity.rotarycraft.cannon_tnt': 'Primed TNT',
     'gui.rotarycraft.cannon.mode_manual': 'Manual',
@@ -236,5 +260,5 @@ data = json.load(open(path))
 data['values'] += ['rotarycraft:' + m for m in MACHINES if 'rotarycraft:' + m not in data['values']]
 w(path, data)
 
-subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling', 'ModelLaserGun:laser_gun', 'ModelFlameTurret:flame_turret', 'ModelCannon:cannon', 'ModelSonicWeapon:sonic', 'ModelHRay:heat_ray', 'ModelEMP:emp'], check=True)
+subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling', 'ModelLaserGun:laser_gun', 'ModelFlameTurret:flame_turret', 'ModelCannon:cannon', 'ModelSonicWeapon:sonic', 'ModelHRay:heat_ray', 'ModelEMP:emp', 'ModelLandmine:landmine', 'ModelWinder:winder'], check=True)
 print('weapons ok,', len(MACHINES), 'machines')

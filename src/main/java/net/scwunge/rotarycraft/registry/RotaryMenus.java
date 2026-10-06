@@ -61,7 +61,7 @@ public class RotaryMenus {
 
     /** One-slot machine screens share a menu class; each still gets its own type. */
     @SuppressWarnings("unchecked")
-    private static DeferredHolder<MenuType<?>, MenuType<OneSlotMenu>> oneSlot(String name) {
+    public static DeferredHolder<MenuType<?>, MenuType<OneSlotMenu>> oneSlot(String name) {
         DeferredHolder<MenuType<?>, MenuType<OneSlotMenu>>[] self = new DeferredHolder[1];
         self[0] = MENUS.register(name, () -> IMenuTypeExtension.create((id, inv, buf) -> new OneSlotMenu(self[0].get(), id, inv, buf)));
         return self[0];

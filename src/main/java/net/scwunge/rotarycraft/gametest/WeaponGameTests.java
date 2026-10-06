@@ -598,4 +598,114 @@ public class WeaponGameTests {
         helper.assertTrue(saved.getBoolean("emp"), "not saved");
         helper.succeed();
     }
+
+    static ItemStack coil(net.minecraft.world.item.Item item, int charge) {
+        ItemStack stack = new ItemStack(item);
+        net.scwunge.rotarycraft.item.CoilItem.setCharge(stack, charge);
+        return stack;
+    }
+
+    /** A winder facing east at (3, 2, 2), fed from a flywheel at (2, 2, 2). */
+    static net.scwunge.rotarycraft.blockentity.WinderBlockEntity winder(GameTestHelper helper, int torque, int omega) {
+        spinningFlywheel(helper, new BlockPos(2, 2, 2), torque, omega, Direction.EAST);
+        helper.setBlock(new BlockPos(3, 2, 2), WeaponRegistry.WINDER.get().defaultBlockState()
+                .setValue(net.scwunge.rotarycraft.block.MachineBlock.FACING, Direction.EAST));
+        return helper.getBlockEntity(new BlockPos(3, 2, 2));
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 120)
+    public static void winderWindsASpringUpToWhatTheTorqueAllows(GameTestHelper helper) {
+        var winder = winder(helper, 40, 256);
+        helper.assertTrue(winder.items().insertItem(0, new ItemStack(WeaponRegistry.SPRING.get()), false).isEmpty(), "refused the spring");
+        helper.assertFalse(winder.items().insertItem(0, new ItemStack(Items.STICK), true).isEmpty(), "accepted a stick");
+        helper.succeedWhen(() -> {
+            int charge = net.scwunge.rotarycraft.item.CoilItem.charge(winder.items().getStackInSlot(0));
+            helper.assertTrue(charge > 0, "not wound");
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 200)
+    public static void winderStopsAtTheTorqueLimit(GameTestHelper helper) {
+        var winder = winder(helper, 5, 1024);
+        winder.items().setStackInSlot(0, coil(WeaponRegistry.SPRING.get(), 5));
+        helper.runAfterDelay(100, () -> {
+            helper.assertTrue(net.scwunge.rotarycraft.item.CoilItem.charge(winder.items().getStackInSlot(0)) <= 5, "wound past the torque");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void winderUnwindsIntoPower(GameTestHelper helper) {
+        helper.setBlock(new BlockPos(3, 2, 2), WeaponRegistry.WINDER.get().defaultBlockState()
+                .setValue(net.scwunge.rotarycraft.block.MachineBlock.FACING, Direction.EAST));
+        net.scwunge.rotarycraft.blockentity.WinderBlockEntity winder = helper.getBlockEntity(new BlockPos(3, 2, 2));
+        winder.items().setStackInSlot(0, coil(WeaponRegistry.STRONG_COIL.get(), 100));
+        winder.setWinding(false);
+        helper.succeedWhen(() -> {
+            helper.assertTrue(winder.getTorqueOut(Direction.WEST) == 32 && winder.getOmegaOut(Direction.WEST) == 4096,
+                    "expected 32 N*m at 4096 rad/s, got " + winder.getTorqueOut(Direction.WEST) + " at " + winder.getOmegaOut(Direction.WEST));
+            helper.assertTrue(winder.getTorqueOut(Direction.EAST) == 0, "powered the wrong side");
+        });
+    }
+
+    static net.scwunge.rotarycraft.weapon.turret.LandmineBlockEntity mine(GameTestHelper helper, int charge, int gunpowder) {
+        helper.setBlock(new BlockPos(2, 2, 2), WeaponRegistry.LANDMINE.get().defaultBlockState());
+        net.scwunge.rotarycraft.weapon.turret.LandmineBlockEntity mine = helper.getBlockEntity(new BlockPos(2, 2, 2));
+        if (charge > 0) {
+            mine.items().setStackInSlot(0, coil(WeaponRegistry.SPRING.get(), charge));
+        }
+        for (int i = 0; i < gunpowder; i++) {
+            mine.items().setStackInSlot(1 + i, new ItemStack(Items.GUNPOWDER));
+        }
+        return mine;
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 100)
+    public static void landmineGoesOffUnderACreature(GameTestHelper helper) {
+        mine(helper, 40000, 2);
+        var cow = helper.spawnWithNoFreeWill(net.minecraft.world.entity.EntityType.COW, new BlockPos(2, 3, 2));
+        helper.onEachTick(() -> cow.setOnGround(true));
+        helper.succeedWhen(() -> {
+            helper.assertBlockNotPresent(WeaponRegistry.LANDMINE.get(), new BlockPos(2, 2, 2));
+            helper.assertTrue(cow.isDeadOrDying() || cow.getHealth() < cow.getMaxHealth(), "creature unhurt");
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void landmineWithoutACoilStaysQuiet(GameTestHelper helper) {
+        mine(helper, 0, 2);
+        var cow = helper.spawnWithNoFreeWill(net.minecraft.world.entity.EntityType.COW, new BlockPos(2, 3, 2));
+        helper.onEachTick(() -> cow.setOnGround(true));
+        helper.runAfterDelay(30, () -> {
+            helper.assertBlockPresent(WeaponRegistry.LANDMINE.get(), new BlockPos(2, 2, 2));
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 100)
+    public static void landmineBlastRespectsMobGriefing(GameTestHelper helper) {
+        helper.setBlock(new BlockPos(3, 2, 2), net.minecraft.world.level.block.Blocks.DIRT);
+        helper.setBlock(new BlockPos(1, 2, 2), net.minecraft.world.level.block.Blocks.DIRT);
+        var rule = helper.getLevel().getGameRules().getRule(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        rule.set(false, helper.getLevel().getServer());
+        mine(helper, 40000, 4);
+        var cow = helper.spawnWithNoFreeWill(net.minecraft.world.entity.EntityType.COW, new BlockPos(2, 3, 2));
+        helper.onEachTick(() -> cow.setOnGround(true));
+        helper.succeedWhen(() -> {
+            helper.assertBlockNotPresent(WeaponRegistry.LANDMINE.get(), new BlockPos(2, 2, 2));
+            rule.set(true, helper.getLevel().getServer());
+            helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.DIRT, new BlockPos(3, 2, 2));
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 20)
+    public static void landmineAutomationOnlyReleasesARunDownCoil(GameTestHelper helper) {
+        var mine = mine(helper, 100, 0);
+        var auto = mine.automationItems();
+        helper.assertTrue(auto.extractItem(0, 1, true).isEmpty(), "released a charged coil");
+        helper.assertFalse(auto.insertItem(1, new ItemStack(Items.DIRT), true).isEmpty(), "accepted dirt");
+        mine.items().setStackInSlot(0, new ItemStack(WeaponRegistry.SPRING.get()));
+        helper.assertFalse(auto.extractItem(0, 1, true).isEmpty(), "held a run-down coil");
+        helper.succeed();
+    }
 }

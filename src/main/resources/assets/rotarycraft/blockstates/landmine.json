@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/landmine"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/landmine"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/landmine"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/landmine"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/landmine"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/landmine"
+    }
+  }
+}

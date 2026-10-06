@@ -120,6 +120,28 @@ public final class WeaponRegistry {
             RotaryBlockEntities.TYPES.register("heat_ray",
                     () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.weapon.turret.HeatRayBlockEntity::new, HEAT_RAY.get()).build(null));
 
+    // ---- Coils, the Winder and the Landmine ----
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> COIL_CHARGE = COMPONENTS.register("coil_charge",
+            () -> DataComponentType.<Integer>builder().persistent(Codec.INT).networkSynchronized(ByteBufCodecs.VAR_INT).build());
+    public static final DeferredItem<net.scwunge.rotarycraft.item.CoilItem> SPRING = RotaryItems.add(RotaryItems.ITEMS.register("spring",
+            () -> new net.scwunge.rotarycraft.item.CoilItem(new Item.Properties(), 1, 1, true)));
+    public static final DeferredItem<net.scwunge.rotarycraft.item.CoilItem> STRONG_COIL = RotaryItems.add(RotaryItems.ITEMS.register("strong_coil",
+            () -> new net.scwunge.rotarycraft.item.CoilItem(new Item.Properties(), 16, 4, false)));
+    public static final DeferredBlock<net.scwunge.rotarycraft.block.MachineBlock> WINDER = RotaryBlocks.BLOCKS.register("winder",
+            () -> new net.scwunge.rotarycraft.block.MachineBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.WINDER_BE,
+                    net.scwunge.rotarycraft.blockentity.WinderBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.WinderBlockEntity>> WINDER_BE =
+            RotaryBlockEntities.TYPES.register("winder",
+                    () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.WinderBlockEntity::new, WINDER.get()).build(null));
+    public static final DeferredHolder<MenuType<?>, MenuType<net.scwunge.rotarycraft.menu.OneSlotMenu>> WINDER_MENU = RotaryMenus.oneSlot("winder");
+    public static final DeferredBlock<net.scwunge.rotarycraft.weapon.LandmineBlock> LANDMINE = RotaryBlocks.BLOCKS.register("landmine",
+            () -> new net.scwunge.rotarycraft.weapon.LandmineBlock(RotaryBlocks.machineProps().noOcclusion()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.weapon.turret.LandmineBlockEntity>> LANDMINE_BE =
+            RotaryBlockEntities.TYPES.register("landmine",
+                    () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.weapon.turret.LandmineBlockEntity::new, LANDMINE.get()).build(null));
+    public static final DeferredHolder<MenuType<?>, MenuType<net.scwunge.rotarycraft.weapon.LandmineMenu>> LANDMINE_MENU = RotaryMenus.MENUS.register("landmine",
+            () -> IMenuTypeExtension.create(net.scwunge.rotarycraft.weapon.LandmineMenu::fromNetwork));
+
     // ---- EMP ----
     public static final DeferredBlock<net.scwunge.rotarycraft.weapon.OwnedMachineBlock> EMP = RotaryBlocks.BLOCKS.register("emp",
             () -> new net.scwunge.rotarycraft.weapon.OwnedMachineBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.EMP_BE,
@@ -174,6 +196,8 @@ public final class WeaponRegistry {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(SONIC));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(HEAT_RAY));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(EMP));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(WINDER));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(LANDMINE));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(LASER_GUN));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(FLAME_TURRET));
         for (int i = 0; i < 16; i++) {
@@ -203,6 +227,8 @@ public final class WeaponRegistry {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ANTI_AIR_BE.get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, GATLING_BE.get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TNT_CANNON_BE.get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, LANDMINE_BE.get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, WINDER_BE.get(), (be, side) -> be.items());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, FLAME_TURRET_BE.get(), (be, side) -> be.intake());
     }
 }

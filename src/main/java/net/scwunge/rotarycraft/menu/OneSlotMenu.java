@@ -92,6 +92,14 @@ public class OneSlotMenu extends AbstractContainerMenu {
         return (data.get(2) & 0xFFFF) | (data.get(3) << 16);
     }
 
+    public BlockPos pos() {
+        return pos;
+    }
+
+    public int flags() {
+        return data.get(4);
+    }
+
     public boolean alternating() {
         return (data.get(4) & FLAG_AC) != 0;
     }

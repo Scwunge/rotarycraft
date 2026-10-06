@@ -28,6 +28,7 @@ public final class WeaponNetwork {
         registrar.playToClient(SafePlayers.TYPE, SafePlayers.CODEC, (p, ctx) -> ctx.enqueueWork(() -> WeaponClientHooks.openSafePlayers(p.pos(), p.names())));
         registrar.playToServer(RemoveSafePlayer.TYPE, RemoveSafePlayer.CODEC, (p, ctx) -> ctx.enqueueWork(() -> RemoveSafePlayer.handle(p, ctx)));
         registrar.playToServer(CannonSettings.TYPE, CannonSettings.CODEC, (p, ctx) -> ctx.enqueueWork(() -> CannonSettings.handle(p, ctx)));
+        registrar.playToServer(WinderMode.TYPE, WinderMode.CODEC, (p, ctx) -> ctx.enqueueWork(() -> WinderMode.handle(p, ctx)));
         registrar.playToServer(SonicVolume.TYPE, SonicVolume.CODEC, (p, ctx) -> ctx.enqueueWork(() -> SonicVolume.handle(p, ctx)));
     }
 
@@ -84,6 +85,26 @@ public final class WeaponNetwork {
             if (player.distanceToSqr(p.pos.getCenter()) <= 64 && player.level().isLoaded(p.pos)
                     && player.level().getBlockEntity(p.pos) instanceof net.scwunge.rotarycraft.weapon.turret.SonicWeaponBlockEntity sonic) {
                 sonic.setDecibels(p.decibels);
+            }
+        }
+    }
+
+    /** The Winder's screen switching between winding and unwinding. */
+    public record WinderMode(BlockPos pos, boolean winding) implements CustomPacketPayload {
+        public static final Type<WinderMode> TYPE = new Type<>(RotaryCraft.id("winder_mode"));
+        public static final StreamCodec<ByteBuf, WinderMode> CODEC = StreamCodec.composite(BlockPos.STREAM_CODEC, WinderMode::pos,
+                ByteBufCodecs.BOOL, WinderMode::winding, WinderMode::new);
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
+        }
+
+        static void handle(WinderMode p, IPayloadContext ctx) {
+            Player player = ctx.player();
+            if (player.distanceToSqr(p.pos.getCenter()) <= 64 && player.level().isLoaded(p.pos)
+                    && player.level().getBlockEntity(p.pos) instanceof net.scwunge.rotarycraft.blockentity.WinderBlockEntity winder) {
+                winder.setWinding(p.winding);
             }
         }
     }

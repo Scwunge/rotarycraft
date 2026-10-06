@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " ss",
+    " hg",
+    "ppp"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "h": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "g": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:winder",
+    "count": 1
+  }
+}

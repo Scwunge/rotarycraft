@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/winder"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/winder"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/winder"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/winder"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/winder"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/winder"
+    }
+  }
+}

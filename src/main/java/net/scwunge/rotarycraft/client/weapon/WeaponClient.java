@@ -65,6 +65,8 @@ public final class WeaponClient {
         event.registerBlockEntityRenderer(WeaponRegistry.SONIC_BE.get(), c -> new SonicRenderer());
         event.registerBlockEntityRenderer(WeaponRegistry.HEAT_RAY_BE.get(), c -> new HeatRayRenderer());
         event.registerBlockEntityRenderer(WeaponRegistry.EMP_BE.get(), c -> new EmpRenderer());
+        event.registerBlockEntityRenderer(WeaponRegistry.WINDER_BE.get(), c -> new WinderRenderer());
+        event.registerBlockEntityRenderer(WeaponRegistry.LANDMINE_BE.get(), c -> new LandmineRenderer());
         event.registerEntityRenderer(WeaponRegistry.CANNON_TNT.get(), net.minecraft.client.renderer.entity.TntRenderer::new);
         event.registerEntityRenderer(WeaponRegistry.RAILGUN_SHOT.get(), c -> new StarShotRenderer(c, "railgun_shot"));
         event.registerEntityRenderer(WeaponRegistry.FREEZE_SHOT.get(), c -> new StarShotRenderer(c, "freeze_shot"));
@@ -76,6 +78,8 @@ public final class WeaponClient {
         event.register(WeaponRegistry.AMMO_MENU.get(), AmmoScreen::new);
         event.register(WeaponRegistry.CANNON_MENU.get(), CannonScreen::new);
         event.register(WeaponRegistry.SONIC_MENU.get(), SonicScreen::new);
+        event.register(WeaponRegistry.WINDER_MENU.get(), WinderScreen::new);
+        event.register(WeaponRegistry.LANDMINE_MENU.get(), LandmineScreen::new);
     }
 
     @SubscribeEvent
@@ -132,6 +136,30 @@ public final class WeaponClient {
                 return renderer;
             }
         }, WeaponRegistry.EMP.get().asItem());
+        event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    Minecraft mc = Minecraft.getInstance();
+                    renderer = new WinderRenderer.Item(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels());
+                }
+                return renderer;
+            }
+        }, WeaponRegistry.WINDER.get().asItem());
+        event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    Minecraft mc = Minecraft.getInstance();
+                    renderer = new LandmineRenderer.Item(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels());
+                }
+                return renderer;
+            }
+        }, WeaponRegistry.LANDMINE.get().asItem());
         event.registerItem(turretItem(LASER_GUN), WeaponRegistry.LASER_GUN.get().asItem());
         event.registerItem(turretItem(FLAME_TURRET), WeaponRegistry.FLAME_TURRET.get().asItem());
     }

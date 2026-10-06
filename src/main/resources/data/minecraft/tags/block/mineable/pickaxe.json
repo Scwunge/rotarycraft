@@ -82,6 +82,8 @@
     "rotarycraft:tnt_cannon",
     "rotarycraft:sonic_weapon",
     "rotarycraft:heat_ray",
-    "rotarycraft:emp"
+    "rotarycraft:emp",
+    "rotarycraft:winder",
+    "rotarycraft:landmine"
   ]
 }

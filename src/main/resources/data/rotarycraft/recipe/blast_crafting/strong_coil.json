@@ -1,0 +1,28 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "SDS",
+    "BCB",
+    "SDS"
+  ],
+  "key": {
+    "S": {
+      "item": "rotarycraft:spring_steel_ingot"
+    },
+    "C": {
+      "item": "rotarycraft:spring"
+    },
+    "B": {
+      "item": "rotarycraft:bedrock_dust"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:strong_coil",
+    "count": 1
+  },
+  "temperature": 1000,
+  "speed": 4
+}
