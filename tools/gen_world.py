@@ -150,7 +150,31 @@ shutil.copy(REF + '/Textures/GUI/borergui.png', T + '/gui/borer.png')
 shutil.copy(REF + '/Textures/GUI/buttons.png', T + '/gui/borer_buttons.png')
 shaped('borer', ['SSS', 'DGC', 'BBB'], {'S': STEEL, 'D': item('drill'), 'G': item('steel_gear_unit_2'), 'C': item('circuit_board'), 'B': item('base_panel')})
 
+# ---- Bedrock Breaker and the bedrock slice it grinds ----
+model_texture('bedrocktex.png', 'bedrock_breaker')
+model_texture('bedrockvtex.png', 'bedrock_breaker_v')
+rendered_machine('bedrock_breaker')
+MODELS.append('ModelBedrockBreaker:bedrock_breaker')
+MODELS.append('ModelBedrockBreakerV:bedrock_breaker_v')
+shaped('bedrock_breaker', ['BDt', 'BSO', 'BDt'], {'t': item('tungsten_ingot'), 'S': STEEL, 'D': {'tag': 'c:gems/diamond'}, 'O': {'item': 'minecraft:obsidian'},
+                                                  'B': item('base_panel')})
+SLICE_DIRS = {'down': (1, 0), 'up': (1, 1), 'north': (2, 0), 'south': (2, 1), 'west': (0, 0), 'east': (0, 1)}
+slice_variants = {}
+for dname, (axis, positive) in SLICE_DIRS.items():
+    for n in range(16):
+        lo, hi = [0, 0, 0], [16, 16, 16]
+        if positive:
+            hi[axis] = 16 - n
+        else:
+            lo[axis] = n
+        w('%s/models/block/bedrock_slice/%s_%d.json' % (A, dname, n), {'textures': {'all': 'minecraft:block/bedrock', 'particle': 'minecraft:block/bedrock'},
+            'elements': [{'from': lo, 'to': hi, 'faces': {f: {'texture': '#all'} for f in ('down', 'up', 'north', 'south', 'west', 'east')}}]})
+        slice_variants['facing=%s,progress=%d' % (dname, n)] = {'model': 'rotarycraft:block/bedrock_slice/%s_%d' % (dname, n)}
+w(A + '/blockstates/bedrock_slice.json', {'variants': slice_variants})
+
 lang.update({
+    'block.rotarycraft.bedrock_breaker': 'Bedrock Breaker',
+    'block.rotarycraft.bedrock_slice': 'Bedrock',
     'block.rotarycraft.borer': 'Borer',
     'block.rotarycraft.mining_pipe': 'Mining Pipe',
     'message.rotarycraft.borer.protected': 'Your borer has hit a protected area at %s, %s and has jammed.',

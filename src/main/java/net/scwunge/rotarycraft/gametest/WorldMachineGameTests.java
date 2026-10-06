@@ -15,10 +15,12 @@ import net.neoforged.neoforge.gametest.GameTestHolder;
 import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.block.MachineBlock;
+import net.scwunge.rotarycraft.blockentity.BedrockBreakerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.BorerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ChunkLoaderBlockEntity;
 import net.scwunge.rotarycraft.blockentity.WeatherControllerBlockEntity;
 import net.scwunge.rotarycraft.registry.RotaryItems;
+import net.scwunge.rotarycraft.registry.RotaryParts;
 import net.scwunge.rotarycraft.config.RotaryConfig;
 import net.scwunge.rotarycraft.registry.WorldMachineRegistry;
 
@@ -502,5 +504,107 @@ public class WorldMachineGameTests {
         helper.assertFalse(borer.enchantments().has(net.minecraft.world.item.enchantment.Enchantments.MENDING), "took an enchantment it does not use");
         helper.assertTrue(borer.operationTime() >= 1, "operation time");
         helper.succeed();
+    }
+
+    // ---- Bedrock Breaker ----
+
+    /** A bedrock breaker facing east with a flywheel behind it that gives it its full power at a speed that makes every step take a tick. */
+    static BedrockBreakerBlockEntity breaker(GameTestHelper helper, int torque, int omega) {
+        WeaponGameTests.spinningFlywheel(helper, BORER.west(), torque, omega, Direction.EAST);
+        helper.setBlock(BORER, WorldMachineRegistry.BEDROCK_BREAKER.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        return helper.getBlockEntity(BORER);
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 200)
+    public static void bedrockBreakerGrindsBedrockToDustInAChest(GameTestHelper helper) {
+        BedrockBreakerBlockEntity breaker = breaker(helper, 16384, FAST);
+        helper.setBlock(new BlockPos(4, 1, 3), Blocks.BEDROCK);
+        helper.setBlock(BORER.south(), Blocks.CHEST);
+        helper.succeedWhen(() -> {
+            helper.assertTrue(helper.getBlockState(new BlockPos(4, 1, 3)).isAir(), "the bedrock is still there");
+            net.minecraft.world.Container chest = helper.getBlockEntity(BORER.south());
+            int dust = BedrockBreakerBlockEntity.dustPerBlock(helper.getLevel().getDifficulty());
+            helper.assertTrue(chest.countItem(RotaryParts.part("bedrock_dust").get()) == dust, "expected " + dust + " dust, chest had "
+                    + chest.countItem(RotaryParts.part("bedrock_dust").get()));
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 200)
+    public static void bedrockBreakerThinsBedrockAnotchAtATime(GameTestHelper helper) {
+        BedrockBreakerBlockEntity breaker = breaker(helper, 16384, FAST);
+        helper.setBlock(new BlockPos(4, 1, 3), Blocks.BEDROCK);
+        helper.setBlock(BORER.south(), Blocks.CHEST);
+        helper.succeedWhen(() -> {
+            BlockState state = helper.getBlockState(new BlockPos(4, 1, 3));
+            helper.assertTrue(state.is(WorldMachineRegistry.BEDROCK_SLICE.get()) && state.getValue(net.scwunge.rotarycraft.block.BedrockSliceBlock.PROGRESS) >= 3,
+                    "the bedrock is not being ground down (" + state.getBlock() + ")");
+            helper.assertTrue(state.getValue(net.scwunge.rotarycraft.block.BedrockSliceBlock.FACING) == Direction.WEST, "the thinning side should face the machine");
+            helper.assertTrue(state.getDestroySpeed(helper.getLevel(), helper.absolutePos(new BlockPos(4, 1, 3))) < 0, "a slice of bedrock must stay unbreakable");
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100)
+    public static void bedrockBreakerGrindsOrdinaryBlocksAwayWithoutDrops(GameTestHelper helper) {
+        BedrockBreakerBlockEntity breaker = breaker(helper, 16384, FAST);
+        helper.setBlock(new BlockPos(3, 1, 3), Blocks.STONE);
+        helper.setBlock(BORER.south(), Blocks.CHEST);
+        helper.runAfterDelay(20, () -> {
+            helper.assertTrue(helper.getBlockState(new BlockPos(3, 1, 3)).isAir(), "stone in the way was not ground away");
+            helper.assertTrue(helper.getEntities(net.minecraft.world.entity.EntityType.ITEM).isEmpty(), "ground-away stone dropped something");
+            net.minecraft.world.Container chest = helper.getBlockEntity(BORER.south());
+            helper.assertTrue(chest.isEmpty(), "ground-away stone went into the chest");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100)
+    public static void bedrockBreakerNeedsItsTorque(GameTestHelper helper) {
+        BedrockBreakerBlockEntity breaker = breaker(helper, 1000, FAST);
+        helper.setBlock(new BlockPos(3, 1, 3), Blocks.BEDROCK);
+        helper.runAfterDelay(30, () -> {
+            helper.assertFalse(breaker.hasEnoughPower(), "1000 N*m should not be enough");
+            helper.assertTrue(helper.getBlockState(new BlockPos(3, 1, 3)).is(Blocks.BEDROCK), "ground bedrock without the torque");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100)
+    public static void bedrockBreakerLeavesBlocksThatHoldItems(GameTestHelper helper) {
+        BedrockBreakerBlockEntity breaker = breaker(helper, 16384, FAST);
+        helper.setBlock(new BlockPos(3, 1, 3), Blocks.CHEST);
+        net.minecraft.world.Container chest = helper.getBlockEntity(new BlockPos(3, 1, 3));
+        chest.setItem(0, new ItemStack(Items.DIAMOND, 3));
+        helper.runAfterDelay(30, () -> {
+            helper.assertTrue(helper.getBlockState(new BlockPos(3, 1, 3)).is(Blocks.CHEST), "ground away a chest full of items");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, batch = "world_bedrockmobgriefing", timeoutTicks = 100)
+    public static void bedrockBreakerRespectsMobGriefing(GameTestHelper helper) {
+        net.minecraft.world.level.GameRules.BooleanValue rule = helper.getLevel().getGameRules().getRule(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        rule.set(false, helper.getLevel().getServer());
+        BedrockBreakerBlockEntity breaker = breaker(helper, 16384, FAST);
+        helper.setBlock(new BlockPos(3, 1, 3), Blocks.BEDROCK);
+        helper.runAfterDelay(30, () -> {
+            try {
+                helper.assertTrue(helper.getBlockState(new BlockPos(3, 1, 3)).is(Blocks.BEDROCK), "ground bedrock with mobGriefing off");
+                helper.succeed();
+            } finally {
+                rule.set(true, helper.getLevel().getServer());
+            }
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 200)
+    public static void bedrockBreakerKeepsDustInItsOwnStoreAndAutomationCanTakeItOut(GameTestHelper helper) {
+        BedrockBreakerBlockEntity breaker = breaker(helper, 16384, FAST);
+        helper.setBlock(new BlockPos(4, 1, 3), Blocks.BEDROCK);
+        helper.succeedWhen(() -> {
+            int dust = BedrockBreakerBlockEntity.dustPerBlock(helper.getLevel().getDifficulty());
+            helper.assertTrue(breaker.store().getStackInSlot(0).getCount() == dust, "store holds " + breaker.store().getStackInSlot(0));
+            helper.assertTrue(breaker.automationItems().extractItem(0, 1, true).getCount() == 1, "automation could not take dust out");
+            helper.assertTrue(breaker.automationItems().insertItem(0, new ItemStack(Items.DIRT), true).getCount() == 1, "automation could put things in");
+        });
     }
 }

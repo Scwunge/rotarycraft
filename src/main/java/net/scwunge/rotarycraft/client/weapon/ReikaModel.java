@@ -77,6 +77,11 @@ public final class ReikaModel {
         pose.scale(1, -1, -1);
     }
 
+    /** The names of the model's parts. */
+    public java.util.Set<String> names() {
+        return parts().keySet();
+    }
+
     /** Draws every part of the model. */
     public void renderAll(PoseStack pose, VertexConsumer buffer, int light, int overlay) {
         for (ModelPart part : parts().values()) {

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BDt",
+    "BSO",
+    "BDt"
+  ],
+  "key": {
+    "t": {
+      "item": "rotarycraft:tungsten_ingot"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "D": {
+      "tag": "c:gems/diamond"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "B": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_breaker",
+    "count": 1
+  }
+}

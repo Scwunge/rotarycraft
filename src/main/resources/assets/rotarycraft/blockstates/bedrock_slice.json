@@ -1,0 +1,292 @@
+{
+  "variants": {
+    "facing=down,progress=0": {
+      "model": "rotarycraft:block/bedrock_slice/down_0"
+    },
+    "facing=down,progress=1": {
+      "model": "rotarycraft:block/bedrock_slice/down_1"
+    },
+    "facing=down,progress=2": {
+      "model": "rotarycraft:block/bedrock_slice/down_2"
+    },
+    "facing=down,progress=3": {
+      "model": "rotarycraft:block/bedrock_slice/down_3"
+    },
+    "facing=down,progress=4": {
+      "model": "rotarycraft:block/bedrock_slice/down_4"
+    },
+    "facing=down,progress=5": {
+      "model": "rotarycraft:block/bedrock_slice/down_5"
+    },
+    "facing=down,progress=6": {
+      "model": "rotarycraft:block/bedrock_slice/down_6"
+    },
+    "facing=down,progress=7": {
+      "model": "rotarycraft:block/bedrock_slice/down_7"
+    },
+    "facing=down,progress=8": {
+      "model": "rotarycraft:block/bedrock_slice/down_8"
+    },
+    "facing=down,progress=9": {
+      "model": "rotarycraft:block/bedrock_slice/down_9"
+    },
+    "facing=down,progress=10": {
+      "model": "rotarycraft:block/bedrock_slice/down_10"
+    },
+    "facing=down,progress=11": {
+      "model": "rotarycraft:block/bedrock_slice/down_11"
+    },
+    "facing=down,progress=12": {
+      "model": "rotarycraft:block/bedrock_slice/down_12"
+    },
+    "facing=down,progress=13": {
+      "model": "rotarycraft:block/bedrock_slice/down_13"
+    },
+    "facing=down,progress=14": {
+      "model": "rotarycraft:block/bedrock_slice/down_14"
+    },
+    "facing=down,progress=15": {
+      "model": "rotarycraft:block/bedrock_slice/down_15"
+    },
+    "facing=up,progress=0": {
+      "model": "rotarycraft:block/bedrock_slice/up_0"
+    },
+    "facing=up,progress=1": {
+      "model": "rotarycraft:block/bedrock_slice/up_1"
+    },
+    "facing=up,progress=2": {
+      "model": "rotarycraft:block/bedrock_slice/up_2"
+    },
+    "facing=up,progress=3": {
+      "model": "rotarycraft:block/bedrock_slice/up_3"
+    },
+    "facing=up,progress=4": {
+      "model": "rotarycraft:block/bedrock_slice/up_4"
+    },
+    "facing=up,progress=5": {
+      "model": "rotarycraft:block/bedrock_slice/up_5"
+    },
+    "facing=up,progress=6": {
+      "model": "rotarycraft:block/bedrock_slice/up_6"
+    },
+    "facing=up,progress=7": {
+      "model": "rotarycraft:block/bedrock_slice/up_7"
+    },
+    "facing=up,progress=8": {
+      "model": "rotarycraft:block/bedrock_slice/up_8"
+    },
+    "facing=up,progress=9": {
+      "model": "rotarycraft:block/bedrock_slice/up_9"
+    },
+    "facing=up,progress=10": {
+      "model": "rotarycraft:block/bedrock_slice/up_10"
+    },
+    "facing=up,progress=11": {
+      "model": "rotarycraft:block/bedrock_slice/up_11"
+    },
+    "facing=up,progress=12": {
+      "model": "rotarycraft:block/bedrock_slice/up_12"
+    },
+    "facing=up,progress=13": {
+      "model": "rotarycraft:block/bedrock_slice/up_13"
+    },
+    "facing=up,progress=14": {
+      "model": "rotarycraft:block/bedrock_slice/up_14"
+    },
+    "facing=up,progress=15": {
+      "model": "rotarycraft:block/bedrock_slice/up_15"
+    },
+    "facing=north,progress=0": {
+      "model": "rotarycraft:block/bedrock_slice/north_0"
+    },
+    "facing=north,progress=1": {
+      "model": "rotarycraft:block/bedrock_slice/north_1"
+    },
+    "facing=north,progress=2": {
+      "model": "rotarycraft:block/bedrock_slice/north_2"
+    },
+    "facing=north,progress=3": {
+      "model": "rotarycraft:block/bedrock_slice/north_3"
+    },
+    "facing=north,progress=4": {
+      "model": "rotarycraft:block/bedrock_slice/north_4"
+    },
+    "facing=north,progress=5": {
+      "model": "rotarycraft:block/bedrock_slice/north_5"
+    },
+    "facing=north,progress=6": {
+      "model": "rotarycraft:block/bedrock_slice/north_6"
+    },
+    "facing=north,progress=7": {
+      "model": "rotarycraft:block/bedrock_slice/north_7"
+    },
+    "facing=north,progress=8": {
+      "model": "rotarycraft:block/bedrock_slice/north_8"
+    },
+    "facing=north,progress=9": {
+      "model": "rotarycraft:block/bedrock_slice/north_9"
+    },
+    "facing=north,progress=10": {
+      "model": "rotarycraft:block/bedrock_slice/north_10"
+    },
+    "facing=north,progress=11": {
+      "model": "rotarycraft:block/bedrock_slice/north_11"
+    },
+    "facing=north,progress=12": {
+      "model": "rotarycraft:block/bedrock_slice/north_12"
+    },
+    "facing=north,progress=13": {
+      "model": "rotarycraft:block/bedrock_slice/north_13"
+    },
+    "facing=north,progress=14": {
+      "model": "rotarycraft:block/bedrock_slice/north_14"
+    },
+    "facing=north,progress=15": {
+      "model": "rotarycraft:block/bedrock_slice/north_15"
+    },
+    "facing=south,progress=0": {
+      "model": "rotarycraft:block/bedrock_slice/south_0"
+    },
+    "facing=south,progress=1": {
+      "model": "rotarycraft:block/bedrock_slice/south_1"
+    },
+    "facing=south,progress=2": {
+      "model": "rotarycraft:block/bedrock_slice/south_2"
+    },
+    "facing=south,progress=3": {
+      "model": "rotarycraft:block/bedrock_slice/south_3"
+    },
+    "facing=south,progress=4": {
+      "model": "rotarycraft:block/bedrock_slice/south_4"
+    },
+    "facing=south,progress=5": {
+      "model": "rotarycraft:block/bedrock_slice/south_5"
+    },
+    "facing=south,progress=6": {
+      "model": "rotarycraft:block/bedrock_slice/south_6"
+    },
+    "facing=south,progress=7": {
+      "model": "rotarycraft:block/bedrock_slice/south_7"
+    },
+    "facing=south,progress=8": {
+      "model": "rotarycraft:block/bedrock_slice/south_8"
+    },
+    "facing=south,progress=9": {
+      "model": "rotarycraft:block/bedrock_slice/south_9"
+    },
+    "facing=south,progress=10": {
+      "model": "rotarycraft:block/bedrock_slice/south_10"
+    },
+    "facing=south,progress=11": {
+      "model": "rotarycraft:block/bedrock_slice/south_11"
+    },
+    "facing=south,progress=12": {
+      "model": "rotarycraft:block/bedrock_slice/south_12"
+    },
+    "facing=south,progress=13": {
+      "model": "rotarycraft:block/bedrock_slice/south_13"
+    },
+    "facing=south,progress=14": {
+      "model": "rotarycraft:block/bedrock_slice/south_14"
+    },
+    "facing=south,progress=15": {
+      "model": "rotarycraft:block/bedrock_slice/south_15"
+    },
+    "facing=west,progress=0": {
+      "model": "rotarycraft:block/bedrock_slice/west_0"
+    },
+    "facing=west,progress=1": {
+      "model": "rotarycraft:block/bedrock_slice/west_1"
+    },
+    "facing=west,progress=2": {
+      "model": "rotarycraft:block/bedrock_slice/west_2"
+    },
+    "facing=west,progress=3": {
+      "model": "rotarycraft:block/bedrock_slice/west_3"
+    },
+    "facing=west,progress=4": {
+      "model": "rotarycraft:block/bedrock_slice/west_4"
+    },
+    "facing=west,progress=5": {
+      "model": "rotarycraft:block/bedrock_slice/west_5"
+    },
+    "facing=west,progress=6": {
+      "model": "rotarycraft:block/bedrock_slice/west_6"
+    },
+    "facing=west,progress=7": {
+      "model": "rotarycraft:block/bedrock_slice/west_7"
+    },
+    "facing=west,progress=8": {
+      "model": "rotarycraft:block/bedrock_slice/west_8"
+    },
+    "facing=west,progress=9": {
+      "model": "rotarycraft:block/bedrock_slice/west_9"
+    },
+    "facing=west,progress=10": {
+      "model": "rotarycraft:block/bedrock_slice/west_10"
+    },
+    "facing=west,progress=11": {
+      "model": "rotarycraft:block/bedrock_slice/west_11"
+    },
+    "facing=west,progress=12": {
+      "model": "rotarycraft:block/bedrock_slice/west_12"
+    },
+    "facing=west,progress=13": {
+      "model": "rotarycraft:block/bedrock_slice/west_13"
+    },
+    "facing=west,progress=14": {
+      "model": "rotarycraft:block/bedrock_slice/west_14"
+    },
+    "facing=west,progress=15": {
+      "model": "rotarycraft:block/bedrock_slice/west_15"
+    },
+    "facing=east,progress=0": {
+      "model": "rotarycraft:block/bedrock_slice/east_0"
+    },
+    "facing=east,progress=1": {
+      "model": "rotarycraft:block/bedrock_slice/east_1"
+    },
+    "facing=east,progress=2": {
+      "model": "rotarycraft:block/bedrock_slice/east_2"
+    },
+    "facing=east,progress=3": {
+      "model": "rotarycraft:block/bedrock_slice/east_3"
+    },
+    "facing=east,progress=4": {
+      "model": "rotarycraft:block/bedrock_slice/east_4"
+    },
+    "facing=east,progress=5": {
+      "model": "rotarycraft:block/bedrock_slice/east_5"
+    },
+    "facing=east,progress=6": {
+      "model": "rotarycraft:block/bedrock_slice/east_6"
+    },
+    "facing=east,progress=7": {
+      "model": "rotarycraft:block/bedrock_slice/east_7"
+    },
+    "facing=east,progress=8": {
+      "model": "rotarycraft:block/bedrock_slice/east_8"
+    },
+    "facing=east,progress=9": {
+      "model": "rotarycraft:block/bedrock_slice/east_9"
+    },
+    "facing=east,progress=10": {
+      "model": "rotarycraft:block/bedrock_slice/east_10"
+    },
+    "facing=east,progress=11": {
+      "model": "rotarycraft:block/bedrock_slice/east_11"
+    },
+    "facing=east,progress=12": {
+      "model": "rotarycraft:block/bedrock_slice/east_12"
+    },
+    "facing=east,progress=13": {
+      "model": "rotarycraft:block/bedrock_slice/east_13"
+    },
+    "facing=east,progress=14": {
+      "model": "rotarycraft:block/bedrock_slice/east_14"
+    },
+    "facing=east,progress=15": {
+      "model": "rotarycraft:block/bedrock_slice/east_15"
+    }
+  }
+}

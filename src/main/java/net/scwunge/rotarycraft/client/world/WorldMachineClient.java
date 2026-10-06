@@ -21,6 +21,7 @@ public final class WorldMachineClient {
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(WorldMachineRegistry.CHUNK_LOADER_BE.get(), c -> new ChunkLoaderRenderer());
         event.registerBlockEntityRenderer(WorldMachineRegistry.WEATHER_CONTROLLER_BE.get(), c -> new WeatherControllerRenderer());
+        event.registerBlockEntityRenderer(WorldMachineRegistry.BEDROCK_BREAKER_BE.get(), c -> new BedrockBreakerRenderer());
     }
 
     @SubscribeEvent
@@ -55,5 +56,17 @@ public final class WorldMachineClient {
                 return renderer;
             }
         }, WorldMachineRegistry.WEATHER_CONTROLLER.get().asItem());
+        event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    Minecraft mc = Minecraft.getInstance();
+                    renderer = new BedrockBreakerRenderer.Item(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels());
+                }
+                return renderer;
+            }
+        }, WorldMachineRegistry.BEDROCK_BREAKER.get().asItem());
     }
 }

@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/bedrock_breaker"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/bedrock_breaker"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/bedrock_breaker"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/bedrock_breaker"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/bedrock_breaker"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/bedrock_breaker"
+    }
+  }
+}

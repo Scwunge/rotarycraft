@@ -328,6 +328,8 @@
   "block.rotarycraft.cave_scanner": "Cave Scanner",
   "block.rotarycraft.mob_radar": "Mob Radar",
   "block.rotarycraft.gpr": "Ground-Penetrating Radar",
+  "block.rotarycraft.bedrock_breaker": "Bedrock Breaker",
+  "block.rotarycraft.bedrock_slice": "Bedrock",
   "block.rotarycraft.borer": "Borer",
   "block.rotarycraft.mining_pipe": "Mining Pipe",
   "message.rotarycraft.borer.protected": "Your borer has hit a protected area at %s, %s and has jammed.",

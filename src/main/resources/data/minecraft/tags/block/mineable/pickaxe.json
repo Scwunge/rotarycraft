@@ -97,6 +97,7 @@
     "rotarycraft:projector",
     "rotarycraft:chunk_loader",
     "rotarycraft:weather_controller",
-    "rotarycraft:borer"
+    "rotarycraft:borer",
+    "rotarycraft:bedrock_breaker"
   ]
 }
