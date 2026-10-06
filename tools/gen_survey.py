@@ -1,0 +1,119 @@
+"""Surveying and display machines (run by gen_assets.py after gen_weapons.py): the original's model textures, screens and icon sheets,
+blockstates and models (the machines are drawn by their renderers), loot, recipes and lang."""
+import json
+import os
+import shutil
+import subprocess
+import sys
+
+from PIL import Image
+
+R = 'src/main/resources'
+A = R + '/assets/rotarycraft'
+D = R + '/data/rotarycraft'
+T = A + '/textures'
+REF = 'reference/RotaryCraft'
+MACHINES = []
+
+
+def w(path, obj):
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, 'w') as f:
+        json.dump(obj, f, indent=2)
+        f.write('\n')
+
+
+def model_texture(src, name):
+    os.makedirs(T + '/machine', exist_ok=True)
+    shutil.copy('%s/Textures/TileEntityTex/%s' % (REF, src), '%s/machine/%s.png' % (T, name))
+
+
+def gui(src, name):
+    os.makedirs(T + '/gui', exist_ok=True)
+    shutil.copy('%s/Textures/GUI/%s' % (REF, src), '%s/gui/%s.png' % (T, name))
+
+
+BLOCK_DISPLAY = {
+    'gui': {'rotation': [30, 225, 0], 'translation': [0, 0, 0], 'scale': [0.625, 0.625, 0.625]},
+    'ground': {'rotation': [0, 0, 0], 'translation': [0, 3, 0], 'scale': [0.25, 0.25, 0.25]},
+    'fixed': {'rotation': [0, 0, 0], 'translation': [0, 0, 0], 'scale': [0.5, 0.5, 0.5]},
+    'thirdperson_righthand': {'rotation': [75, 45, 0], 'translation': [0, 2.5, 0], 'scale': [0.375, 0.375, 0.375]},
+    'firstperson_righthand': {'rotation': [0, 45, 0], 'translation': [0, 0, 0], 'scale': [0.4, 0.4, 0.4]},
+    'firstperson_lefthand': {'rotation': [0, 225, 0], 'translation': [0, 0, 0], 'scale': [0.4, 0.4, 0.4]},
+}
+
+
+def loot(name):
+    w('%s/loot_table/blocks/%s.json' % (D, name), {'type': 'minecraft:block', 'pools': [{
+        'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'rotarycraft:' + name}], 'conditions': [{'condition': 'minecraft:survives_explosion'}]}]})
+
+
+def rendered_machine(name, facings=('up', 'down', 'north', 'south', 'east', 'west'), particle='rotarycraft:block/shaft_steel'):
+    """A machine drawn entirely by its renderer: the block model only gives break particles; the item is drawn by the renderer too."""
+    MACHINES.append(name)
+    w('%s/models/block/%s.json' % (A, name), {'textures': {'particle': particle}})
+    w('%s/blockstates/%s.json' % (A, name), {'variants': {'facing=' + f: {'model': 'rotarycraft:block/' + name} for f in facings}})
+    w('%s/models/item/%s.json' % (A, name), {'parent': 'minecraft:builtin/entity', 'gui_light': 'side', 'textures': {'particle': particle},
+                                             'display': BLOCK_DISPLAY})
+    loot(name)
+
+
+def item(i):
+    return {'item': 'rotarycraft:' + i}
+
+
+def tag(t):
+    return {'tag': t}
+
+
+STEEL = tag('c:ingots/steel')
+
+
+def shaped(name, pattern, key, count=1):
+    w('%s/recipe/%s.json' % (D, name), {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': pattern, 'key': key,
+                                        'result': {'id': 'rotarycraft:' + name, 'count': count}})
+
+
+lang_path = A + '/lang/en_us.json'
+lang = json.load(open(lang_path))
+
+# ---- Mob Radar ----
+model_texture('radartex.png', 'mob_radar')
+gui('mobradargui.png', 'mob_radar')
+gui('mobicons.png', 'mob_icons')
+rendered_machine('mob_radar')
+shaped('mob_radar', [' rs', ' g ', 'pcp'], {'r': item('radar_unit'), 's': item('screen'), 'c': item('circuit_board'), 'g': item('steel_gear_unit_2'),
+                                           'p': item('base_panel')})
+
+# ---- Ground-Penetrating Radar (the original's blocks are cut from its old terrain sheet: 81 sides, 82 top, 83 bottom) ----
+sheet = Image.open(REF + '/Textures/Terrain/textures.png').convert('RGBA')
+for tile, name in ((81, 'gpr_side'), (82, 'gpr_top'), (83, 'gpr_bottom')):
+    sheet.crop(((tile % 16) * 16, (tile // 16) * 16, (tile % 16 + 1) * 16, (tile // 16 + 1) * 16)).save('%s/block/%s.png' % (T, name))
+w(A + '/models/block/gpr.json', {'parent': 'minecraft:block/cube_bottom_top', 'textures': {
+    'top': 'rotarycraft:block/gpr_top', 'bottom': 'rotarycraft:block/gpr_bottom', 'side': 'rotarycraft:block/gpr_side'}})
+w(A + '/blockstates/gpr.json', {'variants': {'facing=' + f: {'model': 'rotarycraft:block/gpr'} for f in ('up', 'down', 'north', 'south', 'east', 'west')}})
+w(A + '/models/item/gpr.json', {'parent': 'rotarycraft:block/gpr'})
+loot('gpr')
+MACHINES.append('gpr')
+gui('gprgui.png', 'gpr')
+shaped('gpr', ['SsS', 'PCP', 'SRS'], {'S': STEEL, 's': item('screen'), 'P': item('base_panel'), 'R': item('radar_unit'), 'C': item('circuit_board')})
+
+# ---- Cave Scanner ----
+model_texture('cavetex.png', 'cave_scanner')
+rendered_machine('cave_scanner')
+shaped('cave_scanner', ['sps', 'pcp', 'sns'], {'n': item('sonar_unit'), 's': STEEL, 'c': item('circuit_board'), 'p': item('base_panel')})
+
+lang.update({
+    'block.rotarycraft.cave_scanner': 'Cave Scanner',
+    'block.rotarycraft.mob_radar': 'Mob Radar',
+    'block.rotarycraft.gpr': 'Ground-Penetrating Radar',
+})
+w(lang_path, lang)
+
+path = R + '/data/minecraft/tags/block/mineable/pickaxe.json'
+data = json.load(open(path))
+data['values'] += ['rotarycraft:' + m for m in MACHINES if 'rotarycraft:' + m not in data['values']]
+w(path, data)
+
+subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRadar:radar', 'ModelCave:cave'], check=True)
+print('survey ok,', len(MACHINES), 'machines')

@@ -86,6 +86,9 @@
     "rotarycraft:winder",
     "rotarycraft:landmine",
     "rotarycraft:force_field",
-    "rotarycraft:containment"
+    "rotarycraft:containment",
+    "rotarycraft:mob_radar",
+    "rotarycraft:gpr",
+    "rotarycraft:cave_scanner"
   ]
 }

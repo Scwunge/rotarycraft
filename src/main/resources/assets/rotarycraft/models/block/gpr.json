@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "top": "rotarycraft:block/gpr_top",
+    "bottom": "rotarycraft:block/gpr_bottom",
+    "side": "rotarycraft:block/gpr_side"
+  }
+}

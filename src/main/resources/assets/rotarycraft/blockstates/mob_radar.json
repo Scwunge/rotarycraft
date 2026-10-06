@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/mob_radar"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/mob_radar"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/mob_radar"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/mob_radar"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/mob_radar"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/mob_radar"
+    }
+  }
+}

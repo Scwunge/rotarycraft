@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sps",
+    "pcp",
+    "sns"
+  ],
+  "key": {
+    "n": {
+      "item": "rotarycraft:sonar_unit"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "c": {
+      "item": "rotarycraft:circuit_board"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:cave_scanner",
+    "count": 1
+  }
+}

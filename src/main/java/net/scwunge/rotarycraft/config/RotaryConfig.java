@@ -23,6 +23,7 @@ public class RotaryConfig {
     public static final ModConfigSpec.BooleanValue WEAPON_BLOCK_DAMAGE;
     public static final ModConfigSpec.BooleanValue RAILGUN_BLOCK_DAMAGE;
     public static final ModConfigSpec.IntValue FORCE_FIELD_RANGE;
+    public static final ModConfigSpec.IntValue CAVE_SCANNER_RANGE;
     public static final java.util.Map<String, ModConfigSpec.BooleanValue> WEAPONS = new java.util.LinkedHashMap<>();
     // ---- utility machines that load or change the world (off unless the server turns them on) ----
     public static final java.util.Map<String, ModConfigSpec.BooleanValue> WORLD_MACHINES = new java.util.LinkedHashMap<>();
@@ -63,6 +64,11 @@ public class RotaryConfig {
                 "sonicWeapon", "emp", "landmine", "forceField", "containment"}) {
             WEAPONS.put(w, b.comment("Enable the " + w + ". Off: it stays placed but does nothing.").define(w, true));
         }
+        b.pop();
+
+        b.push("surveying");
+        CAVE_SCANNER_RANGE = b.comment("How many blocks each way the Cave Scanner's box reaches (the client does the scanning, so large values cost frames).")
+                .defineInRange("caveScannerRange", 16, 4, 128);
         b.pop();
 
         b.push("world_machines");

@@ -26,6 +26,13 @@ public class ScrewdriverItem extends Item {
         if (!(state.getBlock() instanceof MachineBlock)) {
             return InteractionResult.PASS;
         }
+        if (level.getBlockEntity(context.getClickedPos()) instanceof net.scwunge.rotarycraft.survey.GprBlockEntity gpr) {
+            // the radar has no facing: the screwdriver turns the plane it scans across
+            if (!level.isClientSide()) {
+                gpr.flipDirection();
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide());
+        }
         if (!level.isClientSide() && (state.getBlock() instanceof BevelGearBlock || state.getBlock() instanceof SplitterBlock)) {
             // two-sided blocks: right-click turns the output, sneak-right-click turns the second side; they never share a side
             var second = state.getBlock() instanceof BevelGearBlock ? BevelGearBlock.INPUT : SplitterBlock.BENT;

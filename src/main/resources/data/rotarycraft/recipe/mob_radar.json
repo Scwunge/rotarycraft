@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " rs",
+    " g ",
+    "pcp"
+  ],
+  "key": {
+    "r": {
+      "item": "rotarycraft:radar_unit"
+    },
+    "s": {
+      "item": "rotarycraft:screen"
+    },
+    "c": {
+      "item": "rotarycraft:circuit_board"
+    },
+    "g": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:mob_radar",
+    "count": 1
+  }
+}

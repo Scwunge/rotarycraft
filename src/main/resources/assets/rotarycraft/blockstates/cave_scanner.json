@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/cave_scanner"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/cave_scanner"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/cave_scanner"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/cave_scanner"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/cave_scanner"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/cave_scanner"
+    }
+  }
+}

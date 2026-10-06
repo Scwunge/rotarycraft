@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SsS",
+    "PCP",
+    "SRS"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "s": {
+      "item": "rotarycraft:screen"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "R": {
+      "item": "rotarycraft:radar_unit"
+    },
+    "C": {
+      "item": "rotarycraft:circuit_board"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:gpr",
+    "count": 1
+  }
+}
