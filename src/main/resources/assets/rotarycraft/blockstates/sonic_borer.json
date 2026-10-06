@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/sonic_borer"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/sonic_borer"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/sonic_borer"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/sonic_borer"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/sonic_borer"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/sonic_borer"
+    }
+  }
+}

@@ -34,6 +34,7 @@ public class RotaryConfig {
     public static final ModConfigSpec.DoubleValue BORER_POWER_FACTOR;
     public static final ModConfigSpec.BooleanValue BORER_MAINTENANCE;
     public static final ModConfigSpec.IntValue BORER_MAX_LENGTH;
+    public static final ModConfigSpec.IntValue SONIC_BORER_RANGE;
     public static final ModConfigSpec.BooleanValue BEDROCK_VOID_HOLE;
 
     static {
@@ -97,6 +98,7 @@ public class RotaryConfig {
         BORER_POWER_FACTOR = b.comment("Scales the power the borer needs to cut a block (1 is the original).").defineInRange("borerPowerFactor", 1.0, 0.5, 8.0);
         BEDROCK_VOID_HOLE = b.comment("The bedrock breaker may grind through the lowest layer of the world (and so open a hole to the void).")
                 .define("bedrockBreakerVoidHole", false);
+        SONIC_BORER_RANGE = b.comment("How far ahead a sonic borer looks for something to shatter (at least 64).").defineInRange("sonicBorerRange", 512, 64, 4096);
         BORER_MAX_LENGTH = b.comment("Longest tunnel a borer will bore, in blocks (the original has no limit, so a borer left running in open country keeps",
                 "generating the land ahead of it for ever). It jams when it gets there.").defineInRange("borerMaxLength", 1024, 8, 30_000_000);
         BORER_MAINTENANCE = b.comment("The borer wears out its drill (256 blocks) and needs a new Drill item to carry on.").define("borerRequiresMaintenance", false);

@@ -18,6 +18,7 @@ import net.scwunge.rotarycraft.block.MachineBlock;
 import net.scwunge.rotarycraft.blockentity.BedrockBreakerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.BorerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ChunkLoaderBlockEntity;
+import net.scwunge.rotarycraft.blockentity.SonicBorerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.WeatherControllerBlockEntity;
 import net.scwunge.rotarycraft.registry.RotaryItems;
 import net.scwunge.rotarycraft.registry.RotaryParts;
@@ -607,6 +608,104 @@ public class WorldMachineGameTests {
             helper.assertTrue(breaker.store().getStackInSlot(0).getCount() == dust, "store holds " + breaker.store().getStackInSlot(0));
             helper.assertTrue(breaker.automationItems().extractItem(0, 1, true).getCount() == 1, "automation could not take dust out");
             helper.assertTrue(breaker.automationItems().insertItem(0, new ItemStack(Items.DIRT), true).getCount() == 1, "automation could put things in");
+        });
+    }
+
+    // ---- Sonic Borer ----
+    static final BlockPos SONIC = new BlockPos(2, 4, 3);
+
+    /** A sonic borer facing east at the top of the room, with just its minimum power and some pressure already built up. */
+    static SonicBorerBlockEntity sonicBorer(GameTestHelper helper, int torque, int omega, int pressure) {
+        WeaponGameTests.spinningFlywheel(helper, SONIC.west(), torque, omega, Direction.EAST);
+        helper.setBlock(SONIC, WorldMachineRegistry.SONIC_BORER.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        SonicBorerBlockEntity borer = helper.getBlockEntity(SONIC);
+        borer.addPressure(pressure);
+        return borer;
+    }
+
+    /** A wall of stone 7 by 7 across the line of fire, at x = 8, with one stone just outside it. */
+    static void sonicWall(GameTestHelper helper) {
+        for (int y = 1; y <= 7; y++) {
+            for (int z = 0; z <= 6; z++) {
+                helper.setBlock(new BlockPos(8, y, z), Blocks.STONE);
+            }
+        }
+        helper.setBlock(new BlockPos(8, 0, 3), Blocks.STONE);
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100)
+    public static void sonicBorerShattersTheSquareAtTheFirstSolidLayer(GameTestHelper helper) {
+        SonicBorerBlockEntity borer = sonicBorer(helper, 4096, 16, 450);
+        sonicWall(helper);
+        helper.succeedWhen(() -> {
+            helper.assertTrue(borer.pressure() < SonicBorerBlockEntity.FIRE_PRESSURE + 100, "it never fired (pressure " + borer.pressure() + ")");
+            for (int y = 1; y <= 7; y++) {
+                for (int z = 0; z <= 6; z++) {
+                    helper.assertTrue(helper.getBlockState(new BlockPos(8, y, z)).isAir(), "left stone at " + y + ", " + z);
+                }
+            }
+            helper.assertTrue(helper.getBlockState(new BlockPos(8, 0, 3)).is(Blocks.STONE), "broke a block outside the 7 by 7 square");
+            helper.assertTrue(!helper.getEntities(net.minecraft.world.entity.EntityType.ITEM).isEmpty(), "no drops from the shattered stone");
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100)
+    public static void sonicBorerHoldsFireWhenSomethingOnTheWayCannotBeBroken(GameTestHelper helper) {
+        SonicBorerBlockEntity borer = sonicBorer(helper, 4096, 16, 450);
+        sonicWall(helper);
+        helper.setBlock(new BlockPos(5, 6, 4), Blocks.BEDROCK);
+        helper.runAfterDelay(40, () -> {
+            helper.assertTrue(helper.getBlockState(new BlockPos(8, 4, 3)).is(Blocks.STONE), "fired past unbreakable bedrock");
+            helper.assertTrue(borer.pressure() >= SonicBorerBlockEntity.FIRE_PRESSURE, "pressure was spent without firing");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100)
+    public static void sonicBorerHoldsFireWhenAWaterLayerIsInTheWay(GameTestHelper helper) {
+        SonicBorerBlockEntity borer = sonicBorer(helper, 4096, 16, 450);
+        sonicWall(helper);
+        helper.setBlock(new BlockPos(4, 4, 3), Blocks.WATER);
+        helper.runAfterDelay(40, () -> {
+            helper.assertTrue(helper.getBlockState(new BlockPos(8, 4, 3)).is(Blocks.STONE), "fired through water");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100)
+    public static void sonicBorerNeedsItsTorqueToBuildPressure(GameTestHelper helper) {
+        SonicBorerBlockEntity borer = sonicBorer(helper, 100, 1 << 20, 0);
+        sonicWall(helper);
+        helper.runAfterDelay(40, () -> {
+            helper.assertTrue(borer.pressure() < 200, "built pressure without enough torque: " + borer.pressure());
+            helper.assertTrue(helper.getBlockState(new BlockPos(8, 4, 3)).is(Blocks.STONE), "fired without enough torque");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, batch = "world_sonicmobgriefing", timeoutTicks = 100)
+    public static void sonicBorerRespectsMobGriefingAndBurstsHarmlesslyThere(GameTestHelper helper) {
+        net.minecraft.world.level.GameRules.BooleanValue rule = helper.getLevel().getGameRules().getRule(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        rule.set(false, helper.getLevel().getServer());
+        SonicBorerBlockEntity borer = sonicBorer(helper, 4096, 16, 450);
+        sonicWall(helper);
+        helper.runAfterDelay(30, () -> {
+            try {
+                helper.assertTrue(helper.getBlockState(new BlockPos(8, 4, 3)).is(Blocks.STONE), "shattered blocks with mobGriefing off");
+                borer.addPressure(2000);
+            } finally {
+                // the overpressure blast, which does no block damage while mobGriefing is off
+            }
+        });
+        helper.runAfterDelay(40, () -> {
+            try {
+                helper.assertTrue(borer.pressure() < SonicBorerBlockEntity.MAX_PRESSURE, "pressure kept climbing past the burst");
+                helper.assertTrue(helper.getBlockState(SONIC.west()).getBlock() == net.scwunge.rotarycraft.registry.RotaryBlocks.FLYWHEELS
+                        .get(net.scwunge.rotarycraft.power.FlywheelType.BEDROCK).get(), "the burst broke the flywheel with mobGriefing off");
+                helper.succeed();
+            } finally {
+                rule.set(true, helper.getLevel().getServer());
+            }
         });
     }
 }

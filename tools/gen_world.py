@@ -172,7 +172,14 @@ for dname, (axis, positive) in SLICE_DIRS.items():
         slice_variants['facing=%s,progress=%d' % (dname, n)] = {'model': 'rotarycraft:block/bedrock_slice/%s_%d' % (dname, n)}
 w(A + '/blockstates/bedrock_slice.json', {'variants': slice_variants})
 
+# ---- Sonic Borer ----
+model_texture('sonicborertex.png', 'sonic_borer')
+rendered_machine('sonic_borer')
+MODELS.append('ModelSonicBorer:sonic_borer')
+shaped('sonic_borer', ['ss ', 'Icp', 'bbb'], {'s': STEEL, 'I': {'item': 'minecraft:iron_bars'}, 'c': item('compressor'), 'p': item('pipe'), 'b': item('base_panel')})
+
 lang.update({
+    'block.rotarycraft.sonic_borer': 'Sonic Borer',
     'block.rotarycraft.bedrock_breaker': 'Bedrock Breaker',
     'block.rotarycraft.bedrock_slice': 'Bedrock',
     'block.rotarycraft.borer': 'Borer',

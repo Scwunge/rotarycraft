@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ss ",
+    "Icp",
+    "bbb"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "I": {
+      "item": "minecraft:iron_bars"
+    },
+    "c": {
+      "item": "rotarycraft:compressor"
+    },
+    "p": {
+      "item": "rotarycraft:pipe"
+    },
+    "b": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:sonic_borer",
+    "count": 1
+  }
+}

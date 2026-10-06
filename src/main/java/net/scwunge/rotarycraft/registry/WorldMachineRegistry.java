@@ -19,11 +19,13 @@ import net.scwunge.rotarycraft.block.BedrockBreakerBlock;
 import net.scwunge.rotarycraft.block.BedrockSliceBlock;
 import net.scwunge.rotarycraft.block.BorerBlock;
 import net.scwunge.rotarycraft.block.ChunkLoaderBlock;
+import net.scwunge.rotarycraft.weapon.OwnedMachineBlock;
 import net.scwunge.rotarycraft.block.MiningPipeBlock;
 import net.scwunge.rotarycraft.block.WeatherControllerBlock;
 import net.scwunge.rotarycraft.blockentity.BedrockBreakerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.BorerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ChunkLoaderBlockEntity;
+import net.scwunge.rotarycraft.blockentity.SonicBorerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.WeatherControllerBlockEntity;
 import net.scwunge.rotarycraft.menu.BorerMenu;
 import net.scwunge.rotarycraft.menu.WeatherMenu;
@@ -72,8 +74,16 @@ public final class WorldMachineRegistry {
             RotaryBlockEntities.TYPES.register("bedrock_breaker",
                     () -> BlockEntityType.Builder.of(BedrockBreakerBlockEntity::new, BEDROCK_BREAKER.get()).build(null));
 
+    // ---- Sonic Borer ----
+    public static final DeferredBlock<OwnedMachineBlock> SONIC_BORER = RotaryBlocks.BLOCKS.register("sonic_borer",
+            () -> new OwnedMachineBlock(RotaryBlocks.machineProps().noOcclusion(), WorldMachineRegistry.SONIC_BORER_BE, SonicBorerBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SonicBorerBlockEntity>> SONIC_BORER_BE =
+            RotaryBlockEntities.TYPES.register("sonic_borer",
+                    () -> BlockEntityType.Builder.of(SonicBorerBlockEntity::new, SONIC_BORER.get()).build(null));
+
     static {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(CHUNK_LOADER));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(SONIC_BORER));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(BEDROCK_BREAKER));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(BORER));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(WEATHER_CONTROLLER));
