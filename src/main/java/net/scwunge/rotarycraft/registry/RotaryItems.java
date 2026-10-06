@@ -49,6 +49,7 @@ public class RotaryItems {
     public static final DeferredItem<Item> AFTERBURNER_UPGRADE = add(ITEMS.register("afterburner_upgrade", () -> new Item(new Item.Properties().stacksTo(16))));
     public static final DeferredItem<Item> ETHANOL_CRYSTALS = add(ITEMS.registerSimpleItem("ethanol_crystals"));
     /** Cools a Crystallizer 40 C while it lasts. */
+    public static final DeferredItem<Item> SALT = add(ITEMS.registerSimpleItem("salt"));
     public static final DeferredItem<Item> DRY_ICE = add(ITEMS.registerSimpleItem("dry_ice"));
     /** The Compactor's coal stages (anthracite also burns 24 items in a furnace, as in the original). */
     public static final DeferredItem<Item> ANTHRACITE = add(ITEMS.register("anthracite", () -> new Item(new Item.Properties()) {
@@ -98,6 +99,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.CRYSTALLIZER);
         blockItem(RotaryBlocks.PULSE_FURNACE);
         blockItem(RotaryBlocks.VAN_DE_GRAAFF);
+        blockItem(RotaryBlocks.REFRIGERATOR);
         blockItem(RotaryBlocks.BLAST_GLASS);
         blockItem(RotaryBlocks.ANTHRACITE_BLOCK);
         blockItem(RotaryBlocks.LONSDALEITE_BLOCK);

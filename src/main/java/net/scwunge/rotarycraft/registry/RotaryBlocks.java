@@ -111,6 +111,8 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.CRYSTALLIZER, net.scwunge.rotarycraft.blockentity.CrystallizerBlockEntity::new));
     public static final DeferredBlock<net.scwunge.rotarycraft.block.VanDeGraffBlock> VAN_DE_GRAAFF = BLOCKS.register("van_de_graaff",
             () -> new net.scwunge.rotarycraft.block.VanDeGraffBlock(machineProps().noOcclusion(), RotaryBlockEntities.VAN_DE_GRAAFF, net.scwunge.rotarycraft.blockentity.VanDeGraffBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> REFRIGERATOR = BLOCKS.register("refrigerator",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.REFRIGERATOR, net.scwunge.rotarycraft.blockentity.RefrigeratorBlockEntity::new));
     public static final DeferredBlock<MachineBlock> PULSE_FURNACE = BLOCKS.register("pulse_furnace",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.PULSE_FURNACE, net.scwunge.rotarycraft.blockentity.PulseFurnaceBlockEntity::new));
     /** Glass that survives explosions; the Pulse Furnace makes it from obsidian. */

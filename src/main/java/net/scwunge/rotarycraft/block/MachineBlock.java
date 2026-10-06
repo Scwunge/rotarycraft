@@ -110,6 +110,9 @@ public class MachineBlock extends BaseEntityBlock {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock())) {
+            if (level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.RefrigeratorBlockEntity fridge && !level.isClientSide()) {
+                fridge.onBroken();
+            }
             net.neoforged.neoforge.items.ItemStackHandler items = level.getBlockEntity(pos) instanceof GrinderBlockEntity g ? g.items()
                     : level.getBlockEntity(pos) instanceof ExtractorBlockEntity e ? e.items()
                     : level.getBlockEntity(pos) instanceof BlastFurnaceBlockEntity b ? b.items()
@@ -121,6 +124,7 @@ public class MachineBlock extends BaseEntityBlock {
                     : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.FractionatorBlockEntity fr ? fr.items()
                     : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.CrystallizerBlockEntity cr ? cr.items()
                     : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.PulseFurnaceBlockEntity pf ? pf.items()
+                    : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.RefrigeratorBlockEntity rf ? rf.items()
                     : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.CompactorBlockEntity cp ? cp.items() : null;
             if (items != null) {
                 for (int i = 0; i < items.getSlots(); i++) {

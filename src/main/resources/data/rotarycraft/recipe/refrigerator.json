@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SPS",
+    "CcD",
+    "pPp"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "P": {
+      "item": "rotarycraft:pipe"
+    },
+    "C": {
+      "item": "rotarycraft:compressor"
+    },
+    "c": {
+      "item": "rotarycraft:condenser"
+    },
+    "D": {
+      "item": "rotarycraft:diffuser"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:refrigerator",
+    "count": 1
+  }
+}

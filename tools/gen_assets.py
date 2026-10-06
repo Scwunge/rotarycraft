@@ -22,7 +22,7 @@ def w(path, obj):
 ROT = {'north': {}, 'south': {'y': 180}, 'east': {'y': 90}, 'west': {'y': 270}, 'up': {'x': 270}, 'down': {'x': 90}}
 MATS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'steel': (170, 180, 192), 'diamond': (90, 220, 215), 'bedrock': (60, 60, 60)}
 FLYWHEELS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'iron': (200, 200, 205), 'gold': (230, 190, 50), 'bedrock': (60, 60, 60)}
-MACHINES = ['dc_engine', 'wind_engine', 'steam_engine', 'generator', 'electric_motor', 'dynamometer', 'clutch', 'grinder', 'extractor', 'blast_furnace', 'friction_heater', 'fermenter', 'centrifuge', 'rock_melter', 'gas_engine', 'performance_engine', 'ac_engine', 'magnetizer', 'fractionator', 'microturbine', 'jet_engine', 'hydro_engine', 'pump', 'compactor', 'crystallizer', 'pulse_furnace'] + ['flywheel_' + f for f in FLYWHEELS]
+MACHINES = ['dc_engine', 'wind_engine', 'steam_engine', 'generator', 'electric_motor', 'dynamometer', 'clutch', 'grinder', 'extractor', 'blast_furnace', 'friction_heater', 'fermenter', 'centrifuge', 'rock_melter', 'gas_engine', 'performance_engine', 'ac_engine', 'magnetizer', 'fractionator', 'microturbine', 'jet_engine', 'hydro_engine', 'pump', 'compactor', 'crystallizer', 'pulse_furnace', 'refrigerator'] + ['flywheel_' + f for f in FLYWHEELS]
 BLOCKS = ['shaft_' + m for m in MATS] + MACHINES + ['bevel_gear', 'splitter']
 
 # blockstates ---------------------------------------------------------------------------------------------------------
@@ -381,5 +381,6 @@ runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_compactor.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_crystallizer.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_pulse.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_vdg.py'))
+runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_fridge.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_weapons.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_parts.py'))
