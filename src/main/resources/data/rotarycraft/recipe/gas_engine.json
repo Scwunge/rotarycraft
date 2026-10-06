@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "CgC",
+    "FGs",
+    "IHI"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:piston"
+    },
+    "g": {
+      "tag": "c:ingots/gold"
+    },
+    "F": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "G": {
+      "item": "rotarycraft:gearbox_2x"
+    },
+    "s": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "I": {
+      "tag": "c:ingots/steel"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:gas_engine",
+    "count": 1
+  }
+}

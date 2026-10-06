@@ -115,5 +115,7 @@
   "item.rotarycraft.lubricant_bucket": "Lubricant Bucket",
   "fluid_type.rotarycraft.liquid_nitrogen": "Liquid Nitrogen",
   "block.rotarycraft.liquid_nitrogen": "Liquid Nitrogen",
-  "item.rotarycraft.liquid_nitrogen_bucket": "Liquid Nitrogen Bucket"
+  "item.rotarycraft.liquid_nitrogen_bucket": "Liquid Nitrogen Bucket",
+  "block.rotarycraft.gas_engine": "Gas Engine",
+  "gui.rotarycraft.fuel": "Fuel: %s / %s mB"
 }

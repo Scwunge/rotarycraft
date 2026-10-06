@@ -115,7 +115,8 @@ public class MachineBlock extends BaseEntityBlock {
                     : level.getBlockEntity(pos) instanceof BlastFurnaceBlockEntity b ? b.items()
                     : level.getBlockEntity(pos) instanceof FermenterBlockEntity f ? f.items()
                     : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.CentrifugeBlockEntity c ? c.items()
-                    : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.RockMelterBlockEntity m ? m.items() : null;
+                    : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.RockMelterBlockEntity m ? m.items()
+                    : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.FuelEngineBlockEntity f ? f.items() : null;
             if (items != null) {
                 for (int i = 0; i < items.getSlots(); i++) {
                     Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), items.getStackInSlot(i));

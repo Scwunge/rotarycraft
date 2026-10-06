@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rotarycraft:block/gas_engine"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/gas_engine",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/gas_engine",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/gas_engine",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "rotarycraft:block/gas_engine",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/gas_engine",
+      "x": 90
+    }
+  }
+}

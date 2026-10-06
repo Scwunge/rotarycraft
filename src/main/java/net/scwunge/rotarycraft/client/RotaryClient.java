@@ -28,6 +28,7 @@ public final class RotaryClient {
         event.register(RotaryMenus.FERMENTER.get(), FermenterScreen::new);
         event.register(RotaryMenus.CENTRIFUGE.get(), CentrifugeScreen::new);
         event.register(RotaryMenus.ROCK_MELTER.get(), RockMelterScreen::new);
+        event.register(RotaryMenus.FUEL_ENGINE.get(), FuelEngineScreen::new);
     }
 
     private static final ResourceLocation WATER_STILL = ResourceLocation.withDefaultNamespace("block/water_still");
