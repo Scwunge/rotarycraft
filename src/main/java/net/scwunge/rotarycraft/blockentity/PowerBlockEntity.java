@@ -39,6 +39,20 @@ public abstract class PowerBlockEntity extends BlockEntity implements IShaftPowe
         return omega;
     }
 
+    /** Burnt out by an EMP: it does nothing and passes nothing on, until it is broken and placed again (as the original). */
+    private boolean shutdown;
+
+    public boolean isShutdown() {
+        return shutdown;
+    }
+
+    public void onEmp() {
+        shutdown = true;
+        torque = 0;
+        omega = 0;
+        setChanged();
+    }
+
     public long getPower() {
         return (long) torque * (long) omega;
     }
@@ -50,12 +64,12 @@ public abstract class PowerBlockEntity extends BlockEntity implements IShaftPowe
 
     @Override
     public int getTorqueOut(Direction side) {
-        return outputsPower() && side == facing() ? torque : 0;
+        return !shutdown && outputsPower() && side == facing() ? torque : 0;
     }
 
     @Override
     public int getOmegaOut(Direction side) {
-        return outputsPower() && side == facing() ? omega : 0;
+        return !shutdown && outputsPower() && side == facing() ? omega : 0;
     }
 
     protected IShaftPowerOutput.Reading readInput() {
@@ -82,6 +96,9 @@ public abstract class PowerBlockEntity extends BlockEntity implements IShaftPowe
         super.saveAdditional(tag, registries);
         tag.putInt("torque", torque);
         tag.putInt("omega", omega);
+        if (shutdown) {
+            tag.putBoolean("emp", true);
+        }
     }
 
     @Override
@@ -89,5 +106,6 @@ public abstract class PowerBlockEntity extends BlockEntity implements IShaftPowe
         super.loadAdditional(tag, registries);
         torque = tag.getInt("torque");
         omega = tag.getInt("omega");
+        shutdown = tag.getBoolean("emp");
     }
 }

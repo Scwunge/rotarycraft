@@ -64,6 +64,7 @@ public final class WeaponClient {
         event.registerBlockEntityRenderer(WeaponRegistry.TNT_CANNON_BE.get(), c -> new CannonRenderer());
         event.registerBlockEntityRenderer(WeaponRegistry.SONIC_BE.get(), c -> new SonicRenderer());
         event.registerBlockEntityRenderer(WeaponRegistry.HEAT_RAY_BE.get(), c -> new HeatRayRenderer());
+        event.registerBlockEntityRenderer(WeaponRegistry.EMP_BE.get(), c -> new EmpRenderer());
         event.registerEntityRenderer(WeaponRegistry.CANNON_TNT.get(), net.minecraft.client.renderer.entity.TntRenderer::new);
         event.registerEntityRenderer(WeaponRegistry.RAILGUN_SHOT.get(), c -> new StarShotRenderer(c, "railgun_shot"));
         event.registerEntityRenderer(WeaponRegistry.FREEZE_SHOT.get(), c -> new StarShotRenderer(c, "freeze_shot"));
@@ -119,6 +120,18 @@ public final class WeaponClient {
                 return renderer;
             }
         }, WeaponRegistry.HEAT_RAY.get().asItem());
+        event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    Minecraft mc = Minecraft.getInstance();
+                    renderer = new EmpRenderer.Item(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels());
+                }
+                return renderer;
+            }
+        }, WeaponRegistry.EMP.get().asItem());
         event.registerItem(turretItem(LASER_GUN), WeaponRegistry.LASER_GUN.get().asItem());
         event.registerItem(turretItem(FLAME_TURRET), WeaponRegistry.FLAME_TURRET.get().asItem());
     }

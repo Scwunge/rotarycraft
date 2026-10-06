@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/emp"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/emp"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/emp"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/emp"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/emp"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/emp"
+    }
+  }
+}

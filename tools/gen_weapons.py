@@ -172,6 +172,16 @@ rendered_machine('heat_ray', particle='rotarycraft:block/shaft_steel')
 shaped('heat_ray', ['OOO', 'BLb', '#P#'], {'O': {'item': 'minecraft:obsidian'}, 'B': item('bulb'), 'L': item('lens'), 'b': item('barrel'),
                                            '#': item('base_panel'), 'P': item('power_module')})
 
+# ---- EMP ----
+model_texture('emptex.png', 'emp')
+model_texture('emptex2.png', 'emp_loading')
+os.makedirs(T + '/effect', exist_ok=True)
+shutil.copy(REF + '/Textures/emp1.png', T + '/effect/emp1.png')
+shutil.copy(REF + '/Textures/emp2.png', T + '/effect/emp2.png')
+rendered_machine('emp', particle='rotarycraft:block/shaft_steel')
+shaped('emp', ['GDG', 'GsG', 'PnP'], {'G': item('gold_coil'), 'D': {'item': 'minecraft:diamond_block'}, 's': item('bedrock_shaft_core'),
+                                      'P': item('base_panel'), 'n': {'item': 'minecraft:nether_star'}})
+
 # ---- Cannon Key ----
 sprite(1, 4, 'cannon_key')
 shaped('cannon_key', ['s', 's', 'P'], {'P': item('base_panel'), 's': STEEL})
@@ -196,6 +206,7 @@ lang.update({
     'gui.rotarycraft.sonic.max': 'Loudest it can make: %s dB',
     'subtitles.rotarycraft.sonic': 'Sonic Weapon blares',
     'block.rotarycraft.heat_ray': 'Heat Ray',
+    'block.rotarycraft.emp': 'EMP',
     'block.rotarycraft.tnt_cannon': 'TNT Cannon',
     'entity.rotarycraft.cannon_tnt': 'Primed TNT',
     'gui.rotarycraft.cannon.mode_manual': 'Manual',
@@ -225,5 +236,5 @@ data = json.load(open(path))
 data['values'] += ['rotarycraft:' + m for m in MACHINES if 'rotarycraft:' + m not in data['values']]
 w(path, data)
 
-subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling', 'ModelLaserGun:laser_gun', 'ModelFlameTurret:flame_turret', 'ModelCannon:cannon', 'ModelSonicWeapon:sonic', 'ModelHRay:heat_ray'], check=True)
+subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling', 'ModelLaserGun:laser_gun', 'ModelFlameTurret:flame_turret', 'ModelCannon:cannon', 'ModelSonicWeapon:sonic', 'ModelHRay:heat_ray', 'ModelEMP:emp'], check=True)
 print('weapons ok,', len(MACHINES), 'machines')

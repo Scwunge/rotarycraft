@@ -533,4 +533,69 @@ public class WeaponGameTests {
             helper.succeed();
         });
     }
+
+    /** An EMP at (2, 2, 2) on a powered flywheel, already charged and loaded unless told otherwise. */
+    static net.scwunge.rotarycraft.weapon.turret.EmpBlockEntity emp(GameTestHelper helper, boolean ready) {
+        spinningFlywheel(helper, new BlockPos(2, 1, 2), 524288, 1024);
+        helper.setBlock(new BlockPos(2, 2, 2), WeaponRegistry.EMP.get().defaultBlockState());
+        net.scwunge.rotarycraft.weapon.turret.EmpBlockEntity emp = helper.getBlockEntity(new BlockPos(2, 2, 2));
+        if (ready) {
+            CompoundTag tag = new CompoundTag();
+            tag.putLong("energy", 90_000_000_000L);
+            tag.putInt("loaded", 1_000_000);
+            emp.loadCustomOnly(tag, helper.getLevel().registryAccess());
+        }
+        return emp;
+    }
+
+    /** The loaded, charged EMP burns out every machine in range, once. */
+    @GameTest(template = WIDE, batch = "weapon_emp", timeoutTicks = 100)
+    public static void empBurnsOutMachinesInRange(GameTestHelper helper) {
+        var emp = emp(helper, true);
+        spinningFlywheel(helper, new BlockPos(10, 2, 2), 4096, 1024);
+        helper.succeedWhen(() -> {
+            helper.assertFalse(emp.usable(), "has not fired");
+            var other = helper.getBlockEntity(new BlockPos(10, 2, 2));
+            helper.assertTrue(other instanceof net.scwunge.rotarycraft.blockentity.PowerBlockEntity pb && pb.isShutdown(), "machine not burnt out");
+            helper.assertTrue(((net.scwunge.rotarycraft.blockentity.PowerBlockEntity) other).getTorqueOut(net.minecraft.core.Direction.UP) == 0, "burnt-out machine still outputs");
+        });
+    }
+
+    /** It will not fire while it is still loading its listing. */
+    @GameTest(template = TEMPLATE, batch = "weapon_emp_loading", timeoutTicks = 40)
+    public static void empWaitsForItsListing(GameTestHelper helper) {
+        var emp = emp(helper, false);
+        CompoundTag tag = new CompoundTag();
+        tag.putLong("energy", 90_000_000_000L);
+        emp.loadCustomOnly(tag, helper.getLevel().registryAccess());
+        helper.runAfterDelay(20, () -> {
+            helper.assertTrue(emp.usable(), "fired before it had loaded");
+            helper.succeed();
+        });
+    }
+
+    /** Without mobGriefing (or the owner's permission) nothing is burnt out. */
+    @GameTest(template = WIDE, batch = "weapon_emp_grief", timeoutTicks = 100)
+    public static void empRespectsMobGriefing(GameTestHelper helper) {
+        var rule = helper.getLevel().getGameRules().getRule(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        rule.set(false, helper.getLevel().getServer());
+        var emp = emp(helper, true);
+        spinningFlywheel(helper, new BlockPos(10, 2, 2), 4096, 1024);
+        helper.runAfterDelay(40, () -> {
+            rule.set(true, helper.getLevel().getServer());
+            helper.assertFalse(((net.scwunge.rotarycraft.blockentity.PowerBlockEntity) helper.getBlockEntity(new BlockPos(10, 2, 2))).isShutdown(), "burnt out in spite of the rule");
+            helper.succeed();
+        });
+    }
+
+    /** A burnt-out machine stays burnt out when saved and loaded. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 20)
+    public static void burntOutMachinesStayBurntOut(GameTestHelper helper) {
+        spinningFlywheel(helper, new BlockPos(2, 1, 2), 4096, 1024);
+        net.scwunge.rotarycraft.blockentity.PowerBlockEntity machine = helper.getBlockEntity(new BlockPos(2, 1, 2));
+        machine.onEmp();
+        CompoundTag saved = machine.saveCustomOnly(helper.getLevel().registryAccess());
+        helper.assertTrue(saved.getBoolean("emp"), "not saved");
+        helper.succeed();
+    }
 }

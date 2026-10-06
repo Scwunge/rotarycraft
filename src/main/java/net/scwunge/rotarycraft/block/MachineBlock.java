@@ -150,6 +150,10 @@ public class MachineBlock extends BaseEntityBlock {
         if (level.isClientSide() || blockEntityType != type.get()) {
             return null;
         }
-        return (l, p, s, be) -> ((PowerBlockEntity) be).serverTick();
+        return (l, p, s, be) -> {
+            if (!((PowerBlockEntity) be).isShutdown()) {
+                ((PowerBlockEntity) be).serverTick();
+            }
+        };
     }
 }

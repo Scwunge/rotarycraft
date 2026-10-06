@@ -120,6 +120,14 @@ public final class WeaponRegistry {
             RotaryBlockEntities.TYPES.register("heat_ray",
                     () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.weapon.turret.HeatRayBlockEntity::new, HEAT_RAY.get()).build(null));
 
+    // ---- EMP ----
+    public static final DeferredBlock<net.scwunge.rotarycraft.weapon.OwnedMachineBlock> EMP = RotaryBlocks.BLOCKS.register("emp",
+            () -> new net.scwunge.rotarycraft.weapon.OwnedMachineBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.EMP_BE,
+                    net.scwunge.rotarycraft.weapon.turret.EmpBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.weapon.turret.EmpBlockEntity>> EMP_BE =
+            RotaryBlockEntities.TYPES.register("emp",
+                    () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.weapon.turret.EmpBlockEntity::new, EMP.get()).build(null));
+
     // ---- Laser Gun and Flame Turret ----
     public static final DeferredBlock<TurretBlock> LASER_GUN = RotaryBlocks.BLOCKS.register("laser_gun",
             () -> new TurretBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.LASER_GUN_BE, LaserGunBlockEntity::new));
@@ -165,6 +173,7 @@ public final class WeaponRegistry {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(TNT_CANNON));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(SONIC));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(HEAT_RAY));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(EMP));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(LASER_GUN));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(FLAME_TURRET));
         for (int i = 0; i < 16; i++) {

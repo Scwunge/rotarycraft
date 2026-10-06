@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GDG",
+    "GsG",
+    "PnP"
+  ],
+  "key": {
+    "G": {
+      "item": "rotarycraft:gold_coil"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "s": {
+      "item": "rotarycraft:bedrock_shaft_core"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "n": {
+      "item": "minecraft:nether_star"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:emp",
+    "count": 1
+  }
+}
