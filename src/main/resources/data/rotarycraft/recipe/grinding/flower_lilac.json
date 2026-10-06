@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:lilac"
+  },
+  "result": {
+    "id": "minecraft:magenta_dye",
+    "count": 6
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:coal"
+  },
+  "result": {
+    "id": "rotarycraft:coal_dust",
+    "count": 1
+  }
+}

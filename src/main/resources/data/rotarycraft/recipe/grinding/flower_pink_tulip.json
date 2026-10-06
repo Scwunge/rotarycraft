@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:pink_tulip"
+  },
+  "result": {
+    "id": "minecraft:pink_dye",
+    "count": 6
+  }
+}

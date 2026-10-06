@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "tag": "minecraft:wooden_doors"
+  },
+  "result": {
+    "id": "rotarycraft:sawdust",
+    "count": 24
+  }
+}

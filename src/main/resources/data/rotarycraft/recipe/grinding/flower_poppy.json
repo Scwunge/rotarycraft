@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:poppy"
+  },
+  "result": {
+    "id": "minecraft:red_dye",
+    "count": 6
+  }
+}

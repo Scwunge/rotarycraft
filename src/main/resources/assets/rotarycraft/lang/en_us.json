@@ -130,5 +130,11 @@
   "block.rotarycraft.performance_engine": "Performance Engine",
   "item.rotarycraft.scrap": "Scrap",
   "gui.rotarycraft.additives": "Additives: %s / %s",
-  "gui.rotarycraft.performance_engine.limit": "Explodes above %s C; water cools it"
+  "gui.rotarycraft.performance_engine.limit": "Explodes above %s C; water cools it",
+  "item.rotarycraft.coal_dust": "Coal Dust",
+  "block.rotarycraft.fractionator": "Fractionation Unit",
+  "gui.rotarycraft.jet_fuel": "Jet fuel: %s / %s mB",
+  "gui.rotarycraft.ethanol": "Ethanol: %s / %s mB",
+  "gui.rotarycraft.pressure": "Pressure: %s kPa",
+  "gui.rotarycraft.fractionator.yield": "Yield: %s%% of the ethanol used"
 }

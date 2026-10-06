@@ -22,7 +22,7 @@ def w(path, obj):
 ROT = {'north': {}, 'south': {'y': 180}, 'east': {'y': 90}, 'west': {'y': 270}, 'up': {'x': 270}, 'down': {'x': 90}}
 MATS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'steel': (170, 180, 192), 'diamond': (90, 220, 215), 'bedrock': (60, 60, 60)}
 FLYWHEELS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'iron': (200, 200, 205), 'gold': (230, 190, 50), 'bedrock': (60, 60, 60)}
-MACHINES = ['dc_engine', 'wind_engine', 'steam_engine', 'generator', 'electric_motor', 'dynamometer', 'clutch', 'grinder', 'extractor', 'blast_furnace', 'friction_heater', 'fermenter', 'centrifuge', 'rock_melter', 'gas_engine', 'performance_engine', 'ac_engine', 'magnetizer'] + ['gearbox_%dx' % r for r in (2, 4, 8, 16)] + ['flywheel_' + f for f in FLYWHEELS]
+MACHINES = ['dc_engine', 'wind_engine', 'steam_engine', 'generator', 'electric_motor', 'dynamometer', 'clutch', 'grinder', 'extractor', 'blast_furnace', 'friction_heater', 'fermenter', 'centrifuge', 'rock_melter', 'gas_engine', 'performance_engine', 'ac_engine', 'magnetizer', 'fractionator'] + ['gearbox_%dx' % r for r in (2, 4, 8, 16)] + ['flywheel_' + f for f in FLYWHEELS]
 BLOCKS = ['shaft_' + m for m in MATS] + MACHINES + ['bevel_gear', 'splitter']
 
 # blockstates ---------------------------------------------------------------------------------------------------------
@@ -330,7 +330,18 @@ for name, ing, res, n in [
     ('crafting_table', item('minecraft:crafting_table'), 'rotarycraft:sawdust', 16),
     ('ladder', item('minecraft:ladder'), 'rotarycraft:sawdust', 4),
     ('wooden_pressure_plates', tag('minecraft:wooden_pressure_plates'), 'rotarycraft:sawdust', 8),
-]:
+    ('bowl', item('minecraft:bowl'), 'rotarycraft:sawdust', 12),
+    ('wooden_doors', tag('minecraft:wooden_doors'), 'rotarycraft:sawdust', 24),
+    ('signs', tag('minecraft:signs'), 'rotarycraft:sawdust', 24),
+    ('stick', item('minecraft:stick'), 'rotarycraft:sawdust', 2),
+    ('wooden_trapdoors', tag('minecraft:wooden_trapdoors'), 'rotarycraft:sawdust', 24),
+    ('fence_gates', tag('minecraft:fence_gates'), 'rotarycraft:sawdust', 16),
+    ('coal', item('minecraft:coal'), 'rotarycraft:coal_dust', 1),
+] + [('flower_' + f, item('minecraft:' + f), 'minecraft:%s_dye' % d, 6) for f, d in [
+    # the original's flower dyes: six dye per flower
+    ('dandelion', 'yellow'), ('poppy', 'red'), ('blue_orchid', 'light_blue'), ('allium', 'magenta'), ('azure_bluet', 'light_gray'),
+    ('red_tulip', 'red'), ('orange_tulip', 'orange'), ('white_tulip', 'light_gray'), ('pink_tulip', 'pink'),
+    ('oxeye_daisy', 'light_gray'), ('lilac', 'magenta'), ('rose_bush', 'red'), ('peony', 'pink')]]:
     grind(name, ing, res, n)
 shaped('extractor', ['IGI', 'SBS', 'IPI'], {'I': STEEL, 'G': {'item': 'rotarycraft:grinder'}, 'S': STEEL_SHAFT, 'B': {'item': 'minecraft:bucket'}, 'P': {'item': 'minecraft:piston'}})
 shaped('grinder', ['IFI', 'SGS', 'III'], {'I': STEEL, 'F': {'item': 'minecraft:flint'}, 'S': STEEL_SHAFT, 'G': {'item': 'rotarycraft:gearbox_2x'}})
@@ -388,3 +399,4 @@ runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_fermenter.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_centrifuge.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_melter.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_engines.py'))
+runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_fractionator.py'))

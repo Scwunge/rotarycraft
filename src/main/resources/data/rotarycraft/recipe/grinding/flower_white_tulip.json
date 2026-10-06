@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:white_tulip"
+  },
+  "result": {
+    "id": "minecraft:light_gray_dye",
+    "count": 6
+  }
+}

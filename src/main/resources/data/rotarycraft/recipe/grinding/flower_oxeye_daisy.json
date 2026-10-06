@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:oxeye_daisy"
+  },
+  "result": {
+    "id": "minecraft:light_gray_dye",
+    "count": 6
+  }
+}

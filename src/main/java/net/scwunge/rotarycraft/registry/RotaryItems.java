@@ -33,6 +33,7 @@ public class RotaryItems {
     public static final DeferredItem<Item> FLOUR = add(ITEMS.registerSimpleItem("flour"));
     public static final DeferredItem<Item> NETHERRACK_DUST = add(ITEMS.registerSimpleItem("netherrack_dust"));
     public static final DeferredItem<Item> TAR = add(ITEMS.registerSimpleItem("tar"));
+    public static final DeferredItem<Item> COAL_DUST = add(ITEMS.registerSimpleItem("coal_dust"));
     public static final DeferredItem<Item> YEAST = add(ITEMS.registerSimpleItem("yeast"));
     public static final DeferredItem<Item> SLUDGE = add(ITEMS.registerSimpleItem("sludge"));
     public static final DeferredItem<Item> CLEAN_SLUDGE = add(ITEMS.registerSimpleItem("clean_sludge"));
@@ -73,6 +74,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.CENTRIFUGE);
         blockItem(RotaryBlocks.ROCK_MELTER);
         blockItem(RotaryBlocks.MAGNETIZER);
+        blockItem(RotaryBlocks.FRACTIONATOR);
         blockItem(RotaryBlocks.GENERATOR);
         blockItem(RotaryBlocks.ELECTRIC_MOTOR);
     }

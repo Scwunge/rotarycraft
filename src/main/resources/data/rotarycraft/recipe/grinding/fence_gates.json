@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "tag": "minecraft:fence_gates"
+  },
+  "result": {
+    "id": "rotarycraft:sawdust",
+    "count": 16
+  }
+}

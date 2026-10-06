@@ -72,6 +72,8 @@ public class RotaryBlockEntities {
             () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.ACEngineBlockEntity::new, RotaryBlocks.AC_ENGINE.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.MagnetizerBlockEntity>> MAGNETIZER = TYPES.register("magnetizer",
             () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.MagnetizerBlockEntity::new, RotaryBlocks.MAGNETIZER.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.FractionatorBlockEntity>> FRACTIONATOR = TYPES.register("fractionator",
+            () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.FractionatorBlockEntity::new, RotaryBlocks.FRACTIONATOR.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<RockMelterBlockEntity>> ROCK_MELTER = TYPES.register("rock_melter",
             () -> BlockEntityType.Builder.of(RockMelterBlockEntity::new, RotaryBlocks.ROCK_MELTER.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DynamometerBlockEntity>> DYNAMOMETER = TYPES.register("dynamometer",
