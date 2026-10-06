@@ -21,6 +21,12 @@ public class RotaryCraft {
         return net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
+    public static final net.neoforged.neoforge.registries.DeferredRegister<com.mojang.serialization.MapCodec<? extends net.neoforged.neoforge.common.loot.IGlobalLootModifier>> LOOT_MODIFIERS =
+            net.neoforged.neoforge.registries.DeferredRegister.create(net.neoforged.neoforge.registries.NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, MOD_ID);
+    static {
+        LOOT_MODIFIERS.register("add_item", () -> net.scwunge.rotarycraft.loot.AddItemModifier.CODEC);
+    }
+
     public RotaryCraft(IEventBus modBus, ModContainer container) {
         container.registerConfig(ModConfig.Type.SERVER, RotaryConfig.SPEC, "rotarycraft-server.toml");
         // fluids add their blocks and buckets to the block and item registers, so they load first
@@ -35,6 +41,7 @@ public class RotaryCraft {
         net.scwunge.rotarycraft.registry.RotaryRecipes.SERIALIZERS.register(modBus);
         net.scwunge.rotarycraft.registry.RotaryMenus.MENUS.register(modBus);
         net.scwunge.rotarycraft.registry.RotaryComponents.COMPONENTS.register(modBus);
+        LOOT_MODIFIERS.register(modBus);
         modBus.addListener(RotaryCraft::registerCapabilities);
     }
 

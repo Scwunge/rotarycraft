@@ -1,0 +1,35 @@
+{
+  "type": "rotarycraft:add_item",
+  "conditions": [
+    {
+      "condition": "minecraft:any_of",
+      "terms": [
+        {
+          "condition": "neoforge:loot_table_id",
+          "loot_table_id": "minecraft:blocks/short_grass"
+        },
+        {
+          "condition": "neoforge:loot_table_id",
+          "loot_table_id": "minecraft:blocks/tall_grass"
+        }
+      ]
+    },
+    {
+      "condition": "minecraft:inverted",
+      "term": {
+        "condition": "minecraft:match_tool",
+        "predicate": {
+          "items": "minecraft:shears"
+        }
+      }
+    },
+    {
+      "condition": "minecraft:random_chance",
+      "chance": 0.020833333333333332
+    }
+  ],
+  "item": {
+    "id": "rotarycraft:canola_seeds",
+    "count": 1
+  }
+}

@@ -71,6 +71,7 @@ public final class RotaryClient {
 
     @SubscribeEvent
     public static void translucentFluids(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
+        ItemBlockRenderTypes.setRenderLayer(net.scwunge.rotarycraft.registry.RotaryBlocks.CANOLA.get(), RenderType.cutout());
         for (RotaryFluids.Entry f : RotaryFluids.ALL) {
             ItemBlockRenderTypes.setRenderLayer(f.source.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(f.flowing.get(), RenderType.translucent());

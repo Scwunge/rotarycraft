@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "rotarycraft:canola_seeds"
+  },
+  "result": {
+    "id": "rotarycraft:canola_husks",
+    "count": 1
+  }
+}

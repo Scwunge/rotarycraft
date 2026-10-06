@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:centrifuge",
+  "ingredient": {
+    "item": "rotarycraft:canola_husks"
+  },
+  "outputs": [],
+  "fluid": {
+    "id": "rotarycraft:lubricant",
+    "amount": 90
+  }
+}

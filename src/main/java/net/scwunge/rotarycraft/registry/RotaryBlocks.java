@@ -93,6 +93,8 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.FRACTIONATOR, net.scwunge.rotarycraft.blockentity.FractionatorBlockEntity::new));
     public static final DeferredBlock<MachineBlock> ROCK_MELTER = BLOCKS.register("rock_melter",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.ROCK_MELTER, net.scwunge.rotarycraft.blockentity.RockMelterBlockEntity::new));
+    public static final DeferredBlock<net.scwunge.rotarycraft.block.CanolaBlock> CANOLA = BLOCKS.register("canola",
+            () -> new net.scwunge.rotarycraft.block.CanolaBlock(net.minecraft.world.level.block.state.BlockBehaviour.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.WHEAT)));
     public static final DeferredBlock<DynamometerBlock> DYNAMOMETER = BLOCKS.register("dynamometer",
             () -> new DynamometerBlock(machineProps()));
 
