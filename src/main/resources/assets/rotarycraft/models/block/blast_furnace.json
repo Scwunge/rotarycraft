@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "north": "rotarycraft:block/blast_furnace_front",
+    "south": "rotarycraft:block/blast_furnace_side",
+    "east": "rotarycraft:block/blast_furnace_side",
+    "west": "rotarycraft:block/blast_furnace_side",
+    "up": "rotarycraft:block/blast_furnace_side",
+    "down": "rotarycraft:block/blast_furnace_side",
+    "particle": "rotarycraft:block/blast_furnace_side"
+  }
+}

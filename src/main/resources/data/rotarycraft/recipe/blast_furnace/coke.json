@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:blast_furnace",
+  "main": {
+    "item": "minecraft:coal"
+  },
+  "result": {
+    "id": "rotarycraft:coke",
+    "count": 1
+  },
+  "temperature": 400
+}

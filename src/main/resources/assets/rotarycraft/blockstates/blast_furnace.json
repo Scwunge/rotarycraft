@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rotarycraft:block/blast_furnace"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/blast_furnace",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/blast_furnace",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/blast_furnace",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "rotarycraft:block/blast_furnace",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/blast_furnace",
+      "x": 90
+    }
+  }
+}

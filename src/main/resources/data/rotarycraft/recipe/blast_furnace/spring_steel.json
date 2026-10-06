@@ -1,0 +1,25 @@
+{
+  "type": "rotarycraft:blast_furnace",
+  "center": {
+    "ingredient": {
+      "item": "rotarycraft:coke"
+    },
+    "chance": 0.75,
+    "count": 1
+  },
+  "lower": {
+    "ingredient": {
+      "item": "minecraft:redstone"
+    },
+    "chance": 0.4,
+    "count": 1
+  },
+  "main": {
+    "tag": "c:ingots/steel"
+  },
+  "result": {
+    "id": "rotarycraft:spring_steel_ingot",
+    "count": 1
+  },
+  "temperature": 1000
+}

@@ -1,0 +1,33 @@
+{
+  "type": "rotarycraft:blast_furnace",
+  "center": {
+    "ingredient": {
+      "item": "minecraft:coal"
+    },
+    "chance": 1.0,
+    "count": 1
+  },
+  "lower": {
+    "ingredient": {
+      "item": "minecraft:gunpowder"
+    },
+    "chance": 0.036000000000000004,
+    "count": 1
+  },
+  "upper": {
+    "ingredient": {
+      "tag": "c:sands"
+    },
+    "chance": 0.002,
+    "count": 1
+  },
+  "main": {
+    "item": "minecraft:iron_ingot"
+  },
+  "result": {
+    "id": "rotarycraft:hsla_steel_ingot",
+    "count": 1
+  },
+  "temperature": 600,
+  "xp": 0.6
+}

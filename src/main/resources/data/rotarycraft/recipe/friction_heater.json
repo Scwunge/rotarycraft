@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ISI",
+    "FGF",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_stone"
+    },
+    "F": {
+      "item": "minecraft:flint"
+    },
+    "G": {
+      "item": "rotarycraft:gearbox_2x"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:friction_heater",
+    "count": 1
+  }
+}

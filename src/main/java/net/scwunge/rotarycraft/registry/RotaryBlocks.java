@@ -19,7 +19,9 @@ import net.scwunge.rotarycraft.blockentity.SteamEngineBlockEntity;
 import net.scwunge.rotarycraft.blockentity.WindEngineBlockEntity;
 import net.scwunge.rotarycraft.power.FlywheelType;
 import net.scwunge.rotarycraft.blockentity.GeneratorBlockEntity;
+import net.scwunge.rotarycraft.blockentity.BlastFurnaceBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ExtractorBlockEntity;
+import net.scwunge.rotarycraft.blockentity.FrictionHeaterBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GrinderBlockEntity;
 import net.scwunge.rotarycraft.blockentity.MotorBlockEntity;
 import net.scwunge.rotarycraft.power.ShaftMaterial;
@@ -68,6 +70,10 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.GRINDER, GrinderBlockEntity::new));
     public static final DeferredBlock<MachineBlock> EXTRACTOR = BLOCKS.register("extractor",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.EXTRACTOR, ExtractorBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> BLAST_FURNACE = BLOCKS.register("blast_furnace",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.BLAST_FURNACE, BlastFurnaceBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> FRICTION_HEATER = BLOCKS.register("friction_heater",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.FRICTION_HEATER, FrictionHeaterBlockEntity::new));
     public static final DeferredBlock<DynamometerBlock> DYNAMOMETER = BLOCKS.register("dynamometer",
             () -> new DynamometerBlock(machineProps()));
 

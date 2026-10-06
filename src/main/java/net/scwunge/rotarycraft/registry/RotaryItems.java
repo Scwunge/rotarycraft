@@ -32,6 +32,8 @@ public class RotaryItems {
     public static final DeferredItem<Item> FLOUR = add(ITEMS.registerSimpleItem("flour"));
     public static final DeferredItem<Item> NETHERRACK_DUST = add(ITEMS.registerSimpleItem("netherrack_dust"));
     public static final DeferredItem<Item> TAR = add(ITEMS.registerSimpleItem("tar"));
+    public static final DeferredItem<Item> COKE = add(ITEMS.registerSimpleItem("coke"));
+    public static final DeferredItem<Item> SPRING_STEEL_INGOT = add(ITEMS.registerSimpleItem("spring_steel_ingot"));
     public static final DeferredItem<Item> SILVER_INGOT = add(ITEMS.registerSimpleItem("silver_ingot"));
     public static final DeferredItem<Item> TUNGSTEN_INGOT = add(ITEMS.registerSimpleItem("tungsten_ingot"));
     public static final DeferredItem<OreProductItem> ORE_DUST = ITEMS.register("ore_dust", () -> new OreProductItem(new Item.Properties(), OreProductItem.Stage.DUST));
@@ -52,6 +54,8 @@ public class RotaryItems {
         blockItem(RotaryBlocks.DYNAMOMETER);
         blockItem(RotaryBlocks.GRINDER);
         blockItem(RotaryBlocks.EXTRACTOR);
+        blockItem(RotaryBlocks.BLAST_FURNACE);
+        blockItem(RotaryBlocks.FRICTION_HEATER);
         blockItem(RotaryBlocks.GENERATOR);
         blockItem(RotaryBlocks.ELECTRIC_MOTOR);
     }

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BBB",
+    "BFB",
+    "BIB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:bricks"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    },
+    "I": {
+      "tag": "c:storage_blocks/iron"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:blast_furnace",
+    "count": 1
+  }
+}

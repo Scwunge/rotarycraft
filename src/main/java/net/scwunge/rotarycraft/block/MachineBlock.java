@@ -8,6 +8,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.server.level.ServerPlayer;
+import net.scwunge.rotarycraft.blockentity.BlastFurnaceBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ExtractorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GrinderBlockEntity;
 import net.minecraft.world.ItemInteractionResult;
@@ -109,7 +110,8 @@ public class MachineBlock extends BaseEntityBlock {
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock())) {
             net.neoforged.neoforge.items.ItemStackHandler items = level.getBlockEntity(pos) instanceof GrinderBlockEntity g ? g.items()
-                    : level.getBlockEntity(pos) instanceof ExtractorBlockEntity e ? e.items() : null;
+                    : level.getBlockEntity(pos) instanceof ExtractorBlockEntity e ? e.items()
+                    : level.getBlockEntity(pos) instanceof BlastFurnaceBlockEntity b ? b.items() : null;
             if (items != null) {
                 for (int i = 0; i < items.getSlots(); i++) {
                     Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), items.getStackInSlot(i));

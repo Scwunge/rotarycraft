@@ -6,6 +6,7 @@ import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.scwunge.rotarycraft.RotaryCraft;
+import net.scwunge.rotarycraft.menu.BlastFurnaceMenu;
 import net.scwunge.rotarycraft.menu.ExtractorMenu;
 import net.scwunge.rotarycraft.menu.GrinderMenu;
 
@@ -16,4 +17,6 @@ public class RotaryMenus {
             MENUS.register("grinder", () -> IMenuTypeExtension.create(GrinderMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<ExtractorMenu>> EXTRACTOR =
             MENUS.register("extractor", () -> IMenuTypeExtension.create(ExtractorMenu::new));
+    public static final DeferredHolder<MenuType<?>, MenuType<BlastFurnaceMenu>> BLAST_FURNACE =
+            MENUS.register("blast_furnace", () -> IMenuTypeExtension.create(BlastFurnaceMenu::new));
 }

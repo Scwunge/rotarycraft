@@ -83,5 +83,12 @@
   "ore_type.rotarycraft.zinc": "Zinc",
   "ore_type.rotarycraft.platinum": "Platinum",
   "ore_type.rotarycraft.tungsten": "Tungsten",
-  "ore_type.rotarycraft.thorium": "Thorium"
+  "ore_type.rotarycraft.thorium": "Thorium",
+  "block.rotarycraft.blast_furnace": "Blast Furnace",
+  "block.rotarycraft.friction_heater": "Friction Heater",
+  "item.rotarycraft.coke": "Coke",
+  "item.rotarycraft.spring_steel_ingot": "Spring Steel Ingot",
+  "gui.rotarycraft.temperature": "Temperature: %s C",
+  "gui.rotarycraft.blast_furnace.hot": "Hot enough for steel (%s C)",
+  "gui.rotarycraft.blast_furnace.cold": "Steel needs %s C: heat with lava, fire or a Friction Heater"
 }
