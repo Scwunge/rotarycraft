@@ -93,12 +93,64 @@ shaped('pipe', ['SGS', 'SGS', 'SGS'], {'S': {'tag': 'c:ingots/steel'}, 'G': GLAS
 shaped('fuel_line', ['OGO', 'OGO', 'OGO'], {'O': {'tag': 'c:obsidians'}, 'G': GLASS}, 16)
 shaped('bedrock_pipe', ['BGB', 'BGB', 'BGB'], {'B': {'item': 'rotarycraft:bedrock_ingot'}, 'G': {'item': 'minecraft:tinted_glass'}}, 16)  # tinted glass until Blast Glass
 
+# Reservoir: an open steel tank (covered: with a glass lid); Pump: an impeller housing
+steel = (170, 180, 192)
+im = Image.new('RGBA', (16, 16))
+px = im.load()
+for x in range(16):
+    for y in range(16):
+        px[x, y] = shade(steel, rnd.randint(-10, 10))
+g = ImageDraw.Draw(im)
+g.rectangle([0, 0, 15, 15], outline=shade(steel, -60))
+im.save(T + '/reservoir.png')
+im = Image.new('RGBA', (16, 16))
+g = ImageDraw.Draw(im)
+g.rectangle([0, 0, 15, 15], fill=(200, 225, 235, 120), outline=(120, 130, 140, 255))
+g.line([(3, 12), (12, 3)], fill=(240, 250, 255, 200))
+im.save(T + '/reservoir_lid.png')
+tex = 'rotarycraft:block/reservoir'
+walls = [([0, 0, 0], [16, 1, 16]), ([0, 1, 0], [16, 16, 1]), ([0, 1, 15], [16, 16, 16]), ([0, 1, 1], [1, 16, 15]), ([15, 1, 1], [16, 16, 15])]
+elements = [{'from': f, 'to': t, 'faces': {d: {'texture': '#all'} for d in ('north', 'south', 'east', 'west', 'up', 'down')}} for f, t in walls]
+w('%s/models/block/reservoir.json' % A, {'parent': 'minecraft:block/block', 'textures': {'all': tex, 'particle': tex}, 'elements': elements})
+lid = elements + [{'from': [1, 15, 1], 'to': [15, 16, 15], 'faces': {'up': {'texture': '#lid'}, 'down': {'texture': '#lid'}}}]
+w('%s/models/block/reservoir_covered.json' % A, {'parent': 'minecraft:block/block', 'render_type': 'minecraft:translucent',
+    'textures': {'all': tex, 'lid': 'rotarycraft:block/reservoir_lid', 'particle': tex}, 'elements': lid})
+w('%s/blockstates/reservoir.json' % A, {'variants': {'covered=false': {'model': 'rotarycraft:block/reservoir'},
+                                                     'covered=true': {'model': 'rotarycraft:block/reservoir_covered'}}})
+w('%s/models/item/reservoir.json' % A, {'parent': 'rotarycraft:block/reservoir'})
+w('%s/loot_table/blocks/reservoir.json' % D, {'type': 'minecraft:block', 'pools': [{
+    'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'rotarycraft:reservoir', 'functions': [
+        {'function': 'minecraft:copy_state', 'block': 'rotarycraft:reservoir', 'properties': ['covered']}]}],
+    'conditions': [{'condition': 'minecraft:survives_explosion'}]}]})
+im = Image.new('RGBA', (16, 16))
+px = im.load()
+for x in range(16):
+    for y in range(16):
+        px[x, y] = shade((72, 76, 84), rnd.randint(-6, 6))
+g = ImageDraw.Draw(im)
+g.rectangle([0, 0, 15, 15], outline=(40, 42, 48, 255))
+g.ellipse([3, 3, 12, 12], fill=(60, 90, 150, 255), outline=(170, 180, 192, 255))
+g.line([(5, 5), (10, 10)], fill=(170, 180, 192, 255))
+g.line([(10, 5), (5, 10)], fill=(170, 180, 192, 255))
+im.save(T + '/pump_front.png')
+add_tag(R + '/data/minecraft/tags/block/mineable/pickaxe.json', ['rotarycraft:reservoir'])
+STEEL = {'tag': 'c:ingots/steel'}
+PANEL = {'item': 'rotarycraft:base_panel'}
+shaped('reservoir', ['B B', 'B B', 'BBB'], {'B': PANEL}, 1)
+w('%s/recipe/reservoir_covered.json' % D, {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['BPB', 'B B', 'BBB'],
+  'key': {'B': PANEL, 'P': {'tag': 'c:glass_panes'}},
+  'result': {'id': 'rotarycraft:reservoir', 'count': 1, 'components': {'minecraft:block_state': {'covered': 'true'}}}})
+shaped('pump', ['SGS', 'pIp', 'PpP'], {'S': STEEL, 'G': {'tag': 'c:glass_panes'}, 'p': {'item': 'rotarycraft:pipe'},
+       'I': {'item': 'rotarycraft:impeller'}, 'P': PANEL}, 1)
+
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))
 for name, (_, title) in PIPES.items():
     lang['block.rotarycraft.' + name] = title
 lang['message.rotarycraft.meter.pipe'] = '%s: %s mB (%s kPa)'
 lang['message.rotarycraft.meter.pipe_empty'] = 'Empty pipe'
+lang['block.rotarycraft.reservoir'] = 'Reservoir'
+lang['block.rotarycraft.pump'] = 'Pump'
 with open(lang_path, 'w') as f:
     json.dump(lang, f, indent=2)
     f.write('\n')

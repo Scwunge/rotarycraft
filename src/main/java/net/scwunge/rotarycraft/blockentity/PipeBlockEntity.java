@@ -166,7 +166,7 @@ public class PipeBlockEntity extends BlockEntity {
                 if (h == null) {
                     continue;
                 }
-                int cap = h instanceof PumpLimit pl ? pl.maxBackPressure() : Integer.MAX_VALUE;
+                int cap = level.getBlockEntity(p) instanceof PumpLimit pl ? pl.maxBackPressure() : Integer.MAX_VALUE;
                 if (amount >= cap) {
                     continue;
                 }

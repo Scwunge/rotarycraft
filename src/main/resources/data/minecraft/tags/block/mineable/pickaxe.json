@@ -26,6 +26,7 @@
     "rotarycraft:microturbine",
     "rotarycraft:jet_engine",
     "rotarycraft:hydro_engine",
+    "rotarycraft:pump",
     "rotarycraft:flywheel_wood",
     "rotarycraft:flywheel_stone",
     "rotarycraft:flywheel_iron",
@@ -55,6 +56,7 @@
     "rotarycraft:gearbox_bedrock_16x",
     "rotarycraft:pipe",
     "rotarycraft:fuel_line",
-    "rotarycraft:bedrock_pipe"
+    "rotarycraft:bedrock_pipe",
+    "rotarycraft:reservoir"
   ]
 }

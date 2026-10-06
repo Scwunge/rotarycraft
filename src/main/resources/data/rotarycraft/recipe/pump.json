@@ -2,29 +2,29 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "SRS",
-    "PGP",
-    "SsS"
+    "SGS",
+    "pIp",
+    "PpP"
   ],
   "key": {
-    "s": {
-      "item": "rotarycraft:steel_rod"
-    },
     "S": {
       "tag": "c:ingots/steel"
     },
-    "R": {
-      "item": "rotarycraft:reservoir"
+    "G": {
+      "tag": "c:glass_panes"
+    },
+    "p": {
+      "item": "rotarycraft:pipe"
+    },
+    "I": {
+      "item": "rotarycraft:impeller"
     },
     "P": {
       "item": "rotarycraft:base_panel"
-    },
-    "G": {
-      "item": "rotarycraft:steel_gear"
     }
   },
   "result": {
-    "id": "rotarycraft:rock_melter",
+    "id": "rotarycraft:pump",
     "count": 1
   }
 }

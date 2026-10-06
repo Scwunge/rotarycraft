@@ -81,6 +81,8 @@ public class RotaryItems {
         blockItem(RotaryBlocks.FERMENTER);
         blockItem(RotaryBlocks.CENTRIFUGE);
         blockItem(RotaryBlocks.ROCK_MELTER);
+        blockItem(RotaryBlocks.PUMP);
+        blockItem(RotaryBlocks.RESERVOIR);
         blockItem(RotaryBlocks.MAGNETIZER);
         blockItem(RotaryBlocks.FRACTIONATOR);
         RotaryBlocks.PIPES.values().forEach(RotaryItems::blockItem);

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "covered=false": {
+      "model": "rotarycraft:block/reservoir"
+    },
+    "covered=true": {
+      "model": "rotarycraft:block/reservoir_covered"
+    }
+  }
+}

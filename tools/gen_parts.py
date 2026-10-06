@@ -376,7 +376,7 @@ shaped('blast_furnace', ['BBB', 'BrB', 'BBB'], {'B': item('minecraft:stone_brick
 shaped('friction_heater', ['S  ', 'Sss', 'SPP'], {'P': PANEL, 'S': STEEL_I, 's': ROD})
 shaped('fermenter', ['BPB', 'PIP', 'BPB'], {'B': STEEL_I, 'I': item('impeller'), 'P': PANEL})
 shaped('centrifuge', ['SGS', 'S S', 'PgP'], {'P': PANEL, 'g': item('steel_gear_unit_4'), 'S': STEEL_I, 'G': tag('c:glass_panes')})
-shaped('rock_melter', ['SRS', 'PGP', 'SsS'], {'s': ROD, 'S': STEEL_I, 'R': item('minecraft:cauldron'), 'P': PANEL, 'G': GEAR})  # cauldron until the Reservoir is ported
+shaped('rock_melter', ['SRS', 'PGP', 'SsS'], {'s': ROD, 'S': STEEL_I, 'R': item('reservoir'), 'P': PANEL, 'G': GEAR})
 shaped('fractionator', ['GFG', 'GIG', 'GPG'], {'P': PANEL, 'I': item('mixer'), 'G': GOLD_I, 'F': item('fuel_line')})
 shaped('magnetizer', ['p p', 'gmg', 'prp'], {'r': REDSTONE, 'p': PANEL, 'm': MOUNT, 'g': item('gold_coil')})
 shaped('generator', ['gpS', 'iGs', 'psp'], {'S': STEEL_I, 'p': PANEL, 'g': GOLD_I, 'G': item('generator_unit'), 'i': item('impeller'), 's': item('shaft_core')})

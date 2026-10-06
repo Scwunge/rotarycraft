@@ -180,6 +180,8 @@
   "block.rotarycraft.bedrock_pipe": "Bedrock Pipe",
   "message.rotarycraft.meter.pipe": "%s: %s mB (%s kPa)",
   "message.rotarycraft.meter.pipe_empty": "Empty pipe",
+  "block.rotarycraft.reservoir": "Reservoir",
+  "block.rotarycraft.pump": "Pump",
   "item.rotarycraft.wood_gear": "Wooden Gear",
   "item.rotarycraft.wood_gear_unit_2": "Wooden Gear Unit (2:1)",
   "item.rotarycraft.wood_gear_unit_4": "Wooden Gear Unit (4:1)",

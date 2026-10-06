@@ -102,6 +102,10 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.MAGNETIZER, net.scwunge.rotarycraft.blockentity.MagnetizerBlockEntity::new));
     public static final DeferredBlock<MachineBlock> FRACTIONATOR = BLOCKS.register("fractionator",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.FRACTIONATOR, net.scwunge.rotarycraft.blockentity.FractionatorBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> PUMP = BLOCKS.register("pump",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.PUMP, net.scwunge.rotarycraft.blockentity.PumpBlockEntity::new));
+    public static final DeferredBlock<net.scwunge.rotarycraft.block.ReservoirBlock> RESERVOIR = BLOCKS.register("reservoir",
+            () -> new net.scwunge.rotarycraft.block.ReservoirBlock(machineProps().noOcclusion()));
     public static final DeferredBlock<MachineBlock> ROCK_MELTER = BLOCKS.register("rock_melter",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.ROCK_MELTER, net.scwunge.rotarycraft.blockentity.RockMelterBlockEntity::new));
     /** Pipes by kind (hose, pipe, fuel line, bedrock pipe). */
