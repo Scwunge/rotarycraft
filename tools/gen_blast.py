@@ -41,6 +41,9 @@ BLAST = {
     'spring_steel': {'center': add(COKE, 75), 'lower': add({'item': 'minecraft:redstone'}, 40),
                      'main': {'tag': 'c:ingots/steel'}, 'result': {'id': 'rotarycraft:spring_steel_ingot', 'count': 1},
                      'temperature': 1000},
+    # nine scrap (from exploded machines) melt back into a steel ingot at the steel temperature
+    'steel_from_scrap': {'main': {'item': 'rotarycraft:scrap'}, 'main_per_result': 9,
+                         'result': {'id': 'rotarycraft:hsla_steel_ingot', 'count': 1}, 'temperature': 600},
 }
 for name, r in BLAST.items():
     recipe = {'type': 'rotarycraft:blast_furnace'}

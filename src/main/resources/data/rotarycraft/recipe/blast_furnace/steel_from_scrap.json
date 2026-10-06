@@ -1,0 +1,12 @@
+{
+  "type": "rotarycraft:blast_furnace",
+  "main": {
+    "item": "rotarycraft:scrap"
+  },
+  "main_per_result": 9,
+  "result": {
+    "id": "rotarycraft:hsla_steel_ingot",
+    "count": 1
+  },
+  "temperature": 600
+}

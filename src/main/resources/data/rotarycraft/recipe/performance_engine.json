@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "CgC",
+    "BEs",
+    "IRI"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:piston"
+    },
+    "g": {
+      "tag": "c:ingots/gold"
+    },
+    "B": {
+      "item": "minecraft:blaze_rod"
+    },
+    "E": {
+      "item": "rotarycraft:gas_engine"
+    },
+    "s": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "I": {
+      "tag": "c:ingots/steel"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:performance_engine",
+    "count": 1
+  }
+}

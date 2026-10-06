@@ -66,6 +66,8 @@ public class RotaryBlockEntities {
             () -> BlockEntityType.Builder.of(CentrifugeBlockEntity::new, RotaryBlocks.CENTRIFUGE.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GasEngineBlockEntity>> GAS_ENGINE = TYPES.register("gas_engine",
             () -> BlockEntityType.Builder.of(GasEngineBlockEntity::new, RotaryBlocks.GAS_ENGINE.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.PerformanceEngineBlockEntity>> PERFORMANCE_ENGINE = TYPES.register("performance_engine",
+            () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.PerformanceEngineBlockEntity::new, RotaryBlocks.PERFORMANCE_ENGINE.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.ACEngineBlockEntity>> AC_ENGINE = TYPES.register("ac_engine",
             () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.ACEngineBlockEntity::new, RotaryBlocks.AC_ENGINE.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.MagnetizerBlockEntity>> MAGNETIZER = TYPES.register("magnetizer",

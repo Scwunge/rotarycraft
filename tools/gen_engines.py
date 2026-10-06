@@ -83,6 +83,27 @@ shaped('ac_engine', ['GGG', 'GCs', 'PRP'], {'G': {'tag': 'c:ingots/gold'}, 'C': 
 shaped('magnetizer', ['P P', 'CMC', 'PRP'], {'P': {'tag': 'c:ingots/steel'}, 'C': {'tag': 'c:storage_blocks/copper'},
        'M': {'item': 'rotarycraft:shaft_steel'}, 'R': {'tag': 'c:dusts/redstone'}})
 
+# Performance Engine: red cylinders and a blue water jacket
+im, g = panel()
+g.rectangle([1, 2, 14, 13], fill=(60, 90, 140, 255), outline=(30, 45, 80, 255))
+for x0 in (3, 9):
+    g.rectangle([x0, 4, x0 + 3, 11], fill=(190, 50, 50, 255), outline=(90, 20, 20, 255))
+im.save(T + '/block/performance_engine_front.png')
+shutil.copy('reference/RotaryCraft/Textures/GUI/perfgui.png', T + '/gui/performance_engine.png')
+
+im = Image.new('RGBA', (16, 16))
+g = ImageDraw.Draw(im)
+for _ in range(7):
+    x, y = rnd.randint(2, 11), rnd.randint(3, 11)
+    g.polygon([(x, y), (x + rnd.randint(2, 4), y + rnd.randint(-1, 2)), (x + rnd.randint(0, 3), y + rnd.randint(2, 4))],
+              fill=shade((150, 155, 165), rnd.randint(-30, 20)))
+im.save(T + '/item/scrap.png')
+w('%s/models/item/scrap.json' % A, {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/scrap'}})
+
+shaped('performance_engine', ['CgC', 'BEs', 'IRI'], {'C': {'item': 'minecraft:piston'}, 'g': {'tag': 'c:ingots/gold'},
+       'B': {'item': 'minecraft:blaze_rod'}, 'E': {'item': 'rotarycraft:gas_engine'}, 's': {'item': 'rotarycraft:shaft_steel'},
+       'I': {'tag': 'c:ingots/steel'}, 'R': {'tag': 'c:dusts/redstone'}})
+
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))
 lang.update({
@@ -97,6 +118,10 @@ lang.update({
     'gui.rotarycraft.magnetization': 'Core: %s uT',
     'gui.rotarycraft.ac_on': 'AC signal',
     'gui.rotarycraft.ac_off': 'No AC signal',
+    'block.rotarycraft.performance_engine': 'Performance Engine',
+    'item.rotarycraft.scrap': 'Scrap',
+    'gui.rotarycraft.additives': 'Additives: %s / %s',
+    'gui.rotarycraft.performance_engine.limit': 'Explodes above %s C; water cools it',
 })
 with open(lang_path, 'w') as f:
     json.dump(lang, f, indent=2)

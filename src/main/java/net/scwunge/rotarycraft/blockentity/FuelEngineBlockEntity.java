@@ -13,18 +13,20 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
 
 /**
  * An engine that burns a liquid fuel, as in the original: a 240-bucket tank, {@link #FUEL_PER_UNIT} mB burned every
- * fuel-unit duration (four times as fast while spinning up), and an item slot whose fuel items each add a bucket.
- * Air-breathing engines stop when drowned (every side fluid, none open).
+ * fuel-unit duration (four times as fast while spinning up), and a slot whose fuel items each add a bucket.
+ * Air-breathing engines stop when drowned (every side fluid, none open). Subclasses may add slots, a water tank and heat.
  */
 public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements MenuProvider {
     public static final int CAPACITY = 240_000;
     public static final int FUEL_PER_UNIT = 10;
-    public static final int DATA_COUNT = 6;
+    public static final int DATA_COUNT = 9;
+    public static final int SLOT_FUEL = 0;
 
     protected final FluidTank fuel = new FluidTank(CAPACITY, s -> s.is(fuelTag())) {
         @Override
@@ -32,7 +34,7 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
             setChanged();
         }
     };
-    protected final ItemStackHandler items = new ItemStackHandler(1) {
+    protected final ItemStackHandler items = new ItemStackHandler(slotCount()) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
@@ -40,7 +42,7 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
-            return stack.is(fuelItem());
+            return isValidInSlot(slot, stack);
         }
     };
     private int fuelTicks;
@@ -55,6 +57,9 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
                 case 3 -> omega >>> 16;
                 case 4 -> torque & 0xFFFF;
                 case 5 -> torque >>> 16;
+                case 6 -> waterAmount();
+                case 7 -> temperatureForDisplay();
+                case 8 -> additives();
                 default -> 0;
             };
         }
@@ -79,14 +84,42 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
     /** The fluid a fuel item turns into. */
     protected abstract Fluid fuelFluid();
 
-    /** The item that adds a bucket of fuel when put in the slot. */
+    /** The item that adds a bucket of fuel when put in the fuel slot. */
     protected abstract Item fuelItem();
 
     /** Ticks per {@link #FUEL_PER_UNIT} mB at full speed. */
     protected abstract int fuelUnitTicks();
 
+    protected int slotCount() {
+        return 1;
+    }
+
+    protected boolean isValidInSlot(int slot, ItemStack stack) {
+        return slot == SLOT_FUEL && stack.is(fuelItem());
+    }
+
     protected boolean airBreathing() {
         return true;
+    }
+
+    /** Called each time a unit of fuel is burned. */
+    protected void onFuelBurned() {
+    }
+
+    /** Called every tick before burning fuel, to take items from the slots. */
+    protected void takeItems() {
+    }
+
+    protected int waterAmount() {
+        return 0;
+    }
+
+    protected int temperatureForDisplay() {
+        return 0;
+    }
+
+    protected int additives() {
+        return 0;
     }
 
     public FluidTank fuel() {
@@ -98,7 +131,7 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
     }
 
     /** Fuel can come in from any side but the output. */
-    public FluidTank fuelHandler(Direction side) {
+    public IFluidHandler fuelHandler(Direction side) {
         return side == facing() ? null : fuel;
     }
 
@@ -129,11 +162,12 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
 
     @Override
     protected void afterTick(boolean running) {
-        ItemStack in = items.getStackInSlot(0);
+        ItemStack in = items.getStackInSlot(SLOT_FUEL);
         if (!in.isEmpty() && in.is(fuelItem()) && fuel.getFluidAmount() + 1000 <= CAPACITY) {
-            items.extractItem(0, 1, false);
+            items.extractItem(SLOT_FUEL, 1, false);
             fuel.fill(new FluidStack(fuelFluid(), 1000), FluidTank.FluidAction.EXECUTE);
         }
+        takeItems();
         if (!running) {
             return;
         }
@@ -141,6 +175,7 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
         if (++fuelTicks >= unit) {
             fuelTicks = 0;
             fuel.drain(FUEL_PER_UNIT, FluidTank.FluidAction.EXECUTE);
+            onFuelBurned();
         }
     }
 

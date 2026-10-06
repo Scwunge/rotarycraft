@@ -66,6 +66,6 @@ public class GasEngineBlockEntity extends FuelEngineBlockEntity {
 
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        return new FuelEngineMenu(id, inventory, this, data);
+        return new FuelEngineMenu(net.scwunge.rotarycraft.registry.RotaryMenus.FUEL_ENGINE.get(), id, inventory, this, data);
     }
 }

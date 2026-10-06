@@ -29,11 +29,19 @@ public class RotaryMenus {
     public static final DeferredHolder<MenuType<?>, MenuType<CentrifugeMenu>> CENTRIFUGE =
             MENUS.register("centrifuge", () -> IMenuTypeExtension.create(CentrifugeMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<FuelEngineMenu>> FUEL_ENGINE =
-            MENUS.register("fuel_engine", () -> IMenuTypeExtension.create(FuelEngineMenu::new));
+            fuelEngine("fuel_engine", 1);
+    public static final DeferredHolder<MenuType<?>, MenuType<FuelEngineMenu>> PERFORMANCE_ENGINE = fuelEngine("performance_engine", 2);
     public static final DeferredHolder<MenuType<?>, MenuType<OneSlotMenu>> MAGNETIZER = oneSlot("magnetizer");
     public static final DeferredHolder<MenuType<?>, MenuType<OneSlotMenu>> AC_ENGINE = oneSlot("ac_engine");
     public static final DeferredHolder<MenuType<?>, MenuType<RockMelterMenu>> ROCK_MELTER =
             MENUS.register("rock_melter", () -> IMenuTypeExtension.create(RockMelterMenu::new));
+
+    @SuppressWarnings("unchecked")
+    private static DeferredHolder<MenuType<?>, MenuType<FuelEngineMenu>> fuelEngine(String name, int slots) {
+        DeferredHolder<MenuType<?>, MenuType<FuelEngineMenu>>[] self = new DeferredHolder[1];
+        self[0] = MENUS.register(name, () -> IMenuTypeExtension.create((id, inv, buf) -> new FuelEngineMenu(self[0].get(), slots, id, inv, buf)));
+        return self[0];
+    }
 
     /** One-slot machine screens share a menu class; each still gets its own type. */
     @SuppressWarnings("unchecked")
