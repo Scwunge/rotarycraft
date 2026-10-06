@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/silver"
+  },
+  "ore_type": "silver",
+  "color": 13096928,
+  "rarity": "common"
+}

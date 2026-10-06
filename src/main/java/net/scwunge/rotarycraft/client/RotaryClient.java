@@ -16,5 +16,16 @@ public final class RotaryClient {
     @SubscribeEvent
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(RotaryMenus.GRINDER.get(), GrinderScreen::new);
+        event.register(RotaryMenus.EXTRACTOR.get(), ExtractorScreen::new);
+    }
+
+    /** Extractor products are tinted with their ore's colour. */
+    @SubscribeEvent
+    public static void itemColors(net.neoforged.neoforge.client.event.RegisterColorHandlersEvent.Item event) {
+        event.register((stack, layer) -> {
+            var product = stack.get(net.scwunge.rotarycraft.registry.RotaryComponents.ORE_PRODUCT.get());
+            return layer == 0 && product != null ? 0xFF000000 | product.color() : -1;
+        }, net.scwunge.rotarycraft.registry.RotaryItems.ORE_DUST.get(), net.scwunge.rotarycraft.registry.RotaryItems.ORE_SLURRY.get(),
+                net.scwunge.rotarycraft.registry.RotaryItems.ORE_SOLUTION.get(), net.scwunge.rotarycraft.registry.RotaryItems.ORE_FLAKES.get());
     }
 }

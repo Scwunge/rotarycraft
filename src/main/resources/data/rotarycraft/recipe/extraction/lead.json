@@ -1,0 +1,20 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/lead"
+  },
+  "ore_type": "lead",
+  "color": 6120064,
+  "rarity": "common",
+  "bonus": {
+    "id": "rotarycraft:ore_flakes",
+    "count": 1,
+    "components": {
+      "rotarycraft:ore_product": {
+        "type": "nickel",
+        "color": 14343336
+      }
+    }
+  },
+  "bonus_chance": 0.25
+}

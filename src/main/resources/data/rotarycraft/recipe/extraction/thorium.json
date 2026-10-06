@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/thorium"
+  },
+  "ore_type": "thorium",
+  "color": 4013373,
+  "rarity": "common"
+}

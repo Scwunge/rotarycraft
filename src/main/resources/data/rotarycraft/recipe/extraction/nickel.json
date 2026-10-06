@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/nickel"
+  },
+  "ore_type": "nickel",
+  "color": 14343336,
+  "rarity": "common"
+}

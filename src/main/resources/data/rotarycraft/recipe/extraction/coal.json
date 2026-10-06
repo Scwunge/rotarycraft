@@ -1,0 +1,14 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/coal"
+  },
+  "ore_type": "coal",
+  "color": 3815994,
+  "rarity": "common",
+  "bonus": {
+    "id": "minecraft:gunpowder",
+    "count": 1
+  },
+  "bonus_chance": 0.0625
+}

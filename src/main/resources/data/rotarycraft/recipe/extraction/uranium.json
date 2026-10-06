@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/uranium"
+  },
+  "ore_type": "uranium",
+  "color": 6195772,
+  "rarity": "common"
+}

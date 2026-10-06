@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/netherite_scrap"
+  },
+  "ore_type": "netherite_scrap",
+  "color": 6045752,
+  "rarity": "nether"
+}

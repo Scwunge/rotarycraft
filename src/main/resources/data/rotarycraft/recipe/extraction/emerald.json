@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/emerald"
+  },
+  "ore_type": "emerald",
+  "color": 1564002,
+  "rarity": "rare"
+}

@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/lapis"
+  },
+  "ore_type": "lapis",
+  "color": 2052016,
+  "rarity": "common"
+}

@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/aluminum"
+  },
+  "ore_type": "aluminum",
+  "color": 14804712,
+  "rarity": "common"
+}

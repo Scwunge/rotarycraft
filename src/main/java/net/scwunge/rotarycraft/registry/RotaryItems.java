@@ -12,6 +12,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.item.MeterItem;
+import net.scwunge.rotarycraft.item.OreProductItem;
 import net.scwunge.rotarycraft.item.ScrewdriverItem;
 
 import java.util.ArrayList;
@@ -31,6 +32,12 @@ public class RotaryItems {
     public static final DeferredItem<Item> FLOUR = add(ITEMS.registerSimpleItem("flour"));
     public static final DeferredItem<Item> NETHERRACK_DUST = add(ITEMS.registerSimpleItem("netherrack_dust"));
     public static final DeferredItem<Item> TAR = add(ITEMS.registerSimpleItem("tar"));
+    public static final DeferredItem<Item> SILVER_INGOT = add(ITEMS.registerSimpleItem("silver_ingot"));
+    public static final DeferredItem<Item> TUNGSTEN_INGOT = add(ITEMS.registerSimpleItem("tungsten_ingot"));
+    public static final DeferredItem<OreProductItem> ORE_DUST = ITEMS.register("ore_dust", () -> new OreProductItem(new Item.Properties(), OreProductItem.Stage.DUST));
+    public static final DeferredItem<OreProductItem> ORE_SLURRY = ITEMS.register("ore_slurry", () -> new OreProductItem(new Item.Properties(), OreProductItem.Stage.SLURRY));
+    public static final DeferredItem<OreProductItem> ORE_SOLUTION = ITEMS.register("ore_solution", () -> new OreProductItem(new Item.Properties(), OreProductItem.Stage.SOLUTION));
+    public static final DeferredItem<OreProductItem> ORE_FLAKES = ITEMS.register("ore_flakes", () -> new OreProductItem(new Item.Properties(), OreProductItem.Stage.FLAKES));
 
     static {
         blockItem(RotaryBlocks.DC_ENGINE);
@@ -44,6 +51,7 @@ public class RotaryItems {
         RotaryBlocks.FLYWHEELS.values().forEach(RotaryItems::blockItem);
         blockItem(RotaryBlocks.DYNAMOMETER);
         blockItem(RotaryBlocks.GRINDER);
+        blockItem(RotaryBlocks.EXTRACTOR);
         blockItem(RotaryBlocks.GENERATOR);
         blockItem(RotaryBlocks.ELECTRIC_MOTOR);
     }

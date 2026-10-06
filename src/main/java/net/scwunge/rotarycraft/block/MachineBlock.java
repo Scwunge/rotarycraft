@@ -8,6 +8,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.server.level.ServerPlayer;
+import net.scwunge.rotarycraft.blockentity.ExtractorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GrinderBlockEntity;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -106,9 +107,13 @@ public class MachineBlock extends BaseEntityBlock {
     /** Drop machine inventories when the block is broken. */
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof GrinderBlockEntity grinder) {
-            for (int i = 0; i < grinder.items().getSlots(); i++) {
-                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), grinder.items().getStackInSlot(i));
+        if (!state.is(newState.getBlock())) {
+            net.neoforged.neoforge.items.ItemStackHandler items = level.getBlockEntity(pos) instanceof GrinderBlockEntity g ? g.items()
+                    : level.getBlockEntity(pos) instanceof ExtractorBlockEntity e ? e.items() : null;
+            if (items != null) {
+                for (int i = 0; i < items.getSlots(); i++) {
+                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), items.getStackInSlot(i));
+                }
             }
         }
         super.onRemove(state, level, pos, newState, movedByPiston);

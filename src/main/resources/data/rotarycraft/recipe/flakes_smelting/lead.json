@@ -1,0 +1,17 @@
+{
+  "type": "rotarycraft:tag_smelting",
+  "ingredient": {
+    "type": "neoforge:components",
+    "items": "rotarycraft:ore_flakes",
+    "components": {
+      "rotarycraft:ore_product": {
+        "type": "lead",
+        "color": 6120064
+      }
+    }
+  },
+  "result_tag": "c:ingots/lead",
+  "count": 1,
+  "experience": 0.7,
+  "cookingtime": 200
+}

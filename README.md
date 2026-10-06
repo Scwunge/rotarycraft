@@ -18,6 +18,7 @@ and angular speed, shafts and gearboxes carry and transform it, and machines use
 | Gearboxes (2:1, 4:1, 8:1, 16:1) | Reduction (slower, more torque) or acceleration (faster, less torque); right-click to switch. Power is conserved |
 | Dynamometer | Passes power through; comparators read it (logarithmic) |
 | Grinder | Needs 128 N*m and 4 kW. Grinds stone, gravel, glass, bricks, wood (into sawdust), wheat (flour), bone, blaze rods and more; faster shafts grind faster (840 - 60 x log2(speed) ticks). Original GUI; hoppers fill the input and empty the output. Recipes are data-driven (`rotarycraft:grinding`) |
+| Extractor | The original's 4-stage ore processor: ore -> dust -> slurry -> solution -> flakes, each stage with its own power need (512 N*m/64 kW, 2048 rad/s/16 kW, 8192 rad/s/32 kW, 256 N*m/64 kW) and a 50% chance to double (80% nether, 90% rare ores), so one ore averages about 5 ingots. Stages 2-3 use water. Bonus items as in the original (iron -> tungsten, gold -> silver, copper -> gold, coal -> gunpowder, lead -> nickel). Flakes smelt in a furnace into whatever ingot the pack has for that metal (`c:ingots/...`). Ore types are data-driven (`rotarycraft:extraction`); 21 included, mod ores only when present |
 | Generator | Shaft power -> Forge Energy (power / 20 W per FE per tick by default); pushes FE into neighbours |
 | Electric Motor | Forge Energy -> shaft power (16 N*m at 256 rad/s by default) |
 | Screwdriver | Rotates machines (sneak to face the clicked side) |

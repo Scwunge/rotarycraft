@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/quartz"
+  },
+  "ore_type": "quartz",
+  "color": 15196373,
+  "rarity": "nether"
+}

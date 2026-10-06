@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/diamond"
+  },
+  "ore_type": "diamond",
+  "color": 6155509,
+  "rarity": "common"
+}

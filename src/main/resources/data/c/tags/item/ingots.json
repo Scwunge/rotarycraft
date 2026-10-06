@@ -1,5 +1,7 @@
 {
   "values": [
-    "rotarycraft:hsla_steel_ingot"
+    "rotarycraft:hsla_steel_ingot",
+    "rotarycraft:silver_ingot",
+    "rotarycraft:tungsten_ingot"
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/tin"
+  },
+  "ore_type": "tin",
+  "color": 14148328,
+  "rarity": "common"
+}

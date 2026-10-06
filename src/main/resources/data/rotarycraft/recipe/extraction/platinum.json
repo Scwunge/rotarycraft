@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/platinum"
+  },
+  "ore_type": "platinum",
+  "color": 10477813,
+  "rarity": "common"
+}

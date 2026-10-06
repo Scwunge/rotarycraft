@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "ingredient": {
+    "type": "neoforge:components",
+    "items": "rotarycraft:ore_flakes",
+    "components": {
+      "rotarycraft:ore_product": {
+        "type": "lapis",
+        "color": 2052016
+      }
+    }
+  },
+  "result": {
+    "id": "minecraft:lapis_lazuli",
+    "count": 4
+  },
+  "experience": 0.7,
+  "cookingtime": 200
+}

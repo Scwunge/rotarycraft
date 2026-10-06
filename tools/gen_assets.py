@@ -22,7 +22,7 @@ def w(path, obj):
 ROT = {'north': {}, 'south': {'y': 180}, 'east': {'y': 90}, 'west': {'y': 270}, 'up': {'x': 270}, 'down': {'x': 90}}
 MATS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'steel': (170, 180, 192), 'diamond': (90, 220, 215), 'bedrock': (60, 60, 60)}
 FLYWHEELS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'iron': (200, 200, 205), 'gold': (230, 190, 50), 'bedrock': (60, 60, 60)}
-MACHINES = ['dc_engine', 'wind_engine', 'steam_engine', 'generator', 'electric_motor', 'dynamometer', 'clutch', 'grinder'] + ['gearbox_%dx' % r for r in (2, 4, 8, 16)] + ['flywheel_' + f for f in FLYWHEELS]
+MACHINES = ['dc_engine', 'wind_engine', 'steam_engine', 'generator', 'electric_motor', 'dynamometer', 'clutch', 'grinder', 'extractor'] + ['gearbox_%dx' % r for r in (2, 4, 8, 16)] + ['flywheel_' + f for f in FLYWHEELS]
 BLOCKS = ['shaft_' + m for m in MATS] + MACHINES + ['bevel_gear', 'splitter']
 
 # blockstates ---------------------------------------------------------------------------------------------------------
@@ -184,6 +184,12 @@ for x in range(3, 13, 2):
     g.line([(x, 5), (x + 1, 10)], fill=(190, 195, 205, 255))
 im.save(T + '/block/grinder_front.png')
 
+im, g = panel()
+for i, c in enumerate([(120, 120, 130), (150, 120, 90), (110, 150, 190), (200, 200, 210)]):
+    g.rectangle([2 + i * 3, 4, 3 + i * 3, 11], fill=c + (255,))
+g.line([(2, 12), (13, 12)], fill=(30, 32, 36, 255))
+im.save(T + '/block/extractor_front.png')
+
 
 def powder(name, c):
     im = Image.new('RGBA', (16, 16))
@@ -327,6 +333,7 @@ for name, ing, res, n in [
     ('wooden_pressure_plates', tag('minecraft:wooden_pressure_plates'), 'rotarycraft:sawdust', 8),
 ]:
     grind(name, ing, res, n)
+shaped('extractor', ['IGI', 'SBS', 'IPI'], {'I': STEEL, 'G': {'item': 'rotarycraft:grinder'}, 'S': STEEL_SHAFT, 'B': {'item': 'minecraft:bucket'}, 'P': {'item': 'minecraft:piston'}})
 shaped('grinder', ['IFI', 'SGS', 'III'], {'I': STEEL, 'F': {'item': 'minecraft:flint'}, 'S': STEEL_SHAFT, 'G': {'item': 'rotarycraft:gearbox_2x'}})
 
 # lang ----------------------------------------------------------------------------------------------------------------
@@ -375,3 +382,5 @@ for r in (2, 4, 8, 16):
     lang['block.rotarycraft.gearbox_%dx' % r] = '%d:1 Gearbox' % r
 w(A + '/lang/en_us.json', lang)
 print('assets ok,', len(BLOCKS), 'blocks')
+import runpy
+runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_extractor.py'))

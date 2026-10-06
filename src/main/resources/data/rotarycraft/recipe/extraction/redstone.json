@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/redstone"
+  },
+  "ore_type": "redstone",
+  "color": 11144961,
+  "rarity": "common"
+}

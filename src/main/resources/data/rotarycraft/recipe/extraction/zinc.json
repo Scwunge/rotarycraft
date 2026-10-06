@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/zinc"
+  },
+  "ore_type": "zinc",
+  "color": 12240072,
+  "rarity": "common"
+}

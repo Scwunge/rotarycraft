@@ -1,0 +1,20 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/iron"
+  },
+  "ore_type": "iron",
+  "color": 14200723,
+  "rarity": "common",
+  "bonus": {
+    "id": "rotarycraft:ore_flakes",
+    "count": 1,
+    "components": {
+      "rotarycraft:ore_product": {
+        "type": "tungsten",
+        "color": 5923952
+      }
+    }
+  },
+  "bonus_chance": 0.025
+}
