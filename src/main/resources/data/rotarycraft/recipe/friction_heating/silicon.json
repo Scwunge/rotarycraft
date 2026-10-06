@@ -1,0 +1,12 @@
+{
+  "type": "rotarycraft:friction_heating",
+  "ingredient": {
+    "item": "rotarycraft:silicon_dust"
+  },
+  "result": {
+    "id": "rotarycraft:silicon",
+    "count": 1
+  },
+  "temperature": 800,
+  "duration": 200
+}

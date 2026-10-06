@@ -113,6 +113,16 @@ shaped('compactor', ['SPS', 'PGP', '#P#'], {'#': {'item': 'rotarycraft:base_pane
        'G': {'item': 'rotarycraft:tungsten_gear_unit_16'}})
 w(R + '/data/c/tags/item/storage_blocks/anthracite.json', {'values': ['rotarycraft:anthracite_block']})
 
+# Friction Heater item recipes (RecipesFrictionHeater): done in a furnace in front of the heater
+def friction(name, ingredient, result, temperature, duration):
+    w('%s/recipe/friction_heating/%s.json' % (D, name), {'type': 'rotarycraft:friction_heating', 'ingredient': ingredient,
+      'result': {'id': result, 'count': 1}, 'temperature': temperature, 'duration': duration})
+
+
+friction('tungsten_ingot', {'type': 'neoforge:components', 'items': 'rotarycraft:ore_flakes',
+                            'components': {'rotarycraft:ore_product': {'type': 'tungsten', 'color': 0x5A6470}}}, 'rotarycraft:tungsten_ingot', 1350, 600)
+friction('silicon', {'item': 'rotarycraft:silicon_dust'}, 'rotarycraft:silicon', 800, 200)
+
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))
 lang.update({

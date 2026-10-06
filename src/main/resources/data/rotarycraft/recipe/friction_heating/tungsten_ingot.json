@@ -1,0 +1,19 @@
+{
+  "type": "rotarycraft:friction_heating",
+  "ingredient": {
+    "type": "neoforge:components",
+    "items": "rotarycraft:ore_flakes",
+    "components": {
+      "rotarycraft:ore_product": {
+        "type": "tungsten",
+        "color": 5923952
+      }
+    }
+  },
+  "result": {
+    "id": "rotarycraft:tungsten_ingot",
+    "count": 1
+  },
+  "temperature": 1350,
+  "duration": 600
+}

@@ -37,6 +37,11 @@ public class RotaryRecipes {
     public static final DeferredHolder<RecipeSerializer<?>, net.scwunge.rotarycraft.recipe.BlastCraftingRecipe.Serializer> BLAST_CRAFTING_SERIALIZER =
             SERIALIZERS.register("blast_crafting", net.scwunge.rotarycraft.recipe.BlastCraftingRecipe.Serializer::new);
 
+    public static final DeferredHolder<RecipeType<?>, RecipeType<net.scwunge.rotarycraft.recipe.FrictionHeatingRecipe>> FRICTION_HEATING =
+            TYPES.register("friction_heating", () -> RecipeType.simple(RotaryCraft.id("friction_heating")));
+    public static final DeferredHolder<RecipeSerializer<?>, net.scwunge.rotarycraft.recipe.FrictionHeatingRecipe.Serializer> FRICTION_HEATING_SERIALIZER =
+            SERIALIZERS.register("friction_heating", net.scwunge.rotarycraft.recipe.FrictionHeatingRecipe.Serializer::new);
+
     public static final DeferredHolder<RecipeType<?>, RecipeType<net.scwunge.rotarycraft.recipe.CompactingRecipe>> COMPACTING =
             TYPES.register("compacting", () -> RecipeType.simple(RotaryCraft.id("compacting")));
     public static final DeferredHolder<RecipeSerializer<?>, net.scwunge.rotarycraft.recipe.CompactingRecipe.Serializer> COMPACTING_SERIALIZER =
