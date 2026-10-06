@@ -97,6 +97,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.COOLING_FIN);
         blockItem(RotaryBlocks.CRYSTALLIZER);
         blockItem(RotaryBlocks.PULSE_FURNACE);
+        blockItem(RotaryBlocks.VAN_DE_GRAAFF);
         blockItem(RotaryBlocks.BLAST_GLASS);
         blockItem(RotaryBlocks.ANTHRACITE_BLOCK);
         blockItem(RotaryBlocks.LONSDALEITE_BLOCK);

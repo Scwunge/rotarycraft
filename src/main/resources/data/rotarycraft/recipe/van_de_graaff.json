@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "shs",
+    "gbg",
+    "php"
+  ],
+  "key": {
+    "h": {
+      "item": "rotarycraft:hub"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    },
+    "b": {
+      "item": "rotarycraft:belt"
+    },
+    "g": {
+      "item": "minecraft:glass_pane"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:van_de_graaff",
+    "count": 1
+  }
+}

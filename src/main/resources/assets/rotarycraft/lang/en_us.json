@@ -212,6 +212,7 @@
   "gui.rotarycraft.pulse_furnace.water": "Water: %s / %s mB",
   "gui.rotarycraft.pulse_furnace.accelerant": "Oxygen: %s / %s mB",
   "gui.rotarycraft.pulse_furnace.needs": "Needs 1 N*m, 131072 rad/s and 1 W; smelts once hot enough",
+  "block.rotarycraft.van_de_graaff": "Van de Graaff Generator",
   "item.rotarycraft.barrel": "Barrel",
   "item.rotarycraft.lens": "Lens",
   "item.rotarycraft.bulb": "Bulb",

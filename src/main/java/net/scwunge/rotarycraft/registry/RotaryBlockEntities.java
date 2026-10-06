@@ -86,6 +86,8 @@ public class RotaryBlockEntities {
             () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.CompactorBlockEntity::new, RotaryBlocks.COMPACTOR.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.CrystallizerBlockEntity>> CRYSTALLIZER = TYPES.register("crystallizer",
             () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.CrystallizerBlockEntity::new, RotaryBlocks.CRYSTALLIZER.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.VanDeGraffBlockEntity>> VAN_DE_GRAAFF = TYPES.register("van_de_graaff",
+            () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.VanDeGraffBlockEntity::new, RotaryBlocks.VAN_DE_GRAAFF.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.PulseFurnaceBlockEntity>> PULSE_FURNACE = TYPES.register("pulse_furnace",
             () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.blockentity.PulseFurnaceBlockEntity::new, RotaryBlocks.PULSE_FURNACE.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.blockentity.PumpBlockEntity>> PUMP =TYPES.register("pump",
