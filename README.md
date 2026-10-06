@@ -3,7 +3,7 @@
 A port of Reika Kalseki's RotaryCraft to Minecraft 1.21.1 on NeoForge: realistic mechanical power. Engines produce torque
 and angular speed, shafts and gearboxes carry and transform it, and machines use it. Power is torque x speed, in watts.
 
-## Status: phases 1-2 (power transmission and the first engines)
+## Status: phases 1-2 done, phase 3 (processing machines) in progress
 
 | Block / item | What it does |
 |---|---|
@@ -17,6 +17,7 @@ and angular speed, shafts and gearboxes carry and transform it, and machines use
 | Shafts (wood, stone, steel, diamond, bedrock) | Carry power unchanged. Break when torque or speed exceeds the material's limit (bedrock never breaks) |
 | Gearboxes (2:1, 4:1, 8:1, 16:1) | Reduction (slower, more torque) or acceleration (faster, less torque); right-click to switch. Power is conserved |
 | Dynamometer | Passes power through; comparators read it (logarithmic) |
+| Grinder | Needs 128 N*m and 4 kW. Grinds stone, gravel, glass, bricks, wood (into sawdust), wheat (flour), bone, blaze rods and more; faster shafts grind faster (840 - 60 x log2(speed) ticks). Original GUI; hoppers fill the input and empty the output. Recipes are data-driven (`rotarycraft:grinding`) |
 | Generator | Shaft power -> Forge Energy (power / 20 W per FE per tick by default); pushes FE into neighbours |
 | Electric Motor | Forge Energy -> shaft power (16 N*m at 256 rad/s by default) |
 | Screwdriver | Rotates machines (sneak to face the clicked side) |

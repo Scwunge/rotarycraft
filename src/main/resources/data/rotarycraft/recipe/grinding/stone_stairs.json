@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:stone_stairs"
+  },
+  "result": {
+    "id": "minecraft:gravel",
+    "count": 2
+  }
+}

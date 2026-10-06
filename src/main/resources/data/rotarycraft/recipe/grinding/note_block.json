@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:note_block"
+  },
+  "result": {
+    "id": "rotarycraft:sawdust",
+    "count": 32
+  }
+}

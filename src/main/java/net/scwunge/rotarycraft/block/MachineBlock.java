@@ -3,7 +3,12 @@ package net.scwunge.rotarycraft.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.server.level.ServerPlayer;
+import net.scwunge.rotarycraft.blockentity.GrinderBlockEntity;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -84,6 +89,29 @@ public class MachineBlock extends BaseEntityBlock {
             return ItemInteractionResult.sidedSuccess(level.isClientSide());
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hit);
+    }
+
+    /** Machines with a screen open it on right-click. */
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (level.getBlockEntity(pos) instanceof MenuProvider provider) {
+            if (player instanceof ServerPlayer sp) {
+                sp.openMenu(provider, buf -> buf.writeBlockPos(pos));
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide());
+        }
+        return super.useWithoutItem(state, level, pos, player, hit);
+    }
+
+    /** Drop machine inventories when the block is broken. */
+    @Override
+    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
+        if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof GrinderBlockEntity grinder) {
+            for (int i = 0; i < grinder.items().getSlots(); i++) {
+                Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), grinder.items().getStackInSlot(i));
+            }
+        }
+        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     @Override

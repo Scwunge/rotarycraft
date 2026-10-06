@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "tag": "minecraft:wooden_pressure_plates"
+  },
+  "result": {
+    "id": "rotarycraft:sawdust",
+    "count": 8
+  }
+}

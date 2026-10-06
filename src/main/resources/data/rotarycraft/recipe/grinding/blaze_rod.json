@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:blaze_rod"
+  },
+  "result": {
+    "id": "minecraft:blaze_powder",
+    "count": 6
+  }
+}

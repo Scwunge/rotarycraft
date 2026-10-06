@@ -22,7 +22,7 @@ def w(path, obj):
 ROT = {'north': {}, 'south': {'y': 180}, 'east': {'y': 90}, 'west': {'y': 270}, 'up': {'x': 270}, 'down': {'x': 90}}
 MATS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'steel': (170, 180, 192), 'diamond': (90, 220, 215), 'bedrock': (60, 60, 60)}
 FLYWHEELS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'iron': (200, 200, 205), 'gold': (230, 190, 50), 'bedrock': (60, 60, 60)}
-MACHINES = ['dc_engine', 'wind_engine', 'steam_engine', 'generator', 'electric_motor', 'dynamometer', 'clutch'] + ['gearbox_%dx' % r for r in (2, 4, 8, 16)] + ['flywheel_' + f for f in FLYWHEELS]
+MACHINES = ['dc_engine', 'wind_engine', 'steam_engine', 'generator', 'electric_motor', 'dynamometer', 'clutch', 'grinder'] + ['gearbox_%dx' % r for r in (2, 4, 8, 16)] + ['flywheel_' + f for f in FLYWHEELS]
 BLOCKS = ['shaft_' + m for m in MATS] + MACHINES + ['bevel_gear', 'splitter']
 
 # blockstates ---------------------------------------------------------------------------------------------------------
@@ -63,7 +63,8 @@ for b in MACHINES:
         'north': front, 'south': 'rotarycraft:block/machine_back', 'east': side, 'west': side, 'up': side, 'down': side, 'particle': side}})
 for b in BLOCKS:
     w('%s/models/item/%s.json' % (A, b), {'parent': 'rotarycraft:block/' + b})
-for it in ['screwdriver', 'angular_transducer', 'hsla_steel_ingot']:
+SIMPLE_ITEMS = ['screwdriver', 'angular_transducer', 'hsla_steel_ingot', 'sawdust', 'flour', 'netherrack_dust', 'tar']
+for it in SIMPLE_ITEMS:
     w('%s/models/item/%s.json' % (A, it), {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/' + it}})
 
 # textures (placeholders until the original machine renderers are ported) -------------------------------------------
@@ -177,6 +178,29 @@ g.line([(8, 8), (8, 2)], fill=(170, 180, 192, 255), width=2)
 g.ellipse([6, 6, 9, 9], fill=(60, 60, 66, 255))
 im.save(T + '/block/splitter.png')
 
+im, g = panel()
+g.rectangle([2, 4, 13, 11], fill=(50, 52, 58, 255), outline=(30, 32, 36, 255))
+for x in range(3, 13, 2):
+    g.line([(x, 5), (x + 1, 10)], fill=(190, 195, 205, 255))
+im.save(T + '/block/grinder_front.png')
+
+
+def powder(name, c):
+    im = Image.new('RGBA', (16, 16))
+    p = im.load()
+    for x in range(16):
+        for y in range(16):
+            dx, dy = x - 7.5, y - 9.5
+            if dx * dx / 36 + dy * dy / 16 <= 1:
+                p[x, y] = shade(c, rnd.randint(-25, 25))
+    im.save('%s/item/%s.png' % (T, name))
+
+
+powder('sawdust', (196, 160, 110))
+powder('flour', (240, 236, 225))
+powder('netherrack_dust', (140, 50, 50))
+powder('tar', (30, 26, 24))
+
 for f, c in FLYWHEELS.items():
     im, g = panel()
     g.ellipse([1, 1, 14, 14], fill=shade(c, 0), outline=shade(c, -50))
@@ -254,6 +278,57 @@ shaped('angular_transducer', [' R ', 'ICI', 'III'], {'I': IRON, 'R': {'item': 'm
 w(D + '/recipe/hsla_steel_ingot_blasting.json', {'type': 'minecraft:blasting', 'category': 'misc', 'ingredient': IRON,
     'result': {'id': 'rotarycraft:hsla_steel_ingot', 'count': 1}, 'experience': 0.4, 'cookingtime': 400})
 
+def grind(name, ingredient, result, count=1):
+    w('%s/recipe/grinding/%s.json' % (D, name), {'type': 'rotarycraft:grinding', 'ingredient': ingredient,
+                                                'result': {'id': result, 'count': count}})
+
+
+def item(i):
+    return {'item': i}
+
+
+def tag(t):
+    return {'tag': t}
+
+
+for name, ing, res, n in [
+    ('stone', item('minecraft:stone'), 'minecraft:cobblestone', 1),
+    ('cobblestone', item('minecraft:cobblestone'), 'minecraft:gravel', 1),
+    ('gravel', item('minecraft:gravel'), 'minecraft:sand', 1),
+    ('glass', item('minecraft:glass'), 'minecraft:sand', 1),
+    ('sandstone', item('minecraft:sandstone'), 'minecraft:sand', 1),
+    ('sandstone_stairs', item('minecraft:sandstone_stairs'), 'minecraft:sand', 6),
+    ('glowstone', item('minecraft:glowstone'), 'minecraft:glowstone_dust', 4),
+    ('stone_bricks', item('minecraft:stone_bricks'), 'minecraft:cobblestone', 1),
+    ('furnace', item('minecraft:furnace'), 'minecraft:cobblestone', 8),
+    ('bricks', item('minecraft:bricks'), 'minecraft:clay_ball', 4),
+    ('clay', item('minecraft:clay'), 'minecraft:clay_ball', 4),
+    ('brick_stairs', item('minecraft:brick_stairs'), 'minecraft:clay_ball', 6),
+    ('brick', item('minecraft:brick'), 'minecraft:clay_ball', 1),
+    ('stone_stairs', item('minecraft:stone_stairs'), 'minecraft:gravel', 2),
+    ('stone_brick_stairs', item('minecraft:stone_brick_stairs'), 'minecraft:cobblestone', 2),
+    ('stone_pressure_plate', item('minecraft:stone_pressure_plate'), 'minecraft:cobblestone', 2),
+    ('netherrack', item('minecraft:netherrack'), 'rotarycraft:netherrack_dust', 1),
+    ('soul_sand', item('minecraft:soul_sand'), 'rotarycraft:tar', 1),
+    ('wheat', item('minecraft:wheat'), 'rotarycraft:flour', 3),
+    ('sugar_cane', item('minecraft:sugar_cane'), 'minecraft:sugar', 3),
+    ('bone', item('minecraft:bone'), 'minecraft:bone_meal', 9),
+    ('blaze_rod', item('minecraft:blaze_rod'), 'minecraft:blaze_powder', 6),
+    ('ice', item('minecraft:ice'), 'minecraft:snowball', 4),
+    ('logs', tag('minecraft:logs'), 'rotarycraft:sawdust', 16),
+    ('planks', tag('minecraft:planks'), 'rotarycraft:sawdust', 4),
+    ('note_block', item('minecraft:note_block'), 'rotarycraft:sawdust', 32),
+    ('jukebox', item('minecraft:jukebox'), 'rotarycraft:sawdust', 32),
+    ('wooden_fences', tag('minecraft:wooden_fences'), 'rotarycraft:sawdust', 4),
+    ('wooden_stairs', tag('minecraft:wooden_stairs'), 'rotarycraft:sawdust', 6),
+    ('chest', item('minecraft:chest'), 'rotarycraft:sawdust', 32),
+    ('crafting_table', item('minecraft:crafting_table'), 'rotarycraft:sawdust', 16),
+    ('ladder', item('minecraft:ladder'), 'rotarycraft:sawdust', 4),
+    ('wooden_pressure_plates', tag('minecraft:wooden_pressure_plates'), 'rotarycraft:sawdust', 8),
+]:
+    grind(name, ing, res, n)
+shaped('grinder', ['IFI', 'SGS', 'III'], {'I': STEEL, 'F': {'item': 'minecraft:flint'}, 'S': STEEL_SHAFT, 'G': {'item': 'rotarycraft:gearbox_2x'}})
+
 # lang ----------------------------------------------------------------------------------------------------------------
 lang = {
     'itemGroup.rotarycraft': 'RotaryCraft',
@@ -273,6 +348,14 @@ lang = {
 }
 lang.update({
     'block.rotarycraft.wind_engine': 'Wind Engine',
+    'block.rotarycraft.grinder': 'Grinder',
+    'item.rotarycraft.sawdust': 'Sawdust',
+    'item.rotarycraft.flour': 'Flour',
+    'item.rotarycraft.netherrack_dust': 'Netherrack Dust',
+    'item.rotarycraft.tar': 'Tar',
+    'gui.rotarycraft.power': '%s (%s N*m, %s rad/s)',
+    'gui.rotarycraft.needs': 'Needs %s N*m and %s',
+    'gui.rotarycraft.low_power': '%s / needs %s',
     'block.rotarycraft.steam_engine': 'Steam Engine',
     'block.rotarycraft.clutch': 'Clutch',
     'block.rotarycraft.bevel_gear': 'Bevel Gears',

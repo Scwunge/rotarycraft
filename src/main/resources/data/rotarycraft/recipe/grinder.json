@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "IFI",
+    "SGS",
+    "III"
+  ],
+  "key": {
+    "I": {
+      "tag": "c:ingots/steel"
+    },
+    "F": {
+      "item": "minecraft:flint"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "G": {
+      "item": "rotarycraft:gearbox_2x"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:grinder",
+    "count": 1
+  }
+}

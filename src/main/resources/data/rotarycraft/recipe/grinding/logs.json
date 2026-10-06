@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "tag": "minecraft:logs"
+  },
+  "result": {
+    "id": "rotarycraft:sawdust",
+    "count": 16
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "tag": "minecraft:planks"
+  },
+  "result": {
+    "id": "rotarycraft:sawdust",
+    "count": 4
+  }
+}

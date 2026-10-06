@@ -17,6 +17,10 @@ import net.scwunge.rotarycraft.block.BevelGearBlock;
 import net.scwunge.rotarycraft.block.SplitterBlock;
 import net.scwunge.rotarycraft.blockentity.SplitterBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ClutchBlockEntity;
+import net.scwunge.rotarycraft.blockentity.GrinderBlockEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.scwunge.rotarycraft.blockentity.DCEngineBlockEntity;
 import net.scwunge.rotarycraft.blockentity.FlywheelBlockEntity;
 import net.scwunge.rotarycraft.blockentity.SteamEngineBlockEntity;
@@ -325,5 +329,72 @@ public class RotaryGameTests {
             DynamometerBlockEntity dyn = be(helper, 2, 2, DynamometerBlockEntity.class);
             helper.assertTrue(dyn.getTorque() == 8 && dyn.getOmega() == 256, "merged " + dyn.getTorque() + " N*m " + dyn.getOmega() + " rad/s, expected 8 at 256");
         });
+    }
+
+    // ---- phase 3: grinder ---------------------------------------------------------------------------------------------
+
+    static void chargeMotor(GameTestHelper helper, int x, int z) {
+        IEnergyStorage e = helper.getLevel().getCapability(Capabilities.EnergyStorage.BLOCK, helper.absolutePos(new BlockPos(x, 1, z)), Direction.UP);
+        e.receiveEnergy(100_000, false);
+    }
+
+    /** Electric motor (16 N*m, 256 rad/s) through 8:1 reduction = 128 N*m at 32 rad/s = 4 kW: exactly what the grinder needs. */
+    static void poweredGrinder(GameTestHelper helper) {
+        place(helper, 0, 2, RotaryBlocks.ELECTRIC_MOTOR.get());
+        chargeMotor(helper, 0, 2);
+        place(helper, 1, 2, RotaryBlocks.GEARBOXES.get(8).get());
+        place(helper, 2, 2, RotaryBlocks.GRINDER.get());
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 900)
+    public static void grinderGrindsCobbleToGravel(GameTestHelper helper) {
+        poweredGrinder(helper);
+        GrinderBlockEntity grinder = be(helper, 2, 2, GrinderBlockEntity.class);
+        grinder.items().setStackInSlot(GrinderBlockEntity.SLOT_INPUT, new ItemStack(Items.COBBLESTONE, 2));
+        helper.startSequence()
+                .thenExecuteAfter(300, () -> chargeMotor(helper, 0, 2))
+                .thenWaitUntil(() -> {
+                    GrinderBlockEntity g = be(helper, 2, 2, GrinderBlockEntity.class);
+                    helper.assertTrue(g.hasEnoughPower(), "grinder underpowered: " + g.getTorque() + " N*m " + g.getOmega() + " rad/s");
+                    helper.assertTrue(g.items().getStackInSlot(GrinderBlockEntity.SLOT_OUTPUT).is(Items.GRAVEL), "no gravel yet, progress " + g.progress());
+                })
+                .thenExecute(() -> helper.assertTrue(be(helper, 2, 2, GrinderBlockEntity.class).items().getStackInSlot(GrinderBlockEntity.SLOT_INPUT).getCount() == 1,
+                        "one cobblestone should have been used"))
+                .thenSucceed();
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void grinderWontRunUnderpowered(GameTestHelper helper) {
+        poweredEngine(helper, 0, 2); // 1 kW, 4 N*m: far below 128 N*m and 4 kW
+        place(helper, 1, 2, RotaryBlocks.GRINDER.get());
+        be(helper, 1, 2, GrinderBlockEntity.class).items().setStackInSlot(GrinderBlockEntity.SLOT_INPUT, new ItemStack(Items.COBBLESTONE));
+        helper.runAfterDelay(60, () -> {
+            GrinderBlockEntity g = be(helper, 1, 2, GrinderBlockEntity.class);
+            helper.assertTrue(!g.hasEnoughPower() && g.progress() == 0, "underpowered grinder made progress");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void grinderTimeFollowsTheOriginalFormula(GameTestHelper helper) {
+        // 840 - 60 x log2(omega + 1): 32 rad/s -> 537 ticks, 1024 rad/s -> 240 ticks
+        helper.assertTrue(net.scwunge.rotarycraft.power.PowerRequirement.operationTime(840, 60, 32) == 537, "32 rad/s");
+        helper.assertTrue(net.scwunge.rotarycraft.power.PowerRequirement.operationTime(840, 60, 1024) == 239, "1024 rad/s gave "
+                + net.scwunge.rotarycraft.power.PowerRequirement.operationTime(840, 60, 1024));
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void grinderAutomationOnlyFillsInputAndEmptiesOutput(GameTestHelper helper) {
+        place(helper, 1, 2, RotaryBlocks.GRINDER.get());
+        IItemHandler h = helper.getLevel().getCapability(net.neoforged.neoforge.capabilities.Capabilities.ItemHandler.BLOCK,
+                helper.absolutePos(new BlockPos(1, 1, 2)), Direction.UP);
+        helper.assertTrue(h != null, "grinder exposes no item handler");
+        helper.assertTrue(h.insertItem(GrinderBlockEntity.SLOT_INPUT, new ItemStack(Items.COBBLESTONE), false).isEmpty(), "can't insert into the input");
+        helper.assertTrue(!h.insertItem(GrinderBlockEntity.SLOT_OUTPUT, new ItemStack(Items.GRAVEL), false).isEmpty(), "inserted into the output");
+        helper.assertTrue(h.extractItem(GrinderBlockEntity.SLOT_INPUT, 1, false).isEmpty(), "extracted from the input");
+        be(helper, 1, 2, GrinderBlockEntity.class).items().setStackInSlot(GrinderBlockEntity.SLOT_OUTPUT, new ItemStack(Items.GRAVEL));
+        helper.assertTrue(h.extractItem(GrinderBlockEntity.SLOT_OUTPUT, 1, false).is(Items.GRAVEL), "can't extract the output");
+        helper.succeed();
     }
 }

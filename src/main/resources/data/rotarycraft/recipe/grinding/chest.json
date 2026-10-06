@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:chest"
+  },
+  "result": {
+    "id": "rotarycraft:sawdust",
+    "count": 32
+  }
+}

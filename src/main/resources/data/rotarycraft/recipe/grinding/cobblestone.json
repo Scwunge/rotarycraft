@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:cobblestone"
+  },
+  "result": {
+    "id": "minecraft:gravel",
+    "count": 1
+  }
+}

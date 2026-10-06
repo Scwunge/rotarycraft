@@ -19,6 +19,7 @@ import net.scwunge.rotarycraft.blockentity.SteamEngineBlockEntity;
 import net.scwunge.rotarycraft.blockentity.WindEngineBlockEntity;
 import net.scwunge.rotarycraft.power.FlywheelType;
 import net.scwunge.rotarycraft.blockentity.GeneratorBlockEntity;
+import net.scwunge.rotarycraft.blockentity.GrinderBlockEntity;
 import net.scwunge.rotarycraft.blockentity.MotorBlockEntity;
 import net.scwunge.rotarycraft.power.ShaftMaterial;
 
@@ -62,6 +63,8 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.GENERATOR, GeneratorBlockEntity::new));
     public static final DeferredBlock<MachineBlock> ELECTRIC_MOTOR = BLOCKS.register("electric_motor",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.ELECTRIC_MOTOR, MotorBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> GRINDER = BLOCKS.register("grinder",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.GRINDER, GrinderBlockEntity::new));
     public static final DeferredBlock<DynamometerBlock> DYNAMOMETER = BLOCKS.register("dynamometer",
             () -> new DynamometerBlock(machineProps()));
 

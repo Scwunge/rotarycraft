@@ -27,6 +27,10 @@ public class RotaryItems {
     public static final DeferredItem<MeterItem> METER = add(ITEMS.register("angular_transducer", () -> new MeterItem(new Item.Properties().stacksTo(1))));
     /** HSLA steel, the mod's structural metal (tagged c:ingots/steel so other mods' steel works too). */
     public static final DeferredItem<Item> HSLA_STEEL_INGOT = add(ITEMS.registerSimpleItem("hsla_steel_ingot"));
+    public static final DeferredItem<Item> SAWDUST = add(ITEMS.registerSimpleItem("sawdust"));
+    public static final DeferredItem<Item> FLOUR = add(ITEMS.registerSimpleItem("flour"));
+    public static final DeferredItem<Item> NETHERRACK_DUST = add(ITEMS.registerSimpleItem("netherrack_dust"));
+    public static final DeferredItem<Item> TAR = add(ITEMS.registerSimpleItem("tar"));
 
     static {
         blockItem(RotaryBlocks.DC_ENGINE);
@@ -39,6 +43,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.CLUTCH);
         RotaryBlocks.FLYWHEELS.values().forEach(RotaryItems::blockItem);
         blockItem(RotaryBlocks.DYNAMOMETER);
+        blockItem(RotaryBlocks.GRINDER);
         blockItem(RotaryBlocks.GENERATOR);
         blockItem(RotaryBlocks.ELECTRIC_MOTOR);
     }

@@ -17,18 +17,27 @@ import net.scwunge.rotarycraft.registry.RotaryItems;
 public class RotaryCraft {
     public static final String MOD_ID = "rotarycraft";
 
+    public static net.minecraft.resources.ResourceLocation id(String path) {
+        return net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    }
+
     public RotaryCraft(IEventBus modBus, ModContainer container) {
         container.registerConfig(ModConfig.Type.SERVER, RotaryConfig.SPEC, "rotarycraft-server.toml");
         RotaryBlocks.BLOCKS.register(modBus);
         RotaryItems.ITEMS.register(modBus);
         RotaryItems.TABS.register(modBus);
         RotaryBlockEntities.TYPES.register(modBus);
+        net.scwunge.rotarycraft.registry.RotaryRecipes.TYPES.register(modBus);
+        net.scwunge.rotarycraft.registry.RotaryRecipes.SERIALIZERS.register(modBus);
+        net.scwunge.rotarycraft.registry.RotaryMenus.MENUS.register(modBus);
         modBus.addListener(RotaryCraft::registerCapabilities);
     }
 
     private static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, RotaryBlockEntities.GENERATOR.get(),
                 (be, side) -> side == be.inputSide() ? null : be.energy());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.GRINDER.get(),
+                (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.STEAM_ENGINE.get(),
                 (be, side) -> side == be.facing() ? null : be.water());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, RotaryBlockEntities.ELECTRIC_MOTOR.get(),

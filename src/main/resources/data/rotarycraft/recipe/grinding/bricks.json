@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:bricks"
+  },
+  "result": {
+    "id": "minecraft:clay_ball",
+    "count": 4
+  }
+}

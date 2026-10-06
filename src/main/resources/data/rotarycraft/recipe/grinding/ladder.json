@@ -1,0 +1,10 @@
+{
+  "type": "rotarycraft:grinding",
+  "ingredient": {
+    "item": "minecraft:ladder"
+  },
+  "result": {
+    "id": "rotarycraft:sawdust",
+    "count": 4
+  }
+}
