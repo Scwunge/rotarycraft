@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "X",
+    "S",
+    "X"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:stone"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:shaft_stone",
+    "count": 2
+  }
+}

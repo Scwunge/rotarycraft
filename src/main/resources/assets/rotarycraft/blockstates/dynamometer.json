@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rotarycraft:block/dynamometer"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/dynamometer",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/dynamometer",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/dynamometer",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "rotarycraft:block/dynamometer",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/dynamometer",
+      "x": 90
+    }
+  }
+}

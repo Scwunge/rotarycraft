@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "X",
+    "S",
+    "X"
+  ],
+  "key": {
+    "X": {
+      "tag": "c:ingots/steel"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:shaft_steel",
+    "count": 2
+  }
+}

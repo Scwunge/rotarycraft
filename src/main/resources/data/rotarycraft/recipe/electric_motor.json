@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ICI",
+    "RSR",
+    "ICI"
+  ],
+  "key": {
+    "I": {
+      "tag": "c:ingots/steel"
+    },
+    "C": {
+      "tag": "c:ingots/copper"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:electric_motor",
+    "count": 1
+  }
+}

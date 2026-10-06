@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "rotarycraft:gearbox_2x"
+    },
+    {
+      "item": "rotarycraft:gearbox_2x"
+    }
+  ],
+  "result": {
+    "id": "rotarycraft:gearbox_4x",
+    "count": 1
+  }
+}

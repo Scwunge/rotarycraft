@@ -1,0 +1,63 @@
+package net.scwunge.rotarycraft.registry;
+
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.MapColor;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import net.scwunge.rotarycraft.RotaryCraft;
+import net.scwunge.rotarycraft.block.DynamometerBlock;
+import net.scwunge.rotarycraft.block.GearboxBlock;
+import net.scwunge.rotarycraft.block.MachineBlock;
+import net.scwunge.rotarycraft.block.ShaftBlock;
+import net.scwunge.rotarycraft.blockentity.EngineBlockEntity;
+import net.scwunge.rotarycraft.blockentity.GeneratorBlockEntity;
+import net.scwunge.rotarycraft.blockentity.MotorBlockEntity;
+import net.scwunge.rotarycraft.power.ShaftMaterial;
+
+import java.util.EnumMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+public class RotaryBlocks {
+    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(RotaryCraft.MOD_ID);
+
+    /** Shaft materials that have a craftable shaft in this phase (tungsten arrives with its ore processing). */
+    public static final ShaftMaterial[] SHAFT_MATERIALS = {ShaftMaterial.WOOD, ShaftMaterial.STONE, ShaftMaterial.STEEL, ShaftMaterial.DIAMOND, ShaftMaterial.BEDROCK};
+    public static final int[] GEARBOX_RATIOS = {2, 4, 8, 16};
+
+    public static final Map<ShaftMaterial, DeferredBlock<ShaftBlock>> SHAFTS = new EnumMap<>(ShaftMaterial.class);
+    public static final Map<Integer, DeferredBlock<GearboxBlock>> GEARBOXES = new LinkedHashMap<>();
+
+    static {
+        for (ShaftMaterial m : SHAFT_MATERIALS) {
+            SHAFTS.put(m, BLOCKS.register("shaft_" + m.id(), () -> new ShaftBlock(shaftProps(m), m)));
+        }
+        for (int ratio : GEARBOX_RATIOS) {
+            GEARBOXES.put(ratio, BLOCKS.register("gearbox_" + ratio + "x", () -> new GearboxBlock(machineProps(), ratio)));
+        }
+    }
+
+    public static final DeferredBlock<MachineBlock> DC_ENGINE = BLOCKS.register("dc_engine",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.DC_ENGINE, EngineBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> GENERATOR = BLOCKS.register("generator",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.GENERATOR, GeneratorBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> ELECTRIC_MOTOR = BLOCKS.register("electric_motor",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.ELECTRIC_MOTOR, MotorBlockEntity::new));
+    public static final DeferredBlock<DynamometerBlock> DYNAMOMETER = BLOCKS.register("dynamometer",
+            () -> new DynamometerBlock(machineProps()));
+
+    static BlockBehaviour.Properties machineProps() {
+        return BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(3.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops();
+    }
+
+    static BlockBehaviour.Properties shaftProps(ShaftMaterial m) {
+        BlockBehaviour.Properties p = BlockBehaviour.Properties.of().noOcclusion();
+        return switch (m) {
+            case WOOD -> p.mapColor(MapColor.WOOD).strength(1.5F).sound(SoundType.WOOD);
+            case STONE -> p.mapColor(MapColor.STONE).strength(2.0F, 6.0F).sound(SoundType.STONE).requiresCorrectToolForDrops();
+            case BEDROCK -> p.mapColor(MapColor.STONE).strength(50.0F, 3600000.0F).sound(SoundType.STONE).requiresCorrectToolForDrops();
+            default -> p.mapColor(MapColor.METAL).strength(3.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops();
+        };
+    }
+}

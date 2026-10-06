@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="${mod_license}"
+issueTrackerURL="https://github.com/Scwunge/rotarycraft/issues"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+displayURL="https://github.com/Scwunge/rotarycraft"
+authors="${mod_authors}"
+credits="RotaryCraft, ReactorCraft and DragonAPI by Reika Kalseki. Ported to Minecraft 1.21.1 with permission."
+description='''
+Realistic mechanical power: engines produce torque and angular speed, shafts and gearboxes carry it, and machines use it. A port of Reika's RotaryCraft.
+'''
+
+[[dependencies.${mod_id}]]
+modId="neoforge"
+type="required"
+versionRange="[21.1,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.1,1.22)"
+ordering="NONE"
+side="BOTH"

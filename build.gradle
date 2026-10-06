@@ -1,0 +1,55 @@
+plugins {
+	id 'java-library'
+	id 'net.neoforged.moddev' version "${moddev_version}"
+}
+
+base {
+	archivesName = "RotaryCraft-${project.minecraft_version}"
+}
+
+version = project.mod_version
+group = project.group
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+	version = project.neo_version
+
+	runs {
+		client {
+			client()
+			gameDirectory = project.file('run')
+		}
+		server {
+			server()
+			gameDirectory = project.file('run-server')
+			programArgument '--nogui'
+		}
+		// Headless dedicated-server boot + GameTests (NeoForge auto-accepts the EULA for gametest servers)
+		gameTestServer {
+			type = 'gameTestServer'
+			gameDirectory = project.file('run-gametest')
+			systemProperty 'neoforge.enabledGameTestNamespaces', 'rotarycraft'
+		}
+	}
+
+	mods {
+		rotarycraft {
+			sourceSet sourceSets.main
+		}
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = 'UTF-8'
+	options.release = 21
+}
+
+processResources {
+	def props = [mod_id: project.mod_id, mod_name: project.mod_name, mod_version: project.mod_version,
+	             mod_license: project.mod_license, mod_authors: project.mod_authors]
+	inputs.properties props
+	filesMatching('META-INF/neoforge.mods.toml') {
+		expand props
+	}
+}

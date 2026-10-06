@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rotarycraft:block/electric_motor"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/electric_motor",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/electric_motor",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/electric_motor",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "rotarycraft:block/electric_motor",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/electric_motor",
+      "x": 90
+    }
+  }
+}
