@@ -1,0 +1,68 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "all": "rotarycraft:block/fuel_line",
+    "particle": "rotarycraft:block/fuel_line"
+  },
+  "elements": [
+    {
+      "from": [
+        4,
+        4,
+        0
+      ],
+      "to": [
+        12,
+        12,
+        4
+      ],
+      "faces": {
+        "east": {
+          "texture": "#all",
+          "uv": [
+            0,
+            4,
+            4,
+            12
+          ]
+        },
+        "west": {
+          "texture": "#all",
+          "uv": [
+            0,
+            4,
+            4,
+            12
+          ]
+        },
+        "up": {
+          "texture": "#all",
+          "uv": [
+            4,
+            0,
+            12,
+            4
+          ]
+        },
+        "down": {
+          "texture": "#all",
+          "uv": [
+            4,
+            0,
+            12,
+            4
+          ]
+        },
+        "north": {
+          "texture": "#all",
+          "uv": [
+            4,
+            4,
+            12,
+            12
+          ]
+        }
+      }
+    }
+  ]
+}

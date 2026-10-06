@@ -17,7 +17,7 @@
       "tag": "c:ingots/gold"
     },
     "F": {
-      "item": "minecraft:bucket"
+      "item": "rotarycraft:fuel_line"
     }
   },
   "result": {

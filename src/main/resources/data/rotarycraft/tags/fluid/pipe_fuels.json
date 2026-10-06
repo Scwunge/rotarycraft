@@ -1,0 +1,18 @@
+{
+  "values": [
+    "#c:ethanol",
+    "#c:jet_fuel",
+    {
+      "id": "#c:biofuel",
+      "required": false
+    },
+    {
+      "id": "#c:fuels",
+      "required": false
+    },
+    {
+      "id": "#c:diesel",
+      "required": false
+    }
+  ]
+}

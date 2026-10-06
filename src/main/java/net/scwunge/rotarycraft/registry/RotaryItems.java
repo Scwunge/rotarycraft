@@ -83,6 +83,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.ROCK_MELTER);
         blockItem(RotaryBlocks.MAGNETIZER);
         blockItem(RotaryBlocks.FRACTIONATOR);
+        RotaryBlocks.PIPES.values().forEach(RotaryItems::blockItem);
         blockItem(RotaryBlocks.GENERATOR);
         blockItem(RotaryBlocks.ELECTRIC_MOTOR);
     }

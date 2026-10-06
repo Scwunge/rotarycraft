@@ -21,6 +21,16 @@ public class MeterItem extends Item {
     @Override
     public InteractionResult useOn(UseOnContext context) {
         BlockEntity be = context.getLevel().getBlockEntity(context.getClickedPos());
+        if (be instanceof net.scwunge.rotarycraft.blockentity.PipeBlockEntity pipe) {
+            Player p = context.getPlayer();
+            if (!context.getLevel().isClientSide() && p != null) {
+                var f = pipe.contents();
+                p.sendSystemMessage(f.isEmpty() ? Component.translatable("message.rotarycraft.meter.pipe_empty")
+                        : Component.translatable("message.rotarycraft.meter.pipe", f.getHoverName(), pipe.amount(),
+                        net.scwunge.rotarycraft.pipe.PipeType.pressure(pipe.amount()) / 1000));
+            }
+            return InteractionResult.sidedSuccess(context.getLevel().isClientSide());
+        }
         if (!(be instanceof PowerBlockEntity machine)) {
             return InteractionResult.PASS;
         }

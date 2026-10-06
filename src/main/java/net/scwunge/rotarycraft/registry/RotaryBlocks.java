@@ -104,6 +104,25 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.FRACTIONATOR, net.scwunge.rotarycraft.blockentity.FractionatorBlockEntity::new));
     public static final DeferredBlock<MachineBlock> ROCK_MELTER = BLOCKS.register("rock_melter",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.ROCK_MELTER, net.scwunge.rotarycraft.blockentity.RockMelterBlockEntity::new));
+    /** Pipes by kind (hose, pipe, fuel line, bedrock pipe). */
+    public static final Map<net.scwunge.rotarycraft.pipe.PipeType, DeferredBlock<net.scwunge.rotarycraft.block.PipeBlock>> PIPES = new EnumMap<>(net.scwunge.rotarycraft.pipe.PipeType.class);
+
+    static {
+        for (net.scwunge.rotarycraft.pipe.PipeType t : net.scwunge.rotarycraft.pipe.PipeType.values()) {
+            PIPES.put(t, BLOCKS.register(t.id, () -> new net.scwunge.rotarycraft.block.PipeBlock(pipeProps(t), t)));
+        }
+    }
+
+    static BlockBehaviour.Properties pipeProps(net.scwunge.rotarycraft.pipe.PipeType t) {
+        BlockBehaviour.Properties p = BlockBehaviour.Properties.of().noOcclusion().strength(1.0F, 4.0F);
+        return switch (t) {
+            case HOSE -> p.mapColor(MapColor.WOOD).sound(SoundType.WOOD);
+            case FUEL_LINE -> p.mapColor(MapColor.COLOR_BLACK).sound(SoundType.STONE).requiresCorrectToolForDrops();
+            case BEDROCK -> p.mapColor(MapColor.STONE).strength(5.0F, 3600000F).sound(SoundType.STONE).requiresCorrectToolForDrops();
+            default -> p.mapColor(MapColor.METAL).sound(SoundType.METAL).requiresCorrectToolForDrops();
+        };
+    }
+
     public static final DeferredBlock<net.scwunge.rotarycraft.block.CanolaBlock> CANOLA = BLOCKS.register("canola",
             () -> new net.scwunge.rotarycraft.block.CanolaBlock(net.minecraft.world.level.block.state.BlockBehaviour.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.WHEAT)));
     public static final DeferredBlock<DynamometerBlock> DYNAMOMETER = BLOCKS.register("dynamometer",

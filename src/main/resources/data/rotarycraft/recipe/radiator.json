@@ -11,7 +11,7 @@
       "tag": "c:ingots/gold"
     },
     "P": {
-      "tag": "c:ingots/copper"
+      "item": "rotarycraft:pipe"
     },
     "S": {
       "tag": "c:ingots/steel"

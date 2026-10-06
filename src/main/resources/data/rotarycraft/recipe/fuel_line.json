@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "OGO",
+    "OGO",
+    "OGO"
+  ],
+  "key": {
+    "O": {
+      "tag": "c:obsidians"
+    },
+    "G": {
+      "tag": "c:glass_blocks"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:fuel_line",
+    "count": 16
+  }
+}

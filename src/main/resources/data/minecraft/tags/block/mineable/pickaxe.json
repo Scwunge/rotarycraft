@@ -52,6 +52,9 @@
     "rotarycraft:gearbox_bedrock_2x",
     "rotarycraft:gearbox_bedrock_4x",
     "rotarycraft:gearbox_bedrock_8x",
-    "rotarycraft:gearbox_bedrock_16x"
+    "rotarycraft:gearbox_bedrock_16x",
+    "rotarycraft:pipe",
+    "rotarycraft:fuel_line",
+    "rotarycraft:bedrock_pipe"
   ]
 }

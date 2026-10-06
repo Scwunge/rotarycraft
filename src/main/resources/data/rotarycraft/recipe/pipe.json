@@ -2,20 +2,20 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "SPS",
-    "PSP",
-    "SPS"
+    "SGS",
+    "SGS",
+    "SGS"
   ],
   "key": {
     "S": {
       "tag": "c:ingots/steel"
     },
-    "P": {
-      "item": "rotarycraft:pipe"
+    "G": {
+      "tag": "c:glass_blocks"
     }
   },
   "result": {
-    "id": "rotarycraft:condenser",
-    "count": 2
+    "id": "rotarycraft:pipe",
+    "count": 16
   }
 }

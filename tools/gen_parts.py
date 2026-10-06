@@ -246,8 +246,8 @@ shaped('impeller', [' S ', 'SGS', ' S '], {'S': tag('c:ingots/tin'), 'G': GEAR},
 shaped('compressor', ['SSS', 'SGS', 'SSS'], {'S': STEEL_I, 'G': GEAR})
 shaped('turbine', ['sss', 'sGs', 'sss'], {'s': item('propeller'), 'G': item('compressor')})
 shaped('diffuser', [' SS', 'S  ', ' SS'], {'S': STEEL_I})
-shaped('radiator', ['GGG', 'PPP', 'SSS'], {'G': GOLD_I, 'P': tag('c:ingots/copper'), 'S': STEEL_I})  # pipes until the Pipe is ported
-shaped('condenser', ['SPS', 'PSP', 'SPS'], {'S': STEEL_I, 'P': tag('c:ingots/copper')}, count=2)  # pipes until the Pipe is ported
+shaped('radiator', ['GGG', 'PPP', 'SSS'], {'G': GOLD_I, 'P': item('pipe'), 'S': STEEL_I})
+shaped('condenser', ['SPS', 'PSP', 'SPS'], {'S': STEEL_I, 'P': item('pipe')}, count=2)
 shaped('gold_coil', ['GGG', 'GSG', 'GGG'], {'S': STEEL_I, 'G': GOLD_I})
 shaped('gold_coil', ['GGG', 'GSG', 'GGG'], {'S': STEEL_I, 'G': tag('c:ingots/electrum')}, suffix='_from_electrum')
 shaped('combustor', ['SSS', 'SRS', 'SGS'], {'S': STEEL_I, 'G': item('igniter'), 'R': REDSTONE})
@@ -377,7 +377,7 @@ shaped('friction_heater', ['S  ', 'Sss', 'SPP'], {'P': PANEL, 'S': STEEL_I, 's':
 shaped('fermenter', ['BPB', 'PIP', 'BPB'], {'B': STEEL_I, 'I': item('impeller'), 'P': PANEL})
 shaped('centrifuge', ['SGS', 'S S', 'PgP'], {'P': PANEL, 'g': item('steel_gear_unit_4'), 'S': STEEL_I, 'G': tag('c:glass_panes')})
 shaped('rock_melter', ['SRS', 'PGP', 'SsS'], {'s': ROD, 'S': STEEL_I, 'R': item('minecraft:cauldron'), 'P': PANEL, 'G': GEAR})  # cauldron until the Reservoir is ported
-shaped('fractionator', ['GFG', 'GIG', 'GPG'], {'P': PANEL, 'I': item('mixer'), 'G': GOLD_I, 'F': item('minecraft:bucket')})  # bucket until the Fuel Line is ported
+shaped('fractionator', ['GFG', 'GIG', 'GPG'], {'P': PANEL, 'I': item('mixer'), 'G': GOLD_I, 'F': item('fuel_line')})
 shaped('magnetizer', ['p p', 'gmg', 'prp'], {'r': REDSTONE, 'p': PANEL, 'm': MOUNT, 'g': item('gold_coil')})
 shaped('generator', ['gpS', 'iGs', 'psp'], {'S': STEEL_I, 'p': PANEL, 'g': GOLD_I, 'G': item('generator_unit'), 'i': item('impeller'), 's': item('shaft_core')})
 shaped('electric_motor', ['cGS', 'BCB', 'SGS'], {'c': STEEL_I, 'G': item('gold_coil'), 'S': STEEL_I, 'B': PANEL, 'C': item('diamond_shaft_core')})

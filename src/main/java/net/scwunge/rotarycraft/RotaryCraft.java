@@ -48,6 +48,8 @@ public class RotaryCraft {
     private static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, RotaryBlockEntities.GENERATOR.get(),
                 (be, side) -> side == be.inputSide() ? null : be.energy());
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.PIPE.get(),
+                (be, side) -> be.input());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.GEARBOX.get(),
                 (be, side) -> be.lubricantHandler(side));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.GRINDER.get(),
