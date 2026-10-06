@@ -11,6 +11,7 @@ import net.scwunge.rotarycraft.menu.CentrifugeMenu;
 import net.scwunge.rotarycraft.menu.ExtractorMenu;
 import net.scwunge.rotarycraft.menu.FermenterMenu;
 import net.scwunge.rotarycraft.menu.GrinderMenu;
+import net.scwunge.rotarycraft.menu.RockMelterMenu;
 
 public class RotaryMenus {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, RotaryCraft.MOD_ID);
@@ -25,4 +26,6 @@ public class RotaryMenus {
             MENUS.register("fermenter", () -> IMenuTypeExtension.create(FermenterMenu::new));
     public static final DeferredHolder<MenuType<?>, MenuType<CentrifugeMenu>> CENTRIFUGE =
             MENUS.register("centrifuge", () -> IMenuTypeExtension.create(CentrifugeMenu::new));
+    public static final DeferredHolder<MenuType<?>, MenuType<RockMelterMenu>> ROCK_MELTER =
+            MENUS.register("rock_melter", () -> IMenuTypeExtension.create(RockMelterMenu::new));
 }

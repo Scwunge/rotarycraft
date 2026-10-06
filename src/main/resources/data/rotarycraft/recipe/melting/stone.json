@@ -1,0 +1,12 @@
+{
+  "type": "rotarycraft:melting",
+  "ingredient": {
+    "tag": "c:stones"
+  },
+  "result": {
+    "id": "minecraft:lava",
+    "amount": 1000
+  },
+  "temperature": 1000,
+  "energy": 5200000
+}

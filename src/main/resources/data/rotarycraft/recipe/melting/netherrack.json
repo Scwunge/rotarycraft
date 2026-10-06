@@ -1,0 +1,12 @@
+{
+  "type": "rotarycraft:melting",
+  "ingredient": {
+    "tag": "c:netherracks"
+  },
+  "result": {
+    "id": "minecraft:lava",
+    "amount": 2000
+  },
+  "temperature": 600,
+  "energy": 480000
+}

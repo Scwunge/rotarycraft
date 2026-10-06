@@ -27,6 +27,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.menu.FermenterMenu;
+import net.scwunge.rotarycraft.power.Ambient;
 import net.scwunge.rotarycraft.power.PowerRequirement;
 import net.scwunge.rotarycraft.registry.RotaryBlockEntities;
 import net.scwunge.rotarycraft.registry.RotaryItems;
@@ -204,13 +205,7 @@ public class FermenterBlockEntity extends ConsumerBlockEntity implements MenuPro
     }
 
     private int ambient() {
-        if (level == null) {
-            return 20;
-        }
-        if (level.dimensionType().ultraWarm()) {
-            return 101;
-        }
-        return Math.round(level.getBiome(worldPosition).value().getBaseTemperature() * 25);
+        return Ambient.temperature(level, worldPosition);
     }
 
     private void updateTemperature() {

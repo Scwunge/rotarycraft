@@ -10,6 +10,7 @@ import net.scwunge.rotarycraft.recipe.BlastFurnaceRecipe;
 import net.scwunge.rotarycraft.recipe.CentrifugeRecipe;
 import net.scwunge.rotarycraft.recipe.ExtractionRecipe;
 import net.scwunge.rotarycraft.recipe.GrindingRecipe;
+import net.scwunge.rotarycraft.recipe.MeltingRecipe;
 import net.scwunge.rotarycraft.recipe.TagResultSmeltingRecipe;
 
 public class RotaryRecipes {
@@ -35,6 +36,11 @@ public class RotaryRecipes {
             TYPES.register("centrifuge", () -> RecipeType.simple(RotaryCraft.id("centrifuge")));
     public static final DeferredHolder<RecipeSerializer<?>, CentrifugeRecipe.Serializer> CENTRIFUGE_SERIALIZER =
             SERIALIZERS.register("centrifuge", CentrifugeRecipe.Serializer::new);
+
+    public static final DeferredHolder<RecipeType<?>, RecipeType<MeltingRecipe>> MELTING =
+            TYPES.register("melting", () -> RecipeType.simple(RotaryCraft.id("melting")));
+    public static final DeferredHolder<RecipeSerializer<?>, MeltingRecipe.Serializer> MELTING_SERIALIZER =
+            SERIALIZERS.register("melting", MeltingRecipe.Serializer::new);
 
     /** Furnace recipes whose result comes from an item tag (Extractor flakes into the pack's ingot). */
     public static final DeferredHolder<RecipeSerializer<?>, TagResultSmeltingRecipe.Serializer> TAG_SMELTING_SERIALIZER =

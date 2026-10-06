@@ -1,0 +1,12 @@
+{
+  "type": "rotarycraft:melting",
+  "ingredient": {
+    "tag": "c:cobblestones"
+  },
+  "result": {
+    "id": "minecraft:lava",
+    "amount": 500
+  },
+  "temperature": 1000,
+  "energy": 3120000
+}

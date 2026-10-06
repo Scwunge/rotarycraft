@@ -23,6 +23,9 @@ public class RotaryCraft {
 
     public RotaryCraft(IEventBus modBus, ModContainer container) {
         container.registerConfig(ModConfig.Type.SERVER, RotaryConfig.SPEC, "rotarycraft-server.toml");
+        // fluids add their blocks and buckets to the block and item registers, so they load first
+        net.scwunge.rotarycraft.registry.RotaryFluids.TYPES.register(modBus);
+        net.scwunge.rotarycraft.registry.RotaryFluids.FLUIDS.register(modBus);
         RotaryBlocks.BLOCKS.register(modBus);
         RotaryItems.ITEMS.register(modBus);
         RotaryItems.TABS.register(modBus);
@@ -49,6 +52,10 @@ public class RotaryCraft {
                 (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.CENTRIFUGE.get(),
                 (be, side) -> side == be.inputSide() ? null : be.tank());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.ROCK_MELTER.get(),
+                (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.ROCK_MELTER.get(),
+                (be, side) -> be.output(side));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.EXTRACTOR.get(),
                 (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.EXTRACTOR.get(),

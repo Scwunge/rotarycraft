@@ -1,0 +1,12 @@
+{
+  "type": "rotarycraft:melting",
+  "ingredient": {
+    "item": "minecraft:stone_bricks"
+  },
+  "result": {
+    "id": "minecraft:lava",
+    "amount": 1000
+  },
+  "temperature": 1200,
+  "energy": 4160000
+}

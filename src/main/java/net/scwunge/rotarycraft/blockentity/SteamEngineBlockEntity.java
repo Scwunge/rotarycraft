@@ -7,7 +7,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,6 +14,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.scwunge.rotarycraft.config.RotaryConfig;
+import net.scwunge.rotarycraft.power.Ambient;
 import net.scwunge.rotarycraft.registry.RotaryBlockEntities;
 
 /**
@@ -104,13 +104,7 @@ public class SteamEngineBlockEntity extends EngineBlockEntity {
     }
 
     private int ambient() {
-        if (level == null) {
-            return 20;
-        }
-        if (level.getBiome(worldPosition).is(Biomes.NETHER_WASTES) || level.dimensionType().ultraWarm()) {
-            return 101; // boils water
-        }
-        return Math.round(level.getBiome(worldPosition).value().getBaseTemperature() * 25);
+        return Ambient.temperature(level, worldPosition);
     }
 
     private void updateTemperature() {

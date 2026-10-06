@@ -37,6 +37,7 @@ public class RotaryItems {
     public static final DeferredItem<Item> CLEAN_SLUDGE = add(ITEMS.registerSimpleItem("clean_sludge"));
     public static final DeferredItem<Item> COMPOST = add(ITEMS.registerSimpleItem("compost"));
     public static final DeferredItem<Item> SILICON_DUST = add(ITEMS.registerSimpleItem("silicon_dust"));
+    public static final DeferredItem<Item> ETHANOL_CRYSTALS = add(ITEMS.registerSimpleItem("ethanol_crystals"));
     public static final DeferredItem<Item> COKE = add(ITEMS.registerSimpleItem("coke"));
     public static final DeferredItem<Item> SPRING_STEEL_INGOT = add(ITEMS.registerSimpleItem("spring_steel_ingot"));
     public static final DeferredItem<Item> SILVER_INGOT = add(ITEMS.registerSimpleItem("silver_ingot"));
@@ -63,6 +64,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.FRICTION_HEATER);
         blockItem(RotaryBlocks.FERMENTER);
         blockItem(RotaryBlocks.CENTRIFUGE);
+        blockItem(RotaryBlocks.ROCK_MELTER);
         blockItem(RotaryBlocks.GENERATOR);
         blockItem(RotaryBlocks.ELECTRIC_MOTOR);
     }
@@ -70,7 +72,10 @@ public class RotaryItems {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> TAB = TABS.register("main", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.rotarycraft"))
             .icon(() -> new ItemStack(RotaryBlocks.DC_ENGINE.get()))
-            .displayItems((params, output) -> TAB_ORDER.forEach(i -> output.accept(i.get())))
+            .displayItems((params, output) -> {
+                TAB_ORDER.forEach(i -> output.accept(i.get()));
+                RotaryFluids.ALL.forEach(f -> output.accept(f.bucket.get()));
+            })
             .build());
 
     private static <T extends Item> DeferredItem<T> add(DeferredItem<T> item) {

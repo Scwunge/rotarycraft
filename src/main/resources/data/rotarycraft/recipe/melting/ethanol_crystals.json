@@ -1,0 +1,12 @@
+{
+  "type": "rotarycraft:melting",
+  "ingredient": {
+    "item": "rotarycraft:ethanol_crystals"
+  },
+  "result": {
+    "id": "rotarycraft:ethanol",
+    "amount": 1000
+  },
+  "temperature": 180,
+  "energy": 6000
+}

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "IRI",
+    "PGP",
+    "ISI"
+  ],
+  "key": {
+    "I": {
+      "tag": "c:ingots/steel"
+    },
+    "R": {
+      "item": "minecraft:cauldron"
+    },
+    "P": {
+      "item": "minecraft:smooth_stone_slab"
+    },
+    "G": {
+      "item": "rotarycraft:gearbox_2x"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_steel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:rock_melter",
+    "count": 1
+  }
+}
