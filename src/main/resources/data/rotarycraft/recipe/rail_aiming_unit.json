@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sds",
+    "CRC",
+    "sgs"
+  ],
+  "key": {
+    "R": {
+      "item": "rotarycraft:radar_unit"
+    },
+    "C": {
+      "item": "rotarycraft:circuit_board"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "d": {
+      "tag": "c:gems/diamond"
+    },
+    "g": {
+      "item": "rotarycraft:generator_unit"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:rail_aiming_unit",
+    "count": 1
+  }
+}

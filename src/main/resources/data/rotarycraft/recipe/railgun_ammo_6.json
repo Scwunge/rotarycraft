@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ppp",
+    "psp",
+    "ppp"
+  ],
+  "key": {
+    "s": {
+      "item": "rotarycraft:railgun_ammo_5"
+    },
+    "p": {
+      "item": "minecraft:stone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:railgun_ammo_6",
+    "count": 1
+  }
+}

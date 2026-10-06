@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/railgun"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/railgun"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/railgun"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/railgun"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/railgun"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/railgun"
+    }
+  }
+}

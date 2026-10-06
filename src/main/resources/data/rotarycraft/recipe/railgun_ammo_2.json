@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "p p",
+    " s ",
+    "p p"
+  ],
+  "key": {
+    "s": {
+      "item": "rotarycraft:railgun_ammo_1"
+    },
+    "p": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:railgun_ammo_2",
+    "count": 1
+  }
+}

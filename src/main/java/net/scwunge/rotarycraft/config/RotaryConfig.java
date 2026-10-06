@@ -18,6 +18,14 @@ public class RotaryConfig {
     public static final ModConfigSpec.IntValue MOTOR_BUFFER;
     public static final ModConfigSpec.BooleanValue JET_HARMS_PLAYERS;
 
+    // ---- weapons and defence (each can be turned off; block damage also needs mobGriefing and respects claims) ----
+    public static final ModConfigSpec.BooleanValue TURRETS_TARGET_PLAYERS;
+    public static final ModConfigSpec.BooleanValue WEAPON_BLOCK_DAMAGE;
+    public static final ModConfigSpec.BooleanValue RAILGUN_BLOCK_DAMAGE;
+    public static final java.util.Map<String, ModConfigSpec.BooleanValue> WEAPONS = new java.util.LinkedHashMap<>();
+    // ---- utility machines that load or change the world (off unless the server turns them on) ----
+    public static final java.util.Map<String, ModConfigSpec.BooleanValue> WORLD_MACHINES = new java.util.LinkedHashMap<>();
+
     static {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
         b.push("transmission");
@@ -42,7 +50,36 @@ public class RotaryConfig {
         MOTOR_BUFFER = b.comment("FE the Electric Motor can hold.").defineInRange("motorBuffer", 100_000, 1_000, Integer.MAX_VALUE);
         b.pop();
 
+        b.push("weapons");
+        TURRETS_TARGET_PLAYERS = b.comment("Turrets shoot players who are not their owner and not on its whitelist (Cannon Key), as in the original.")
+                .define("turretsTargetPlayers", true);
+        WEAPON_BLOCK_DAMAGE = b.comment("Destructive machines (rail gun, heat ray, sonic weapon, EMP, landmine...) damage blocks. They also need the",
+                        "mobGriefing rule, and act as their owner, so claim and protection mods can stop them.")
+                .define("weaponBlockDamage", true);
+        RAILGUN_BLOCK_DAMAGE = b.comment("Rail gun shots damage blocks (as well as weaponBlockDamage).").define("railgunBlockDamage", true);
+        for (String w : new String[] {"railgun", "freezeGun", "antiAir", "gatling", "laserGun", "flameTurret", "heatRay", "tntCannon",
+                "sonicWeapon", "emp", "landmine", "forceField", "containment"}) {
+            WEAPONS.put(w, b.comment("Enable the " + w + ". Off: it stays placed but does nothing.").define(w, true));
+        }
+        b.pop();
+
+        b.push("world_machines");
+        for (String m : new String[] {"chunkLoader", "terraformer", "weatherController"}) {
+            WORLD_MACHINES.put(m, b.comment("Enable the " + m + ", which loads or changes the world (off by default).").define(m, false));
+        }
+        b.pop();
+
         SPEC = b.build();
+    }
+
+    /** Whether the named weapon (a key of {@link #WEAPONS}) is enabled. */
+    public static boolean weaponEnabled(String name) {
+        return get(WEAPONS.get(name));
+    }
+
+    /** Whether the named world machine (a key of {@link #WORLD_MACHINES}) is enabled. */
+    public static boolean worldMachineEnabled(String name) {
+        return get(WORLD_MACHINES.get(name));
     }
 
     public static <T> T get(ModConfigSpec.ConfigValue<T> value) {

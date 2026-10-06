@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " H ",
+    " A ",
+    " B "
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:rail_base"
+    },
+    "A": {
+      "item": "rotarycraft:rail_aiming_unit"
+    },
+    "H": {
+      "item": "rotarycraft:rail_head"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:railgun",
+    "count": 1
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "p p",
+    " s ",
+    "p p"
+  ],
+  "key": {
+    "s": {
+      "item": "rotarycraft:railgun_ammo_10"
+    },
+    "p": {
+      "tag": "c:ingots/gold"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:railgun_ammo_11",
+    "count": 1
+  }
+}

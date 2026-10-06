@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "LLL",
+    "LGL",
+    "LLL"
+  ],
+  "key": {
+    "G": {
+      "item": "rotarycraft:power_module"
+    },
+    "L": {
+      "item": "rotarycraft:linear_induction_motor"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:rail_head",
+    "count": 1
+  }
+}
