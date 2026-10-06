@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/heat_ray"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/heat_ray"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/heat_ray"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/heat_ray"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/heat_ray"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/heat_ray"
+    }
+  }
+}

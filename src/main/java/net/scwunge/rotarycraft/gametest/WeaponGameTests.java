@@ -35,7 +35,11 @@ public class WeaponGameTests {
 
     /** A bedrock flywheel under {@code pos}, already spinning with this torque and speed (it coasts, so it keeps them for the test). */
     static void spinningFlywheel(GameTestHelper helper, BlockPos pos, int torque, int omega) {
-        helper.setBlock(pos, RotaryBlocks.FLYWHEELS.get(FlywheelType.BEDROCK).get().defaultBlockState().setValue(MachineBlock.FACING, Direction.UP));
+        spinningFlywheel(helper, pos, torque, omega, Direction.UP);
+    }
+
+    static void spinningFlywheel(GameTestHelper helper, BlockPos pos, int torque, int omega, Direction facing) {
+        helper.setBlock(pos, RotaryBlocks.FLYWHEELS.get(FlywheelType.BEDROCK).get().defaultBlockState().setValue(MachineBlock.FACING, facing));
         CompoundTag tag = new CompoundTag();
         tag.putInt("torque", torque);
         tag.putInt("omega", omega);
@@ -468,6 +472,65 @@ public class WeaponGameTests {
                 }
             }
             helper.assertTrue(any, "no infested stone cleared");
+        });
+    }
+
+    /** A heat ray firing east with a flywheel behind it. */
+    static net.scwunge.rotarycraft.weapon.turret.HeatRayBlockEntity heatRay(GameTestHelper helper, int torque) {
+        helper.setBlock(new BlockPos(1, 2, 2), WeaponRegistry.HEAT_RAY.get().defaultBlockState()
+                .setValue(net.scwunge.rotarycraft.block.MachineBlock.FACING, net.minecraft.core.Direction.EAST));
+        return helper.getBlockEntity(new BlockPos(1, 2, 2));
+    }
+
+    @GameTest(template = WIDE, batch = "weapon_heatray", timeoutTicks = 200)
+    public static void heatRaySetsCreaturesAlightAndMeltsStone(GameTestHelper helper) {
+        spinningFlywheel(helper, new BlockPos(0, 2, 2), 8192, 1024, Direction.EAST);
+        heatRay(helper, 8192);
+        helper.setBlock(new BlockPos(7, 2, 2), net.minecraft.world.level.block.Blocks.STONE);
+        var cow = helper.spawnWithNoFreeWill(net.minecraft.world.entity.EntityType.COW, new BlockPos(4, 2, 2));
+        helper.succeedWhen(() -> {
+            helper.assertTrue(cow.isOnFire() || cow.isDeadOrDying(), "creature not burning");
+            helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.LAVA, new BlockPos(7, 2, 2));
+        });
+    }
+
+    @GameTest(template = WIDE, batch = "weapon_heatray_weak", timeoutTicks = 80)
+    public static void heatRayNeedsItsMinimumPower(GameTestHelper helper) {
+        spinningFlywheel(helper, new BlockPos(0, 2, 2), 1024, 1024, Direction.EAST);
+        heatRay(helper, 1024);
+        helper.setBlock(new BlockPos(5, 2, 2), net.minecraft.world.level.block.Blocks.STONE);
+        var cow = helper.spawnWithNoFreeWill(net.minecraft.world.entity.EntityType.COW, new BlockPos(3, 2, 2));
+        helper.runAfterDelay(40, () -> {
+            helper.assertFalse(cow.isOnFire(), "burned without power");
+            helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.STONE, new BlockPos(5, 2, 2));
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = WIDE, batch = "weapon_heatray_grief", timeoutTicks = 120)
+    public static void heatRayLeavesBlocksAloneWithoutMobGriefing(GameTestHelper helper) {
+        spinningFlywheel(helper, new BlockPos(0, 2, 2), 8192, 1024, Direction.EAST);
+        heatRay(helper, 8192);
+        helper.setBlock(new BlockPos(5, 2, 2), net.minecraft.world.level.block.Blocks.STONE);
+        var rule = helper.getLevel().getGameRules().getRule(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        rule.set(false, helper.getLevel().getServer());
+        helper.runAfterDelay(60, () -> {
+            rule.set(true, helper.getLevel().getServer());
+            helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.STONE, new BlockPos(5, 2, 2));
+            helper.succeed();
+        });
+    }
+
+    /** An opaque block stops the beam: what is behind it is untouched. */
+    @GameTest(template = WIDE, batch = "weapon_heatray_stop", timeoutTicks = 120)
+    public static void heatRayIsStoppedByOpaqueBlocks(GameTestHelper helper) {
+        spinningFlywheel(helper, new BlockPos(0, 2, 2), 8192, 1024, Direction.EAST);
+        heatRay(helper, 8192);
+        helper.setBlock(new BlockPos(4, 2, 2), net.minecraft.world.level.block.Blocks.OBSIDIAN);
+        helper.setBlock(new BlockPos(6, 2, 2), net.minecraft.world.level.block.Blocks.STONE);
+        helper.runAfterDelay(60, () -> {
+            helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.STONE, new BlockPos(6, 2, 2));
+            helper.succeed();
         });
     }
 }

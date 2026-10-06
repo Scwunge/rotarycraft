@@ -112,6 +112,14 @@ public final class WeaponRegistry {
             () -> IMenuTypeExtension.create(net.scwunge.rotarycraft.weapon.SonicMenu::fromNetwork));
     public static final DeferredHolder<net.minecraft.sounds.SoundEvent, net.minecraft.sounds.SoundEvent> SONIC_SOUND = sound("sonic");
 
+    // ---- Heat Ray ----
+    public static final DeferredBlock<net.scwunge.rotarycraft.weapon.OwnedMachineBlock> HEAT_RAY = RotaryBlocks.BLOCKS.register("heat_ray",
+            () -> new net.scwunge.rotarycraft.weapon.OwnedMachineBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.HEAT_RAY_BE,
+                    net.scwunge.rotarycraft.weapon.turret.HeatRayBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<net.scwunge.rotarycraft.weapon.turret.HeatRayBlockEntity>> HEAT_RAY_BE =
+            RotaryBlockEntities.TYPES.register("heat_ray",
+                    () -> BlockEntityType.Builder.of(net.scwunge.rotarycraft.weapon.turret.HeatRayBlockEntity::new, HEAT_RAY.get()).build(null));
+
     // ---- Laser Gun and Flame Turret ----
     public static final DeferredBlock<TurretBlock> LASER_GUN = RotaryBlocks.BLOCKS.register("laser_gun",
             () -> new TurretBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.LASER_GUN_BE, LaserGunBlockEntity::new));
@@ -156,6 +164,7 @@ public final class WeaponRegistry {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(GATLING));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(TNT_CANNON));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(SONIC));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(HEAT_RAY));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(LASER_GUN));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(FLAME_TURRET));
         for (int i = 0; i < 16; i++) {

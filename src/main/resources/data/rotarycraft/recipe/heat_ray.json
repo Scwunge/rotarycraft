@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "OOO",
+    "BLb",
+    "#P#"
+  ],
+  "key": {
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "B": {
+      "item": "rotarycraft:bulb"
+    },
+    "L": {
+      "item": "rotarycraft:lens"
+    },
+    "b": {
+      "item": "rotarycraft:barrel"
+    },
+    "#": {
+      "item": "rotarycraft:base_panel"
+    },
+    "P": {
+      "item": "rotarycraft:power_module"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:heat_ray",
+    "count": 1
+  }
+}

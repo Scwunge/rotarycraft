@@ -259,6 +259,7 @@
   "gui.rotarycraft.sonic.volume": "Volume:",
   "gui.rotarycraft.sonic.max": "Loudest it can make: %s dB",
   "subtitles.rotarycraft.sonic": "Sonic Weapon blares",
+  "block.rotarycraft.heat_ray": "Heat Ray",
   "block.rotarycraft.tnt_cannon": "TNT Cannon",
   "entity.rotarycraft.cannon_tnt": "Primed TNT",
   "gui.rotarycraft.cannon.mode_manual": "Manual",
