@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * Projector, as the original: with 512 W from behind it throws the slide in its first slot on the wall in front of it, up to 12 blocks
- * away, as a picture seven blocks wide and five tall (when the wall is solid for that whole area and the air in front of it is clear).
+ * away, as a picture seven blocks wide and five tall, from its own height up (when the wall is solid for that whole area and the air in front of it is clear).
  * A redstone pulse moves on to the next slide. Slides are the 24 in the ring of slots.
  */
 public class ProjectorBlockEntity extends ConsumerBlockEntity implements MenuProvider {
@@ -32,8 +32,8 @@ public class ProjectorBlockEntity extends ConsumerBlockEntity implements MenuPro
     public static final int SLOTS = 24;
     public static final int MAX_RANGE = 12;
     public static final int HALF_WIDTH = 3;
-    public static final int BELOW = 2;
-    public static final int ABOVE = 2;
+    public static final int BELOW = 0;
+    public static final int ABOVE = 4;
 
     private final ItemStackHandler items = new ItemStackHandler(SLOTS) {
         @Override
@@ -117,7 +117,7 @@ public class ProjectorBlockEntity extends ConsumerBlockEntity implements MenuPro
         }
         ItemStack first = items.getStackInSlot(0);
         int s = first.getItem() instanceof SlideItem item ? item.index() : -1;
-        if (can != showing || d != distance || s != slide) {
+        if (can != showing || d != distance || s != slide || level.getGameTime() % 100 == 0) {
             showing = can;
             distance = d;
             slide = s;

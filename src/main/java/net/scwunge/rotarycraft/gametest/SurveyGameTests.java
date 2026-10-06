@@ -281,7 +281,7 @@ public class SurveyGameTests {
         projector.items().setStackInSlot(0, new net.minecraft.world.item.ItemStack(SurveyRegistry.SLIDES.get(slide).get()));
         if (wall) {
             for (int x = 7; x <= 13; x++) {
-                for (int y = 0; y <= 4; y++) {
+                for (int y = 2; y <= 6; y++) {
                     helper.setBlock(new BlockPos(x, y, 2), net.minecraft.world.level.block.Blocks.STONE);
                 }
             }

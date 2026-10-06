@@ -53,7 +53,7 @@ public class MobRadarBlockEntity extends ConsumerBlockEntity implements MenuProv
         IShaftPowerOutput.Reading in = IShaftPowerOutput.readInput(level, worldPosition, Direction.DOWN);
         setPower(in.torque(), in.omega());
         boolean now = getPower() >= MIN_POWER;
-        if (now != on) {
+        if (now != on || level.getGameTime() % 100 == 0) {
             on = now;
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
         }

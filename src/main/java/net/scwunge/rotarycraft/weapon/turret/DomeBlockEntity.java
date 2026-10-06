@@ -149,7 +149,7 @@ public abstract class DomeBlockEntity extends OmniConsumerBlockEntity implements
             protect(server, range);
         }
         boolean flash = lastHit != syncedHit && time - syncedHit >= 4;
-        if (range != syncedRange || maxRange != syncedMax || flash) {
+        if (range != syncedRange || maxRange != syncedMax || flash || time % 100 == 0) {
             syncDome();
         }
     }

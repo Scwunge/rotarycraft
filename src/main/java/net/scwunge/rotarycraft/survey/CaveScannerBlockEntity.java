@@ -58,7 +58,7 @@ public class CaveScannerBlockEntity extends OmniConsumerBlockEntity {
 
     @Override
     protected void machineTick(boolean powered) {
-        if (powered != on) {
+        if (powered != on || level.getGameTime() % 40 == 0) {
             on = powered;
             syncNow();
         }

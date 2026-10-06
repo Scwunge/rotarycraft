@@ -89,6 +89,9 @@ public abstract class RemoteMachineBlockEntity extends SurveyBlockEntity impleme
 
     @Override
     public void serverTick() {
+        if (level.getGameTime() % 100 == 0) {
+            syncNow();
+        }
         if (!hasCoil()) {
             if (on) {
                 on = false;

@@ -144,7 +144,7 @@ public class DisplayBlockEntity extends SurveyBlockEntity implements MenuProvide
         ItemStack coil = items.getStackInSlot(0);
         boolean lit = coil.getItem() instanceof CoilItem && CoilItem.charge(coil) > 0;
         boolean space = lit && (level.getGameTime() % 10 == 0 ? hasSpace() : clear);
-        if (lit != on || space != clear) {
+        if (lit != on || space != clear || level.getGameTime() % 100 == 0) {
             on = lit;
             clear = space;
             syncNow();
