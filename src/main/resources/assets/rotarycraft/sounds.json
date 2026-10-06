@@ -10,5 +10,11 @@
       "rotarycraft:gatlingreload"
     ],
     "subtitle": "subtitles.rotarycraft.gatlingreload"
+  },
+  "flameturret": {
+    "sounds": [
+      "rotarycraft:flameturret"
+    ],
+    "subtitle": "subtitles.rotarycraft.flameturret"
   }
 }

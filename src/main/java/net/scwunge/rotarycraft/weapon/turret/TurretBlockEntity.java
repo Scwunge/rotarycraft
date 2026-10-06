@@ -147,6 +147,11 @@ public abstract class TurretBlockEntity extends ConsumerBlockEntity {
 
     public abstract int range();
 
+    /** Targets nearer than this are ignored (a flame turret cannot hit what is close). */
+    protected double minRange() {
+        return 0;
+    }
+
     /** Aiming error added to each coordinate of the aim point. */
     protected double randomOffset() {
         return 0;
@@ -172,7 +177,7 @@ public abstract class TurretBlockEntity extends ConsumerBlockEntity {
         Entity found = null;
         for (Entity e : level.getEntities((Entity) null, box, this::isValidTarget)) {
             double dist = e.position().distanceTo(new Vec3(x + 0.5, y + 0.5, z + 0.5));
-            if (dist >= best || !canSee(e.position(), r)) {
+            if (dist >= best || dist < minRange() || !canSee(e.position(), r)) {
                 continue;
             }
             double dy = -(e.getY() - y);

@@ -76,6 +76,8 @@
     "rotarycraft:railgun",
     "rotarycraft:freeze_gun",
     "rotarycraft:anti_air",
-    "rotarycraft:gatling"
+    "rotarycraft:gatling",
+    "rotarycraft:laser_gun",
+    "rotarycraft:flame_turret"
   ]
 }

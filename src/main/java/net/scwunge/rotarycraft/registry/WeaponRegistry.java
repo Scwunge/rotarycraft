@@ -25,7 +25,10 @@ import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.weapon.AmmoMenu;
 import net.scwunge.rotarycraft.weapon.CannonKeyItem;
 import net.scwunge.rotarycraft.weapon.FlakShot;
+import net.scwunge.rotarycraft.weapon.FlameShot;
 import net.scwunge.rotarycraft.weapon.GatlingShot;
+import net.scwunge.rotarycraft.weapon.turret.FlameTurretBlockEntity;
+import net.scwunge.rotarycraft.weapon.turret.LaserGunBlockEntity;
 import net.scwunge.rotarycraft.weapon.turret.GatlingBlockEntity;
 import net.scwunge.rotarycraft.weapon.FreezeEffect;
 import net.scwunge.rotarycraft.weapon.FreezeShot;
@@ -98,6 +101,20 @@ public final class WeaponRegistry {
     public static final DeferredHolder<net.minecraft.sounds.SoundEvent, net.minecraft.sounds.SoundEvent> GATLING_SOUND = sound("gatling");
     public static final DeferredHolder<net.minecraft.sounds.SoundEvent, net.minecraft.sounds.SoundEvent> GATLING_RELOAD_SOUND = sound("gatlingreload");
 
+    // ---- Laser Gun and Flame Turret ----
+    public static final DeferredBlock<TurretBlock> LASER_GUN = RotaryBlocks.BLOCKS.register("laser_gun",
+            () -> new TurretBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.LASER_GUN_BE, LaserGunBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<LaserGunBlockEntity>> LASER_GUN_BE = RotaryBlockEntities.TYPES.register("laser_gun",
+            () -> BlockEntityType.Builder.of(LaserGunBlockEntity::new, LASER_GUN.get()).build(null));
+    public static final DeferredBlock<TurretBlock> FLAME_TURRET = RotaryBlocks.BLOCKS.register("flame_turret",
+            () -> new TurretBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.FLAME_TURRET_BE, FlameTurretBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FlameTurretBlockEntity>> FLAME_TURRET_BE = RotaryBlockEntities.TYPES.register("flame_turret",
+            () -> BlockEntityType.Builder.of(FlameTurretBlockEntity::new, FLAME_TURRET.get()).build(null));
+    public static final DeferredHolder<EntityType<?>, EntityType<FlameShot>> FLAME_SHOT = ENTITIES.register("flame_shot",
+            () -> EntityType.Builder.<FlameShot>of(FlameShot::new, MobCategory.MISC).sized(0.25f, 0.25f).clientTrackingRange(16).updateInterval(1)
+                    .noSave().fireImmune().build("flame_shot"));
+    public static final DeferredHolder<net.minecraft.sounds.SoundEvent, net.minecraft.sounds.SoundEvent> FLAME_TURRET_SOUND = sound("flameturret");
+
     /** Turret parts (the original's barrel, lens, bulb, rail head, turret base and aiming unit). */
     public static final java.util.Map<String, DeferredItem<Item>> PARTS = new java.util.LinkedHashMap<>();
 
@@ -115,6 +132,8 @@ public final class WeaponRegistry {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(FREEZE_GUN));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(ANTI_AIR));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(GATLING));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(LASER_GUN));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(FLAME_TURRET));
         for (int i = 0; i < 16; i++) {
             int tier = i;
             RAILGUN_AMMO.add(RotaryItems.add(RotaryItems.ITEMS.register("railgun_ammo_" + i, () -> new RailgunAmmoItem(new Item.Properties(), tier))));
@@ -141,5 +160,6 @@ public final class WeaponRegistry {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FREEZE_GUN_BE.get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ANTI_AIR_BE.get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, GATLING_BE.get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, FLAME_TURRET_BE.get(), (be, side) -> be.intake());
     }
 }

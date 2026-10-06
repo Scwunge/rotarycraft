@@ -43,6 +43,30 @@ public abstract class TurretShot extends Entity {
     /** What happens where the shot strikes; it is removed afterwards. */
     protected abstract void impact(ServerLevel level);
 
+    /** Whether a creature near the shot sets it off (flames fly past creatures and only strike blocks). */
+    protected boolean hitsEntities() {
+        return true;
+    }
+
+    /** Ticks of flight before it strikes on its own (or, if {@link #strikesAtEndOfLife()} is false, just vanishes). */
+    protected int maxLife() {
+        return 80;
+    }
+
+    protected boolean strikesAtEndOfLife() {
+        return true;
+    }
+
+    /** Ticks before it may strike a block (a flame clears the turret that fired it). */
+    protected int minHitTicks() {
+        return 0;
+    }
+
+    /** Downward acceleration each tick. */
+    protected double gravity() {
+        return 0;
+    }
+
     /** Extra work each client tick (tracer particles). */
     protected void clientTick() {}
 
@@ -72,11 +96,22 @@ public abstract class TurretShot extends Entity {
             return;
         }
         BlockState state = level.getBlockState(at);
-        boolean mobs = !level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(1)).isEmpty();
-        boolean solid = !state.isAir() && !state.canBeReplaced() && !isGun(state);
-        if (mobs || solid || tickCount > 80) {
+        boolean mobs = hitsEntities() && !level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(1)).isEmpty();
+        boolean solid = tickCount > minHitTicks() && !state.isAir() && !state.canBeReplaced() && !isGun(state);
+        if (mobs || solid) {
             strike(level);
             return;
+        }
+        if (tickCount > maxLife()) {
+            if (strikesAtEndOfLife()) {
+                strike(level);
+            } else {
+                discard();
+            }
+            return;
+        }
+        if (gravity() != 0) {
+            setDeltaMovement(getDeltaMovement().add(0, -gravity(), 0));
         }
         flightTick(level, at, state);
         if (isRemoved()) {
@@ -90,7 +125,7 @@ public abstract class TurretShot extends Entity {
         }
         boolean entityHit = false;
         double nearest = Double.MAX_VALUE;
-        for (Entity e : level.getEntities(this, getBoundingBox().expandTowards(getDeltaMovement()).inflate(1))) {
+        for (Entity e : hitsEntities() ? level.getEntities(this, getBoundingBox().expandTowards(getDeltaMovement()).inflate(1)) : java.util.List.<Entity>of()) {
             var clip = e.isPickable() ? e.getBoundingBox().inflate(0.3).clip(from, to) : java.util.Optional.<Vec3>empty();
             if (clip.isPresent() && from.distanceTo(clip.get()) < nearest) {
                 nearest = from.distanceTo(clip.get());
@@ -98,7 +133,7 @@ public abstract class TurretShot extends Entity {
                 entityHit = true;
             }
         }
-        if (entityHit || blockHit.getType() == HitResult.Type.BLOCK) {
+        if (entityHit || blockHit.getType() == HitResult.Type.BLOCK && tickCount > minHitTicks()) {
             if (!entityHit && isGun(level.getBlockState(blockHit.getBlockPos()))) {
                 discard();
                 return;

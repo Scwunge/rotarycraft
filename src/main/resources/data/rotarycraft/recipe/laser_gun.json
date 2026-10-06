@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "CLB",
+    "APG",
+    " b "
+  ],
+  "key": {
+    "b": {
+      "item": "rotarycraft:rail_base"
+    },
+    "C": {
+      "item": "rotarycraft:bulb"
+    },
+    "L": {
+      "item": "rotarycraft:lens"
+    },
+    "P": {
+      "item": "rotarycraft:power_module"
+    },
+    "B": {
+      "item": "rotarycraft:barrel"
+    },
+    "A": {
+      "item": "rotarycraft:rail_aiming_unit"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:laser_gun",
+    "count": 1
+  }
+}

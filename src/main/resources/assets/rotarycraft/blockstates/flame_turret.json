@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/flame_turret"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/flame_turret"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/flame_turret"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/flame_turret"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/flame_turret"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/flame_turret"
+    }
+  }
+}

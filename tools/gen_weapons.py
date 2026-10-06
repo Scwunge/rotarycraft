@@ -131,6 +131,22 @@ for snd in ('gatling', 'gatlingreload'):
     sounds[snd] = {'sounds': ['rotarycraft:' + snd], 'subtitle': 'subtitles.rotarycraft.' + snd}
 w(sounds_path, sounds)
 
+# ---- Laser Gun and Flame Turret ----
+model_texture('lasertex.png', 'laser_gun')
+model_texture('flameturrettex.png', 'flame_turret')
+shutil.copy(REF + '/Textures/Entity/flameturret.png', T + '/entity/flame_shot.png')
+rendered_machine('laser_gun')
+rendered_machine('flame_turret')
+shaped('laser_gun', ['CLB', 'APG', ' b '], {'b': item('rail_base'), 'C': item('bulb'), 'L': item('lens'), 'P': item('power_module'), 'B': item('barrel'),
+                                            'A': item('rail_aiming_unit'), 'G': item('steel_gear_unit_2')})
+# the original's pattern uses G for the impeller where its key says g; the impeller is what was meant
+shaped('flame_turret', ['FIP', 'GFS', ' FB'], {'B': item('rail_base'), 'F': item('fuel_line'), 'I': item('igniter'), 'P': item('pipe'), 'G': item('impeller'),
+                                               'S': item('shaft_steel')})
+shutil.copy(REF + '/Sounds/flameturret.ogg', A + '/sounds/flameturret.ogg')
+sounds = json.load(open(A + '/sounds.json'))
+sounds['flameturret'] = {'sounds': ['rotarycraft:flameturret'], 'subtitle': 'subtitles.rotarycraft.flameturret'}
+w(A + '/sounds.json', sounds)
+
 # ---- Cannon Key ----
 sprite(1, 4, 'cannon_key')
 shaped('cannon_key', ['s', 's', 'P'], {'P': item('base_panel'), 's': STEEL})
@@ -146,6 +162,10 @@ lang.update({
     'gui.rotarycraft.safe_players': 'Players this turret will not target',
     'gui.rotarycraft.safe_players.remove': 'Remove',
     'gui.rotarycraft.safe_players.none': 'Nobody but the owner',
+    'block.rotarycraft.laser_gun': 'Laser Gun',
+    'block.rotarycraft.flame_turret': 'Flame Turret',
+    'entity.rotarycraft.flame_shot': 'Flame',
+    'subtitles.rotarycraft.flameturret': 'Flame Turret burns',
     'block.rotarycraft.gatling': 'Gatling Gun',
     'entity.rotarycraft.gatling_shot': 'Gatling Round',
     'subtitles.rotarycraft.gatling': 'Gatling Gun fires',
@@ -166,5 +186,5 @@ data = json.load(open(path))
 data['values'] += ['rotarycraft:' + m for m in MACHINES if 'rotarycraft:' + m not in data['values']]
 w(path, data)
 
-subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling'], check=True)
+subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling', 'ModelLaserGun:laser_gun', 'ModelFlameTurret:flame_turret'], check=True)
 print('weapons ok,', len(MACHINES), 'machines')

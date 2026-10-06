@@ -39,6 +39,16 @@ public final class WeaponClient {
             new String[] {"Shape1a", "Shape1a0", "Shape1a1", "Shape1a2", "Shape1a3", "Shape1a4", "Shape10", "Shape10d", "Shape10e", "Shape10f", "Shape10g",
                     "Shape10h", "Shape10i", "Shape10j", "Shape10k", "Shape10a", "Shape10b", "Shape10c"}, 0.725);
 
+    static final TurretRenderer.Look LASER_GUN = new TurretRenderer.Look("laser_gun", "laser_gun",
+            new String[] {"Shape5"},
+            new String[] {"Shape6", "Shape7", "Shape7a", "Shape7b", "Shape7c", "Shape7d", "Shape7e", "Shape7f", "Shape7g", "Shape8", "Shape8a", "Shape9"},
+            new String[] {"Shape3da", "Shape3", "Shape3da1", "Shape3d", "Shape1", "Shape1a", "Shape1b", "Shape1c"});
+    static final TurretRenderer.Look FLAME_TURRET = new TurretRenderer.Look("flame_turret", "flame_turret",
+            new String[] {"Shape5"},
+            new String[] {"Shape6", "Shape6b", "Shape7", "Shape7a", "Shape7b", "Shape7c", "Shape7d", "Shape7e", "Shape7f", "Shape7g", "Shape8", "Shape8a", "Shape9"},
+            new String[] {"Shape12b2", "Shape1a2b2", "Shape1b2", "Shape3da", "Shape1b23", "Shape1bb2", "Shape1ab2", "Shape1b", "Shape1b22", "Shape1a2",
+                    "Shape1a2b", "Shape12", "Shape12b", "Shape1", "Shape1bb", "Shape1a", "Shape1ab"});
+
     private WeaponClient() {}
 
     @SubscribeEvent
@@ -48,6 +58,9 @@ public final class WeaponClient {
         event.registerBlockEntityRenderer(WeaponRegistry.ANTI_AIR_BE.get(), c -> new TurretRenderer<>(ANTI_AIR));
         event.registerBlockEntityRenderer(WeaponRegistry.GATLING_BE.get(), c -> new TurretRenderer<>(GATLING));
         event.registerEntityRenderer(WeaponRegistry.GATLING_SHOT.get(), c -> new StarShotRenderer(c, "gatling_shot"));
+        event.registerBlockEntityRenderer(WeaponRegistry.LASER_GUN_BE.get(), c -> new LaserRenderer(LASER_GUN));
+        event.registerBlockEntityRenderer(WeaponRegistry.FLAME_TURRET_BE.get(), c -> new TurretRenderer<>(FLAME_TURRET));
+        event.registerEntityRenderer(WeaponRegistry.FLAME_SHOT.get(), c -> new StarShotRenderer(c, "flame_shot", 0.5f, true));
         event.registerEntityRenderer(WeaponRegistry.RAILGUN_SHOT.get(), c -> new StarShotRenderer(c, "railgun_shot"));
         event.registerEntityRenderer(WeaponRegistry.FREEZE_SHOT.get(), c -> new StarShotRenderer(c, "freeze_shot"));
         event.registerEntityRenderer(WeaponRegistry.FLAK_SHOT.get(), c -> new ItemShotRenderer(c, () -> new net.minecraft.world.item.ItemStack(RotaryItems.SCRAP.get())));
@@ -64,6 +77,8 @@ public final class WeaponClient {
         event.registerItem(turretItem(FREEZE_GUN), WeaponRegistry.FREEZE_GUN.get().asItem());
         event.registerItem(turretItem(ANTI_AIR), WeaponRegistry.ANTI_AIR.get().asItem());
         event.registerItem(turretItem(GATLING), WeaponRegistry.GATLING.get().asItem());
+        event.registerItem(turretItem(LASER_GUN), WeaponRegistry.LASER_GUN.get().asItem());
+        event.registerItem(turretItem(FLAME_TURRET), WeaponRegistry.FLAME_TURRET.get().asItem());
     }
 
     private static IClientItemExtensions turretItem(TurretRenderer.Look look) {

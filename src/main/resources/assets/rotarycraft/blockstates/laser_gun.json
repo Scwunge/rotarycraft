@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/laser_gun"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/laser_gun"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/laser_gun"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/laser_gun"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/laser_gun"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/laser_gun"
+    }
+  }
+}

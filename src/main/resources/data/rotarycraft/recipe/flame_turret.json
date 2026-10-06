@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "FIP",
+    "GFS",
+    " FB"
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:rail_base"
+    },
+    "F": {
+      "item": "rotarycraft:fuel_line"
+    },
+    "I": {
+      "item": "rotarycraft:igniter"
+    },
+    "P": {
+      "item": "rotarycraft:pipe"
+    },
+    "G": {
+      "item": "rotarycraft:impeller"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_steel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:flame_turret",
+    "count": 1
+  }
+}

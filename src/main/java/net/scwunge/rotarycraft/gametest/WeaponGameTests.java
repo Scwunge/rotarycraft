@@ -22,6 +22,7 @@ import net.minecraft.world.item.Items;
 import net.scwunge.rotarycraft.weapon.turret.AntiAirBlockEntity;
 import net.scwunge.rotarycraft.weapon.turret.FreezeGunBlockEntity;
 import net.scwunge.rotarycraft.weapon.turret.GatlingBlockEntity;
+import net.scwunge.rotarycraft.weapon.turret.LaserGunBlockEntity;
 import net.scwunge.rotarycraft.weapon.turret.RailGunBlockEntity;
 import net.scwunge.rotarycraft.weapon.turret.TurretBlockEntity;
 
@@ -51,7 +52,7 @@ public class WeaponGameTests {
      * Ten blocks out: as in the original, a turret checks its aim from its block's corner, so it holds fire at point-blank
      * range where that differs too much from the centre it aims from.
      */
-    @GameTest(template = WIDE, timeoutTicks = 300)
+    @GameTest(template = WIDE, batch = "weapon_railgunshootsahostilemob", timeoutTicks = 300)
     public static void railgunShootsAHostileMob(GameTestHelper helper) {
         RailGunBlockEntity gun = railgun(helper);
         gun.items().setStackInSlot(0, new ItemStack(WeaponRegistry.RAILGUN_AMMO.get(3).get(), 4));
@@ -111,7 +112,7 @@ public class WeaponGameTests {
         });
     }
 
-    @GameTest(template = WIDE, timeoutTicks = 300)
+    @GameTest(template = WIDE, batch = "weapon_freezegunfreezesahostilemob", timeoutTicks = 300)
     public static void freezeGunFreezesAHostileMob(GameTestHelper helper) {
         spinningFlywheel(helper, TURRET.below(), 4096, 1100);
         helper.setBlock(TURRET, WeaponRegistry.FREEZE_GUN.get().defaultBlockState());
@@ -125,7 +126,7 @@ public class WeaponGameTests {
         });
     }
 
-    @GameTest(template = WIDE, timeoutTicks = 200)
+    @GameTest(template = WIDE, batch = "weapon_freezegunturnsiceintosnowballs", timeoutTicks = 200)
     public static void freezeGunTurnsIceIntoSnowballs(GameTestHelper helper) {
         spinningFlywheel(helper, TURRET.below(), 4096, 1100);
         helper.setBlock(TURRET, WeaponRegistry.FREEZE_GUN.get().defaultBlockState());
@@ -138,14 +139,14 @@ public class WeaponGameTests {
         helper.succeedWhen(() -> {
             int balls = 0;
             for (int i = 0; i < gun.items().getSlots(); i++) {
-                helper.assertFalse(gun.items().getStackInSlot(i).is(Items.ICE), "ice not converted");
+                helper.assertFalse(gun.items().getStackInSlot(i).is(Items.ICE), "ice not converted (aim " + gun.phi + ", " + gun.theta + ", power " + gun.hasEnoughPower() + ", torque " + gun.getTorque() + ", omega " + gun.getOmega() + ")");
                 balls += gun.items().getStackInSlot(i).is(Items.SNOWBALL) ? gun.items().getStackInSlot(i).getCount() : 0;
             }
             helper.assertTrue(balls >= 10, "only " + balls + " snowballs");
         });
     }
 
-    @GameTest(template = WIDE, timeoutTicks = 400)
+    @GameTest(template = WIDE, batch = "weapon_antiairshootsaflyer", timeoutTicks = 400)
     public static void antiAirShootsAFlyer(GameTestHelper helper) {
         spinningFlywheel(helper, TURRET.below(), 4096, 1100);
         helper.setBlock(TURRET, WeaponRegistry.ANTI_AIR.get().defaultBlockState());
@@ -155,7 +156,7 @@ public class WeaponGameTests {
         helper.succeedWhen(() -> helper.assertTrue(phantom.getHealth() < phantom.getMaxHealth() || !phantom.isAlive(), "phantom not hit (aim " + gun.phi + ", " + gun.theta + ")"));
     }
 
-    @GameTest(template = WIDE, timeoutTicks = 100)
+    @GameTest(template = WIDE, batch = "weapon_antiairignoresgroundmobs", timeoutTicks = 100)
     public static void antiAirIgnoresGroundMobs(GameTestHelper helper) {
         spinningFlywheel(helper, TURRET.below(), 4096, 1100);
         helper.setBlock(TURRET, WeaponRegistry.ANTI_AIR.get().defaultBlockState());
@@ -183,7 +184,7 @@ public class WeaponGameTests {
         helper.succeedWhen(() -> helper.assertTrue(gun.items().getStackInSlot(GatlingBlockEntity.CLIP_SLOT).getCount() == 32, "ammunition not in the clip"));
     }
 
-    @GameTest(template = WIDE, timeoutTicks = 500)
+    @GameTest(template = WIDE, batch = "weapon_gatlinghurtsahostilemob", timeoutTicks = 500)
     public static void gatlingHurtsAHostileMob(GameTestHelper helper) {
         spinningFlywheel(helper, TURRET.below(), 4096, 1100);
         helper.setBlock(TURRET, WeaponRegistry.GATLING.get().defaultBlockState());
@@ -194,7 +195,7 @@ public class WeaponGameTests {
         helper.succeedWhen(() -> helper.assertTrue(husk.getHealth() < husk.getMaxHealth(), "husk not hit (aim " + gun.phi + ", " + gun.theta + ")"));
     }
 
-    @GameTest(template = WIDE, timeoutTicks = 200)
+    @GameTest(template = WIDE, batch = "weapon_gatlingneedsspeed", timeoutTicks = 200)
     public static void gatlingNeedsSpeed(GameTestHelper helper) {
         spinningFlywheel(helper, TURRET.below(), 4096, 512);
         helper.setBlock(TURRET, WeaponRegistry.GATLING.get().defaultBlockState());
@@ -206,5 +207,94 @@ public class WeaponGameTests {
             helper.assertTrue(husk.getHealth() == husk.getMaxHealth(), "fired at 512 rad/s");
             helper.succeed();
         });
+    }
+
+    static LaserGunBlockEntity laser(GameTestHelper helper, int omega) {
+        spinningFlywheel(helper, TURRET.below(), 4096, omega);
+        helper.setBlock(TURRET, WeaponRegistry.LASER_GUN.get().defaultBlockState());
+        return helper.getBlockEntity(TURRET);
+    }
+
+    /** Aimed straight ahead (+z) with no target, the beam melts the first block in its way and stops there. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void laserTurnsSandToGlassAndStops(GameTestHelper helper) {
+        LaserGunBlockEntity gun = laser(helper, 4096);
+        helper.setBlock(new BlockPos(2, 2, 3), net.minecraft.world.level.block.Blocks.SAND);
+        helper.setBlock(new BlockPos(2, 2, 4), net.minecraft.world.level.block.Blocks.DIRT);
+        helper.succeedWhen(() -> {
+            helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.GLASS, new BlockPos(2, 2, 3));
+            helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.DIRT, new BlockPos(2, 2, 4));
+            helper.assertTrue(gun.beamLength() > 0 && gun.beamLength() < 10, "beam length " + gun.beamLength());
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void laserBurnsCreaturesInTheBeam(GameTestHelper helper) {
+        laser(helper, 4096);
+        helper.setBlock(new BlockPos(2, 2, 4), net.minecraft.world.level.block.Blocks.OBSIDIAN);
+        Husk husk = helper.spawnWithNoFreeWill(EntityType.HUSK, new Vec3(2.5, 2, 3.5));
+        helper.succeedWhen(() -> {
+            helper.assertTrue(husk.getHealth() < husk.getMaxHealth(), "husk not hurt");
+            helper.assertTrue(husk.getRemainingFireTicks() > 0, "husk not burning");
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void laserNeedsFullPowerAndRespectsMobGriefing(GameTestHelper helper) {
+        // 4096 N*m at 1024 rad/s is 4.2 MW: not enough for the laser's 8.4 MW
+        LaserGunBlockEntity weak = laser(helper, 1024);
+        helper.setBlock(new BlockPos(2, 1, 3), net.minecraft.world.level.block.Blocks.STONE);
+        helper.setBlock(new BlockPos(2, 2, 3), net.minecraft.world.level.block.Blocks.SAND);
+        helper.runAfterDelay(10, () -> {
+            helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.SAND, new BlockPos(2, 2, 3));
+            helper.assertTrue(weak.beamLength() == 0, "underpowered laser fires");
+            spinningFlywheel(helper, TURRET.below(), 4096, 4096);
+            var rule = helper.getLevel().getGameRules().getRule(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+            rule.set(false, helper.getLevel().getServer());
+            helper.runAfterDelay(10, () -> {
+                helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.SAND, new BlockPos(2, 2, 3));
+                rule.set(true, helper.getLevel().getServer());
+                helper.succeedWhen(() -> helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.GLASS, new BlockPos(2, 2, 3)));
+            });
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void flameTurretTakesOnlyFuel(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 1024, 1024);
+        helper.setBlock(TURRET, WeaponRegistry.FLAME_TURRET.get().defaultBlockState());
+        var in = helper.getLevel().getCapability(net.neoforged.neoforge.capabilities.Capabilities.FluidHandler.BLOCK, helper.absolutePos(TURRET), Direction.NORTH);
+        helper.assertTrue(in.fill(new net.neoforged.neoforge.fluids.FluidStack(net.minecraft.world.level.material.Fluids.WATER, 1000),
+                net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE) == 0, "took water");
+        helper.assertTrue(in.fill(new net.neoforged.neoforge.fluids.FluidStack(net.scwunge.rotarycraft.registry.RotaryFluids.ETHANOL.get(), 1500),
+                net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE) == 1000, "ethanol not accepted up to a bucket");
+        helper.assertTrue(((net.scwunge.rotarycraft.weapon.turret.FlameTurretBlockEntity) helper.getBlockEntity(TURRET)).range() == 32, "ethanol range");
+        helper.succeed();
+    }
+
+    @GameTest(template = WIDE, batch = "weapon_flameturretburnsahostilemob", timeoutTicks = 500)
+    public static void flameTurretBurnsAHostileMob(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 1024, 1024);
+        helper.setBlock(TURRET, WeaponRegistry.FLAME_TURRET.get().defaultBlockState());
+        net.scwunge.rotarycraft.weapon.turret.FlameTurretBlockEntity gun = helper.getBlockEntity(TURRET);
+        gun.tank().fill(new net.neoforged.neoforge.fluids.FluidStack(net.scwunge.rotarycraft.registry.RotaryFluids.ETHANOL.get(), 1000),
+                net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+        helper.setBlock(new BlockPos(14, 1, 2), net.minecraft.world.level.block.Blocks.STONE);
+        Husk husk = helper.spawnWithNoFreeWill(EntityType.HUSK, new Vec3(14.5, 2, 2.5));
+        // Its flames are lobbed and calibrated to land at 32 blocks, so a closer target is not hit reliably; it turns to face it and burns fuel.
+        helper.succeedWhen(() -> {
+            helper.assertTrue(gun.tank().getFluidAmount() < 1000, "no fuel used (aim " + gun.phi + ", " + gun.theta + ")");
+            helper.assertTrue(Math.abs(gun.phi - 90) < 10, "not facing the husk (phi " + gun.phi + ")");
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 100)
+    public static void flameLandingLightsAFire(GameTestHelper helper) {
+        helper.setBlock(new BlockPos(2, 1, 2), net.minecraft.world.level.block.Blocks.STONE);
+        var attack = new net.scwunge.rotarycraft.weapon.turret.FlameTurretBlockEntity.Attack(1, 3, 1, 4);
+        Vec3 from = Vec3.atCenterOf(helper.absolutePos(new BlockPos(2, 3, 2)));
+        helper.getLevel().addFreshEntity(new net.scwunge.rotarycraft.weapon.FlameShot(helper.getLevel(), from.x, from.y, from.z, new Vec3(0, -0.2, 0),
+                null, null, attack));
+        helper.succeedWhen(() -> helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.FIRE, new BlockPos(2, 2, 2)));
     }
 }

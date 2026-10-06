@@ -15,9 +15,18 @@ import net.scwunge.rotarycraft.weapon.TurretShot;
 /** A turret shot drawn as the original draws the rail gun slug and the freeze gun snowball: a star of eight quads facing the camera. */
 public class StarShotRenderer extends EntityRenderer<TurretShot> {
     private final ResourceLocation texture;
+    private final float scale;
+    private final boolean glowing;
 
     public StarShotRenderer(EntityRendererProvider.Context context, String texture) {
+        this(context, texture, 0.3f, false);
+    }
+
+    /** {@code glowing} draws it at full brightness whatever the light (the flame shot's additive look). */
+    public StarShotRenderer(EntityRendererProvider.Context context, String texture, float scale, boolean glowing) {
         super(context);
+        this.scale = scale;
+        this.glowing = glowing;
         this.texture = RotaryCraft.id("textures/entity/" + texture + ".png");
         shadowRadius = 0.15f;
     }
@@ -26,7 +35,8 @@ public class StarShotRenderer extends EntityRenderer<TurretShot> {
     public void render(TurretShot shot, float yaw, float partialTick, PoseStack pose, MultiBufferSource buffers, int light) {
         pose.pushPose();
         pose.mulPose(entityRenderDispatcher.cameraOrientation());
-        pose.scale(0.3f, 0.3f, 0.3f);
+        pose.scale(scale, scale, scale);
+        light = glowing ? 0xF000F0 : light;
         VertexConsumer vc = buffers.getBuffer(RenderType.entityCutoutNoCull(texture));
         for (int i = 0; i < 360; i += 45) {
             pose.mulPose(Axis.YP.rotationDegrees(i));
