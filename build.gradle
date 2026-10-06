@@ -19,6 +19,11 @@ neoForge {
 		client {
 			client()
 			gameDirectory = project.file('run')
+			programArguments.addAll('--width', '854', '--height', '480')
+			// -Pautotest=<script> drives the client from a script (needs the Cortex test harness in run/mods)
+			if (findProperty('autotest')) {
+				jvmArguments.add("-Dcortex.autotest=${findProperty('autotest')}")
+			}
 		}
 		server {
 			server()
