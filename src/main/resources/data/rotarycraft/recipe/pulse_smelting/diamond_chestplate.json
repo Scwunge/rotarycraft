@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:pulse_smelting",
+  "ingredient": {
+    "item": "minecraft:diamond_chestplate"
+  },
+  "result": {
+    "id": "minecraft:diamond",
+    "count": 8
+  },
+  "temperature": 850
+}

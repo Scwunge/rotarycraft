@@ -29,6 +29,7 @@
     "rotarycraft:pump",
     "rotarycraft:compactor",
     "rotarycraft:crystallizer",
+    "rotarycraft:pulse_furnace",
     "rotarycraft:flywheel_wood",
     "rotarycraft:flywheel_stone",
     "rotarycraft:flywheel_iron",
@@ -67,6 +68,7 @@
     "rotarycraft:cooling_fin",
     "rotarycraft:anthracite_block",
     "rotarycraft:lonsdaleite_block",
+    "rotarycraft:blast_glass",
     "rotarycraft:railgun"
   ]
 }

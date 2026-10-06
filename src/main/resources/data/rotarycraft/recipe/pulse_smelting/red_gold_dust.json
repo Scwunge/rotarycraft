@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:pulse_smelting",
+  "ingredient": {
+    "item": "rotarycraft:red_gold_dust"
+  },
+  "result": {
+    "id": "rotarycraft:red_gold_ingot",
+    "count": 1
+  },
+  "temperature": 500
+}

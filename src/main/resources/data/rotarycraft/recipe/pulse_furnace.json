@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "OCD",
+    "PcO",
+    "BBB"
+  ],
+  "key": {
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "C": {
+      "item": "rotarycraft:compressor"
+    },
+    "D": {
+      "item": "rotarycraft:diffuser"
+    },
+    "P": {
+      "item": "rotarycraft:pipe"
+    },
+    "c": {
+      "item": "rotarycraft:combustor"
+    },
+    "B": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:pulse_furnace",
+    "count": 1
+  }
+}

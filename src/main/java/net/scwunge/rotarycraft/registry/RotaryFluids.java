@@ -35,6 +35,8 @@ public class RotaryFluids {
     public static final Entry JET_FUEL = register("jet_fuel", 0xFB5C90, 810, 800, 300);
     public static final Entry LUBRICANT = register("lubricant", 0xE4E18E, 750, 1200, 300);
     public static final Entry LIQUID_NITROGEN = register("liquid_nitrogen", 0xB37ECC, 808, 158, 77);
+    /** The Pulse Furnace's accelerant. */
+    public static final Entry OXYGEN = register("oxygen", 0xC8E6FF, 1141, 200, 90);
 
     public static final class Entry {
         public final String name;

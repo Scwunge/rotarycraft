@@ -109,7 +109,14 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.COMPACTOR, net.scwunge.rotarycraft.blockentity.CompactorBlockEntity::new));
     public static final DeferredBlock<MachineBlock> CRYSTALLIZER = BLOCKS.register("crystallizer",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.CRYSTALLIZER, net.scwunge.rotarycraft.blockentity.CrystallizerBlockEntity::new));
-    public static final DeferredBlock<Block> ANTHRACITE_BLOCK =BLOCKS.registerSimpleBlock("anthracite_block",
+    public static final DeferredBlock<MachineBlock> PULSE_FURNACE = BLOCKS.register("pulse_furnace",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.PULSE_FURNACE, net.scwunge.rotarycraft.blockentity.PulseFurnaceBlockEntity::new));
+    /** Glass that survives explosions; the Pulse Furnace makes it from obsidian. */
+    public static final DeferredBlock<net.minecraft.world.level.block.TransparentBlock> BLAST_GLASS = BLOCKS.register("blast_glass",
+            () -> new net.minecraft.world.level.block.TransparentBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE).strength(2.0F, 1200.0F)
+                    .sound(SoundType.GLASS).noOcclusion().isValidSpawn((s, l, p, e) -> false).isRedstoneConductor((s, l, p) -> false)
+                    .isSuffocating((s, l, p) -> false).isViewBlocking((s, l, p) -> false)));
+    public static final DeferredBlock<Block> ANTHRACITE_BLOCK = BLOCKS.registerSimpleBlock("anthracite_block",
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(5.0F, 6.0F).requiresCorrectToolForDrops());
     public static final DeferredBlock<Block> LONSDALEITE_BLOCK = BLOCKS.registerSimpleBlock("lonsdaleite_block",
             BlockBehaviour.Properties.of().mapColor(MapColor.DIAMOND).strength(5.0F, 6.0F).requiresCorrectToolForDrops());

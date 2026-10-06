@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:pulse_smelting",
+  "ingredient": {
+    "item": "minecraft:diamond_pickaxe"
+  },
+  "result": {
+    "id": "minecraft:diamond",
+    "count": 3
+  },
+  "temperature": 850
+}

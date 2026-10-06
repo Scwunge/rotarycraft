@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:pulse_smelting",
+  "ingredient": {
+    "item": "minecraft:iron_shovel"
+  },
+  "result": {
+    "id": "minecraft:iron_ingot",
+    "count": 1
+  },
+  "temperature": 769
+}

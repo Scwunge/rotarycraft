@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:pulse_smelting",
+  "ingredient": {
+    "item": "minecraft:chainmail_chestplate"
+  },
+  "result": {
+    "id": "minecraft:iron_ingot",
+    "count": 5
+  },
+  "temperature": 769
+}

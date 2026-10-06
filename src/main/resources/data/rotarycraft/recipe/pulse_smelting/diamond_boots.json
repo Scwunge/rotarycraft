@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:pulse_smelting",
+  "ingredient": {
+    "item": "minecraft:diamond_boots"
+  },
+  "result": {
+    "id": "minecraft:diamond",
+    "count": 4
+  },
+  "temperature": 850
+}

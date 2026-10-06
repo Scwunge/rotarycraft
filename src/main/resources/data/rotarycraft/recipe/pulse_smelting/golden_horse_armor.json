@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:pulse_smelting",
+  "ingredient": {
+    "item": "minecraft:golden_horse_armor"
+  },
+  "result": {
+    "id": "minecraft:gold_ingot",
+    "count": 7
+  },
+  "temperature": 532
+}

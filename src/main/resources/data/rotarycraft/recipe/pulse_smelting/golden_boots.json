@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:pulse_smelting",
+  "ingredient": {
+    "item": "minecraft:golden_boots"
+  },
+  "result": {
+    "id": "minecraft:gold_ingot",
+    "count": 4
+  },
+  "temperature": 532
+}

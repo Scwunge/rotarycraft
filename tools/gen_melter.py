@@ -33,7 +33,7 @@ melt('ethanol_crystals', {'item': 'rotarycraft:ethanol_crystals'}, 'rotarycraft:
 melt('clean_sludge', {'item': 'rotarycraft:clean_sludge'}, 'rotarycraft:ethanol', 1000, 180, 9000)
 
 # fluids: block states, models, buckets, tags ----------------------------------------------------------------------------
-FLUIDS = {'ethanol': 'Ethanol', 'jet_fuel': 'Jet Fuel', 'lubricant': 'Lubricant', 'liquid_nitrogen': 'Liquid Nitrogen'}
+FLUIDS = {'ethanol': 'Ethanol', 'jet_fuel': 'Jet Fuel', 'lubricant': 'Lubricant', 'liquid_nitrogen': 'Liquid Nitrogen', 'oxygen': 'Liquid Oxygen'}
 for f in FLUIDS:
     w('%s/blockstates/%s.json' % (A, f), {'variants': {'': {'model': 'rotarycraft:block/' + f}}})
     w('%s/models/block/%s.json' % (A, f), {'textures': {'particle': 'minecraft:block/water_still'}})

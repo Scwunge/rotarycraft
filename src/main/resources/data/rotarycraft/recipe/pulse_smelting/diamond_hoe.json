@@ -1,0 +1,11 @@
+{
+  "type": "rotarycraft:pulse_smelting",
+  "ingredient": {
+    "item": "minecraft:diamond_hoe"
+  },
+  "result": {
+    "id": "minecraft:diamond",
+    "count": 2
+  },
+  "temperature": 850
+}
