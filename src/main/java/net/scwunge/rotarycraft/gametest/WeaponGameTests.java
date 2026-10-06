@@ -224,10 +224,11 @@ public class WeaponGameTests {
     public static void laserTurnsSandToGlassAndStops(GameTestHelper helper) {
         LaserGunBlockEntity gun = laser(helper, 4096);
         helper.setBlock(new BlockPos(2, 2, 3), net.minecraft.world.level.block.Blocks.SAND);
-        helper.setBlock(new BlockPos(2, 2, 4), net.minecraft.world.level.block.Blocks.DIRT);
+        // obsidian the beam can do nothing to: dirt would turn to sand and glass in turn, so what the test saw would depend on exactly when it first looked
+        helper.setBlock(new BlockPos(2, 2, 4), net.minecraft.world.level.block.Blocks.OBSIDIAN);
         helper.succeedWhen(() -> {
             helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.GLASS, new BlockPos(2, 2, 3));
-            helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.DIRT, new BlockPos(2, 2, 4));
+            helper.assertBlockPresent(net.minecraft.world.level.block.Blocks.OBSIDIAN, new BlockPos(2, 2, 4));
             helper.assertTrue(gun.beamLength() > 0 && gun.beamLength() < 10, "beam length " + gun.beamLength());
         });
     }
@@ -570,6 +571,8 @@ public class WeaponGameTests {
         emp.loadCustomOnly(tag, helper.getLevel().registryAccess());
         helper.runAfterDelay(20, () -> {
             helper.assertTrue(emp.usable(), "fired before it had loaded");
+            // take it away: still loading, it would otherwise fire a few hundred ticks later, in the middle of whatever test batch runs then
+            helper.setBlock(new BlockPos(2, 2, 2), net.minecraft.world.level.block.Blocks.AIR);
             helper.succeed();
         });
     }
