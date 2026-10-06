@@ -10,6 +10,7 @@ public class RotaryConfig {
     public static final ModConfigSpec SPEC;
 
     public static final ModConfigSpec.BooleanValue SHAFT_FAILURE;
+    public static final ModConfigSpec.BooleanValue EXPLOSIONS_BREAK_BLOCKS;
     public static final ModConfigSpec.IntValue WATTS_PER_FE;
     public static final ModConfigSpec.IntValue GENERATOR_BUFFER;
     public static final ModConfigSpec.IntValue MOTOR_TORQUE;
@@ -21,6 +22,8 @@ public class RotaryConfig {
         b.push("transmission");
         SHAFT_FAILURE = b.comment("Shafts and gearboxes break when the torque or speed they carry exceeds their material's limit.")
                 .define("shaftFailure", true);
+        EXPLOSIONS_BREAK_BLOCKS = b.comment("Bursting flywheels and overpressured steam engines damage blocks around them.")
+                .define("explosionsBreakBlocks", true);
         b.pop();
 
         b.push("energy_conversion");

@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rotarycraft:block/clutch"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/clutch",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/clutch",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/clutch",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "rotarycraft:block/clutch",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/clutch",
+      "x": 90
+    }
+  }
+}

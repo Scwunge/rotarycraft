@@ -5,12 +5,21 @@
     "rotarycraft:shaft_diamond",
     "rotarycraft:shaft_bedrock",
     "rotarycraft:dc_engine",
+    "rotarycraft:wind_engine",
+    "rotarycraft:steam_engine",
     "rotarycraft:generator",
     "rotarycraft:electric_motor",
     "rotarycraft:dynamometer",
+    "rotarycraft:clutch",
     "rotarycraft:gearbox_2x",
     "rotarycraft:gearbox_4x",
     "rotarycraft:gearbox_8x",
-    "rotarycraft:gearbox_16x"
+    "rotarycraft:gearbox_16x",
+    "rotarycraft:flywheel_wood",
+    "rotarycraft:flywheel_stone",
+    "rotarycraft:flywheel_iron",
+    "rotarycraft:flywheel_gold",
+    "rotarycraft:flywheel_bedrock",
+    "rotarycraft:bevel_gear"
   ]
 }

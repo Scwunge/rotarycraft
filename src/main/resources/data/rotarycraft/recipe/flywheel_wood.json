@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "MMM",
+    "MSM",
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "tag": "minecraft:logs"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_steel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:flywheel_wood",
+    "count": 1
+  }
+}

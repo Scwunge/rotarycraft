@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "MMM",
+    "MSM",
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "tag": "c:storage_blocks/gold"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_steel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:flywheel_gold",
+    "count": 1
+  }
+}

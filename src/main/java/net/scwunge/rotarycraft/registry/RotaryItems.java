@@ -30,8 +30,13 @@ public class RotaryItems {
 
     static {
         blockItem(RotaryBlocks.DC_ENGINE);
+        blockItem(RotaryBlocks.WIND_ENGINE);
+        blockItem(RotaryBlocks.STEAM_ENGINE);
         RotaryBlocks.SHAFTS.values().forEach(RotaryItems::blockItem);
         RotaryBlocks.GEARBOXES.values().forEach(RotaryItems::blockItem);
+        blockItem(RotaryBlocks.BEVEL_GEAR);
+        blockItem(RotaryBlocks.CLUTCH);
+        RotaryBlocks.FLYWHEELS.values().forEach(RotaryItems::blockItem);
         blockItem(RotaryBlocks.DYNAMOMETER);
         blockItem(RotaryBlocks.GENERATOR);
         blockItem(RotaryBlocks.ELECTRIC_MOTOR);

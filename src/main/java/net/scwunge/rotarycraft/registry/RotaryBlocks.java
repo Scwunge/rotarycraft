@@ -10,7 +10,13 @@ import net.scwunge.rotarycraft.block.DynamometerBlock;
 import net.scwunge.rotarycraft.block.GearboxBlock;
 import net.scwunge.rotarycraft.block.MachineBlock;
 import net.scwunge.rotarycraft.block.ShaftBlock;
-import net.scwunge.rotarycraft.blockentity.EngineBlockEntity;
+import net.scwunge.rotarycraft.block.BevelGearBlock;
+import net.scwunge.rotarycraft.block.ClutchBlock;
+import net.scwunge.rotarycraft.block.FlywheelBlock;
+import net.scwunge.rotarycraft.blockentity.DCEngineBlockEntity;
+import net.scwunge.rotarycraft.blockentity.SteamEngineBlockEntity;
+import net.scwunge.rotarycraft.blockentity.WindEngineBlockEntity;
+import net.scwunge.rotarycraft.power.FlywheelType;
 import net.scwunge.rotarycraft.blockentity.GeneratorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.MotorBlockEntity;
 import net.scwunge.rotarycraft.power.ShaftMaterial;
@@ -28,10 +34,14 @@ public class RotaryBlocks {
 
     public static final Map<ShaftMaterial, DeferredBlock<ShaftBlock>> SHAFTS = new EnumMap<>(ShaftMaterial.class);
     public static final Map<Integer, DeferredBlock<GearboxBlock>> GEARBOXES = new LinkedHashMap<>();
+    public static final Map<FlywheelType, DeferredBlock<FlywheelBlock>> FLYWHEELS = new EnumMap<>(FlywheelType.class);
 
     static {
         for (ShaftMaterial m : SHAFT_MATERIALS) {
             SHAFTS.put(m, BLOCKS.register("shaft_" + m.id(), () -> new ShaftBlock(shaftProps(m), m)));
+        }
+        for (FlywheelType t : FlywheelType.values()) {
+            FLYWHEELS.put(t, BLOCKS.register("flywheel_" + t.id(), () -> new FlywheelBlock(machineProps(), t)));
         }
         for (int ratio : GEARBOX_RATIOS) {
             GEARBOXES.put(ratio, BLOCKS.register("gearbox_" + ratio + "x", () -> new GearboxBlock(machineProps(), ratio)));
@@ -39,7 +49,13 @@ public class RotaryBlocks {
     }
 
     public static final DeferredBlock<MachineBlock> DC_ENGINE = BLOCKS.register("dc_engine",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.DC_ENGINE, EngineBlockEntity::new));
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.DC_ENGINE, DCEngineBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> WIND_ENGINE = BLOCKS.register("wind_engine",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.WIND_ENGINE, WindEngineBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> STEAM_ENGINE = BLOCKS.register("steam_engine",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.STEAM_ENGINE, SteamEngineBlockEntity::new));
+    public static final DeferredBlock<ClutchBlock> CLUTCH = BLOCKS.register("clutch", () -> new ClutchBlock(machineProps()));
+    public static final DeferredBlock<BevelGearBlock> BEVEL_GEAR = BLOCKS.register("bevel_gear", () -> new BevelGearBlock(machineProps()));
     public static final DeferredBlock<MachineBlock> GENERATOR = BLOCKS.register("generator",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.GENERATOR, GeneratorBlockEntity::new));
     public static final DeferredBlock<MachineBlock> ELECTRIC_MOTOR = BLOCKS.register("electric_motor",

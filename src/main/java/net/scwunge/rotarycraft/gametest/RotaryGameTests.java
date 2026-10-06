@@ -13,7 +13,13 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.block.MachineBlock;
 import net.scwunge.rotarycraft.blockentity.DynamometerBlockEntity;
-import net.scwunge.rotarycraft.blockentity.EngineBlockEntity;
+import net.scwunge.rotarycraft.block.BevelGearBlock;
+import net.scwunge.rotarycraft.blockentity.ClutchBlockEntity;
+import net.scwunge.rotarycraft.blockentity.DCEngineBlockEntity;
+import net.scwunge.rotarycraft.blockentity.FlywheelBlockEntity;
+import net.scwunge.rotarycraft.blockentity.SteamEngineBlockEntity;
+import net.scwunge.rotarycraft.blockentity.WindEngineBlockEntity;
+import net.scwunge.rotarycraft.power.FlywheelType;
 import net.scwunge.rotarycraft.blockentity.GearboxBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GeneratorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.MotorBlockEntity;
@@ -55,9 +61,9 @@ public class RotaryGameTests {
     public static void engineOnlyRunsWithRedstone(GameTestHelper helper) {
         place(helper, 1, 2, RotaryBlocks.DC_ENGINE.get());
         helper.runAfterDelay(5, () -> {
-            helper.assertTrue(be(helper, 1, 2, EngineBlockEntity.class).getPower() == 0, "engine runs without redstone");
+            helper.assertTrue(be(helper, 1, 2, DCEngineBlockEntity.class).getPower() == 0, "engine runs without redstone");
             helper.setBlock(new BlockPos(1, 2, 2), Blocks.REDSTONE_BLOCK);
-            helper.succeedWhen(() -> helper.assertTrue(be(helper, 1, 2, EngineBlockEntity.class).getPower() == 1024,
+            helper.succeedWhen(() -> helper.assertTrue(be(helper, 1, 2, DCEngineBlockEntity.class).getPower() == 1024,
                     "powered DC engine should give 4 N*m x 256 rad/s = 1024 W"));
         });
     }
@@ -151,5 +157,117 @@ public class RotaryGameTests {
         helper.assertTrue(DynamometerBlockEntity.signalFor(1024) == 6, "1 kW gave " + DynamometerBlockEntity.signalFor(1024));
         helper.assertTrue(DynamometerBlockEntity.signalFor(Long.MAX_VALUE) == 15, "huge power should cap at 15");
         helper.succeed();
+    }
+
+    // ---- phase 2 ------------------------------------------------------------------------------------------------------
+
+    /** A wood flywheel behind a 16:1 reduction spins up to the input speed, then coasts down when the input is cut. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 400)
+    public static void flywheelSpinsUpAndCoasts(GameTestHelper helper) {
+        poweredEngine(helper, 0, 2);
+        place(helper, 1, 2, RotaryBlocks.GEARBOXES.get(16).get());
+        place(helper, 2, 2, RotaryBlocks.FLYWHEELS.get(FlywheelType.WOOD).get());
+        helper.startSequence()
+                .thenWaitUntil(() -> {
+                    FlywheelBlockEntity fw = be(helper, 2, 2, FlywheelBlockEntity.class);
+                    helper.assertTrue(fw.getOmega() == 16 && fw.getTorque() == 16,
+                            "flywheel at " + fw.getTorque() + " N*m " + fw.getOmega() + " rad/s, expected 16/16 (torque capped at the wood rating)");
+                })
+                .thenExecute(() -> helper.setBlock(new BlockPos(1, 1, 2), Blocks.AIR))
+                .thenExecuteAfter(6, () -> {
+                    int w = be(helper, 2, 2, FlywheelBlockEntity.class).getOmega();
+                    helper.assertTrue(w > 0 && w < 16, "flywheel should be coasting down, speed " + w);
+                })
+                .thenWaitUntil(() -> helper.assertTrue(be(helper, 2, 2, FlywheelBlockEntity.class).getOmega() == 0, "flywheel never stopped"))
+                .thenSucceed();
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void flywheelBurstsWhenOverspun(GameTestHelper helper) {
+        // wood: 800 kg/m^3, 20 MPa x100 -> bursts above ~2980 rad/s
+        helper.assertTrue(!FlywheelType.WOOD.fails(2900) && FlywheelType.WOOD.fails(3100), "wood flywheel burst speed is off");
+        helper.assertTrue(!FlywheelType.BEDROCK.fails(Integer.MAX_VALUE), "bedrock flywheel can burst");
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void clutchTransmitsOnlyWithRedstone(GameTestHelper helper) {
+        poweredEngine(helper, 0, 2);
+        place(helper, 1, 2, RotaryBlocks.CLUTCH.get());
+        place(helper, 2, 2, RotaryBlocks.DYNAMOMETER.get());
+        helper.startSequence()
+                .thenExecuteAfter(20, () -> helper.assertTrue(be(helper, 2, 2, DynamometerBlockEntity.class).getPower() == 0,
+                        "unpowered clutch let power through"))
+                .thenExecute(() -> helper.setBlock(new BlockPos(1, 1, 1), Blocks.REDSTONE_BLOCK))
+                .thenWaitUntil(() -> helper.assertTrue(be(helper, 2, 2, DynamometerBlockEntity.class).getPower() == 1024,
+                        "powered clutch should pass the engine's 1 kW"))
+                .thenExecute(() -> be(helper, 1, 2, ClutchBlockEntity.class).toggleMode())
+                .thenWaitUntil(() -> helper.assertTrue(be(helper, 2, 2, DynamometerBlockEntity.class).getPower() == 0,
+                        "inverted clutch still transmits while powered"))
+                .thenSucceed();
+    }
+
+    @GameTest(template = TEMPLATE)
+    public static void bevelGearTurnsPowerNinetyDegrees(GameTestHelper helper) {
+        poweredEngine(helper, 0, 2);
+        helper.setBlock(new BlockPos(1, 1, 2), RotaryBlocks.BEVEL_GEAR.get().defaultBlockState()
+                .setValue(MachineBlock.FACING, Direction.NORTH).setValue(BevelGearBlock.INPUT, Direction.WEST));
+        helper.setBlock(new BlockPos(1, 1, 1), RotaryBlocks.DYNAMOMETER.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.NORTH));
+        helper.succeedWhen(() -> {
+            DynamometerBlockEntity dyn = (DynamometerBlockEntity) helper.getBlockEntity(new BlockPos(1, 1, 1));
+            helper.assertTrue(dyn.getTorque() == 4 && dyn.getOmega() == 256, "bevel output " + dyn.getTorque() + " N*m " + dyn.getOmega() + " rad/s");
+        });
+    }
+
+    // Wind in clear air is checked in the real game: GameTest worlds pack other test structures right behind the blades.
+
+    @GameTest(template = TEMPLATE)
+    public static void windEngineStopsWhenBladesBlocked(GameTestHelper helper) {
+        helper.setBlock(new BlockPos(1, 2, 2), RotaryBlocks.WIND_ENGINE.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        helper.setBlock(new BlockPos(0, 2, 2), Blocks.STONE);
+        helper.runAfterDelay(40, () -> {
+            WindEngineBlockEntity wind = (WindEngineBlockEntity) helper.getBlockEntity(new BlockPos(1, 2, 2));
+            helper.assertTrue(wind.getPower() == 0, "wind engine runs with its blades blocked");
+            helper.succeed();
+        });
+    }
+
+    /** Over lava the steam engine heats 2 C a second; at 100 C with water it runs at 32 N*m. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 1600)
+    public static void steamEngineRunsOverLava(GameTestHelper helper) {
+        helper.setBlock(new BlockPos(2, 1, 2), Blocks.LAVA);
+        helper.setBlock(new BlockPos(2, 2, 2), RotaryBlocks.STEAM_ENGINE.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        SteamEngineBlockEntity steam = (SteamEngineBlockEntity) helper.getBlockEntity(new BlockPos(2, 2, 2));
+        steam.fillWater(20_000);
+        helper.succeedWhen(() -> {
+            SteamEngineBlockEntity s = (SteamEngineBlockEntity) helper.getBlockEntity(new BlockPos(2, 2, 2));
+            helper.assertTrue(s.temperature() >= 100, "steam engine at " + s.temperature() + " C");
+            helper.assertTrue(s.getTorque() == SteamEngineBlockEntity.TORQUE && s.getOmega() > 0, "steam engine not running");
+            helper.assertTrue(s.water().getFluidAmount() < 20_000, "no water used");
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 200)
+    public static void steamEngineNeedsWater(GameTestHelper helper) {
+        helper.setBlock(new BlockPos(2, 1, 2), Blocks.LAVA);
+        helper.setBlock(new BlockPos(2, 2, 2), RotaryBlocks.STEAM_ENGINE.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        helper.runAfterDelay(150, () -> {
+            helper.assertTrue(((SteamEngineBlockEntity) helper.getBlockEntity(new BlockPos(2, 2, 2))).getPower() == 0, "dry steam engine runs");
+            helper.succeed();
+        });
+    }
+
+    /** Fire below heats it 1 C a second (net of losses at low temperature). */
+    @GameTest(template = TEMPLATE, timeoutTicks = 400)
+    public static void steamEngineHeatsOverFire(GameTestHelper helper) {
+        helper.setBlock(new BlockPos(2, 0, 2), Blocks.NETHERRACK);
+        helper.setBlock(new BlockPos(2, 1, 2), Blocks.FIRE);
+        helper.setBlock(new BlockPos(2, 2, 2), RotaryBlocks.STEAM_ENGINE.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        helper.runAfterDelay(300, () -> {
+            SteamEngineBlockEntity s = (SteamEngineBlockEntity) helper.getBlockEntity(new BlockPos(2, 2, 2));
+            helper.assertBlockPresent(Blocks.FIRE, new BlockPos(2, 1, 2));
+            helper.assertTrue(s.temperature() >= 30, "steam engine over fire only reached " + s.temperature() + " C after 15 s");
+            helper.succeed();
+        });
     }
 }

@@ -7,7 +7,12 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.blockentity.DynamometerBlockEntity;
-import net.scwunge.rotarycraft.blockentity.EngineBlockEntity;
+import net.scwunge.rotarycraft.blockentity.BevelGearBlockEntity;
+import net.scwunge.rotarycraft.blockentity.ClutchBlockEntity;
+import net.scwunge.rotarycraft.blockentity.DCEngineBlockEntity;
+import net.scwunge.rotarycraft.blockentity.FlywheelBlockEntity;
+import net.scwunge.rotarycraft.blockentity.SteamEngineBlockEntity;
+import net.scwunge.rotarycraft.blockentity.WindEngineBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GearboxBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GeneratorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.MotorBlockEntity;
@@ -18,8 +23,18 @@ public class RotaryBlockEntities {
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ShaftBlockEntity>> SHAFT = TYPES.register("shaft",
             () -> BlockEntityType.Builder.of(ShaftBlockEntity::new, RotaryBlocks.SHAFTS.values().stream().map(h -> (Block) h.get()).toArray(Block[]::new)).build(null));
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<EngineBlockEntity>> DC_ENGINE = TYPES.register("dc_engine",
-            () -> BlockEntityType.Builder.of(EngineBlockEntity::new, RotaryBlocks.DC_ENGINE.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DCEngineBlockEntity>> DC_ENGINE = TYPES.register("dc_engine",
+            () -> BlockEntityType.Builder.of(DCEngineBlockEntity::new, RotaryBlocks.DC_ENGINE.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WindEngineBlockEntity>> WIND_ENGINE = TYPES.register("wind_engine",
+            () -> BlockEntityType.Builder.of(WindEngineBlockEntity::new, RotaryBlocks.WIND_ENGINE.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SteamEngineBlockEntity>> STEAM_ENGINE = TYPES.register("steam_engine",
+            () -> BlockEntityType.Builder.of(SteamEngineBlockEntity::new, RotaryBlocks.STEAM_ENGINE.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FlywheelBlockEntity>> FLYWHEEL = TYPES.register("flywheel",
+            () -> BlockEntityType.Builder.of(FlywheelBlockEntity::new, RotaryBlocks.FLYWHEELS.values().stream().map(h -> (Block) h.get()).toArray(Block[]::new)).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ClutchBlockEntity>> CLUTCH = TYPES.register("clutch",
+            () -> BlockEntityType.Builder.of(ClutchBlockEntity::new, RotaryBlocks.CLUTCH.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BevelGearBlockEntity>> BEVEL_GEAR = TYPES.register("bevel_gear",
+            () -> BlockEntityType.Builder.of(BevelGearBlockEntity::new, RotaryBlocks.BEVEL_GEAR.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GearboxBlockEntity>> GEARBOX = TYPES.register("gearbox",
             () -> BlockEntityType.Builder.of(GearboxBlockEntity::new, RotaryBlocks.GEARBOXES.values().stream().map(h -> (Block) h.get()).toArray(Block[]::new)).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GeneratorBlockEntity>> GENERATOR = TYPES.register("generator",

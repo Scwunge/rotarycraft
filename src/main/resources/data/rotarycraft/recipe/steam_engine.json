@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "III",
+    "BSB",
+    "IFI"
+  ],
+  "key": {
+    "I": {
+      "tag": "c:ingots/steel"
+    },
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:steam_engine",
+    "count": 1
+  }
+}

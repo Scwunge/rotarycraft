@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "MMM",
+    "MSM",
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "tag": "c:storage_blocks/iron"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_steel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:flywheel_iron",
+    "count": 1
+  }
+}

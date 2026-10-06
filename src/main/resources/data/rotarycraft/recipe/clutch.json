@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ISI",
+    "RSR",
+    "ISI"
+  ],
+  "key": {
+    "I": {
+      "tag": "c:ingots/steel"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:clutch",
+    "count": 1
+  }
+}

@@ -21,17 +21,23 @@ def w(path, obj):
 
 ROT = {'north': {}, 'south': {'y': 180}, 'east': {'y': 90}, 'west': {'y': 270}, 'up': {'x': 270}, 'down': {'x': 90}}
 MATS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'steel': (170, 180, 192), 'diamond': (90, 220, 215), 'bedrock': (60, 60, 60)}
-MACHINES = ['dc_engine', 'generator', 'electric_motor', 'dynamometer'] + ['gearbox_%dx' % r for r in (2, 4, 8, 16)]
-BLOCKS = ['shaft_' + m for m in MATS] + MACHINES
+FLYWHEELS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'iron': (200, 200, 205), 'gold': (230, 190, 50), 'bedrock': (60, 60, 60)}
+MACHINES = ['dc_engine', 'wind_engine', 'steam_engine', 'generator', 'electric_motor', 'dynamometer', 'clutch'] + ['gearbox_%dx' % r for r in (2, 4, 8, 16)] + ['flywheel_' + f for f in FLYWHEELS]
+BLOCKS = ['shaft_' + m for m in MATS] + MACHINES + ['bevel_gear']
 
 # blockstates ---------------------------------------------------------------------------------------------------------
 for b in BLOCKS:
+    if b == 'bevel_gear':
+        # input and output can be any two sides, so the gear casing looks the same from every side
+        w('%s/blockstates/%s.json' % (A, b), {'variants': {'': {'model': 'rotarycraft:block/' + b}}})
+        continue
     variants = {}
     for facing, r in ROT.items():
         v = {'model': 'rotarycraft:block/' + b}
         v.update(r)
         variants['facing=' + facing] = v
     w('%s/blockstates/%s.json' % (A, b), {'variants': variants})
+w('%s/models/block/bevel_gear.json' % A, {'parent': 'minecraft:block/cube_all', 'textures': {'all': 'rotarycraft:block/bevel_gear'}})
 
 # models --------------------------------------------------------------------------------------------------------------
 for m in MATS:
@@ -135,6 +141,42 @@ for x, y in [(4, 8), (5, 5), (8, 4), (11, 5), (12, 8)]:
     g.point((x, y), fill=(40, 42, 48, 255))
 im.save(T + '/block/dynamometer_front.png')
 
+im, g = panel()
+for a in range(0, 360, 90):
+    import math
+    x = 8 + 6 * math.cos(math.radians(a + 20))
+    y = 8 + 6 * math.sin(math.radians(a + 20))
+    g.line([(8, 8), (x, y)], fill=(220, 220, 225, 255), width=2)
+g.ellipse([6, 6, 9, 9], fill=(90, 90, 100, 255))
+im.save(T + '/block/wind_engine_front.png')
+
+im, g = panel()
+g.rectangle([2, 4, 13, 11], fill=(130, 70, 40, 255), outline=(80, 40, 20, 255))
+g.ellipse([9, 1, 14, 6], fill=(230, 230, 220, 255), outline=(40, 42, 48, 255))
+g.line([(11, 4), (13, 2)], fill=(200, 30, 30, 255))
+g.rectangle([4, 12, 6, 15], fill=(170, 180, 192, 255))
+im.save(T + '/block/steam_engine_front.png')
+
+im, g = panel()
+g.ellipse([3, 3, 12, 12], fill=(110, 110, 120, 255), outline=(60, 60, 66, 255))
+g.rectangle([7, 2, 8, 13], fill=(200, 30, 30, 255))
+im.save(T + '/block/clutch_front.png')
+
+im, g = panel((90, 92, 100))
+for dx, dy in [(0, 0), (12, 0), (0, 12), (12, 12)]:
+    g.rectangle([1 + dx, 1 + dy, 2 + dx, 2 + dy], fill=(150, 150, 160, 255))
+g.line([(4, 8), (11, 8)], fill=(170, 180, 192, 255), width=2)
+g.line([(8, 4), (8, 11)], fill=(170, 180, 192, 255), width=2)
+g.ellipse([6, 6, 9, 9], fill=(60, 60, 66, 255))
+im.save(T + '/block/bevel_gear.png')
+
+for f, c in FLYWHEELS.items():
+    im, g = panel()
+    g.ellipse([1, 1, 14, 14], fill=shade(c, 0), outline=shade(c, -50))
+    g.ellipse([4, 4, 11, 11], outline=shade(c, -30))
+    g.ellipse([6, 6, 9, 9], fill=(60, 60, 66, 255))
+    im.save('%s/block/flywheel_%s_front.png' % (T, f))
+
 im = Image.new('RGBA', (16, 16))
 g = ImageDraw.Draw(im)
 g.line([(3, 12), (11, 4)], fill=(190, 195, 205, 255), width=1)
@@ -193,6 +235,12 @@ for a, b in [(2, 4), (4, 8), (8, 16)]:
 shaped('dynamometer', ['I I', 'SCS', 'III'], {'I': STEEL, 'S': STEEL_SHAFT, 'C': {'item': 'minecraft:clock'}})
 shaped('generator', ['ICI', 'SRS', 'ICI'], {'I': STEEL, 'C': COPPER, 'S': STEEL_SHAFT, 'R': {'item': 'minecraft:redstone_block'}})
 shaped('electric_motor', ['ICI', 'RSR', 'ICI'], {'I': STEEL, 'C': COPPER, 'S': STEEL_SHAFT, 'R': {'item': 'minecraft:redstone'}})
+shaped('wind_engine', ['PPP', 'PSP', 'IGI'], {'P': {'tag': 'minecraft:planks'}, 'S': STEEL_SHAFT, 'I': IRON, 'G': {'item': 'rotarycraft:gearbox_2x'}})
+shaped('steam_engine', ['III', 'BSB', 'IFI'], {'I': STEEL, 'B': {'item': 'minecraft:bucket'}, 'S': STEEL_SHAFT, 'F': {'item': 'minecraft:furnace'}})
+shaped('clutch', ['ISI', 'RSR', 'ISI'], {'I': STEEL, 'S': STEEL_SHAFT, 'R': {'item': 'minecraft:redstone'}})
+shaped('bevel_gear', ['IS ', 'SG ', '   '], {'I': STEEL, 'S': STEEL_SHAFT, 'G': {'item': 'rotarycraft:gearbox_2x'}})
+for f, mat in [('wood', {'tag': 'minecraft:logs'}), ('stone', {'item': 'minecraft:stone'}), ('iron', {'tag': 'c:storage_blocks/iron'}), ('gold', {'tag': 'c:storage_blocks/gold'})]:
+    shaped('flywheel_' + f, ['MMM', 'MSM', 'MMM'], {'M': mat, 'S': STEEL_SHAFT})
 shaped('screwdriver', ['  I', ' I ', 'S  '], {'I': IRON, 'S': {'item': 'minecraft:stick'}})
 shaped('angular_transducer', [' R ', 'ICI', 'III'], {'I': IRON, 'R': {'item': 'minecraft:redstone'}, 'C': {'item': 'minecraft:compass'}})
 w(D + '/recipe/hsla_steel_ingot_blasting.json', {'type': 'minecraft:blasting', 'category': 'misc', 'ingredient': IRON,
@@ -215,6 +263,16 @@ lang = {
     'message.rotarycraft.gearbox.reduction': 'Reduction: speed /%1$s, torque x%1$s',
     'message.rotarycraft.gearbox.acceleration': 'Acceleration: speed x%1$s, torque /%1$s',
 }
+lang.update({
+    'block.rotarycraft.wind_engine': 'Wind Engine',
+    'block.rotarycraft.steam_engine': 'Steam Engine',
+    'block.rotarycraft.clutch': 'Clutch',
+    'block.rotarycraft.bevel_gear': 'Bevel Gears',
+    'message.rotarycraft.clutch.powered': 'Clutch engages while powered',
+    'message.rotarycraft.clutch.unpowered': 'Clutch engages while unpowered',
+})
+for f in FLYWHEELS:
+    lang['block.rotarycraft.flywheel_' + f] = f.capitalize() + ' Flywheel'
 for m in MATS:
     lang['block.rotarycraft.shaft_' + m] = m.capitalize() + ' Shaft'
 for r in (2, 4, 8, 16):
