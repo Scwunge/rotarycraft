@@ -10,6 +10,7 @@ import net.scwunge.rotarycraft.block.DynamometerBlock;
 import net.scwunge.rotarycraft.block.GearboxBlock;
 import net.scwunge.rotarycraft.block.MachineBlock;
 import net.scwunge.rotarycraft.block.ShaftBlock;
+import net.scwunge.rotarycraft.block.SplitterBlock;
 import net.scwunge.rotarycraft.block.BevelGearBlock;
 import net.scwunge.rotarycraft.block.ClutchBlock;
 import net.scwunge.rotarycraft.block.FlywheelBlock;
@@ -55,6 +56,7 @@ public class RotaryBlocks {
     public static final DeferredBlock<MachineBlock> STEAM_ENGINE = BLOCKS.register("steam_engine",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.STEAM_ENGINE, SteamEngineBlockEntity::new));
     public static final DeferredBlock<ClutchBlock> CLUTCH = BLOCKS.register("clutch", () -> new ClutchBlock(machineProps()));
+    public static final DeferredBlock<SplitterBlock> SPLITTER = BLOCKS.register("splitter", () -> new SplitterBlock(machineProps()));
     public static final DeferredBlock<BevelGearBlock> BEVEL_GEAR = BLOCKS.register("bevel_gear", () -> new BevelGearBlock(machineProps()));
     public static final DeferredBlock<MachineBlock> GENERATOR = BLOCKS.register("generator",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.GENERATOR, GeneratorBlockEntity::new));

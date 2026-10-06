@@ -23,11 +23,11 @@ ROT = {'north': {}, 'south': {'y': 180}, 'east': {'y': 90}, 'west': {'y': 270}, 
 MATS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'steel': (170, 180, 192), 'diamond': (90, 220, 215), 'bedrock': (60, 60, 60)}
 FLYWHEELS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'iron': (200, 200, 205), 'gold': (230, 190, 50), 'bedrock': (60, 60, 60)}
 MACHINES = ['dc_engine', 'wind_engine', 'steam_engine', 'generator', 'electric_motor', 'dynamometer', 'clutch'] + ['gearbox_%dx' % r for r in (2, 4, 8, 16)] + ['flywheel_' + f for f in FLYWHEELS]
-BLOCKS = ['shaft_' + m for m in MATS] + MACHINES + ['bevel_gear']
+BLOCKS = ['shaft_' + m for m in MATS] + MACHINES + ['bevel_gear', 'splitter']
 
 # blockstates ---------------------------------------------------------------------------------------------------------
 for b in BLOCKS:
-    if b == 'bevel_gear':
+    if b in ('bevel_gear', 'splitter'):
         # input and output can be any two sides, so the gear casing looks the same from every side
         w('%s/blockstates/%s.json' % (A, b), {'variants': {'': {'model': 'rotarycraft:block/' + b}}})
         continue
@@ -38,6 +38,7 @@ for b in BLOCKS:
         variants['facing=' + facing] = v
     w('%s/blockstates/%s.json' % (A, b), {'variants': variants})
 w('%s/models/block/bevel_gear.json' % A, {'parent': 'minecraft:block/cube_all', 'textures': {'all': 'rotarycraft:block/bevel_gear'}})
+w('%s/models/block/splitter.json' % A, {'parent': 'minecraft:block/cube_all', 'textures': {'all': 'rotarycraft:block/splitter'}})
 
 # models --------------------------------------------------------------------------------------------------------------
 for m in MATS:
@@ -170,6 +171,12 @@ g.line([(8, 4), (8, 11)], fill=(170, 180, 192, 255), width=2)
 g.ellipse([6, 6, 9, 9], fill=(60, 60, 66, 255))
 im.save(T + '/block/bevel_gear.png')
 
+im, g = panel((90, 92, 100))
+g.line([(2, 8), (13, 8)], fill=(170, 180, 192, 255), width=2)
+g.line([(8, 8), (8, 2)], fill=(170, 180, 192, 255), width=2)
+g.ellipse([6, 6, 9, 9], fill=(60, 60, 66, 255))
+im.save(T + '/block/splitter.png')
+
 for f, c in FLYWHEELS.items():
     im, g = panel()
     g.ellipse([1, 1, 14, 14], fill=shade(c, 0), outline=shade(c, -50))
@@ -238,6 +245,7 @@ shaped('electric_motor', ['ICI', 'RSR', 'ICI'], {'I': STEEL, 'C': COPPER, 'S': S
 shaped('wind_engine', ['PPP', 'PSP', 'IGI'], {'P': {'tag': 'minecraft:planks'}, 'S': STEEL_SHAFT, 'I': IRON, 'G': {'item': 'rotarycraft:gearbox_2x'}})
 shaped('steam_engine', ['III', 'BSB', 'IFI'], {'I': STEEL, 'B': {'item': 'minecraft:bucket'}, 'S': STEEL_SHAFT, 'F': {'item': 'minecraft:furnace'}})
 shaped('clutch', ['ISI', 'RSR', 'ISI'], {'I': STEEL, 'S': STEEL_SHAFT, 'R': {'item': 'minecraft:redstone'}})
+shaped('splitter', ['ISI', 'SGS', 'I I'], {'I': STEEL, 'S': STEEL_SHAFT, 'G': {'item': 'rotarycraft:gearbox_2x'}})
 shaped('bevel_gear', ['IS ', 'SG ', '   '], {'I': STEEL, 'S': STEEL_SHAFT, 'G': {'item': 'rotarycraft:gearbox_2x'}})
 for f, mat in [('wood', {'tag': 'minecraft:logs'}), ('stone', {'item': 'minecraft:stone'}), ('iron', {'tag': 'c:storage_blocks/iron'}), ('gold', {'tag': 'c:storage_blocks/gold'})]:
     shaped('flywheel_' + f, ['MMM', 'MSM', 'MMM'], {'M': mat, 'S': STEEL_SHAFT})
@@ -268,6 +276,11 @@ lang.update({
     'block.rotarycraft.steam_engine': 'Steam Engine',
     'block.rotarycraft.clutch': 'Clutch',
     'block.rotarycraft.bevel_gear': 'Bevel Gears',
+    'block.rotarycraft.splitter': 'Shaft Junction',
+    'message.rotarycraft.splitter.merge': 'Merge: back and branch inputs join into the front',
+    'message.rotarycraft.splitter.even': 'Split: torque divided evenly between front and branch',
+    'message.rotarycraft.splitter.favor_straight': 'Split: %s/%s of the torque to the front',
+    'message.rotarycraft.splitter.favor_bent': 'Split: %s/%s of the torque to the branch',
     'message.rotarycraft.clutch.powered': 'Clutch engages while powered',
     'message.rotarycraft.clutch.unpowered': 'Clutch engages while unpowered',
 })

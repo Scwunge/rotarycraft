@@ -17,6 +17,7 @@ import net.scwunge.rotarycraft.blockentity.GearboxBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GeneratorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.MotorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ShaftBlockEntity;
+import net.scwunge.rotarycraft.blockentity.SplitterBlockEntity;
 
 public class RotaryBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, RotaryCraft.MOD_ID);
@@ -35,6 +36,8 @@ public class RotaryBlockEntities {
             () -> BlockEntityType.Builder.of(ClutchBlockEntity::new, RotaryBlocks.CLUTCH.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BevelGearBlockEntity>> BEVEL_GEAR = TYPES.register("bevel_gear",
             () -> BlockEntityType.Builder.of(BevelGearBlockEntity::new, RotaryBlocks.BEVEL_GEAR.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SplitterBlockEntity>> SPLITTER = TYPES.register("splitter",
+            () -> BlockEntityType.Builder.of(SplitterBlockEntity::new, RotaryBlocks.SPLITTER.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GearboxBlockEntity>> GEARBOX = TYPES.register("gearbox",
             () -> BlockEntityType.Builder.of(GearboxBlockEntity::new, RotaryBlocks.GEARBOXES.values().stream().map(h -> (Block) h.get()).toArray(Block[]::new)).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GeneratorBlockEntity>> GENERATOR = TYPES.register("generator",

@@ -14,6 +14,8 @@ import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.block.MachineBlock;
 import net.scwunge.rotarycraft.blockentity.DynamometerBlockEntity;
 import net.scwunge.rotarycraft.block.BevelGearBlock;
+import net.scwunge.rotarycraft.block.SplitterBlock;
+import net.scwunge.rotarycraft.blockentity.SplitterBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ClutchBlockEntity;
 import net.scwunge.rotarycraft.blockentity.DCEngineBlockEntity;
 import net.scwunge.rotarycraft.blockentity.FlywheelBlockEntity;
@@ -268,6 +270,60 @@ public class RotaryGameTests {
             helper.assertBlockPresent(Blocks.FIRE, new BlockPos(2, 1, 2));
             helper.assertTrue(s.temperature() >= 30, "steam engine over fire only reached " + s.temperature() + " C after 15 s");
             helper.succeed();
+        });
+    }
+
+    static void splitter(GameTestHelper helper, int x, int z, Direction facing, Direction bent) {
+        helper.setBlock(new BlockPos(x, 1, z), RotaryBlocks.SPLITTER.get().defaultBlockState()
+                .setValue(MachineBlock.FACING, facing).setValue(SplitterBlock.BENT, bent));
+    }
+
+    /** Split 1:1: the front and the branch each get half the torque at full speed. */
+    @GameTest(template = TEMPLATE)
+    public static void splitterSplitsEvenly(GameTestHelper helper) {
+        poweredEngine(helper, 0, 2);
+        place(helper, 1, 2, RotaryBlocks.GEARBOXES.get(4).get()); // 16 N*m, 64 rad/s
+        splitter(helper, 2, 2, Direction.EAST, Direction.NORTH);
+        ((SplitterBlockEntity) helper.getBlockEntity(new BlockPos(2, 1, 2))).toggleMode();
+        place(helper, 3, 2, RotaryBlocks.DYNAMOMETER.get());
+        helper.setBlock(new BlockPos(2, 1, 1), RotaryBlocks.DYNAMOMETER.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.NORTH));
+        helper.succeedWhen(() -> {
+            DynamometerBlockEntity front = be(helper, 3, 2, DynamometerBlockEntity.class);
+            DynamometerBlockEntity branch = (DynamometerBlockEntity) helper.getBlockEntity(new BlockPos(2, 1, 1));
+            helper.assertTrue(front.getTorque() == 8 && front.getOmega() == 64, "front got " + front.getTorque() + " N*m " + front.getOmega() + " rad/s");
+            helper.assertTrue(branch.getTorque() == 8 && branch.getOmega() == 64, "branch got " + branch.getTorque() + " N*m " + branch.getOmega() + " rad/s");
+        });
+    }
+
+    /** Split 4: 3/4 of the torque to the front, 1/4 to the branch. */
+    @GameTest(template = TEMPLATE)
+    public static void splitterSplitsByRatio(GameTestHelper helper) {
+        poweredEngine(helper, 0, 2);
+        place(helper, 1, 2, RotaryBlocks.GEARBOXES.get(4).get());
+        splitter(helper, 2, 2, Direction.EAST, Direction.NORTH);
+        SplitterBlockEntity spl = (SplitterBlockEntity) helper.getBlockEntity(new BlockPos(2, 1, 2));
+        spl.toggleMode();
+        spl.cycleRatio(); // 2
+        spl.cycleRatio(); // 4
+        place(helper, 3, 2, RotaryBlocks.DYNAMOMETER.get());
+        helper.setBlock(new BlockPos(2, 1, 1), RotaryBlocks.DYNAMOMETER.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.NORTH));
+        helper.succeedWhen(() -> {
+            helper.assertTrue(be(helper, 3, 2, DynamometerBlockEntity.class).getTorque() == 12, "front should get 12 of 16 N*m");
+            helper.assertTrue(((DynamometerBlockEntity) helper.getBlockEntity(new BlockPos(2, 1, 1))).getTorque() == 4, "branch should get 4 of 16 N*m");
+        });
+    }
+
+    /** Merge: two engines at the same speed add their torque. */
+    @GameTest(template = TEMPLATE)
+    public static void splitterMergesMatchingInputs(GameTestHelper helper) {
+        poweredEngine(helper, 0, 2);
+        splitter(helper, 1, 2, Direction.EAST, Direction.NORTH);
+        helper.setBlock(new BlockPos(1, 1, 1), RotaryBlocks.DC_ENGINE.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.SOUTH));
+        helper.setBlock(new BlockPos(1, 2, 1), Blocks.REDSTONE_BLOCK);
+        place(helper, 2, 2, RotaryBlocks.DYNAMOMETER.get());
+        helper.succeedWhen(() -> {
+            DynamometerBlockEntity dyn = be(helper, 2, 2, DynamometerBlockEntity.class);
+            helper.assertTrue(dyn.getTorque() == 8 && dyn.getOmega() == 256, "merged " + dyn.getTorque() + " N*m " + dyn.getOmega() + " rad/s, expected 8 at 256");
         });
     }
 }

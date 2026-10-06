@@ -8,6 +8,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.scwunge.rotarycraft.block.BevelGearBlock;
 import net.scwunge.rotarycraft.block.MachineBlock;
+import net.scwunge.rotarycraft.block.SplitterBlock;
 
 /**
  * Rotates RotaryCraft machines: right-click to turn the output to the next direction, sneak-right-click to point the
@@ -25,11 +26,12 @@ public class ScrewdriverItem extends Item {
         if (!(state.getBlock() instanceof MachineBlock)) {
             return InteractionResult.PASS;
         }
-        if (!level.isClientSide() && state.getBlock() instanceof BevelGearBlock) {
-            // bevel gears: right-click turns the output, sneak-right-click turns the input; the two never share a side
+        if (!level.isClientSide() && (state.getBlock() instanceof BevelGearBlock || state.getBlock() instanceof SplitterBlock)) {
+            // two-sided blocks: right-click turns the output, sneak-right-click turns the second side; they never share a side
+            var second = state.getBlock() instanceof BevelGearBlock ? BevelGearBlock.INPUT : SplitterBlock.BENT;
             boolean input = context.getPlayer() != null && context.getPlayer().isShiftKeyDown();
-            var property = input ? BevelGearBlock.INPUT : MachineBlock.FACING;
-            Direction other = state.getValue(input ? MachineBlock.FACING : BevelGearBlock.INPUT);
+            var property = input ? second : MachineBlock.FACING;
+            Direction other = state.getValue(input ? MachineBlock.FACING : second);
             Direction next = state.getValue(property);
             do {
                 next = Direction.from3DDataValue((next.get3DDataValue() + 1) % 6);
