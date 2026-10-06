@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "DCS",
+    "ScS",
+    "PTs"
+  ],
+  "key": {
+    "S": {
+      "item": "rotarycraft:silumin_ingot"
+    },
+    "D": {
+      "item": "rotarycraft:diffuser"
+    },
+    "C": {
+      "item": "rotarycraft:compound_compressor"
+    },
+    "c": {
+      "item": "rotarycraft:high_combustor"
+    },
+    "T": {
+      "item": "rotarycraft:compound_turbine"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "s": {
+      "item": "rotarycraft:steel_rod"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:jet_engine",
+    "count": 1
+  }
+}

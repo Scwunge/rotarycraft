@@ -45,6 +45,8 @@ public class RotaryItems {
     public static final DeferredItem<net.minecraft.world.item.ItemNameBlockItem> CANOLA_SEEDS = add(ITEMS.register("canola_seeds",
             () -> new net.minecraft.world.item.ItemNameBlockItem(RotaryBlocks.CANOLA.get(), new Item.Properties())));
     public static final DeferredItem<Item> CANOLA_HUSKS = add(ITEMS.registerSimpleItem("canola_husks"));
+    /** The original's afterburner engine upgrade: right-click a Jet Engine to fit it. */
+    public static final DeferredItem<Item> AFTERBURNER_UPGRADE = add(ITEMS.register("afterburner_upgrade", () -> new Item(new Item.Properties().stacksTo(16))));
     public static final DeferredItem<Item> ETHANOL_CRYSTALS = add(ITEMS.registerSimpleItem("ethanol_crystals"));
     public static final DeferredItem<Item> COKE = add(ITEMS.registerSimpleItem("coke"));
     public static final DeferredItem<Item> SPRING_STEEL_INGOT = add(ITEMS.registerSimpleItem("spring_steel_ingot"));
@@ -63,6 +65,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.PERFORMANCE_ENGINE);
         blockItem(RotaryBlocks.AC_ENGINE);
         blockItem(RotaryBlocks.MICROTURBINE);
+        blockItem(RotaryBlocks.JET_ENGINE);
         RotaryBlocks.SHAFTS.values().forEach(RotaryItems::blockItem);
         RotaryBlocks.allGearboxes().forEach(RotaryItems::blockItem);
         blockItem(RotaryBlocks.BEVEL_GEAR);

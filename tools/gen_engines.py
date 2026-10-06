@@ -100,6 +100,23 @@ for i in range(8):
 im.save(T + '/block/microturbine_front.png')
 shutil.copy('reference/RotaryCraft/Textures/GUI/jetgui.png', T + '/gui/turbine.png')
 
+# Jet Engine: a dark intake ring around compressor blades
+im, g = panel()
+g.ellipse([1, 1, 14, 14], fill=(30, 30, 34, 255), outline=(170, 180, 192, 255))
+for i in range(12):
+    a = i * math.pi / 6
+    g.line([(7.5, 7.5), (7.5 + 6 * math.cos(a), 7.5 + 6 * math.sin(a))], fill=(140, 145, 155, 255))
+g.ellipse([5, 5, 10, 10], fill=(200, 60, 40, 255))
+im.save(T + '/block/jet_engine_front.png')
+im = Image.new('RGBA', (16, 16))
+g = ImageDraw.Draw(im)
+g.rectangle([2, 4, 13, 11], fill=(90, 95, 105, 255), outline=(40, 42, 48, 255))
+g.polygon([(13, 5), (15, 7), (15, 8), (13, 10)], fill=(255, 140, 30, 255))
+g.rectangle([4, 6, 10, 9], fill=(200, 60, 40, 255))
+im.save(A + '/textures/item/afterburner_upgrade.png')
+w('%s/models/item/afterburner_upgrade.json' % A, {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/afterburner_upgrade'}})
+w(D + '/damage_type/jet_ingest.json', {'message_id': 'rotarycraft.jet_ingest', 'scaling': 'never', 'exhaustion': 0.0})
+
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))
 lang.update({
@@ -119,6 +136,14 @@ lang.update({
     'gui.rotarycraft.additives': 'Additives: %s / %s',
     'gui.rotarycraft.performance_engine.limit': 'Explodes above %s C; water cools it',
     'block.rotarycraft.microturbine': 'Microturbine',
+    'block.rotarycraft.jet_engine': 'Jet Engine',
+    'item.rotarycraft.afterburner_upgrade': 'Afterburner Upgrade',
+    'gui.rotarycraft.afterburner_on': 'AB on',
+    'gui.rotarycraft.afterburner_off': 'AB off',
+    'gui.rotarycraft.afterburner': 'Afterburner: twice the torque, 2.5x the fuel, more heat',
+    'gui.rotarycraft.jet.fod': 'Damage: %s/8',
+    'death.attack.rotarycraft.jet_ingest': '%1$s was sucked into a jet engine',
+    'death.attack.rotarycraft.jet_ingest.player': '%1$s was sucked into a jet engine',
 })
 with open(lang_path, 'w') as f:
     json.dump(lang, f, indent=2)

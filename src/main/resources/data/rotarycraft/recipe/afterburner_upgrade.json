@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SEI",
+    "ERE",
+    "SEI"
+  ],
+  "key": {
+    "R": {
+      "item": "rotarycraft:compound_turbine"
+    },
+    "S": {
+      "item": "rotarycraft:high_combustor"
+    },
+    "I": {
+      "item": "rotarycraft:igniter"
+    },
+    "E": {
+      "item": "rotarycraft:bedrock_dust"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:afterburner_upgrade",
+    "count": 1
+  }
+}

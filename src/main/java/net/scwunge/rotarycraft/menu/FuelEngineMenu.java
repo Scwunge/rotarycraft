@@ -22,23 +22,26 @@ public class FuelEngineMenu extends AbstractContainerMenu {
     private final ContainerData data;
     private final BlockPos pos;
     private final int machineSlots;
+    /** The engine, on the server only (button clicks act on it). */
+    private final FuelEngineBlockEntity engine;
 
     public FuelEngineMenu(MenuType<?> type, int slots, int id, Inventory inventory, RegistryFriendlyByteBuf buf) {
         this(type, id, inventory, buf.readBlockPos(), slots, new SimpleContainerData(FuelEngineBlockEntity.DATA_COUNT));
     }
 
     private FuelEngineMenu(MenuType<?> type, int id, Inventory inventory, BlockPos pos, int slots, ContainerData data) {
-        this(type, id, inventory, inventory.player.level().getBlockEntity(pos) instanceof FuelEngineBlockEntity e ? e.items() : new ItemStackHandler(slots), pos, data);
+        this(type, id, inventory, inventory.player.level().getBlockEntity(pos) instanceof FuelEngineBlockEntity e ? e.items() : new ItemStackHandler(slots), pos, data, null);
     }
 
     public FuelEngineMenu(MenuType<?> type, int id, Inventory inventory, FuelEngineBlockEntity engine, ContainerData data) {
-        this(type, id, inventory, engine.items(), engine.getBlockPos(), data);
+        this(type, id, inventory, engine.items(), engine.getBlockPos(), data, engine);
     }
 
-    private FuelEngineMenu(MenuType<?> type, int id, Inventory inventory, ItemStackHandler items, BlockPos pos, ContainerData data) {
+    private FuelEngineMenu(MenuType<?> type, int id, Inventory inventory, ItemStackHandler items, BlockPos pos, ContainerData data, FuelEngineBlockEntity engine) {
         super(type, id);
         this.data = data;
         this.pos = pos;
+        this.engine = engine;
         machineSlots = items.getSlots();
         if (machineSlots == 1) {
             addSlot(new SlotItemHandler(items, 0, 61, 36));
@@ -79,6 +82,29 @@ public class FuelEngineMenu extends AbstractContainerMenu {
 
     public int additives() {
         return data.get(8) & 0xFFFF;
+    }
+
+    /** Jet Engine status word: afterburner fitted (bit 0), burner on (bit 1), FOD (bits 2+). */
+    public boolean canAfterburn() {
+        return (data.get(8) & 1) != 0;
+    }
+
+    public boolean burnerActive() {
+        return (data.get(8) & 2) != 0;
+    }
+
+    public int fod() {
+        return (data.get(8) & 0xFFFF) >> 2;
+    }
+
+    /** Button 0: the Jet Engine's afterburner switch. */
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        if (id == 0 && engine instanceof net.scwunge.rotarycraft.blockentity.JetEngineBlockEntity jet && jet.canAfterburn()) {
+            jet.setBurnerActive(!jet.burnerActive());
+            return true;
+        }
+        return false;
     }
 
     @Override

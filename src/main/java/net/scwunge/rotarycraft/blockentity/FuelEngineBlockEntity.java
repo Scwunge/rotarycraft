@@ -98,6 +98,11 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
         return slot == SLOT_FUEL && stack.is(fuelItem());
     }
 
+    /** mB burned per fuel unit. */
+    protected int fuelPerUnit() {
+        return FUEL_PER_UNIT;
+    }
+
     protected boolean airBreathing() {
         return true;
     }
@@ -174,7 +179,7 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
         int unit = omega < targetSpeed() ? Math.max(fuelUnitTicks() / 4, 1) : fuelUnitTicks();
         if (++fuelTicks >= unit) {
             fuelTicks = 0;
-            fuel.drain(FUEL_PER_UNIT, FluidTank.FluidAction.EXECUTE);
+            fuel.drain(fuelPerUnit(), FluidTank.FluidAction.EXECUTE);
             onFuelBurned();
         }
     }

@@ -359,6 +359,9 @@ shaped('gas_engine', ['CgC', 'SGs', 'PIP'], {'g': GOLD_I, 'S': item('igniter'), 
 shaped('ac_engine', ['SSS', 'SGs', 'PRP'], {'S': GOLD_I, 'R': REDSTONE, 'P': PANEL, 's': ROD, 'G': item('gold_coil')})
 shaped('performance_engine', ['CrC', 'SGs', 'PIP'], {'C': item('silumin_cylinder'), 'S': item('igniter'), 'I': item('impeller'), 'P': PANEL, 's': ROD,
        'r': item('radiator'), 'G': item('steel_gear_unit_2')})
+shaped('jet_engine', ['DCS', 'ScS', 'PTs'], {'S': item('silumin_ingot'), 'D': item('diffuser'), 'C': item('compound_compressor'),
+       'c': item('high_combustor'), 'T': item('compound_turbine'), 'P': PANEL, 's': ROD})
+shaped('afterburner_upgrade', ['SEI', 'ERE', 'SEI'], {'R': item('compound_turbine'), 'S': item('high_combustor'), 'I': item('igniter'), 'E': item('bedrock_dust')})
 shaped('microturbine', ['CSS', 'cTs', 'PPP'], {'S': item('silumin_ingot'), 'C': item('compressor'), 'c': item('high_combustor'), 'T': item('turbine'), 'P': PANEL, 's': ROD})
 shaped('bevel_gear', ['ISB', 'SGB', 'BBB'], {'B': PANEL, 'I': STEEL_I, 'S': ROD, 'G': GEAR}, count=4)
 shaped('splitter', ['ISP', 'SGP', 'ISP'], {'P': PANEL, 'I': STEEL_I, 'S': ROD, 'G': GEAR}, count=2)

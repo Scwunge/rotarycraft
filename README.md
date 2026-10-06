@@ -13,6 +13,7 @@ and angular speed, shafts and gearboxes carry and transform it, and machines use
 | Gas Engine | 128 N*m at 512 rad/s (65.5 kW) on ethanol (`c:ethanol`): 10 mB every 12 ticks at speed, four times that while spinning up; a 240-bucket tank filled by buckets, pipes or ethanol crystals in its slot. Stops when drowned. Original GUI |
 | Performance Engine | 256 N*m at 1024 rad/s (262 kW) on ethanol plus additives (redstone 1, gunpowder 2, blaze powder 4; each 10 mB burned has a 1 in 30 chance to use one); without additives it gives Gas Engine power. Burns 10 mB every 6 ticks. Heats 1 C a second while running unless it has water (20 mB a second); above 240 C it explodes into scrap (nine scrap melt back into steel in the Blast Furnace). Original GUI |
 | Microturbine | 16 N*m at 131072 rad/s (2.1 MW) on jet fuel (`c:jet_fuel`, from the Fractionation Unit), 10 mB every 48 ticks; takes about 90 s to spin up. Needs air. Original GUI |
+| Jet Engine | 1024 N*m at 65536 rad/s (67 MW) on jet fuel, 10 mB every 2 ticks. Intake at the back, exhaust and shaft out the front. As in the original it pulls in creatures and items from a cone in front of the intake: items come out of the exhaust (armour and tools damaged; stone, cobblestone and gravel crushed, damaging the blades), creatures die and most of them damage it (FOD; each point halves the torque, 8 stops it). A damaged engine may start failing: it backfires and heats until it explodes. Repair fully with a Turbine, one point with a Compressor. A block over the intake chokes it (fences, walls and panes let some air through). The exhaust heats machines behind it to 1200 C and burns what stands there. The Afterburner Upgrade doubles the torque for 2.5x the fuel (switch in its GUI). Server option `jetHarmsPlayers` (on by default) controls whether it takes players; creative players are never taken |
 | AC Electric Engine | 512 N*m at 256 rad/s (131 kW). Needs an alternating redstone signal (a clock that changes at least every 3 ticks) and a magnetized shaft core, which loses 1 uT every 30 s of running (tungsten cores half as often) |
 | Magnetizer | Needs 2048 rad/s and 16 kW plus an alternating signal. Charges a shaft core by 1 uT a cycle (half the cycles for steel cores), up to speed / 2 uT |
 | Flywheels (wood, stone, iron, gold, bedrock) | Store rotation: spin up with torque / inertia, pass on up to their rated torque, coast down when the input stops. Need at least a quarter of their rating to turn; overspun ones burst |
@@ -47,7 +48,7 @@ The remaining phases (processing machines, fluids, farming, tools and armour, we
 Block models are simple placeholders until the original machine renderers are ported.
 
 ## Configuration
-`serverconfig/rotarycraft-server.toml` (per world, synced to clients): shaft failure on/off, watts per FE, generator and motor buffers, motor output.
+`serverconfig/rotarycraft-server.toml` (per world, synced to clients): shaft failure on/off, explosions breaking blocks, whether jet engines take players, watts per FE, generator and motor buffers, motor output.
 
 ## Building
 ```

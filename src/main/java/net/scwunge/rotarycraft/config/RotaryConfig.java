@@ -16,14 +16,21 @@ public class RotaryConfig {
     public static final ModConfigSpec.IntValue MOTOR_TORQUE;
     public static final ModConfigSpec.IntValue MOTOR_OMEGA;
     public static final ModConfigSpec.IntValue MOTOR_BUFFER;
+    public static final ModConfigSpec.BooleanValue JET_HARMS_PLAYERS;
 
     static {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
         b.push("transmission");
         SHAFT_FAILURE = b.comment("Shafts and gearboxes break when the torque or speed they carry exceeds their material's limit.")
                 .define("shaftFailure", true);
-        EXPLOSIONS_BREAK_BLOCKS = b.comment("Bursting flywheels and overpressured steam engines damage blocks around them.")
+        EXPLOSIONS_BREAK_BLOCKS = b.comment("Bursting flywheels, overpressured steam engines and failing jet engines damage blocks around them.")
                 .define("explosionsBreakBlocks", true);
+        b.pop();
+
+        b.push("engines");
+        JET_HARMS_PLAYERS = b.comment("Jet engines pull in and kill players in front of their intake, as in the original. Turn off to make them",
+                        "ignore players (mobs and items are still pulled in).")
+                .define("jetHarmsPlayers", true);
         b.pop();
 
         b.push("energy_conversion");

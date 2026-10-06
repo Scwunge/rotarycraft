@@ -90,10 +90,12 @@ public class FractionatorGameTests {
     @GameTest(template = TEMPLATE, batch = ExtractorGameTests.BATCH, timeoutTicks = 300)
     public static void torqueBuildsPressure(GameTestHelper helper) {
         unit(helper, false);
-        // pressure climbs slowly, as in the original: at most ~19 kPa a second (about 6 on average)
-        helper.runAfterDelay(200, () -> {
+        // pressure climbs slowly and unevenly, as in the original (a random step of up to ~19 kPa a second), so check it keeps rising
+        int[] earlier = new int[1];
+        helper.runAfterDelay(100, () -> earlier[0] = at(helper).pressure());
+        helper.runAfterDelay(220, () -> {
             int p = at(helper).pressure();
-            helper.assertTrue(p >= 40, "512 N*m should push the pressure up, at " + p + " kPa after 10 s");
+            helper.assertTrue(earlier[0] > 0 && p > earlier[0], "512 N*m should keep pushing the pressure up: " + earlier[0] + " then " + p + " kPa");
             helper.succeed();
         });
     }

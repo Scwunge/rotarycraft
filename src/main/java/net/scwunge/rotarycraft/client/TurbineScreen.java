@@ -12,7 +12,7 @@ import net.scwunge.rotarycraft.menu.FuelEngineMenu;
 
 import java.util.List;
 
-/** The original turbine GUI (Microturbine and Jet Engine): a jet fuel gauge. */
+/** The original turbine GUI (Microturbine and Jet Engine): a jet fuel gauge, and for a jet with an afterburner fitted, its switch. */
 public class TurbineScreen extends AbstractContainerScreen<FuelEngineMenu> {
     private static final ResourceLocation TEXTURE = RotaryCraft.id("textures/gui/turbine.png");
 
@@ -21,6 +21,38 @@ public class TurbineScreen extends AbstractContainerScreen<FuelEngineMenu> {
         imageWidth = 176;
         imageHeight = 166;
         inventoryLabelY = imageHeight - 94;
+    }
+
+    private net.minecraft.client.gui.components.Button afterburner;
+
+    @Override
+    protected void init() {
+        super.init();
+        // the menu's data may arrive after the screen opens, so the switch shows itself once an afterburner is known to be fitted
+        afterburner = addRenderableWidget(net.minecraft.client.gui.components.Button.builder(burnerLabel(), b -> {
+            minecraft.gameMode.handleInventoryButtonClick(menu.containerId, 0);
+        }).bounds(leftPos + 20, topPos + 36, 48, 18).tooltip(net.minecraft.client.gui.components.Tooltip.create(
+                Component.translatable("gui.rotarycraft.afterburner"))).build());
+        afterburner.visible = menu.canAfterburn();
+    }
+
+    private Component burnerLabel() {
+        return Component.translatable(menu.burnerActive() ? "gui.rotarycraft.afterburner_on" : "gui.rotarycraft.afterburner_off");
+    }
+
+    @Override
+    protected void containerTick() {
+        super.containerTick();
+        afterburner.visible = menu.canAfterburn();
+        afterburner.setMessage(burnerLabel());
+    }
+
+    @Override
+    protected void renderLabels(GuiGraphics g, int mouseX, int mouseY) {
+        super.renderLabels(g, mouseX, mouseY);
+        if (menu.fod() > 0) {
+            g.drawString(font, Component.translatable("gui.rotarycraft.jet.fod", menu.fod()), 100, 58, 0x802020, false);
+        }
     }
 
     @Override
