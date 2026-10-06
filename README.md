@@ -11,6 +11,8 @@ and angular speed, shafts and gearboxes carry and transform it, and machines use
 | Wind Engine | 8 N*m at up to 1024 rad/s. Needs the 3x3 around its blades (back side) clear; obstructions in a 32-block cone behind it slow it down |
 | Steam Engine | 32 N*m at 512 rad/s. Needs water (buckets or pipes) and fire below it; runs from 100 C. Lava below overheats it past 150 C and it bursts |
 | Gas Engine | 128 N*m at 512 rad/s (65.5 kW) on ethanol (`c:ethanol`): 10 mB every 12 ticks at speed, four times that while spinning up; a 240-bucket tank filled by buckets, pipes or ethanol crystals in its slot. Stops when drowned. Original GUI |
+| AC Electric Engine | 512 N*m at 256 rad/s (131 kW). Needs an alternating redstone signal (a clock that changes at least every 3 ticks) and a magnetized shaft core, which loses 1 uT every 30 s of running (tungsten cores half as often) |
+| Magnetizer | Needs 2048 rad/s and 16 kW plus an alternating signal. Charges a shaft core by 1 uT a cycle (half the cycles for steel cores), up to speed / 2 uT |
 | Flywheels (wood, stone, iron, gold, bedrock) | Store rotation: spin up with torque / inertia, pass on up to their rated torque, coast down when the input stops. Need at least a quarter of their rating to turn; overspun ones burst |
 | Clutch | Passes power while powered by redstone (right-click to invert) |
 | Shaft Junction | Merge (back + branch into the front: matching speeds add torque) or split (front + branch, torque divided evenly or 1/2 ... 1/32). Right-click: ratio, sneak-right-click: mode |

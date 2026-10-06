@@ -14,6 +14,7 @@ import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.item.MeterItem;
 import net.scwunge.rotarycraft.item.OreProductItem;
 import net.scwunge.rotarycraft.item.ScrewdriverItem;
+import net.scwunge.rotarycraft.item.ShaftCoreItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +38,8 @@ public class RotaryItems {
     public static final DeferredItem<Item> CLEAN_SLUDGE = add(ITEMS.registerSimpleItem("clean_sludge"));
     public static final DeferredItem<Item> COMPOST = add(ITEMS.registerSimpleItem("compost"));
     public static final DeferredItem<Item> SILICON_DUST = add(ITEMS.registerSimpleItem("silicon_dust"));
+    public static final DeferredItem<ShaftCoreItem> SHAFT_CORE = add(ITEMS.register("shaft_core", () -> new ShaftCoreItem(new Item.Properties(), 2, false)));
+    public static final DeferredItem<ShaftCoreItem> TUNGSTEN_SHAFT_CORE = add(ITEMS.register("tungsten_shaft_core", () -> new ShaftCoreItem(new Item.Properties(), 1, true)));
     public static final DeferredItem<Item> ETHANOL_CRYSTALS = add(ITEMS.registerSimpleItem("ethanol_crystals"));
     public static final DeferredItem<Item> COKE = add(ITEMS.registerSimpleItem("coke"));
     public static final DeferredItem<Item> SPRING_STEEL_INGOT = add(ITEMS.registerSimpleItem("spring_steel_ingot"));
@@ -52,6 +55,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.WIND_ENGINE);
         blockItem(RotaryBlocks.STEAM_ENGINE);
         blockItem(RotaryBlocks.GAS_ENGINE);
+        blockItem(RotaryBlocks.AC_ENGINE);
         RotaryBlocks.SHAFTS.values().forEach(RotaryItems::blockItem);
         RotaryBlocks.GEARBOXES.values().forEach(RotaryItems::blockItem);
         blockItem(RotaryBlocks.BEVEL_GEAR);
@@ -66,6 +70,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.FERMENTER);
         blockItem(RotaryBlocks.CENTRIFUGE);
         blockItem(RotaryBlocks.ROCK_MELTER);
+        blockItem(RotaryBlocks.MAGNETIZER);
         blockItem(RotaryBlocks.GENERATOR);
         blockItem(RotaryBlocks.ELECTRIC_MOTOR);
     }

@@ -81,6 +81,10 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.CENTRIFUGE, net.scwunge.rotarycraft.blockentity.CentrifugeBlockEntity::new));
     public static final DeferredBlock<MachineBlock> GAS_ENGINE = BLOCKS.register("gas_engine",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.GAS_ENGINE, net.scwunge.rotarycraft.blockentity.GasEngineBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> AC_ENGINE = BLOCKS.register("ac_engine",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.AC_ENGINE, net.scwunge.rotarycraft.blockentity.ACEngineBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> MAGNETIZER = BLOCKS.register("magnetizer",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.MAGNETIZER, net.scwunge.rotarycraft.blockentity.MagnetizerBlockEntity::new));
     public static final DeferredBlock<MachineBlock> ROCK_MELTER = BLOCKS.register("rock_melter",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.ROCK_MELTER, net.scwunge.rotarycraft.blockentity.RockMelterBlockEntity::new));
     public static final DeferredBlock<DynamometerBlock> DYNAMOMETER = BLOCKS.register("dynamometer",

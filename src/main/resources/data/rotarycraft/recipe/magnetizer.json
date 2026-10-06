@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "P P",
+    "CMC",
+    "PRP"
+  ],
+  "key": {
+    "P": {
+      "tag": "c:ingots/steel"
+    },
+    "C": {
+      "tag": "c:storage_blocks/copper"
+    },
+    "M": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:magnetizer",
+    "count": 1
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GGG",
+    "GCs",
+    "PRP"
+  ],
+  "key": {
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "C": {
+      "tag": "c:storage_blocks/copper"
+    },
+    "s": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "P": {
+      "tag": "c:ingots/steel"
+    },
+    "R": {
+      "tag": "c:dusts/redstone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:ac_engine",
+    "count": 1
+  }
+}
