@@ -117,6 +117,20 @@ shaped('freeze_gun', [' ss', 'iig', 'sb '], {'b': item('rail_base'), 'i': {'item
 shaped('anti_air', ['sss', 'ppc', ' Ba'], {'p': item('pipe'), 'c': item('compressor'), 's': STEEL, 'a': item('rail_aiming_unit'), 'B': item('rail_base')})
 w('%s/damage_type/turret.json' % D, {'message_id': 'rotarycraft.turret', 'scaling': 'never', 'exhaustion': 0.1})
 
+# ---- Gatling Gun ----
+model_texture('multicannontex.png', 'gatling')
+shutil.copy(REF + '/Textures/Entity/gatling.png', T + '/entity/gatling_shot.png')
+rendered_machine('gatling')
+shaped('gatling', ['PPG', ' GA', '  B'], {'B': item('rail_base'), 'A': item('rail_aiming_unit'), 'G': item('steel_gear'), 'P': item('cylinder')})
+os.makedirs(A + '/sounds', exist_ok=True)
+for snd in ('gatling', 'gatlingreload'):
+    shutil.copy('%s/Sounds/%s.ogg' % (REF, snd), '%s/sounds/%s.ogg' % (A, snd))
+sounds_path = A + '/sounds.json'
+sounds = json.load(open(sounds_path)) if os.path.exists(sounds_path) else {}
+for snd in ('gatling', 'gatlingreload'):
+    sounds[snd] = {'sounds': ['rotarycraft:' + snd], 'subtitle': 'subtitles.rotarycraft.' + snd}
+w(sounds_path, sounds)
+
 # ---- Cannon Key ----
 sprite(1, 4, 'cannon_key')
 shaped('cannon_key', ['s', 's', 'P'], {'P': item('base_panel'), 's': STEEL})
@@ -132,6 +146,10 @@ lang.update({
     'gui.rotarycraft.safe_players': 'Players this turret will not target',
     'gui.rotarycraft.safe_players.remove': 'Remove',
     'gui.rotarycraft.safe_players.none': 'Nobody but the owner',
+    'block.rotarycraft.gatling': 'Gatling Gun',
+    'entity.rotarycraft.gatling_shot': 'Gatling Round',
+    'subtitles.rotarycraft.gatling': 'Gatling Gun fires',
+    'subtitles.rotarycraft.gatlingreload': 'Gatling Gun reloads',
     'block.rotarycraft.freeze_gun': 'Freeze Gun',
     'block.rotarycraft.anti_air': 'Anti-Aircraft Gun',
     'effect.rotarycraft.frozen_solid': 'Frozen Solid',
@@ -148,5 +166,5 @@ data = json.load(open(path))
 data['values'] += ['rotarycraft:' + m for m in MACHINES if 'rotarycraft:' + m not in data['values']]
 w(path, data)
 
-subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air'], check=True)
+subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air', 'ModelMultiCannon:gatling'], check=True)
 print('weapons ok,', len(MACHINES), 'machines')

@@ -21,6 +21,7 @@ import net.scwunge.rotarycraft.registry.WeaponRegistry;
 import net.minecraft.world.item.Items;
 import net.scwunge.rotarycraft.weapon.turret.AntiAirBlockEntity;
 import net.scwunge.rotarycraft.weapon.turret.FreezeGunBlockEntity;
+import net.scwunge.rotarycraft.weapon.turret.GatlingBlockEntity;
 import net.scwunge.rotarycraft.weapon.turret.RailGunBlockEntity;
 import net.scwunge.rotarycraft.weapon.turret.TurretBlockEntity;
 
@@ -162,8 +163,47 @@ public class WeaponGameTests {
         gun.items().setStackInSlot(0, new ItemStack(net.scwunge.rotarycraft.registry.RotaryItems.SCRAP.get(), 16));
         helper.setBlock(new BlockPos(12, 1, 2), net.minecraft.world.level.block.Blocks.STONE);
         Husk husk = helper.spawnWithNoFreeWill(EntityType.HUSK, new Vec3(12.5, 2, 2.5));
+        // a mob without AI never lands by itself; stand it on the stone
+        helper.onEachTick(() -> husk.setOnGround(true));
         helper.runAfterDelay(80, () -> {
             helper.assertTrue(husk.getHealth() == husk.getMaxHealth(), "anti-air shot a ground mob");
+            helper.succeed();
+        });
+    }
+
+    /** Ball bearings put in the first slot travel down the belt into the clip, which takes a reload to bring forward. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 400)
+    public static void gatlingFeedsAmmoDownTheBelt(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 4096, 1100);
+        helper.setBlock(TURRET, WeaponRegistry.GATLING.get().defaultBlockState());
+        GatlingBlockEntity gun = helper.getBlockEntity(TURRET);
+        ItemStack ball = new ItemStack(net.scwunge.rotarycraft.registry.RotaryParts.part("ball_bearing").get(), 32);
+        helper.assertTrue(gun.items().insertItem(0, ball, false).isEmpty(), "first slot refused ball bearings");
+        helper.assertTrue(gun.items().insertItem(5, ball, true).getCount() == 32, "a middle slot took ammunition");
+        helper.succeedWhen(() -> helper.assertTrue(gun.items().getStackInSlot(GatlingBlockEntity.CLIP_SLOT).getCount() == 32, "ammunition not in the clip"));
+    }
+
+    @GameTest(template = WIDE, timeoutTicks = 500)
+    public static void gatlingHurtsAHostileMob(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 4096, 1100);
+        helper.setBlock(TURRET, WeaponRegistry.GATLING.get().defaultBlockState());
+        GatlingBlockEntity gun = helper.getBlockEntity(TURRET);
+        gun.items().setStackInSlot(GatlingBlockEntity.CLIP_SLOT, new ItemStack(net.scwunge.rotarycraft.registry.RotaryParts.part("ball_bearing").get(), 64));
+        helper.setBlock(new BlockPos(12, 1, 2), net.minecraft.world.level.block.Blocks.STONE);
+        Husk husk = helper.spawnWithNoFreeWill(EntityType.HUSK, new Vec3(12.5, 2, 2.5));
+        helper.succeedWhen(() -> helper.assertTrue(husk.getHealth() < husk.getMaxHealth(), "husk not hit (aim " + gun.phi + ", " + gun.theta + ")"));
+    }
+
+    @GameTest(template = WIDE, timeoutTicks = 200)
+    public static void gatlingNeedsSpeed(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 4096, 512);
+        helper.setBlock(TURRET, WeaponRegistry.GATLING.get().defaultBlockState());
+        GatlingBlockEntity gun = helper.getBlockEntity(TURRET);
+        gun.items().setStackInSlot(GatlingBlockEntity.CLIP_SLOT, new ItemStack(net.scwunge.rotarycraft.registry.RotaryParts.part("ball_bearing").get(), 64));
+        helper.setBlock(new BlockPos(12, 1, 2), net.minecraft.world.level.block.Blocks.STONE);
+        Husk husk = helper.spawnWithNoFreeWill(EntityType.HUSK, new Vec3(12.5, 2, 2.5));
+        helper.runAfterDelay(120, () -> {
+            helper.assertTrue(husk.getHealth() == husk.getMaxHealth(), "fired at 512 rad/s");
             helper.succeed();
         });
     }

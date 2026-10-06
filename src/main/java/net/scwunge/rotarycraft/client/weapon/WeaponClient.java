@@ -32,6 +32,13 @@ public final class WeaponClient {
             new String[] {"Shape7", "Shape7a", "Shape7b", "Shape7c", "Shape7d", "Shape7e", "Shape7f", "Shape7g", "Shape6"},
             new String[] {"Shape1", "Shape3", "Shape8", "Shape8a", "Shape9", "Shape3d", "Shape1b", "Shape1c"});
 
+    static final TurretRenderer.Look GATLING = new TurretRenderer.Look("gatling", "gatling",
+            new String[] {"Shape5"},
+            new String[] {"Shape6", "Shape7", "Shape7a", "Shape7b", "Shape7c", "Shape7d", "Shape7e", "Shape7f", "Shape7g"},
+            new String[] {"Shape3", "Shape8", "Shape8a", "Shape9", "Shape3d"},
+            new String[] {"Shape1a", "Shape1a0", "Shape1a1", "Shape1a2", "Shape1a3", "Shape1a4", "Shape10", "Shape10d", "Shape10e", "Shape10f", "Shape10g",
+                    "Shape10h", "Shape10i", "Shape10j", "Shape10k", "Shape10a", "Shape10b", "Shape10c"}, 0.725);
+
     private WeaponClient() {}
 
     @SubscribeEvent
@@ -39,6 +46,8 @@ public final class WeaponClient {
         event.registerBlockEntityRenderer(WeaponRegistry.RAILGUN_BE.get(), c -> new TurretRenderer<>(RAILGUN));
         event.registerBlockEntityRenderer(WeaponRegistry.FREEZE_GUN_BE.get(), c -> new TurretRenderer<>(FREEZE_GUN));
         event.registerBlockEntityRenderer(WeaponRegistry.ANTI_AIR_BE.get(), c -> new TurretRenderer<>(ANTI_AIR));
+        event.registerBlockEntityRenderer(WeaponRegistry.GATLING_BE.get(), c -> new TurretRenderer<>(GATLING));
+        event.registerEntityRenderer(WeaponRegistry.GATLING_SHOT.get(), c -> new StarShotRenderer(c, "gatling_shot"));
         event.registerEntityRenderer(WeaponRegistry.RAILGUN_SHOT.get(), c -> new StarShotRenderer(c, "railgun_shot"));
         event.registerEntityRenderer(WeaponRegistry.FREEZE_SHOT.get(), c -> new StarShotRenderer(c, "freeze_shot"));
         event.registerEntityRenderer(WeaponRegistry.FLAK_SHOT.get(), c -> new ItemShotRenderer(c, () -> new net.minecraft.world.item.ItemStack(RotaryItems.SCRAP.get())));
@@ -54,6 +63,7 @@ public final class WeaponClient {
         event.registerItem(turretItem(RAILGUN), WeaponRegistry.RAILGUN.get().asItem());
         event.registerItem(turretItem(FREEZE_GUN), WeaponRegistry.FREEZE_GUN.get().asItem());
         event.registerItem(turretItem(ANTI_AIR), WeaponRegistry.ANTI_AIR.get().asItem());
+        event.registerItem(turretItem(GATLING), WeaponRegistry.GATLING.get().asItem());
     }
 
     private static IClientItemExtensions turretItem(TurretRenderer.Look look) {

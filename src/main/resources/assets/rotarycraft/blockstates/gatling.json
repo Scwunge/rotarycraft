@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/gatling"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/gatling"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/gatling"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/gatling"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/gatling"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/gatling"
+    }
+  }
+}

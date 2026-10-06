@@ -28,7 +28,7 @@ public abstract class AmmoTurretBlockEntity extends TurretBlockEntity implements
         items = new ItemStackHandler(slots) {
             @Override
             public boolean isItemValid(int slot, ItemStack stack) {
-                return isAmmo(stack);
+                return acceptsInSlot(slot, stack);
             }
 
             @Override
@@ -70,6 +70,11 @@ public abstract class AmmoTurretBlockEntity extends TurretBlockEntity implements
     }
 
     public abstract boolean isAmmo(ItemStack stack);
+
+    /** Whether {@code slot} takes {@code stack} from players and automation (by default any slot takes any ammunition). */
+    protected boolean acceptsInSlot(int slot, ItemStack stack) {
+        return isAmmo(stack);
+    }
 
     public ItemStackHandler items() {
         return items;

@@ -75,6 +75,7 @@
     "rotarycraft:composter",
     "rotarycraft:railgun",
     "rotarycraft:freeze_gun",
-    "rotarycraft:anti_air"
+    "rotarycraft:anti_air",
+    "rotarycraft:gatling"
   ]
 }

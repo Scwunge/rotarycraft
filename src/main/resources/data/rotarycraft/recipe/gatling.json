@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PPG",
+    " GA",
+    "  B"
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:rail_base"
+    },
+    "A": {
+      "item": "rotarycraft:rail_aiming_unit"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear"
+    },
+    "P": {
+      "item": "rotarycraft:cylinder"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:gatling",
+    "count": 1
+  }
+}

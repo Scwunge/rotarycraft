@@ -43,6 +43,9 @@ public abstract class TurretShot extends Entity {
     /** What happens where the shot strikes; it is removed afterwards. */
     protected abstract void impact(ServerLevel level);
 
+    /** Extra work each client tick (tracer particles). */
+    protected void clientTick() {}
+
     /** Extra work each tick of flight, before moving. */
     protected void flightTick(ServerLevel level, BlockPos at, BlockState state) {}
 
@@ -56,6 +59,7 @@ public abstract class TurretShot extends Entity {
     @Override
     public void tick() {
         if (level().isClientSide) {
+            clientTick();
             super.tick();
             setPos(getX() + getDeltaMovement().x, getY() + getDeltaMovement().y, getZ() + getDeltaMovement().z);
             return;

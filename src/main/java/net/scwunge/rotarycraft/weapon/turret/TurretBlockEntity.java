@@ -102,6 +102,7 @@ public abstract class TurretBlockEntity extends ConsumerBlockEntity {
         }
         tickcount++;
         if (!powered) {
+            unpoweredTick();
             return;
         }
         target = findTarget();
@@ -114,6 +115,26 @@ public abstract class TurretBlockEntity extends ConsumerBlockEntity {
             syncedTheta = theta;
             level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
         }
+    }
+
+    /** One tick while the turret has too little power (a gatling spins down). */
+    protected void unpoweredTick() {}
+
+    /** Extra state for the client's renderer, written into and read from the block update tag. */
+    protected void writeSync(CompoundTag tag) {}
+
+    protected void readSync(CompoundTag tag) {}
+
+    /** Asks for the client's copy to be updated now. */
+    protected final void syncNow() {
+        if (level != null) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
+        }
+    }
+
+    /** The angle of any spinning part (degrees) at {@code partialTick} of the way to the next game tick. */
+    public float spinAngle(float partialTick) {
+        return 0;
     }
 
     /** One tick of the turret's own work once powered and aimed (usually: fire when on target and loaded). */
@@ -310,6 +331,7 @@ public abstract class TurretBlockEntity extends ConsumerBlockEntity {
             tag.putUUID("owner", owner.id());
             tag.putString("ownerName", owner.name());
         }
+        writeSync(tag);
         return tag;
     }
 
@@ -318,6 +340,7 @@ public abstract class TurretBlockEntity extends ConsumerBlockEntity {
         phi = tag.getFloat("phi");
         theta = tag.getFloat("theta");
         owner = tag.hasUUID("owner") ? new WorldGuard.Owner(tag.getUUID("owner"), tag.getString("ownerName")) : null;
+        readSync(tag);
     }
 
     @Override

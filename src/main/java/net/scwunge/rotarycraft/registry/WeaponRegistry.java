@@ -25,6 +25,8 @@ import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.weapon.AmmoMenu;
 import net.scwunge.rotarycraft.weapon.CannonKeyItem;
 import net.scwunge.rotarycraft.weapon.FlakShot;
+import net.scwunge.rotarycraft.weapon.GatlingShot;
+import net.scwunge.rotarycraft.weapon.turret.GatlingBlockEntity;
 import net.scwunge.rotarycraft.weapon.FreezeEffect;
 import net.scwunge.rotarycraft.weapon.FreezeShot;
 import net.scwunge.rotarycraft.weapon.turret.AntiAirBlockEntity;
@@ -44,6 +46,7 @@ import java.util.List;
 @EventBusSubscriber(modid = RotaryCraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public final class WeaponRegistry {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE, RotaryCraft.MOD_ID);
+    public static final DeferredRegister<net.minecraft.sounds.SoundEvent> SOUNDS = DeferredRegister.create(Registries.SOUND_EVENT, RotaryCraft.MOD_ID);
     public static final DeferredRegister<net.minecraft.world.effect.MobEffect> EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT, RotaryCraft.MOD_ID);
     public static final DeferredRegister<DataComponentType<?>> COMPONENTS = DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, RotaryCraft.MOD_ID);
 
@@ -84,6 +87,17 @@ public final class WeaponRegistry {
             () -> EntityType.Builder.<FlakShot>of(FlakShot::new, MobCategory.MISC).sized(0.25f, 0.25f).clientTrackingRange(16).updateInterval(1)
                     .noSave().fireImmune().build("flak_shot"));
 
+    // ---- Gatling Gun ----
+    public static final DeferredBlock<TurretBlock> GATLING = RotaryBlocks.BLOCKS.register("gatling",
+            () -> new TurretBlock(RotaryBlocks.machineProps().noOcclusion(), WeaponRegistry.GATLING_BE, GatlingBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GatlingBlockEntity>> GATLING_BE = RotaryBlockEntities.TYPES.register("gatling",
+            () -> BlockEntityType.Builder.of(GatlingBlockEntity::new, GATLING.get()).build(null));
+    public static final DeferredHolder<EntityType<?>, EntityType<GatlingShot>> GATLING_SHOT = ENTITIES.register("gatling_shot",
+            () -> EntityType.Builder.<GatlingShot>of(GatlingShot::new, MobCategory.MISC).sized(0.25f, 0.25f).clientTrackingRange(16).updateInterval(1)
+                    .noSave().fireImmune().build("gatling_shot"));
+    public static final DeferredHolder<net.minecraft.sounds.SoundEvent, net.minecraft.sounds.SoundEvent> GATLING_SOUND = sound("gatling");
+    public static final DeferredHolder<net.minecraft.sounds.SoundEvent, net.minecraft.sounds.SoundEvent> GATLING_RELOAD_SOUND = sound("gatlingreload");
+
     /** Turret parts (the original's barrel, lens, bulb, rail head, turret base and aiming unit). */
     public static final java.util.Map<String, DeferredItem<Item>> PARTS = new java.util.LinkedHashMap<>();
 
@@ -100,10 +114,15 @@ public final class WeaponRegistry {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(RAILGUN));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(FREEZE_GUN));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(ANTI_AIR));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(GATLING));
         for (int i = 0; i < 16; i++) {
             int tier = i;
             RAILGUN_AMMO.add(RotaryItems.add(RotaryItems.ITEMS.register("railgun_ammo_" + i, () -> new RailgunAmmoItem(new Item.Properties(), tier))));
         }
+    }
+
+    private static DeferredHolder<net.minecraft.sounds.SoundEvent, net.minecraft.sounds.SoundEvent> sound(String name) {
+        return SOUNDS.register(name, () -> net.minecraft.sounds.SoundEvent.createVariableRangeEvent(RotaryCraft.id(name)));
     }
 
     private WeaponRegistry() {}
@@ -112,6 +131,7 @@ public final class WeaponRegistry {
     public static void init(IEventBus modBus) {
         ENTITIES.register(modBus);
         EFFECTS.register(modBus);
+        SOUNDS.register(modBus);
         COMPONENTS.register(modBus);
     }
 
@@ -120,5 +140,6 @@ public final class WeaponRegistry {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RAILGUN_BE.get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FREEZE_GUN_BE.get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ANTI_AIR_BE.get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, GATLING_BE.get(), (be, side) -> be.automationItems());
     }
 }

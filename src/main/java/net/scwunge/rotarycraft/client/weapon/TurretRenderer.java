@@ -29,12 +29,17 @@ public class TurretRenderer<T extends TurretBlockEntity> implements BlockEntityR
     }
 
     /** The model, its texture and which parts turn and tilt. */
-    public record Look(ReikaModel model, ResourceLocation texture, String[] base, String[] turning, String[] tilting) {
+    public record Look(ReikaModel model, ResourceLocation texture, String[] base, String[] turning, String[] tilting, String[] spinning, double spinPivotY) {
         public Look(String model, String texture, String[] base, String[] turning, String[] tilting) {
-            this(new ReikaModel(model), RotaryCraft.id("textures/machine/" + texture + ".png"), base, turning, tilting);
+            this(model, texture, base, turning, tilting, new String[0], 0);
         }
 
-        void draw(PoseStack pose, MultiBufferSource buffers, float phi, float theta, boolean hanging, int light, int overlay) {
+        /** With spinning parts that turn about the barrel axis, round a pivot spinPivotY up the model (a gatling's barrels). */
+        public Look(String model, String texture, String[] base, String[] turning, String[] tilting, String[] spinning, double spinPivotY) {
+            this(new ReikaModel(model), RotaryCraft.id("textures/machine/" + texture + ".png"), base, turning, tilting, spinning, spinPivotY);
+        }
+
+        void draw(PoseStack pose, MultiBufferSource buffers, float phi, float theta, float spin, boolean hanging, int light, int overlay) {
             VertexConsumer vc = buffers.getBuffer(RenderType.entityCutoutNoCull(texture));
             pose.pushPose();
             ReikaModel.enterModelSpace(pose);
@@ -51,13 +56,19 @@ public class TurretRenderer<T extends TurretBlockEntity> implements BlockEntityR
             pose.mulPose(Axis.XP.rotationDegrees(hanging ? theta : -theta));
             pose.translate(0, -1, 0);
             model.render(pose, vc, light, overlay, tilting);
+            if (spinning.length > 0) {
+                pose.translate(0, spinPivotY, 0);
+                pose.mulPose(Axis.ZP.rotationDegrees(spin));
+                pose.translate(0, -spinPivotY, 0);
+                model.render(pose, vc, light, overlay, spinning);
+            }
             pose.popPose();
         }
     }
 
     @Override
     public void render(T turret, float partialTick, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
-        look.draw(pose, buffers, turret.phi, turret.theta, turret.dir() == -1, light, overlay);
+        look.draw(pose, buffers, turret.phi, turret.theta, turret.spinAngle(partialTick), turret.dir() == -1, light, overlay);
     }
 
     @Override
@@ -78,7 +89,7 @@ public class TurretRenderer<T extends TurretBlockEntity> implements BlockEntityR
         public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
             pose.pushPose();
             pose.translate(0, -0.25, 0);
-            look.draw(pose, buffers, 0, 0, false, light, overlay);
+            look.draw(pose, buffers, 0, 0, 0, false, light, overlay);
             pose.popPose();
         }
     }

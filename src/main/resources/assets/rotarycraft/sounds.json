@@ -1,0 +1,14 @@
+{
+  "gatling": {
+    "sounds": [
+      "rotarycraft:gatling"
+    ],
+    "subtitle": "subtitles.rotarycraft.gatling"
+  },
+  "gatlingreload": {
+    "sounds": [
+      "rotarycraft:gatlingreload"
+    ],
+    "subtitle": "subtitles.rotarycraft.gatlingreload"
+  }
+}
