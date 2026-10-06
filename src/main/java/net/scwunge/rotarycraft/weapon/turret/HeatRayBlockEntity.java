@@ -26,6 +26,7 @@ import net.scwunge.rotarycraft.config.RotaryConfig;
 import net.scwunge.rotarycraft.power.PowerRequirement;
 import net.scwunge.rotarycraft.registry.WeaponRegistry;
 import net.scwunge.rotarycraft.weapon.Owned;
+import net.scwunge.rotarycraft.weapon.LaserBeam;
 import net.scwunge.rotarycraft.weapon.WorldGuard;
 import org.jetbrains.annotations.Nullable;
 
@@ -95,7 +96,11 @@ public class HeatRayBlockEntity extends ConsumerBlockEntity implements Owned {
                 break;
             }
             BlockState state = server.getBlockState(pos);
-            if (blocks && !state.isAir()) {
+            LaserBeam.Touch touch = state.isAir() ? LaserBeam.Touch.NONE : LaserBeam.touch(server, pos, state, getPower(), step);
+            if (touch == LaserBeam.Touch.STOP) {
+                blocked = true;
+            }
+            if (touch == LaserBeam.Touch.NONE && blocks && !state.isAir()) {
                 if (state.isFlammable(server, pos, Direction.UP)) {
                     ignite(server, pos);
                 }
@@ -110,6 +115,7 @@ public class HeatRayBlockEntity extends ConsumerBlockEntity implements Owned {
         AABB zone = new AABB(worldPosition.relative(facing)).minmax(new AABB(end)).inflate(0.25);
         for (Entity caught : server.getEntities((Entity) null, zone, e -> !(e instanceof ItemEntity))) {
             caught.igniteForSeconds(burnSeconds());
+            LaserBeam.touch(server, caught, getPower(), step - 1);
         }
     }
 

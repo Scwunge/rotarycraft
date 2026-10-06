@@ -708,4 +708,116 @@ public class WorldMachineGameTests {
             }
         });
     }
+
+    // ---- Laserable ----
+
+    /** A chest that records the beam's calls (power and step) and says whether it blocks the beam. */
+    static class BeamChest extends net.minecraft.world.level.block.entity.ChestBlockEntity implements net.scwunge.rotarycraft.api.Laserable {
+        final boolean blocks;
+        int calls;
+        long lastPower;
+        int lastStep;
+
+        BeamChest(BlockPos pos, BlockState state, boolean blocks) {
+            super(pos, state);
+            this.blocks = blocks;
+        }
+
+        @Override
+        public void whenInBeam(net.minecraft.world.level.Level level, BlockPos pos, long power, int step) {
+            calls++;
+            lastPower = power;
+            lastStep = step;
+        }
+
+        @Override
+        public boolean blockBeam(net.minecraft.world.level.Level level, BlockPos pos, long power) {
+            return blocks;
+        }
+    }
+
+    static BeamChest beamChest(GameTestHelper helper, BlockPos pos, boolean blocks) {
+        helper.setBlock(pos, Blocks.CHEST);
+        BlockPos abs = helper.absolutePos(pos);
+        BeamChest chest = new BeamChest(abs, helper.getLevel().getBlockState(abs), blocks);
+        helper.getLevel().setBlockEntity(chest);
+        return chest;
+    }
+
+    static class BeamHusk extends net.minecraft.world.entity.monster.Husk implements net.scwunge.rotarycraft.api.Laserable {
+        int calls;
+        long lastPower;
+
+        BeamHusk(net.minecraft.world.level.Level level) {
+            super(net.minecraft.world.entity.EntityType.HUSK, level);
+        }
+
+        @Override
+        public void whenInBeam(net.minecraft.world.level.Level level, BlockPos pos, long power, int step) {
+            calls++;
+            lastPower = power;
+        }
+
+        @Override
+        public boolean blockBeam(net.minecraft.world.level.Level level, BlockPos pos, long power) {
+            return false;
+        }
+    }
+
+    @GameTest(template = "empty20x8x7", batch = "world_laserable_heatray", timeoutTicks = 100)
+    public static void heatRayHandsItsBeamToLaserableBlockEntitiesAndStopsAtOneThatBlocks(GameTestHelper helper) {
+        WeaponGameTests.spinningFlywheel(helper, new BlockPos(0, 2, 2), 8192, 1024, Direction.EAST);
+        WeaponGameTests.heatRay(helper, 8192);
+        BeamChest first = beamChest(helper, new BlockPos(5, 2, 2), true);
+        BeamChest behind = beamChest(helper, new BlockPos(8, 2, 2), false);
+        helper.runAfterDelay(20, () -> {
+            helper.assertTrue(first.calls > 0, "the Laserable in the beam was never called");
+            helper.assertTrue(first.lastPower == 8192L * 1024L, "power " + first.lastPower);
+            helper.assertTrue(first.lastStep == 4, "step " + first.lastStep);
+            helper.assertTrue(behind.calls == 0, "the beam went on past a Laserable that blocks it");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "empty20x8x7", batch = "world_laserable_heatray2", timeoutTicks = 100)
+    public static void heatRayBeamGoesOnPastALaserableThatDoesNotBlock(GameTestHelper helper) {
+        WeaponGameTests.spinningFlywheel(helper, new BlockPos(0, 2, 2), 8192, 1024, Direction.EAST);
+        WeaponGameTests.heatRay(helper, 8192);
+        BeamChest first = beamChest(helper, new BlockPos(5, 2, 2), false);
+        BeamChest behind = beamChest(helper, new BlockPos(8, 2, 2), false);
+        helper.runAfterDelay(20, () -> {
+            helper.assertTrue(first.calls > 0 && behind.calls > 0, "calls " + first.calls + ", " + behind.calls);
+            helper.assertTrue(behind.lastStep == 7, "step " + behind.lastStep);
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = "empty20x8x7", batch = "world_laserable_heatray3", timeoutTicks = 100)
+    public static void heatRayHandsItsBeamToLaserableCreatures(GameTestHelper helper) {
+        WeaponGameTests.spinningFlywheel(helper, new BlockPos(0, 2, 2), 8192, 1024, Direction.EAST);
+        WeaponGameTests.heatRay(helper, 8192);
+        BeamHusk husk = new BeamHusk(helper.getLevel());
+        net.minecraft.world.phys.Vec3 at = helper.absoluteVec(new net.minecraft.world.phys.Vec3(5.5, 2, 2.5));
+        husk.setPos(at);
+        husk.setNoAi(true);
+        husk.setPersistenceRequired();
+        helper.getLevel().addFreshEntity(husk);
+        helper.runAfterDelay(20, () -> {
+            helper.assertTrue(husk.calls > 0, "the Laserable creature in the beam was never called");
+            helper.assertTrue(husk.lastPower == 8192L * 1024L, "power " + husk.lastPower);
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "world_laserable_laser", timeoutTicks = 100)
+    public static void laserGunHandsItsBeamToLaserableBlockEntities(GameTestHelper helper) {
+        WeaponGameTests.spinningFlywheel(helper, new BlockPos(2, 1, 2), 4096, 4096);
+        helper.setBlock(new BlockPos(2, 2, 2), net.scwunge.rotarycraft.registry.WeaponRegistry.LASER_GUN.get().defaultBlockState());
+        BeamChest chest = beamChest(helper, new BlockPos(2, 2, 4), true);
+        helper.runAfterDelay(20, () -> {
+            helper.assertTrue(chest.calls > 0, "the Laserable in the beam was never called");
+            helper.assertTrue(chest.lastPower == 4096L * 4096L, "power " + chest.lastPower);
+            helper.succeed();
+        });
+    }
 }

@@ -18,6 +18,7 @@ import net.neoforged.neoforge.common.Tags;
 import net.scwunge.rotarycraft.config.RotaryConfig;
 import net.scwunge.rotarycraft.power.PowerRequirement;
 import net.scwunge.rotarycraft.registry.WeaponRegistry;
+import net.scwunge.rotarycraft.weapon.LaserBeam;
 import net.scwunge.rotarycraft.weapon.WorldGuard;
 
 /**
@@ -90,6 +91,7 @@ public class LaserGunBlockEntity extends TurretBlockEntity {
         Vec3 d = direction();
         boolean blocks = RotaryConfig.get(RotaryConfig.WEAPON_BLOCK_DAMAGE);
         int reach = MAX_RANGE;
+        BlockPos lastTouched = null;
         for (float i = 0; i <= MAX_RANGE; i += 0.5f) {
             BlockPos pos = BlockPos.containing(from.add(d.scale(i)));
             if (!server.isLoaded(pos)) {
@@ -100,7 +102,16 @@ public class LaserGunBlockEntity extends TurretBlockEntity {
             if (pos.equals(worldPosition)) {
                 continue;
             }
-            if (blocks && affect(server, pos, state)) {
+            LaserBeam.Touch touch = LaserBeam.Touch.NONE;
+            if (!state.isAir() && !pos.equals(lastTouched)) {
+                touch = LaserBeam.touch(server, pos, state, getPower(), (int) i);
+                lastTouched = pos;
+            }
+            if (touch == LaserBeam.Touch.STOP) {
+                reach = (int) i + 1;
+                break;
+            }
+            if (touch == LaserBeam.Touch.NONE && blocks && affect(server, pos, state)) {
                 reach = (int) i + 1;
                 break;
             }

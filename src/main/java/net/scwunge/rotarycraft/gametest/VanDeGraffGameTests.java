@@ -65,7 +65,7 @@ public class VanDeGraffGameTests {
         });
     }
 
-    @GameTest(template = TEMPLATE, timeoutTicks = 200)
+    @GameTest(template = TEMPLATE, batch = "vdg_lightstnt", timeoutTicks = 200)
     public static void lightsAdjacentTnt(GameTestHelper helper) {
         generator(helper, true).setCharge(4000);
         helper.setBlock(new BlockPos(2, 2, 1), Blocks.TNT);
