@@ -47,7 +47,7 @@ public class RotaryBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SplitterBlockEntity>> SPLITTER = TYPES.register("splitter",
             () -> BlockEntityType.Builder.of(SplitterBlockEntity::new, RotaryBlocks.SPLITTER.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GearboxBlockEntity>> GEARBOX = TYPES.register("gearbox",
-            () -> BlockEntityType.Builder.of(GearboxBlockEntity::new, RotaryBlocks.GEARBOXES.values().stream().map(h -> (Block) h.get()).toArray(Block[]::new)).build(null));
+            () -> BlockEntityType.Builder.of(GearboxBlockEntity::new, RotaryBlocks.allGearboxes().map(h -> (Block) h.get()).toArray(Block[]::new)).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GeneratorBlockEntity>> GENERATOR = TYPES.register("generator",
             () -> BlockEntityType.Builder.of(GeneratorBlockEntity::new, RotaryBlocks.GENERATOR.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MotorBlockEntity>> ELECTRIC_MOTOR = TYPES.register("electric_motor",

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "G",
+    "M"
+  ],
+  "key": {
+    "M": {
+      "item": "rotarycraft:mount"
+    },
+    "G": {
+      "item": "rotarycraft:tungsten_gear_unit_2"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:gearbox_tungsten_2x",
+    "count": 1
+  }
+}

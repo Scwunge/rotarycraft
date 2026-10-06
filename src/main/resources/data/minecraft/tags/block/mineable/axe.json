@@ -1,5 +1,9 @@
 {
   "values": [
-    "rotarycraft:shaft_wood"
+    "rotarycraft:shaft_wood",
+    "rotarycraft:gearbox_wood_2x",
+    "rotarycraft:gearbox_wood_4x",
+    "rotarycraft:gearbox_wood_8x",
+    "rotarycraft:gearbox_wood_16x"
   ]
 }

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "MGM",
+    "MMM"
+  ],
+  "key": {
+    "M": {
+      "tag": "minecraft:planks"
+    },
+    "G": {
+      "item": "rotarycraft:wood_gear_unit_2"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:gearbox_wood_2x",
+    "count": 1
+  }
+}

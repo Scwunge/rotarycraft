@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "G",
+    "M"
+  ],
+  "key": {
+    "M": {
+      "item": "rotarycraft:mount"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear_unit_4"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:gearbox_steel_4x",
+    "count": 1
+  }
+}

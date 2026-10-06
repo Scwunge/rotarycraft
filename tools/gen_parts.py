@@ -384,9 +384,16 @@ for m in ('steel', 'diamond', 'bedrock'):
     shaped('shaft_' + m, ['S', 'M'], {'M': MOUNT, 'S': item(m + '_rod')}, count=8)
 shaped('shaft_wood', ['BSB', 'BBB'], {'B': tag('minecraft:planks'), 'S': item('minecraft:stick')}, count=8)
 shaped('shaft_stone', ['BSB', 'BBB'], {'B': item('minecraft:smooth_stone_slab'), 'S': item('stone_rod')}, count=8)
-# gearboxes (steel until the other gearbox materials are ported)
-for r in RATIOS:
-    shaped('gearbox_%dx' % r, ['G', 'M'], {'M': MOUNT, 'G': item('steel_gear_unit_%d' % r)})
+# gearboxes: a gear unit on its material's mount (planks for wood, smooth stone slabs for stone, a mount otherwise)
+for m in MATS:
+    for r in RATIOS:
+        unit = item('%s_gear_unit_%d' % (m, r))
+        if m == 'wood':
+            shaped('gearbox_wood_%dx' % r, ['MGM', 'MMM'], {'M': tag('minecraft:planks'), 'G': unit})
+        elif m == 'stone':
+            shaped('gearbox_stone_%dx' % r, ['MGM', 'MMM'], {'M': item('minecraft:smooth_stone_slab'), 'G': unit})
+        else:
+            shaped('gearbox_%s_%dx' % (m, r), ['G', 'M'], {'M': MOUNT, 'G': unit})
 for f in ('wood', 'stone', 'iron', 'gold', 'bedrock'):
     shaped('flywheel_' + f, ['W', 'M'], {'W': item(f + '_flywheel_core'), 'M': MOUNT})
 

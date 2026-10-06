@@ -22,7 +22,7 @@ def w(path, obj):
 ROT = {'north': {}, 'south': {'y': 180}, 'east': {'y': 90}, 'west': {'y': 270}, 'up': {'x': 270}, 'down': {'x': 90}}
 MATS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'steel': (170, 180, 192), 'diamond': (90, 220, 215), 'bedrock': (60, 60, 60)}
 FLYWHEELS = {'wood': (150, 108, 60), 'stone': (128, 128, 128), 'iron': (200, 200, 205), 'gold': (230, 190, 50), 'bedrock': (60, 60, 60)}
-MACHINES = ['dc_engine', 'wind_engine', 'steam_engine', 'generator', 'electric_motor', 'dynamometer', 'clutch', 'grinder', 'extractor', 'blast_furnace', 'friction_heater', 'fermenter', 'centrifuge', 'rock_melter', 'gas_engine', 'performance_engine', 'ac_engine', 'magnetizer', 'fractionator', 'microturbine'] + ['gearbox_%dx' % r for r in (2, 4, 8, 16)] + ['flywheel_' + f for f in FLYWHEELS]
+MACHINES = ['dc_engine', 'wind_engine', 'steam_engine', 'generator', 'electric_motor', 'dynamometer', 'clutch', 'grinder', 'extractor', 'blast_furnace', 'friction_heater', 'fermenter', 'centrifuge', 'rock_melter', 'gas_engine', 'performance_engine', 'ac_engine', 'magnetizer', 'fractionator', 'microturbine'] + ['flywheel_' + f for f in FLYWHEELS]
 BLOCKS = ['shaft_' + m for m in MATS] + MACHINES + ['bevel_gear', 'splitter']
 
 # blockstates ---------------------------------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ for m in MATS:
         'elements': [{'from': [6, 6, 0], 'to': [10, 10, 16], 'faces': faces}],
     })
 for b in MACHINES:
-    front = 'rotarycraft:block/gearbox_front' if b.startswith('gearbox') else 'rotarycraft:block/%s_front' % b
+    front = 'rotarycraft:block/%s_front' % b
     side = 'rotarycraft:block/machine_side'
     w('%s/models/block/%s.json' % (A, b), {'parent': 'minecraft:block/cube', 'textures': {
         'north': front, 'south': 'rotarycraft:block/machine_back', 'east': side, 'west': side, 'up': side, 'down': side, 'particle': side}})
@@ -259,10 +259,6 @@ def shaped(name, pattern, key, count=1):
                                        'key': key, 'result': {'id': 'rotarycraft:' + name, 'count': count}})
 
 
-for a, b in [(2, 4), (4, 8), (8, 16)]:
-    w('%s/recipe/gearbox_%dx.json' % (D, b), {'type': 'minecraft:crafting_shapeless', 'category': 'misc',
-        'ingredients': [{'item': 'rotarycraft:gearbox_%dx' % a}, {'item': 'rotarycraft:gearbox_%dx' % a}],
-        'result': {'id': 'rotarycraft:gearbox_%dx' % b, 'count': 1}})
 
 
 def grind(name, ingredient, result, count=1):
@@ -368,8 +364,6 @@ for f in FLYWHEELS:
     lang['block.rotarycraft.flywheel_' + f] = f.capitalize() + ' Flywheel'
 for m in MATS:
     lang['block.rotarycraft.shaft_' + m] = m.capitalize() + ' Shaft'
-for r in (2, 4, 8, 16):
-    lang['block.rotarycraft.gearbox_%dx' % r] = '%d:1 Gearbox' % r
 w(A + '/lang/en_us.json', lang)
 print('assets ok,', len(BLOCKS), 'blocks')
 import runpy
@@ -381,4 +375,5 @@ runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_melter.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_engines.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_fractionator.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_canola.py'))
+runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_gearboxes.py'))
 runpy.run_path(os.path.join(os.path.dirname(__file__), 'gen_parts.py'))

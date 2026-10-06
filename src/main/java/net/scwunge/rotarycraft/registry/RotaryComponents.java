@@ -12,6 +12,9 @@ public class RotaryComponents {
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<OreProduct>> ORE_PRODUCT = COMPONENTS.register("ore_product",
             () -> DataComponentType.<OreProduct>builder().persistent(OreProduct.CODEC).networkSynchronized(OreProduct.STREAM_CODEC).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<net.scwunge.rotarycraft.item.GearboxState>> GEARBOX_STATE = COMPONENTS.register("gearbox_state",
+            () -> DataComponentType.<net.scwunge.rotarycraft.item.GearboxState>builder().persistent(net.scwunge.rotarycraft.item.GearboxState.CODEC)
+                    .networkSynchronized(net.scwunge.rotarycraft.item.GearboxState.STREAM_CODEC).build());
     /** A shaft core's magnetization in microtesla (Magnetizer charges it, the AC Engine uses it up). */
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAGNETIZATION = COMPONENTS.register("magnetization",
             () -> DataComponentType.<Integer>builder().persistent(com.mojang.serialization.Codec.intRange(1, Integer.MAX_VALUE))

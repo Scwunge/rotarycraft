@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "G",
+    "M"
+  ],
+  "key": {
+    "M": {
+      "item": "rotarycraft:mount"
+    },
+    "G": {
+      "item": "rotarycraft:bedrock_gear_unit_16"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:gearbox_bedrock_16x",
+    "count": 1
+  }
+}

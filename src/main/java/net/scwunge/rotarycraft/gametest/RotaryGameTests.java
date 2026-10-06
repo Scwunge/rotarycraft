@@ -102,7 +102,7 @@ public class RotaryGameTests {
     @GameTest(template = TEMPLATE)
     public static void gearboxReducesSpeedAndMultipliesTorque(GameTestHelper helper) {
         poweredEngine(helper, 0, 2);
-        place(helper, 1, 2, RotaryBlocks.GEARBOXES.get(4).get());
+        place(helper, 1, 2, RotaryBlocks.gearbox(ShaftMaterial.STEEL, 4).get());
         place(helper, 2, 2, RotaryBlocks.DYNAMOMETER.get());
         helper.succeedWhen(() -> {
             DynamometerBlockEntity dyn = be(helper, 2, 2, DynamometerBlockEntity.class);
@@ -114,7 +114,7 @@ public class RotaryGameTests {
     @GameTest(template = TEMPLATE)
     public static void gearboxAccelerates(GameTestHelper helper) {
         poweredEngine(helper, 0, 2);
-        place(helper, 1, 2, RotaryBlocks.GEARBOXES.get(4).get());
+        place(helper, 1, 2, RotaryBlocks.gearbox(ShaftMaterial.STEEL, 4).get());
         be(helper, 1, 2, GearboxBlockEntity.class).toggleMode();
         place(helper, 2, 2, RotaryBlocks.DYNAMOMETER.get());
         helper.succeedWhen(() -> {
@@ -127,8 +127,8 @@ public class RotaryGameTests {
     public static void overloadedWoodShaftBreaks(GameTestHelper helper) {
         // 4 N*m x 16 x 16 = 1024 N*m, far over a wood shaft's ~278 N*m
         poweredEngine(helper, 0, 2);
-        place(helper, 1, 2, RotaryBlocks.GEARBOXES.get(16).get());
-        place(helper, 2, 2, RotaryBlocks.GEARBOXES.get(16).get());
+        place(helper, 1, 2, RotaryBlocks.gearbox(ShaftMaterial.STEEL, 16).get());
+        place(helper, 2, 2, RotaryBlocks.gearbox(ShaftMaterial.STEEL, 16).get());
         place(helper, 3, 2, RotaryBlocks.SHAFTS.get(ShaftMaterial.WOOD).get());
         helper.succeedWhen(() -> helper.assertBlockNotPresent(RotaryBlocks.SHAFTS.get(ShaftMaterial.WOOD).get(), new BlockPos(3, 1, 2)));
     }
@@ -136,8 +136,8 @@ public class RotaryGameTests {
     @GameTest(template = TEMPLATE)
     public static void steelShaftCarriesTheSameLoad(GameTestHelper helper) {
         poweredEngine(helper, 0, 2);
-        place(helper, 1, 2, RotaryBlocks.GEARBOXES.get(16).get());
-        place(helper, 2, 2, RotaryBlocks.GEARBOXES.get(16).get());
+        place(helper, 1, 2, RotaryBlocks.gearbox(ShaftMaterial.STEEL, 16).get());
+        place(helper, 2, 2, RotaryBlocks.gearbox(ShaftMaterial.STEEL, 16).get());
         place(helper, 3, 2, RotaryBlocks.SHAFTS.get(ShaftMaterial.STEEL).get());
         helper.runAfterDelay(20, () -> {
             helper.assertBlockPresent(RotaryBlocks.SHAFTS.get(ShaftMaterial.STEEL).get(), new BlockPos(3, 1, 2));
@@ -171,7 +171,7 @@ public class RotaryGameTests {
     @GameTest(template = TEMPLATE, timeoutTicks = 400)
     public static void flywheelSpinsUpAndCoasts(GameTestHelper helper) {
         poweredEngine(helper, 0, 2);
-        place(helper, 1, 2, RotaryBlocks.GEARBOXES.get(16).get());
+        place(helper, 1, 2, RotaryBlocks.gearbox(ShaftMaterial.STEEL, 16).get());
         place(helper, 2, 2, RotaryBlocks.FLYWHEELS.get(FlywheelType.WOOD).get());
         helper.startSequence()
                 .thenWaitUntil(() -> {
@@ -286,7 +286,7 @@ public class RotaryGameTests {
     @GameTest(template = TEMPLATE)
     public static void splitterSplitsEvenly(GameTestHelper helper) {
         poweredEngine(helper, 0, 2);
-        place(helper, 1, 2, RotaryBlocks.GEARBOXES.get(4).get()); // 16 N*m, 64 rad/s
+        place(helper, 1, 2, RotaryBlocks.gearbox(ShaftMaterial.STEEL, 4).get()); // 16 N*m, 64 rad/s
         splitter(helper, 2, 2, Direction.EAST, Direction.NORTH);
         ((SplitterBlockEntity) helper.getBlockEntity(new BlockPos(2, 1, 2))).toggleMode();
         place(helper, 3, 2, RotaryBlocks.DYNAMOMETER.get());
@@ -303,7 +303,7 @@ public class RotaryGameTests {
     @GameTest(template = TEMPLATE)
     public static void splitterSplitsByRatio(GameTestHelper helper) {
         poweredEngine(helper, 0, 2);
-        place(helper, 1, 2, RotaryBlocks.GEARBOXES.get(4).get());
+        place(helper, 1, 2, RotaryBlocks.gearbox(ShaftMaterial.STEEL, 4).get());
         splitter(helper, 2, 2, Direction.EAST, Direction.NORTH);
         SplitterBlockEntity spl = (SplitterBlockEntity) helper.getBlockEntity(new BlockPos(2, 1, 2));
         spl.toggleMode();
@@ -342,7 +342,11 @@ public class RotaryGameTests {
     static void poweredGrinder(GameTestHelper helper) {
         place(helper, 0, 2, RotaryBlocks.ELECTRIC_MOTOR.get());
         chargeMotor(helper, 0, 2);
-        place(helper, 1, 2, RotaryBlocks.GEARBOXES.get(8).get());
+        place(helper, 1, 2, RotaryBlocks.gearbox(ShaftMaterial.STEEL, 8).get());
+        // a dry steel gearbox wears, and 128 N*m is exactly the grinder's minimum, so lubricate it as a player would
+        be(helper, 1, 2, net.scwunge.rotarycraft.blockentity.GearboxBlockEntity.class).lubricant().fill(
+                new net.neoforged.neoforge.fluids.FluidStack(net.scwunge.rotarycraft.registry.RotaryFluids.LUBRICANT.get(), 24000),
+                net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
         place(helper, 2, 2, RotaryBlocks.GRINDER.get());
     }
 

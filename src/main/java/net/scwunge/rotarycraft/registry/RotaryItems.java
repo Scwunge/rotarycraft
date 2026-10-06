@@ -64,7 +64,7 @@ public class RotaryItems {
         blockItem(RotaryBlocks.AC_ENGINE);
         blockItem(RotaryBlocks.MICROTURBINE);
         RotaryBlocks.SHAFTS.values().forEach(RotaryItems::blockItem);
-        RotaryBlocks.GEARBOXES.values().forEach(RotaryItems::blockItem);
+        RotaryBlocks.allGearboxes().forEach(RotaryItems::blockItem);
         blockItem(RotaryBlocks.BEVEL_GEAR);
         blockItem(RotaryBlocks.SPLITTER);
         blockItem(RotaryBlocks.CLUTCH);

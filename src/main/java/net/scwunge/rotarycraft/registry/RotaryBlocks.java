@@ -39,7 +39,10 @@ public class RotaryBlocks {
     public static final int[] GEARBOX_RATIOS = {2, 4, 8, 16};
 
     public static final Map<ShaftMaterial, DeferredBlock<ShaftBlock>> SHAFTS = new EnumMap<>(ShaftMaterial.class);
-    public static final Map<Integer, DeferredBlock<GearboxBlock>> GEARBOXES = new LinkedHashMap<>();
+    /** Gearboxes by material, then ratio. */
+    public static final Map<ShaftMaterial, Map<Integer, DeferredBlock<GearboxBlock>>> GEARBOXES = new EnumMap<>(ShaftMaterial.class);
+    public static final ShaftMaterial[] GEARBOX_MATERIALS = {ShaftMaterial.WOOD, ShaftMaterial.STONE, ShaftMaterial.STEEL,
+            ShaftMaterial.TUNGSTEN, ShaftMaterial.DIAMOND, ShaftMaterial.BEDROCK};
     public static final Map<FlywheelType, DeferredBlock<FlywheelBlock>> FLYWHEELS = new EnumMap<>(FlywheelType.class);
 
     static {
@@ -49,8 +52,12 @@ public class RotaryBlocks {
         for (FlywheelType t : FlywheelType.values()) {
             FLYWHEELS.put(t, BLOCKS.register("flywheel_" + t.id(), () -> new FlywheelBlock(machineProps(), t)));
         }
-        for (int ratio : GEARBOX_RATIOS) {
-            GEARBOXES.put(ratio, BLOCKS.register("gearbox_" + ratio + "x", () -> new GearboxBlock(machineProps(), ratio)));
+        for (ShaftMaterial m : GEARBOX_MATERIALS) {
+            Map<Integer, DeferredBlock<GearboxBlock>> byRatio = new LinkedHashMap<>();
+            for (int ratio : GEARBOX_RATIOS) {
+                byRatio.put(ratio, BLOCKS.register("gearbox_" + m.id() + "_" + ratio + "x", () -> new GearboxBlock(gearboxProps(m), m, ratio)));
+            }
+            GEARBOXES.put(m, byRatio);
         }
     }
 
@@ -97,6 +104,23 @@ public class RotaryBlocks {
             () -> new net.scwunge.rotarycraft.block.CanolaBlock(net.minecraft.world.level.block.state.BlockBehaviour.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.WHEAT)));
     public static final DeferredBlock<DynamometerBlock> DYNAMOMETER = BLOCKS.register("dynamometer",
             () -> new DynamometerBlock(machineProps()));
+
+    public static DeferredBlock<GearboxBlock> gearbox(ShaftMaterial m, int ratio) {
+        return GEARBOXES.get(m).get(ratio);
+    }
+
+    public static java.util.stream.Stream<DeferredBlock<GearboxBlock>> allGearboxes() {
+        return GEARBOXES.values().stream().flatMap(byRatio -> byRatio.values().stream());
+    }
+
+    static BlockBehaviour.Properties gearboxProps(ShaftMaterial m) {
+        return switch (m) {
+            case WOOD -> BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD);
+            case STONE -> BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 6.0F).sound(SoundType.STONE).requiresCorrectToolForDrops();
+            case BEDROCK -> BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5.0F, 3600000F).sound(SoundType.METAL).requiresCorrectToolForDrops();
+            default -> machineProps();
+        };
+    }
 
     static BlockBehaviour.Properties machineProps() {
         return BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(3.0F, 6.0F).sound(SoundType.METAL).requiresCorrectToolForDrops();
