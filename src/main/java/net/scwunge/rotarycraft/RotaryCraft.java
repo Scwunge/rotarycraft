@@ -5,6 +5,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.capabilities.Capabilities;
+import net.scwunge.rotarycraft.pipe.FluidAccess;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.scwunge.rotarycraft.blockentity.GeneratorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.MotorBlockEntity;
@@ -51,7 +52,7 @@ public class RotaryCraft {
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.PIPE.get(),
                 (be, side) -> be.input());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.GEARBOX.get(),
-                (be, side) -> be.lubricantHandler(side));
+                (be, side) -> FluidAccess.fillOnly(be.lubricantHandler(side)));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.GRINDER.get(),
                 (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.BLAST_FURNACE.get(),
@@ -59,21 +60,21 @@ public class RotaryCraft {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.FERMENTER.get(),
                 (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.FERMENTER.get(),
-                (be, side) -> side == be.inputSide() ? null : be.water());
+                (be, side) -> FluidAccess.fillOnly(side == be.inputSide() ? null : be.water()));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.CENTRIFUGE.get(),
                 (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.CENTRIFUGE.get(),
-                (be, side) -> side == be.inputSide() ? null : be.tank());
+                (be, side) -> FluidAccess.drainOnly(side == be.inputSide() ? null : be.tank()));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.PERFORMANCE_ENGINE.get(),
                 (be, side) -> be.items());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.PERFORMANCE_ENGINE.get(),
-                (be, side) -> be.fuelHandler(side));
+                (be, side) -> FluidAccess.fillOnly(be.fuelHandler(side)));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.HYDRO_ENGINE.get(),
-                (be, side) -> be.lubricantHandler(side));
+                (be, side) -> FluidAccess.fillOnly(be.lubricantHandler(side)));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.JET_ENGINE.get(),
-                (be, side) -> be.fuelHandler(side));
+                (be, side) -> FluidAccess.fillOnly(be.fuelHandler(side)));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.MICROTURBINE.get(),
-                (be, side) -> be.fuelHandler(side));
+                (be, side) -> FluidAccess.fillOnly(be.fuelHandler(side)));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.AC_ENGINE.get(),
                 (be, side) -> be.items());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.MAGNETIZER.get(),
@@ -81,7 +82,7 @@ public class RotaryCraft {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.GAS_ENGINE.get(),
                 (be, side) -> be.items());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.GAS_ENGINE.get(),
-                (be, side) -> be.fuelHandler(side));
+                (be, side) -> FluidAccess.fillOnly(be.fuelHandler(side)));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.FRACTIONATOR.get(),
                 (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.FRACTIONATOR.get(),
@@ -93,9 +94,9 @@ public class RotaryCraft {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, RotaryBlockEntities.EXTRACTOR.get(),
                 (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.EXTRACTOR.get(),
-                (be, side) -> side == be.inputSide() ? null : be.water());
+                (be, side) -> FluidAccess.fillOnly(side == be.inputSide() ? null : be.water()));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, RotaryBlockEntities.STEAM_ENGINE.get(),
-                (be, side) -> side == be.facing() ? null : be.water());
+                (be, side) -> FluidAccess.fillOnly(side == be.facing() ? null : be.water()));
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, RotaryBlockEntities.ELECTRIC_MOTOR.get(),
                 (be, side) -> side == be.facing() ? null : be.energy());
     }

@@ -22,8 +22,9 @@ import java.util.Set;
 
 /**
  * A pipe holds one fluid at some amount (no fixed capacity). Every tick, as in the original, it evens out with connected
- * pipes a quarter of the difference at a time (keeping 5 mB), takes fluid from machines above and below it and gives it
- * to machines beside it. Pressure is 101.3 kPa + 24 Pa per mB: past the pipe's limit it bursts and the fluid spills.
+ * pipes a quarter of the difference at a time (keeping 5 mB). It trades with this mod's machines on any side, as each
+ * machine allows (engines only take, producers only give); other mods' tanks feed it from above and below and it fills
+ * them beside it. Pressure is 101.3 kPa + 24 Pa per mB: past the pipe's limit it bursts and the fluid spills.
  * A fluid hotter than the pipe can take melts the whole run into lava.
  */
 public class PipeBlockEntity extends BlockEntity {
@@ -159,8 +160,8 @@ public class PipeBlockEntity extends BlockEntity {
                         add(f, take);
                     }
                 }
-            } else if (d.getAxis() == Direction.Axis.Y) {
-                // machines above and below feed the pipe
+            } else if (d.getAxis() == Direction.Axis.Y || isOwnMachine(p)) {
+                // this mod's machines give fluid on whichever sides they choose; other mods' tanks feed from above and below
                 IFluidHandler h = level.getCapability(Capabilities.FluidHandler.BLOCK, p, d.getOpposite());
                 if (h == null) {
                     continue;
@@ -205,8 +206,8 @@ public class PipeBlockEntity extends BlockEntity {
                         other.add(f, give);
                     }
                 }
-            } else if (d.getAxis() != Direction.Axis.Y) {
-                // the pipe feeds machines beside it
+            } else if (d.getAxis() != Direction.Axis.Y || isOwnMachine(p)) {
+                // the pipe feeds this mod's machines on any side they take fluid, other mods' tanks beside it
                 IFluidHandler h = level.getCapability(Capabilities.FluidHandler.BLOCK, p, d.getOpposite());
                 if (h == null) {
                     continue;
@@ -220,6 +221,13 @@ public class PipeBlockEntity extends BlockEntity {
                 }
             }
         }
+    }
+
+    /** This mod's machines decide per side whether they take or give fluid (the original's pipe "flow"). */
+    private boolean isOwnMachine(BlockPos p) {
+        BlockEntity be = level.getBlockEntity(p);
+        return be != null && net.scwunge.rotarycraft.RotaryCraft.MOD_ID.equals(
+                net.minecraft.core.registries.BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(be.getType()).getNamespace());
     }
 
     private void burst() {

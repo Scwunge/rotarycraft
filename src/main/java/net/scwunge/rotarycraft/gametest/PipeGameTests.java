@@ -100,15 +100,24 @@ public class PipeGameTests {
         });
     }
 
-    /** ...but not from machines beside them (those are what they deliver to). */
-    @GameTest(template = TEMPLATE, timeoutTicks = 100)
-    public static void pipeBesideAMachineDoesNotDrawFromIt(GameTestHelper helper) {
+    /** This mod's machines give on whichever sides they allow: the Rock Melter's lava comes out of its sides into a pipe. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 200)
+    public static void pipeBesideARockMelterTakesItsLava(GameTestHelper helper) {
         helper.setBlock(new BlockPos(2, 1, 2), RotaryBlocks.ROCK_MELTER.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.NORTH));
         var melter = (net.scwunge.rotarycraft.blockentity.RockMelterBlockEntity) helper.getBlockEntity(new BlockPos(2, 1, 2));
         melter.tank().fill(new FluidStack(Fluids.LAVA, 8000), IFluidHandler.FluidAction.EXECUTE);
         place(helper, new BlockPos(1, 1, 2), PipeType.PIPE);
+        helper.succeedWhen(() -> helper.assertTrue(pipe(helper, new BlockPos(1, 1, 2)).contents().is(Fluids.LAVA), "no lava in the pipe beside the melter"));
+    }
+
+    /** ...and engines only take: a fuel line never pulls fuel back out of an engine. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 100)
+    public static void fuelLineNeverDrainsAnEngine(GameTestHelper helper) {
+        helper.setBlock(new BlockPos(2, 1, 2), RotaryBlocks.GAS_ENGINE.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        ((GasEngineBlockEntity) helper.getBlockEntity(new BlockPos(2, 1, 2))).fuel().fill(new FluidStack(RotaryFluids.ETHANOL.get(), 8000), IFluidHandler.FluidAction.EXECUTE);
+        place(helper, new BlockPos(2, 2, 2), PipeType.FUEL_LINE);
         helper.runAfterDelay(60, () -> {
-            helper.assertTrue(pipe(helper, new BlockPos(1, 1, 2)).amount() == 0, "a pipe pulled from the machine beside it");
+            helper.assertTrue(pipe(helper, new BlockPos(2, 2, 2)).amount() == 0, "the fuel line pulled fuel out of the engine");
             helper.succeed();
         });
     }

@@ -267,7 +267,7 @@ public class FractionatorBlockEntity extends ConsumerBlockEntity implements Menu
         if (side == Direction.UP) {
             return output;
         }
-        return side == Direction.DOWN ? null : ethanol;
+        return side == Direction.DOWN ? null : net.scwunge.rotarycraft.pipe.FluidAccess.fillOnly(ethanol);
     }
 
     public int pressure() {
