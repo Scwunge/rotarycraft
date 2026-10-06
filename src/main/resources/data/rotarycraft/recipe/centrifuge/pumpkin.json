@@ -1,0 +1,15 @@
+{
+  "type": "rotarycraft:centrifuge",
+  "ingredient": {
+    "item": "minecraft:pumpkin"
+  },
+  "outputs": [
+    {
+      "item": {
+        "id": "minecraft:pumpkin_seeds",
+        "count": 12
+      },
+      "chance": 100
+    }
+  ]
+}

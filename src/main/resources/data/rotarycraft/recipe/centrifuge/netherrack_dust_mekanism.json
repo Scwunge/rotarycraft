@@ -1,0 +1,35 @@
+{
+  "type": "rotarycraft:centrifuge",
+  "ingredient": {
+    "item": "rotarycraft:netherrack_dust"
+  },
+  "outputs": [
+    {
+      "item": {
+        "id": "minecraft:glowstone_dust",
+        "count": 1
+      },
+      "chance": 25
+    },
+    {
+      "item": {
+        "id": "minecraft:gunpowder",
+        "count": 1
+      },
+      "chance": 80
+    },
+    {
+      "item": {
+        "id": "mekanism:dust_sulfur",
+        "count": 1
+      },
+      "chance": 40
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mekanism"
+    }
+  ]
+}

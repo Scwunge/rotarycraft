@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rotarycraft:block/centrifuge"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/centrifuge",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/centrifuge",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/centrifuge",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "rotarycraft:block/centrifuge",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/centrifuge",
+      "x": 90
+    }
+  }
+}

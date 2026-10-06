@@ -1,0 +1,60 @@
+{
+  "type": "rotarycraft:centrifuge",
+  "ingredient": {
+    "item": "minecraft:clay"
+  },
+  "outputs": [
+    {
+      "item": {
+        "id": "minecraft:dirt",
+        "count": 1
+      },
+      "chance": 100
+    },
+    {
+      "item": {
+        "id": "rotarycraft:silicon_dust",
+        "count": 1
+      },
+      "chance": 75
+    },
+    {
+      "item": {
+        "id": "rotarycraft:ore_flakes",
+        "count": 1,
+        "components": {
+          "rotarycraft:ore_product": {
+            "type": "iron",
+            "color": 14200723
+          }
+        }
+      },
+      "chance": 0.5
+    },
+    {
+      "item": {
+        "id": "rotarycraft:ore_flakes",
+        "count": 1,
+        "components": {
+          "rotarycraft:ore_product": {
+            "type": "gold",
+            "color": 16576075
+          }
+        }
+      },
+      "chance": 0.2
+    },
+    {
+      "item": {
+        "id": "minecraft:short_grass",
+        "count": 1
+      },
+      "chance": 2.5
+    }
+  ],
+  "fluid": {
+    "id": "minecraft:water",
+    "amount": 20
+  },
+  "fluid_chance": 40
+}

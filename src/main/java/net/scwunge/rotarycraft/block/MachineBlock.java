@@ -113,7 +113,8 @@ public class MachineBlock extends BaseEntityBlock {
             net.neoforged.neoforge.items.ItemStackHandler items = level.getBlockEntity(pos) instanceof GrinderBlockEntity g ? g.items()
                     : level.getBlockEntity(pos) instanceof ExtractorBlockEntity e ? e.items()
                     : level.getBlockEntity(pos) instanceof BlastFurnaceBlockEntity b ? b.items()
-                    : level.getBlockEntity(pos) instanceof FermenterBlockEntity f ? f.items() : null;
+                    : level.getBlockEntity(pos) instanceof FermenterBlockEntity f ? f.items()
+                    : level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.CentrifugeBlockEntity c ? c.items() : null;
             if (items != null) {
                 for (int i = 0; i < items.getSlots(); i++) {
                     Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), items.getStackInSlot(i));

@@ -77,6 +77,8 @@ public class RotaryBlocks {
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.FRICTION_HEATER, FrictionHeaterBlockEntity::new));
     public static final DeferredBlock<MachineBlock> FERMENTER = BLOCKS.register("fermenter",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.FERMENTER, FermenterBlockEntity::new));
+    public static final DeferredBlock<MachineBlock> CENTRIFUGE = BLOCKS.register("centrifuge",
+            () -> new MachineBlock(machineProps(), RotaryBlockEntities.CENTRIFUGE, net.scwunge.rotarycraft.blockentity.CentrifugeBlockEntity::new));
     public static final DeferredBlock<DynamometerBlock> DYNAMOMETER = BLOCKS.register("dynamometer",
             () -> new DynamometerBlock(machineProps()));
 

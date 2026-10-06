@@ -1,0 +1,22 @@
+{
+  "type": "rotarycraft:centrifuge",
+  "ingredient": {
+    "item": "minecraft:magma_cream"
+  },
+  "outputs": [
+    {
+      "item": {
+        "id": "minecraft:slime_ball",
+        "count": 1
+      },
+      "chance": 100
+    },
+    {
+      "item": {
+        "id": "minecraft:blaze_powder",
+        "count": 1
+      },
+      "chance": 100
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import net.scwunge.rotarycraft.blockentity.SteamEngineBlockEntity;
 import net.scwunge.rotarycraft.blockentity.WindEngineBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GearboxBlockEntity;
 import net.scwunge.rotarycraft.blockentity.BlastFurnaceBlockEntity;
+import net.scwunge.rotarycraft.blockentity.CentrifugeBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ExtractorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.FermenterBlockEntity;
 import net.scwunge.rotarycraft.blockentity.FrictionHeaterBlockEntity;
@@ -59,6 +60,8 @@ public class RotaryBlockEntities {
             () -> BlockEntityType.Builder.of(FrictionHeaterBlockEntity::new, RotaryBlocks.FRICTION_HEATER.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FermenterBlockEntity>> FERMENTER = TYPES.register("fermenter",
             () -> BlockEntityType.Builder.of(FermenterBlockEntity::new, RotaryBlocks.FERMENTER.get()).build(null));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CentrifugeBlockEntity>> CENTRIFUGE = TYPES.register("centrifuge",
+            () -> BlockEntityType.Builder.of(CentrifugeBlockEntity::new, RotaryBlocks.CENTRIFUGE.get()).build(null));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DynamometerBlockEntity>> DYNAMOMETER = TYPES.register("dynamometer",
             () -> BlockEntityType.Builder.of(DynamometerBlockEntity::new, RotaryBlocks.DYNAMOMETER.get()).build(null));
 }

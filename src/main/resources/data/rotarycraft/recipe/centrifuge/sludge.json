@@ -1,0 +1,30 @@
+{
+  "type": "rotarycraft:centrifuge",
+  "ingredient": {
+    "item": "rotarycraft:sludge"
+  },
+  "outputs": [
+    {
+      "item": {
+        "id": "rotarycraft:clean_sludge",
+        "count": 1
+      },
+      "chance": 80
+    },
+    {
+      "item": {
+        "id": "rotarycraft:clean_sludge",
+        "count": 1
+      },
+      "chance": 20
+    },
+    {
+      "item": {
+        "id": "rotarycraft:compost",
+        "count": 1
+      },
+      "chance": 25
+    }
+  ],
+  "per_operation": 2
+}

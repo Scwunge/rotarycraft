@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "IGI",
+    "I I",
+    "SXS"
+  ],
+  "key": {
+    "I": {
+      "tag": "c:ingots/steel"
+    },
+    "G": {
+      "tag": "c:glass_panes"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "X": {
+      "item": "rotarycraft:gearbox_4x"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:centrifuge",
+    "count": 1
+  }
+}

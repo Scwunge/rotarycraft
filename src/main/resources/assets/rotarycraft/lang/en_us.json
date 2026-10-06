@@ -94,5 +94,11 @@
   "block.rotarycraft.fermenter": "Fermenter",
   "item.rotarycraft.yeast": "Yeast",
   "item.rotarycraft.sludge": "Sludge",
-  "gui.rotarycraft.fermenter.best": "Best: 25 C for yeast, 35 C for sludge; yeast dies at 60 C"
+  "gui.rotarycraft.fermenter.best": "Best: 25 C for yeast, 35 C for sludge; yeast dies at 60 C",
+  "block.rotarycraft.centrifuge": "Centrifuge",
+  "item.rotarycraft.clean_sludge": "Clean Sludge",
+  "item.rotarycraft.compost": "Compost",
+  "item.rotarycraft.silicon_dust": "Silicon Dust",
+  "gui.rotarycraft.tank": "%s: %s / %s mB",
+  "gui.rotarycraft.empty": "Empty"
 }

@@ -7,6 +7,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.recipe.BlastFurnaceRecipe;
+import net.scwunge.rotarycraft.recipe.CentrifugeRecipe;
 import net.scwunge.rotarycraft.recipe.ExtractionRecipe;
 import net.scwunge.rotarycraft.recipe.GrindingRecipe;
 import net.scwunge.rotarycraft.recipe.TagResultSmeltingRecipe;
@@ -29,6 +30,11 @@ public class RotaryRecipes {
             TYPES.register("blast_furnace", () -> RecipeType.simple(RotaryCraft.id("blast_furnace")));
     public static final DeferredHolder<RecipeSerializer<?>, BlastFurnaceRecipe.Serializer> BLAST_FURNACE_SERIALIZER =
             SERIALIZERS.register("blast_furnace", BlastFurnaceRecipe.Serializer::new);
+
+    public static final DeferredHolder<RecipeType<?>, RecipeType<CentrifugeRecipe>> CENTRIFUGE =
+            TYPES.register("centrifuge", () -> RecipeType.simple(RotaryCraft.id("centrifuge")));
+    public static final DeferredHolder<RecipeSerializer<?>, CentrifugeRecipe.Serializer> CENTRIFUGE_SERIALIZER =
+            SERIALIZERS.register("centrifuge", CentrifugeRecipe.Serializer::new);
 
     /** Furnace recipes whose result comes from an item tag (Extractor flakes into the pack's ingot). */
     public static final DeferredHolder<RecipeSerializer<?>, TagResultSmeltingRecipe.Serializer> TAG_SMELTING_SERIALIZER =

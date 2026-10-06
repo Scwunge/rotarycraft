@@ -1,0 +1,24 @@
+{
+  "type": "rotarycraft:centrifuge",
+  "ingredient": {
+    "item": "minecraft:blaze_powder"
+  },
+  "outputs": [
+    {
+      "item": {
+        "id": "minecraft:gunpowder",
+        "count": 1
+      },
+      "chance": 100
+    }
+  ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "mekanism"
+      }
+    }
+  ]
+}
