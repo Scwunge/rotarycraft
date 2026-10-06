@@ -1,30 +1,25 @@
 package net.scwunge.rotarycraft.weapon;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
 import net.minecraft.world.entity.decoration.HangingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.common.Tags;
 import net.scwunge.rotarycraft.config.RotaryConfig;
@@ -36,29 +31,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * A rail gun slug, as the original: it flies straight and fast and, on hitting a creature or a solid block (or after four seconds),
- * smashes the blocks round the impact by its tier (plants first, then glass, wood, sand and gravel, then stone and dirt, and
- * at the top tiers anything breakable) and strikes every creature within six blocks.
+ * A rail gun slug, as the original: on impact it smashes the blocks round it by its tier (plants first, then glass, wood, sand
+ * and gravel, then stone and dirt, and at the top tiers anything breakable) and strikes every creature within six blocks. In
+ * flight it clears soft blocks (plants, snow) it passes through and bursts in water.
  */
-public class RailgunShot extends Entity {
+public class RailgunShot extends TurretShot {
     private int power;
-    @Nullable
-    private WorldGuard.Owner owner;
-    @Nullable
-    private BlockPos gun;
 
     public RailgunShot(EntityType<? extends RailgunShot> type, Level level) {
         super(type, level);
-        setNoGravity(true);
     }
 
     public RailgunShot(Level level, double x, double y, double z, Vec3 velocity, int power, BlockPos gun, @Nullable WorldGuard.Owner owner) {
         this(WeaponRegistry.RAILGUN_SHOT.get(), level);
-        setPos(x, y, z);
-        setDeltaMovement(velocity);
+        launch(x, y, z, velocity, gun, owner);
         this.power = power;
-        this.gun = gun;
-        this.owner = owner;
     }
 
     public int power() {
@@ -73,83 +60,26 @@ public class RailgunShot extends Entity {
         return (int) (1 + power + Math.pow(4, power) / 16384D);
     }
 
-    @Override
-    public void tick() {
-        if (level().isClientSide) {
-            super.tick();
-            setPos(getX() + getDeltaMovement().x, getY() + getDeltaMovement().y, getZ() + getDeltaMovement().z);
-            return;
-        }
-        tickCount++;
-        ServerLevel level = (ServerLevel) level();
-        BlockPos at = blockPosition();
-        BlockState state = level.getBlockState(at);
-        boolean mobs = !level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(1)).isEmpty();
-        boolean solid = !state.isAir() && !soft(state) && !state.is(WeaponRegistry.RAILGUN.get());
-        if (!state.isAir() && soft(state) && state.getFluidState().isEmpty() && blockDamage()) {
-            breakConnected(level, at, state.getBlock(), 4);
-        }
-        if (mobs || solid) {
-            impact();
-            return;
-        }
-        level.explode(this, getX(), getY(), getZ(), 0, Level.ExplosionInteraction.NONE);
-        if (gun != null && level.isLoaded(gun) && !level.getBlockState(gun).is(WeaponRegistry.RAILGUN.get()) || !level.isLoaded(at)) {
-            discard();
-            return;
-        }
-        if (tickCount > 80) {
-            impact();
-            return;
-        }
-        Vec3 from = position();
-        Vec3 to = from.add(getDeltaMovement());
-        BlockHitResult blockHit = level.clip(new ClipContext(from, to, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
-        if (blockHit.getType() != HitResult.Type.MISS) {
-            to = blockHit.getLocation();
-        }
-        Entity hit = null;
-        double nearest = 0;
-        for (Entity e : level.getEntities(this, getBoundingBox().expandTowards(getDeltaMovement()).inflate(1))) {
-            if (!e.isPickable()) {
-                continue;
-            }
-            var clip = e.getBoundingBox().inflate(0.3).clip(from, to);
-            if (clip.isPresent()) {
-                double d = from.distanceTo(clip.get());
-                if (hit == null || d < nearest) {
-                    hit = e;
-                    nearest = d;
-                }
-            }
-        }
-        if (hit != null || blockHit.getType() != HitResult.Type.MISS) {
-            if (blockHit.getType() == HitResult.Type.BLOCK && hit == null && level.getBlockState(blockHit.getBlockPos()).is(WeaponRegistry.RAILGUN.get())) {
-                discard();
-                return;
-            }
-            impact();
-            return;
-        }
-        setPos(to);
-        if (isInWater()) {
-            level.explode(this, getX(), getY(), getZ(), 3, Level.ExplosionInteraction.NONE);
-            for (int i = 0; i < 4; i++) {
-                level.sendParticles(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
-            }
-        }
-    }
-
-    private static boolean soft(BlockState state) {
-        return state.canBeReplaced();
-    }
-
     private static boolean blockDamage() {
         return RotaryConfig.get(RotaryConfig.WEAPON_BLOCK_DAMAGE) && RotaryConfig.get(RotaryConfig.RAILGUN_BLOCK_DAMAGE);
     }
 
-    private void impact() {
-        ServerLevel level = (ServerLevel) level();
+    @Override
+    protected void flightTick(ServerLevel level, BlockPos at, BlockState state) {
+        if (!state.isAir() && state.canBeReplaced() && state.getFluidState().isEmpty() && blockDamage()) {
+            breakConnected(level, at, state.getBlock(), 4);
+        }
+        level.explode(this, getX(), getY(), getZ(), 0, Level.ExplosionInteraction.NONE);
+    }
+
+    @Override
+    protected void inWater(ServerLevel level) {
+        level.explode(this, getX(), getY(), getZ(), 3, Level.ExplosionInteraction.NONE);
+        level.sendParticles(ParticleTypes.BUBBLE, getX(), getY(), getZ(), 4, 0, 0, 0, 0);
+    }
+
+    @Override
+    protected void impact(ServerLevel level) {
         BlockPos o = blockPosition();
         level.sendParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
         if (blockDamage()) {
@@ -173,7 +103,6 @@ public class RailgunShot extends Entity {
         for (int m = 0; m < 20; m++) {
             level.sendParticles(ParticleTypes.LAVA, getX() - 3 + 6 * random.nextFloat(), getY() - 3 + 6 * random.nextFloat(), getZ() - 3 + 6 * random.nextFloat(), 1, 0, 0, 0, 0);
         }
-        discard();
     }
 
     /** What the impact does to one block, by tier (the original's rules; its hit counters on stone and dirt become chances). */
@@ -182,7 +111,7 @@ public class RailgunShot extends Entity {
         if (state.isAir() || state.is(WeaponRegistry.RAILGUN.get())) {
             return;
         }
-        if (soft(state) && !state.getFluidState().isSource()) {
+        if (state.canBeReplaced() && !state.getFluidState().isSource()) {
             breakConnected(level, pos, state.getBlock(), 5);
             return;
         }
@@ -239,21 +168,14 @@ public class RailgunShot extends Entity {
         open.add(start);
         while (!open.isEmpty() && seen.size() < 4096) {
             BlockPos pos = open.poll();
-            if (!seen.add(pos) || pos.distSqr(start) > radius * radius || !level.getBlockState(pos).is(block)) {
+            if (!seen.add(pos) || pos.distSqr(start) > radius * radius || !level.getBlockState(pos).is(block)
+                    || !WorldGuard.breakBlock(level, pos, owner, true)) {
                 continue;
             }
-            if (!WorldGuard.breakBlock(level, pos, owner, true)) {
-                continue;
-            }
-            for (net.minecraft.core.Direction d : net.minecraft.core.Direction.values()) {
+            for (Direction d : Direction.values()) {
                 open.add(pos.relative(d));
             }
         }
-    }
-
-    private DamageSource damageSource() {
-        return new DamageSource(level().registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.DAMAGE_TYPE)
-                .getHolderOrThrow(WeaponRegistry.RAILGUN_DAMAGE), this);
     }
 
     /** Strips a creature's effects (and a mob's gear, flung away), hurts it and knocks it along the shot's path. */
@@ -278,19 +200,5 @@ public class RailgunShot extends Entity {
         }
         e.setDeltaMovement(getDeltaMovement().scale(power / 15D));
         e.hurtMarked = true;
-    }
-
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {}
-
-    @Override
-    protected void readAdditionalSaveData(CompoundTag tag) {}
-
-    @Override
-    protected void addAdditionalSaveData(CompoundTag tag) {}
-
-    @Override
-    public boolean shouldRenderAtSqrDistance(double distance) {
-        return distance < 256 * 256;
     }
 }

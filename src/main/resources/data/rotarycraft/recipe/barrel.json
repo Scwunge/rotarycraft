@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "OOO",
+    "gtG",
+    "OOO"
+  ],
+  "key": {
+    "t": {
+      "item": "rotarycraft:tungsten_ingot"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    },
+    "G": {
+      "item": "rotarycraft:blast_glass"
+    },
+    "g": {
+      "item": "minecraft:glowstone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:barrel",
+    "count": 1
+  }
+}

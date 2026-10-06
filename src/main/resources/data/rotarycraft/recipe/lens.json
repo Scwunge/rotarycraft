@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " D ",
+    "DGD",
+    " D "
+  ],
+  "key": {
+    "D": {
+      "tag": "c:gems/diamond"
+    },
+    "G": {
+      "item": "rotarycraft:blast_glass"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:lens",
+    "count": 1
+  }
+}

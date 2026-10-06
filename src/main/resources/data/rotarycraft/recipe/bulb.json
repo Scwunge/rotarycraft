@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GGG",
+    "BDB",
+    "BRB"
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:nether_star"
+    },
+    "G": {
+      "item": "minecraft:glowstone"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bulb",
+    "count": 1
+  }
+}

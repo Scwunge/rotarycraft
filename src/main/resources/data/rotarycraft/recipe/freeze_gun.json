@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " ss",
+    "iig",
+    "sb "
+  ],
+  "key": {
+    "b": {
+      "item": "rotarycraft:rail_base"
+    },
+    "i": {
+      "item": "minecraft:ice"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "g": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:freeze_gun",
+    "count": 1
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sss",
+    "ppc",
+    " Ba"
+  ],
+  "key": {
+    "p": {
+      "item": "rotarycraft:pipe"
+    },
+    "c": {
+      "item": "rotarycraft:compressor"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "a": {
+      "item": "rotarycraft:rail_aiming_unit"
+    },
+    "B": {
+      "item": "rotarycraft:rail_base"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:anti_air",
+    "count": 1
+  }
+}

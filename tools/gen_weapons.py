@@ -80,6 +80,10 @@ for meta, name, title in ((0, 'barrel', 'Barrel'), (1, 'lens', 'Lens'), (3, 'bul
                           (10, 'rail_base', 'Turret Base'), (11, 'rail_aiming_unit', 'Turret Aiming Unit')):
     sprite(0, 2 * 16 + meta, name)
     lang['item.rotarycraft.' + name] = title
+shaped('barrel', ['OOO', 'gtG', 'OOO'], {'t': item('tungsten_ingot'), 'O': {'item': 'minecraft:obsidian'}, 'G': item('blast_glass'), 'g': {'item': 'minecraft:glowstone'}})
+shaped('bulb', ['GGG', 'BDB', 'BRB'], {'D': {'item': 'minecraft:nether_star'}, 'G': {'item': 'minecraft:glowstone'}, 'R': {'item': 'minecraft:redstone'},
+                                       'B': {'item': 'minecraft:blaze_rod'}})
+shaped('lens', [' D ', 'DGD', ' D '], {'D': tag('c:gems/diamond'), 'G': item('blast_glass')})
 shaped('rail_head', ['LLL', 'LGL', 'LLL'], {'G': item('power_module'), 'L': item('linear_induction_motor')})
 shaped('rail_base', [' S ', 'PGP'], {'P': item('base_panel'), 'G': item('steel_gear_unit_2'), 'S': item('steel_gear')})
 shaped('rail_aiming_unit', ['sds', 'CRC', 'sgs'], {'R': item('radar_unit'), 'C': item('circuit_board'), 's': STEEL, 'd': tag('c:gems/diamond'),
@@ -89,6 +93,7 @@ shaped('rail_aiming_unit', ['sds', 'CRC', 'sgs'], {'R': item('radar_unit'), 'C':
 model_texture('railguntex.png', 'railgun')
 os.makedirs(T + '/entity', exist_ok=True)
 shutil.copy(REF + '/Textures/Entity/railgun.png', T + '/entity/railgun_shot.png')
+shutil.copy(REF + '/Textures/Entity/freezegun.png', T + '/entity/freeze_shot.png')
 rendered_machine('railgun')
 shaped('railgun', [' H ', ' A ', ' B '], {'B': item('rail_base'), 'A': item('rail_aiming_unit'), 'H': item('rail_head')})
 for tier in range(16):
@@ -102,7 +107,15 @@ for tier in range(1, 16):
     w('%s/recipe/railgun_ammo_%d.json' % (D, tier), {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': pattern,
                                                     'key': {'s': item('railgun_ammo_%d' % (tier - 1)), 'p': filler},
                                                     'result': {'id': 'rotarycraft:railgun_ammo_%d' % tier, 'count': 1}})
-w('%s/damage_type/railgun.json' % D, {'message_id': 'rotarycraft.railgun', 'scaling': 'never', 'exhaustion': 0.1})
+
+# ---- Freeze Gun and Anti-Air ----
+model_texture('freezeguntex.png', 'freeze_gun')
+model_texture('aagun.png', 'anti_air')
+rendered_machine('freeze_gun')
+rendered_machine('anti_air')
+shaped('freeze_gun', [' ss', 'iig', 'sb '], {'b': item('rail_base'), 'i': {'item': 'minecraft:ice'}, 's': STEEL, 'g': item('steel_gear_unit_2')})
+shaped('anti_air', ['sss', 'ppc', ' Ba'], {'p': item('pipe'), 'c': item('compressor'), 's': STEEL, 'a': item('rail_aiming_unit'), 'B': item('rail_base')})
+w('%s/damage_type/turret.json' % D, {'message_id': 'rotarycraft.turret', 'scaling': 'never', 'exhaustion': 0.1})
 
 # ---- Cannon Key ----
 sprite(1, 4, 'cannon_key')
@@ -119,8 +132,14 @@ lang.update({
     'gui.rotarycraft.safe_players': 'Players this turret will not target',
     'gui.rotarycraft.safe_players.remove': 'Remove',
     'gui.rotarycraft.safe_players.none': 'Nobody but the owner',
-    'death.attack.rotarycraft.railgun': '%1$s was hit by a rail gun slug',
-    'death.attack.rotarycraft.railgun.player': "%1$s was hit by %2$s's rail gun slug",
+    'block.rotarycraft.freeze_gun': 'Freeze Gun',
+    'block.rotarycraft.anti_air': 'Anti-Aircraft Gun',
+    'effect.rotarycraft.frozen_solid': 'Frozen Solid',
+    'entity.rotarycraft.railgun_shot': 'Rail Gun Slug',
+    'entity.rotarycraft.freeze_shot': 'Snowball',
+    'entity.rotarycraft.flak_shot': 'Flak',
+    'death.attack.rotarycraft.turret': '%1$s was shot by a turret',
+    'death.attack.rotarycraft.turret.player': "%1$s was shot by %2$s's turret",
 })
 w(lang_path, lang)
 
@@ -129,5 +148,5 @@ data = json.load(open(path))
 data['values'] += ['rotarycraft:' + m for m in MACHINES if 'rotarycraft:' + m not in data['values']]
 w(path, data)
 
-subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun'], check=True)
+subprocess.run([sys.executable, 'tools/modelbase2json.py', 'ModelRailGun', 'ModelFreezeGun', 'ModelAAGun:anti_air'], check=True)
 print('weapons ok,', len(MACHINES), 'machines')

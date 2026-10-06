@@ -18,6 +18,9 @@ import net.scwunge.rotarycraft.block.MachineBlock;
 import net.scwunge.rotarycraft.power.FlywheelType;
 import net.scwunge.rotarycraft.registry.RotaryBlocks;
 import net.scwunge.rotarycraft.registry.WeaponRegistry;
+import net.minecraft.world.item.Items;
+import net.scwunge.rotarycraft.weapon.turret.AntiAirBlockEntity;
+import net.scwunge.rotarycraft.weapon.turret.FreezeGunBlockEntity;
 import net.scwunge.rotarycraft.weapon.turret.RailGunBlockEntity;
 import net.scwunge.rotarycraft.weapon.turret.TurretBlockEntity;
 
@@ -104,6 +107,64 @@ public class WeaponGameTests {
         helper.succeedWhen(() -> {
             helper.assertTrue(gun.dir() == -1, "not hanging");
             helper.assertTrue(gun.hasEnoughPower(), "hanging turret got no power from above");
+        });
+    }
+
+    @GameTest(template = WIDE, timeoutTicks = 300)
+    public static void freezeGunFreezesAHostileMob(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 4096, 1100);
+        helper.setBlock(TURRET, WeaponRegistry.FREEZE_GUN.get().defaultBlockState());
+        FreezeGunBlockEntity gun = helper.getBlockEntity(TURRET);
+        gun.items().setStackInSlot(0, new ItemStack(Items.SNOW_BLOCK, 2));
+        helper.setBlock(new BlockPos(12, 1, 2), net.minecraft.world.level.block.Blocks.STONE);
+        Husk husk = helper.spawnWithNoFreeWill(EntityType.HUSK, new Vec3(12.5, 2, 2.5));
+        helper.succeedWhen(() -> {
+            helper.assertTrue(husk.hasEffect(WeaponRegistry.FREEZE), "husk not frozen (aim " + gun.phi + ", " + gun.theta + ")");
+            helper.assertTrue(husk.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED) <= 0.0001, "frozen husk can still move");
+        });
+    }
+
+    @GameTest(template = WIDE, timeoutTicks = 200)
+    public static void freezeGunTurnsIceIntoSnowballs(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 4096, 1100);
+        helper.setBlock(TURRET, WeaponRegistry.FREEZE_GUN.get().defaultBlockState());
+        FreezeGunBlockEntity gun = helper.getBlockEntity(TURRET);
+        helper.assertTrue(gun.isAmmo(new ItemStack(Items.ICE)) && gun.isAmmo(new ItemStack(Items.SNOWBALL)) && !gun.isAmmo(new ItemStack(Items.DIRT)), "wrong ammo rules");
+        helper.setBlock(new BlockPos(12, 1, 2), net.minecraft.world.level.block.Blocks.STONE);
+        // a target on aim, so the gun works (it also fires one snowball a second)
+        helper.spawnWithNoFreeWill(EntityType.HUSK, new Vec3(12.5, 2, 2.5));
+        gun.items().setStackInSlot(0, new ItemStack(Items.ICE));
+        helper.succeedWhen(() -> {
+            int balls = 0;
+            for (int i = 0; i < gun.items().getSlots(); i++) {
+                helper.assertFalse(gun.items().getStackInSlot(i).is(Items.ICE), "ice not converted");
+                balls += gun.items().getStackInSlot(i).is(Items.SNOWBALL) ? gun.items().getStackInSlot(i).getCount() : 0;
+            }
+            helper.assertTrue(balls >= 10, "only " + balls + " snowballs");
+        });
+    }
+
+    @GameTest(template = WIDE, timeoutTicks = 400)
+    public static void antiAirShootsAFlyer(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 4096, 1100);
+        helper.setBlock(TURRET, WeaponRegistry.ANTI_AIR.get().defaultBlockState());
+        AntiAirBlockEntity gun = helper.getBlockEntity(TURRET);
+        gun.items().setStackInSlot(0, new ItemStack(net.scwunge.rotarycraft.registry.RotaryItems.SCRAP.get(), 16));
+        net.minecraft.world.entity.monster.Phantom phantom = helper.spawnWithNoFreeWill(EntityType.PHANTOM, new Vec3(12.5, 4, 2.5));
+        helper.succeedWhen(() -> helper.assertTrue(phantom.getHealth() < phantom.getMaxHealth() || !phantom.isAlive(), "phantom not hit (aim " + gun.phi + ", " + gun.theta + ")"));
+    }
+
+    @GameTest(template = WIDE, timeoutTicks = 100)
+    public static void antiAirIgnoresGroundMobs(GameTestHelper helper) {
+        spinningFlywheel(helper, TURRET.below(), 4096, 1100);
+        helper.setBlock(TURRET, WeaponRegistry.ANTI_AIR.get().defaultBlockState());
+        AntiAirBlockEntity gun = helper.getBlockEntity(TURRET);
+        gun.items().setStackInSlot(0, new ItemStack(net.scwunge.rotarycraft.registry.RotaryItems.SCRAP.get(), 16));
+        helper.setBlock(new BlockPos(12, 1, 2), net.minecraft.world.level.block.Blocks.STONE);
+        Husk husk = helper.spawnWithNoFreeWill(EntityType.HUSK, new Vec3(12.5, 2, 2.5));
+        helper.runAfterDelay(80, () -> {
+            helper.assertTrue(husk.getHealth() == husk.getMaxHealth(), "anti-air shot a ground mob");
+            helper.succeed();
         });
     }
 }

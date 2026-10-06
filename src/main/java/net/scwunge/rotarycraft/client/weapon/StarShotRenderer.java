@@ -10,23 +10,24 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.scwunge.rotarycraft.RotaryCraft;
-import net.scwunge.rotarycraft.weapon.RailgunShot;
+import net.scwunge.rotarycraft.weapon.TurretShot;
 
-/** A rail gun slug: the original's star of eight quads facing the camera. */
-public class RailgunShotRenderer extends EntityRenderer<RailgunShot> {
-    private static final ResourceLocation TEXTURE = RotaryCraft.id("textures/entity/railgun_shot.png");
+/** A turret shot drawn as the original draws the rail gun slug and the freeze gun snowball: a star of eight quads facing the camera. */
+public class StarShotRenderer extends EntityRenderer<TurretShot> {
+    private final ResourceLocation texture;
 
-    public RailgunShotRenderer(EntityRendererProvider.Context context) {
+    public StarShotRenderer(EntityRendererProvider.Context context, String texture) {
         super(context);
+        this.texture = RotaryCraft.id("textures/entity/" + texture + ".png");
         shadowRadius = 0.15f;
     }
 
     @Override
-    public void render(RailgunShot shot, float yaw, float partialTick, PoseStack pose, MultiBufferSource buffers, int light) {
+    public void render(TurretShot shot, float yaw, float partialTick, PoseStack pose, MultiBufferSource buffers, int light) {
         pose.pushPose();
         pose.mulPose(entityRenderDispatcher.cameraOrientation());
         pose.scale(0.3f, 0.3f, 0.3f);
-        VertexConsumer vc = buffers.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
+        VertexConsumer vc = buffers.getBuffer(RenderType.entityCutoutNoCull(texture));
         for (int i = 0; i < 360; i += 45) {
             pose.mulPose(Axis.YP.rotationDegrees(i));
             PoseStack.Pose p = pose.last();
@@ -44,7 +45,7 @@ public class RailgunShotRenderer extends EntityRenderer<RailgunShot> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(RailgunShot shot) {
-        return TEXTURE;
+    public ResourceLocation getTextureLocation(TurretShot shot) {
+        return texture;
     }
 }

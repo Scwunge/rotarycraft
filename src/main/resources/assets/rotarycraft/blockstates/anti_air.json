@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/anti_air"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/anti_air"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/anti_air"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/anti_air"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/anti_air"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/anti_air"
+    }
+  }
+}

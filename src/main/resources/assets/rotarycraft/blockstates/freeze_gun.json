@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/freeze_gun"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/freeze_gun"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/freeze_gun"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/freeze_gun"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/freeze_gun"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/freeze_gun"
+    }
+  }
+}

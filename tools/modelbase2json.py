@@ -1,7 +1,7 @@
 """Converts the original's Techne-generated ModelBase classes into box lists the client draws with vanilla ModelParts
 (client/ReikaModel), keeping each part's texture offset, boxes, rotation point, rotation and mirror flag.
 
-usage: python tools/modelbase2json.py <ModelName> [...]   (looked up under reference/RotaryCraft/Models)
+usage: python tools/modelbase2json.py <ModelName>[:out_name] [...]   (looked up under reference/RotaryCraft/Models)
 writes src/main/resources/assets/rotarycraft/reika_models/<model_name>.json
 """
 import glob
@@ -23,7 +23,7 @@ def num(s):
     return float(s.rstrip('Ff'))
 
 
-def convert(name):
+def convert(name, out_name=None):
     paths = glob.glob('reference/RotaryCraft/Models/**/%s.java' % name, recursive=True)
     if not paths:
         raise SystemExit('no model ' + name)
@@ -44,7 +44,7 @@ def convert(name):
     for m in re.finditer(r'(\w+)\.rotateAngle([XYZ])\s*=\s*%s\s*;' % NUM, src):
         parts[m.group(1)]['rotation']['XYZ'.index(m.group(2))] = num(m.group(3))
     os.makedirs(OUT, exist_ok=True)
-    out = os.path.join(OUT, snake(name) + '.json')
+    out = os.path.join(OUT, (out_name or snake(name)) + '.json')
     with open(out, 'w', newline='\n') as f:
         json.dump({'texture_size': [tw, th], 'parts': parts}, f, indent=1)
         f.write('\n')
@@ -53,4 +53,5 @@ def convert(name):
 
 if __name__ == '__main__':
     for n in sys.argv[1:]:
-        print(*convert(n))
+        model, _, out_name = n.partition(':')
+        print(*convert(model, out_name or None))
