@@ -248,11 +248,13 @@ public class WorldMachineGameTests {
     public static void weatherControllerNeedsOpenSky(GameTestHelper helper) {
         Runnable restore = enable("weatherController");
         helper.setBlock(MACHINE.above(), Blocks.STONE);
-        helper.runAfterDelay(3, () -> {
-            WeatherControllerBlockEntity controller = weatherController(helper);
-            controller.items().setStackInSlot(0, new ItemStack(WorldMachineRegistry.SILVER_IODIDE.get(), 2));
-            helper.runAfterDelay(30, () -> checkUnderRoof(helper, controller, restore));
-        });
+        // the world's sky-light heightmap catches up with the new roof a moment after it is placed
+        helper.startSequence().thenWaitUntil(() -> helper.assertFalse(helper.getLevel().canSeeSky(helper.absolutePos(MACHINE.above())), "roof not registered"))
+                .thenExecute(() -> {
+                    WeatherControllerBlockEntity controller = weatherController(helper);
+                    controller.items().setStackInSlot(0, new ItemStack(WorldMachineRegistry.SILVER_IODIDE.get(), 2));
+                    helper.runAfterDelay(30, () -> checkUnderRoof(helper, controller, restore));
+                });
     }
 
     private static void checkUnderRoof(GameTestHelper helper, WeatherControllerBlockEntity controller, Runnable restore) {
