@@ -99,6 +99,7 @@
     "rotarycraft:weather_controller",
     "rotarycraft:borer",
     "rotarycraft:bedrock_breaker",
-    "rotarycraft:sonic_borer"
+    "rotarycraft:sonic_borer",
+    "rotarycraft:terraformer"
   ]
 }

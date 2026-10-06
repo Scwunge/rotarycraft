@@ -19,6 +19,8 @@ import net.scwunge.rotarycraft.blockentity.BedrockBreakerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.BorerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ChunkLoaderBlockEntity;
 import net.scwunge.rotarycraft.blockentity.SonicBorerBlockEntity;
+import net.scwunge.rotarycraft.blockentity.TerraformerBlockEntity;
+import net.scwunge.rotarycraft.menu.TerraformerMenu;
 import net.scwunge.rotarycraft.blockentity.WeatherControllerBlockEntity;
 import net.scwunge.rotarycraft.registry.RotaryItems;
 import net.scwunge.rotarycraft.registry.RotaryParts;
@@ -37,9 +39,8 @@ public class WorldMachineGameTests {
     /** Turns a world machine's config switch on for a test; the returned runnable puts it back. */
     static Runnable enable(String name) {
         ModConfigSpec.BooleanValue value = RotaryConfig.WORLD_MACHINES.get(name);
-        boolean before = value.get();
-        value.set(true);
-        return () -> value.set(before);
+        RotaryConfig.override(value, true);
+        return () -> RotaryConfig.clearOverride(value);
     }
 
     static ChunkLoaderBlockEntity chunkLoader(GameTestHelper helper, int torque, int omega) {
@@ -277,8 +278,7 @@ public class WorldMachineGameTests {
     public static void weatherControllerCanBeBannedFromMakingRain(GameTestHelper helper) {
         Runnable restore = enable("weatherController");
         net.neoforged.neoforge.common.ModConfigSpec.BooleanValue ban = RotaryConfig.WEATHER_BANS_RAIN;
-        boolean before = ban.get();
-        ban.set(true);
+        RotaryConfig.override(ban, true);
         WeatherControllerBlockEntity controller = weatherController(helper);
         controller.items().setStackInSlot(0, new ItemStack(WorldMachineRegistry.SILVER_IODIDE.get(), 2));
         helper.runAfterDelay(30, () -> {
@@ -287,7 +287,7 @@ public class WorldMachineGameTests {
                 helper.assertTrue(controller.items().getStackInSlot(0).getCount() == 2, "used items though banned");
                 helper.succeed();
             } finally {
-                ban.set(before);
+                RotaryConfig.clearOverride(ban);
                 finishWeather(helper, restore);
             }
         });
@@ -390,8 +390,7 @@ public class WorldMachineGameTests {
     @GameTest(template = LONG, batch = "world_boreriength", timeoutTicks = 100)
     public static void borerStopsAtItsMaximumLength(GameTestHelper helper) {
         var max = RotaryConfig.BORER_MAX_LENGTH;
-        int before = max.get();
-        max.set(4);
+        RotaryConfig.override(max, 4);
         BorerBlockEntity borer = borer(helper, 1024, FAST);
         borer.setCutMask(1L << (3 * BorerBlockEntity.ROWS + 4));
         helper.runAfterDelay(40, () -> {
@@ -401,7 +400,7 @@ public class WorldMachineGameTests {
                 helper.assertTrue(helper.getBlockState(new BlockPos(7, 1, 3)).is(Blocks.STONE), "bored past its maximum length");
                 helper.succeed();
             } finally {
-                max.set(before);
+                RotaryConfig.clearOverride(max);
             }
         });
     }
@@ -819,5 +818,278 @@ public class WorldMachineGameTests {
             helper.assertTrue(chest.lastPower == 4096L * 4096L, "power " + chest.lastPower);
             helper.succeed();
         });
+    }
+
+    // ---- Terraformer ----
+    static final BlockPos TERRA = new BlockPos(2, 2, 2);
+
+    /** The biome patches the tests have painted, and what they were, so they can be put back (the test arena is shared with temperature-sensitive tests). */
+    private static final java.util.List<Object[]> PAINTED = new java.util.ArrayList<>();
+
+    /** Paints the area round the terraformer (out to {@code reach} blocks) in a biome. */
+    static void paint(GameTestHelper helper, int reach, net.minecraft.resources.ResourceKey<net.minecraft.world.level.biome.Biome> biome) {
+        BlockPos abs = helper.absolutePos(TERRA);
+        for (int qx = (abs.getX() - reach) >> 2; qx <= (abs.getX() + reach) >> 2; qx++) {
+            for (int qz = (abs.getZ() - reach) >> 2; qz <= (abs.getZ() + reach) >> 2; qz++) {
+                var before = helper.getLevel().getBiome(new BlockPos(qx * 4 + 2, abs.getY(), qz * 4 + 2)).unwrapKey().orElse(null);
+                synchronized (PAINTED) {
+                    PAINTED.add(new Object[] {qx, qz, before});
+                }
+                TerraformerBlockEntity.setBiome(helper.getLevel(), qx, qz, biome);
+            }
+        }
+    }
+
+    /** Puts back every biome the tests painted, newest first. */
+    @SuppressWarnings("unchecked")
+    static void unpaint(net.minecraft.server.level.ServerLevel level) {
+        synchronized (PAINTED) {
+            for (int i = PAINTED.size() - 1; i >= 0; i--) {
+                Object[] cell = PAINTED.get(i);
+                if (cell[2] != null) {
+                    TerraformerBlockEntity.setBiome(level, (Integer) cell[0], (Integer) cell[1], (net.minecraft.resources.ResourceKey<net.minecraft.world.level.biome.Biome>) cell[2]);
+                }
+            }
+            PAINTED.clear();
+        }
+    }
+
+    @net.minecraft.gametest.framework.AfterBatch(batch = "world_terraformerisoffbydefault")
+    public static void unpaintOff(net.minecraft.server.level.ServerLevel level) {
+        unpaint(level);
+    }
+
+    @net.minecraft.gametest.framework.AfterBatch(batch = "world_terraformerworks")
+    public static void unpaintWorks(net.minecraft.server.level.ServerLevel level) {
+        unpaint(level);
+    }
+
+    @net.minecraft.gametest.framework.AfterBatch(batch = "world_terraformernoitems")
+    public static void unpaintNoItems(net.minecraft.server.level.ServerLevel level) {
+        unpaint(level);
+    }
+
+    @net.minecraft.gametest.framework.AfterBatch(batch = "world_terraformernosignal")
+    public static void unpaintNoSignal(net.minecraft.server.level.ServerLevel level) {
+        unpaint(level);
+    }
+
+    @net.minecraft.gametest.framework.AfterBatch(batch = "world_terraformerweak")
+    public static void unpaintWeak(net.minecraft.server.level.ServerLevel level) {
+        unpaint(level);
+    }
+
+    /**
+     * A terraformer on top of a powerful flywheel with a redstone block beside it, in a patch of plains, aimed at the forest and holding
+     * everything the step needs unless {@code supplied} is false.
+     */
+    static TerraformerBlockEntity terraformer(GameTestHelper helper, boolean supplied, boolean signal, int torque, int omega) {
+        paint(helper, 12, net.minecraft.world.level.biome.Biomes.PLAINS);
+        WeaponGameTests.spinningFlywheel(helper, TERRA.below(), torque, omega);
+        helper.setBlock(TERRA, WorldMachineRegistry.TERRAFORMER.get().defaultBlockState());
+        if (signal) {
+            helper.setBlock(TERRA.east(), Blocks.REDSTONE_BLOCK);
+        }
+        TerraformerBlockEntity t = helper.getBlockEntity(TERRA);
+        t.setRadius(4);
+        t.setTarget(net.minecraft.world.level.biome.Biomes.FOREST);
+        if (supplied) {
+            t.items().setStackInSlot(0, new ItemStack(Items.OAK_SAPLING, 64));
+            t.items().setStackInSlot(1, new ItemStack(Items.BIRCH_SAPLING, 64));
+            t.tank().fill(new net.neoforged.neoforge.fluids.FluidStack(net.minecraft.world.level.material.Fluids.WATER, 5000),
+                    net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+        }
+        return t;
+    }
+
+    static net.minecraft.resources.ResourceKey<net.minecraft.world.level.biome.Biome> biomeAt(GameTestHelper helper, BlockPos pos) {
+        return helper.getLevel().getBiome(helper.absolutePos(pos)).unwrapKey().orElseThrow();
+    }
+
+    @GameTest(template = TEMPLATE, batch = "world_terraformerisoffbydefault", timeoutTicks = 100)
+    public static void terraformerIsOffByDefault(GameTestHelper helper) {
+        TerraformerBlockEntity t = terraformer(helper, true, true, 4096, FAST);
+        helper.runAfterDelay(40, () -> {
+            helper.assertTrue(biomeAt(helper, TERRA).equals(net.minecraft.world.level.biome.Biomes.PLAINS), "a disabled terraformer changed the biome");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "world_terraformerworks", timeoutTicks = 300)
+    public static void terraformerTurnsPlainsIntoForestUsingWaterAndSaplings(GameTestHelper helper) {
+        Runnable restore = enable("terraformer");
+        TerraformerBlockEntity t = terraformer(helper, true, true, 4096, FAST);
+        helper.succeedWhen(() -> {
+            try {
+                helper.assertTrue(t.remaining() == 0, t.remaining() + " patches left");
+                helper.assertTrue(biomeAt(helper, TERRA).equals(net.minecraft.world.level.biome.Biomes.FOREST), "biome is " + biomeAt(helper, TERRA));
+                helper.assertTrue(t.tank().getFluidAmount() < 5000, "no water used");
+                helper.assertTrue(t.items().getStackInSlot(0).getCount() < 64 || t.items().getStackInSlot(1).getCount() < 64, "no saplings used");
+            } catch (RuntimeException e) {
+                throw e;
+            }
+            restore.run();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "world_terraformernoitems", timeoutTicks = 100)
+    public static void terraformerNeedsWhatTheStepNeeds(GameTestHelper helper) {
+        Runnable restore = enable("terraformer");
+        TerraformerBlockEntity t = terraformer(helper, false, true, 4096, FAST);
+        helper.runAfterDelay(40, () -> {
+            try {
+                helper.assertTrue(biomeAt(helper, TERRA).equals(net.minecraft.world.level.biome.Biomes.PLAINS), "it changed the biome with no water or saplings");
+                helper.succeed();
+            } finally {
+                restore.run();
+            }
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "world_terraformernosignal", timeoutTicks = 100)
+    public static void terraformerWaitsForARedstoneSignal(GameTestHelper helper) {
+        Runnable restore = enable("terraformer");
+        TerraformerBlockEntity t = terraformer(helper, true, false, 4096, FAST);
+        helper.runAfterDelay(40, () -> {
+            try {
+                helper.assertTrue(biomeAt(helper, TERRA).equals(net.minecraft.world.level.biome.Biomes.PLAINS), "it worked without a redstone signal");
+                helper.succeed();
+            } finally {
+                restore.run();
+            }
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "world_terraformerweak", timeoutTicks = 100)
+    public static void terraformerNeedsTheStepsPower(GameTestHelper helper) {
+        Runnable restore = enable("terraformer");
+        // 4096 N*m at 16 rad/s is 65 kW; plains to forest needs 131 kW
+        TerraformerBlockEntity t = terraformer(helper, true, true, 4096, 16);
+        helper.runAfterDelay(40, () -> {
+            try {
+                helper.assertTrue(biomeAt(helper, TERRA).equals(net.minecraft.world.level.biome.Biomes.PLAINS), "it changed the biome without enough power");
+                helper.succeed();
+            } finally {
+                restore.run();
+            }
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void terraformerScreenPicksTargetsAndTheAreaFromTheMenu(GameTestHelper helper) {
+        paint(helper, 4, net.minecraft.world.level.biome.Biomes.PLAINS);
+        helper.setBlock(TERRA, WorldMachineRegistry.TERRAFORMER.get().defaultBlockState());
+        TerraformerBlockEntity t = helper.getBlockEntity(TERRA);
+        net.minecraft.world.entity.player.Player player = helper.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL);
+        TerraformerMenu menu = new TerraformerMenu(1, player.getInventory(), t);
+        var list = net.scwunge.rotarycraft.power.BiomeTransforms.targetsFrom(net.minecraft.world.level.biome.Biomes.PLAINS);
+        helper.assertTrue(list.size() >= 4, "plains should have several targets, has " + list.size());
+        helper.assertTrue(menu.clickMenuButton(player, 0) && list.get(0).equals(t.target()), "first button did not pick the first target");
+        helper.assertTrue(menu.clickMenuButton(player, 0) && t.target() == null, "picking the target again should clear it");
+        helper.assertFalse(menu.clickMenuButton(player, 99), "a button that is not there did something");
+        int before = t.radius();
+        menu.clickMenuButton(player, TerraformerMenu.RADIUS_UP);
+        helper.assertTrue(t.radius() == before + TerraformerMenu.RADIUS_STEP, "radius up " + t.radius());
+        for (int i = 0; i < 100; i++) {
+            menu.clickMenuButton(player, TerraformerMenu.RADIUS_UP);
+        }
+        helper.assertTrue(t.radius() <= net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.TERRAFORMER_MAX_RADIUS), "radius past its maximum " + t.radius());
+        helper.assertTrue(menu.centralId() >= 0 && menu.power() == 0, "menu data");
+        unpaint(helper.getLevel());
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void everyTerraformerStepNamesRealBiomesAndHasAnIcon(GameTestHelper helper) {
+        var biomes = helper.getLevel().registryAccess().registryOrThrow(net.minecraft.core.registries.Registries.BIOME);
+        for (var step : net.scwunge.rotarycraft.power.BiomeTransforms.all()) {
+            helper.assertTrue(biomes.containsKey(step.from()) && biomes.containsKey(step.to()), "unknown biome in " + step);
+            helper.assertTrue(step.power() > 0, "step without power " + step);
+        }
+        for (var from : net.scwunge.rotarycraft.power.BiomeTransforms.sources()) {
+            for (var to : net.scwunge.rotarycraft.power.BiomeTransforms.targetsFrom(from)) {
+                helper.assertTrue(net.scwunge.rotarycraft.power.BiomeTransforms.iconId(to) >= 0, "no icon for " + to.location());
+            }
+        }
+        helper.succeed();
+    }
+
+    // ---- the client reads what the server sends ----
+
+    /** A fresh block entity of the same kind, as a client would have, fed the packet the server's one sends. */
+    @SuppressWarnings("unchecked")
+    static <T extends net.minecraft.world.level.block.entity.BlockEntity> T afterSync(GameTestHelper helper, T server) {
+        T client = (T) server.getType().create(server.getBlockPos(), server.getBlockState());
+        net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket packet =
+                (net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket) server.getUpdatePacket();
+        client.onDataPacket(null, packet, helper.getLevel().registryAccess());
+        return client;
+    }
+
+    static void load(GameTestHelper helper, net.minecraft.world.level.block.entity.BlockEntity be, net.minecraft.nbt.CompoundTag tag) {
+        be.loadCustomOnly(tag, helper.getLevel().registryAccess());
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void clientsReadTheBorersUpdatePacket(GameTestHelper helper) {
+        helper.setBlock(MACHINE, WorldMachineRegistry.BORER.get().defaultBlockState());
+        BorerBlockEntity server = helper.getBlockEntity(MACHINE);
+        net.minecraft.nbt.CompoundTag tag = new net.minecraft.nbt.CompoundTag();
+        tag.putBoolean("jammed", true);
+        tag.putInt("step", 9);
+        load(helper, server, tag);
+        BorerBlockEntity client = afterSync(helper, server);
+        helper.assertTrue(client.isJammed() && client.step() == 9, "the client's borer did not take the packet: jammed " + client.isJammed() + ", step " + client.step());
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void clientsReadTheBedrockBreakersUpdatePacket(GameTestHelper helper) {
+        helper.setBlock(MACHINE, WorldMachineRegistry.BEDROCK_BREAKER.get().defaultBlockState());
+        BedrockBreakerBlockEntity server = helper.getBlockEntity(MACHINE);
+        net.minecraft.nbt.CompoundTag tag = new net.minecraft.nbt.CompoundTag();
+        tag.putInt("step", 7);
+        load(helper, server, tag);
+        BedrockBreakerBlockEntity client = afterSync(helper, server);
+        helper.assertTrue(client.step() == 7, "the client's bedrock breaker did not take the packet: step " + client.step());
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void clientsReadTheChunkLoadersUpdatePacket(GameTestHelper helper) {
+        helper.setBlock(MACHINE, WorldMachineRegistry.CHUNK_LOADER.get().defaultBlockState());
+        ChunkLoaderBlockEntity server = helper.getBlockEntity(MACHINE);
+        net.minecraft.nbt.CompoundTag tag = new net.minecraft.nbt.CompoundTag();
+        tag.putInt("omega", 3_000_000);
+        load(helper, server, tag);
+        ChunkLoaderBlockEntity client = afterSync(helper, server);
+        helper.assertTrue(client.getOmega() == 3_000_000, "the client's chunk loader did not take the packet: omega " + client.getOmega());
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void clientsReadTheTerraformersUpdatePacket(GameTestHelper helper) {
+        helper.setBlock(MACHINE, WorldMachineRegistry.TERRAFORMER.get().defaultBlockState());
+        TerraformerBlockEntity server = helper.getBlockEntity(MACHINE);
+        net.minecraft.nbt.CompoundTag tag = new net.minecraft.nbt.CompoundTag();
+        tag.putInt("omega", 4096);
+        tag.putInt("torque", 33);
+        load(helper, server, tag);
+        TerraformerBlockEntity client = afterSync(helper, server);
+        helper.assertTrue(client.getOmega() == 4096 && client.getTorque() == 33, "the client's terraformer did not take the packet: " + client.getTorque() + " N*m, " + client.getOmega() + " rad/s");
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void clientsReadTheWindersUpdatePacket(GameTestHelper helper) {
+        helper.setBlock(MACHINE, net.scwunge.rotarycraft.registry.WeaponRegistry.WINDER.get().defaultBlockState());
+        net.scwunge.rotarycraft.blockentity.WinderBlockEntity server = helper.getBlockEntity(MACHINE);
+        net.minecraft.nbt.CompoundTag tag = new net.minecraft.nbt.CompoundTag();
+        tag.putInt("omega", 512);
+        tag.putInt("torque", 64);
+        load(helper, server, tag);
+        net.scwunge.rotarycraft.blockentity.WinderBlockEntity client = afterSync(helper, server);
+        helper.assertTrue(client.getOmega() == 512 && client.getTorque() == 64, "the client's winder did not take the packet: " + client.getTorque() + " N*m, " + client.getOmega() + " rad/s");
+        helper.succeed();
     }
 }

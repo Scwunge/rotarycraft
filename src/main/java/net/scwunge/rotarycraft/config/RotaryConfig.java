@@ -34,6 +34,8 @@ public class RotaryConfig {
     public static final ModConfigSpec.DoubleValue BORER_POWER_FACTOR;
     public static final ModConfigSpec.BooleanValue BORER_MAINTENANCE;
     public static final ModConfigSpec.IntValue BORER_MAX_LENGTH;
+    public static final ModConfigSpec.IntValue TERRAFORMER_MAX_RADIUS;
+    public static final ModConfigSpec.BooleanValue TERRAFORMER_EDITS_BLOCKS;
     public static final ModConfigSpec.IntValue SONIC_BORER_RANGE;
     public static final ModConfigSpec.BooleanValue BEDROCK_VOID_HOLE;
 
@@ -99,6 +101,8 @@ public class RotaryConfig {
         BEDROCK_VOID_HOLE = b.comment("The bedrock breaker may grind through the lowest layer of the world (and so open a hole to the void).")
                 .define("bedrockBreakerVoidHole", false);
         SONIC_BORER_RANGE = b.comment("How far ahead a sonic borer looks for something to shatter (at least 64).").defineInRange("sonicBorerRange", 512, 64, 4096);
+        TERRAFORMER_MAX_RADIUS = b.comment("Widest area, in blocks out from itself, a terraformer can be set to work.").defineInRange("terraformerMaxRadius", 32, 4, 128);
+        TERRAFORMER_EDITS_BLOCKS = b.comment("A terraformer with a diamond inside also remakes the ground and snow of a patch to suit its new biome (the original).").define("terraformerEditsBlocks", true);
         BORER_MAX_LENGTH = b.comment("Longest tunnel a borer will bore, in blocks (the original has no limit, so a borer left running in open country keeps",
                 "generating the land ahead of it for ever). It jams when it gets there.").defineInRange("borerMaxLength", 1024, 8, 30_000_000);
         BORER_MAINTENANCE = b.comment("The borer wears out its drill (256 blocks) and needs a new Drill item to carry on.").define("borerRequiresMaintenance", false);
@@ -122,7 +126,24 @@ public class RotaryConfig {
         return get(DIGGERS.get(name));
     }
 
+    /** Values that tests have put in place for a while, without saving the config file (saving it makes the game reload the file later). */
+    private static final java.util.Map<ModConfigSpec.ConfigValue<?>, Object> OVERRIDES = new java.util.concurrent.ConcurrentHashMap<>();
+
+    /** Makes {@link #get} return {@code value} for this setting until {@link #clearOverride}, without touching the config file. For tests. */
+    public static <T> void override(ModConfigSpec.ConfigValue<T> setting, T value) {
+        OVERRIDES.put(setting, value);
+    }
+
+    public static void clearOverride(ModConfigSpec.ConfigValue<?> setting) {
+        OVERRIDES.remove(setting);
+    }
+
+    @SuppressWarnings("unchecked")
     public static <T> T get(ModConfigSpec.ConfigValue<T> value) {
+        Object forced = OVERRIDES.get(value);
+        if (forced != null) {
+            return (T) forced;
+        }
         return SPEC.isLoaded() ? value.get() : value.getDefault();
     }
 }

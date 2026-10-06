@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SsS",
+    "ici",
+    "PiP"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "s": {
+      "item": "rotarycraft:screen"
+    },
+    "i": {
+      "item": "rotarycraft:impeller"
+    },
+    "c": {
+      "item": "rotarycraft:circuit_board"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:terraformer",
+    "count": 1
+  }
+}

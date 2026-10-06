@@ -178,7 +178,26 @@ rendered_machine('sonic_borer')
 MODELS.append('ModelSonicBorer:sonic_borer')
 shaped('sonic_borer', ['ss ', 'Icp', 'bbb'], {'s': STEEL, 'I': {'item': 'minecraft:iron_bars'}, 'c': item('compressor'), 'p': item('pipe'), 'b': item('base_panel')})
 
+# ---- Terraformer ----
+front = side.copy()
+g = ImageDraw.Draw(front)
+g.ellipse([2, 2, 13, 13], fill=(40, 90, 170, 255), outline=(150, 154, 162, 255))
+g.polygon([(5, 5), (8, 4), (10, 6), (9, 9), (6, 10), (4, 8)], fill=(70, 150, 70, 255))
+g.polygon([(9, 8), (12, 8), (11, 11), (8, 12)], fill=(190, 170, 100, 255))
+g.arc([2, 2, 13, 13], 200, 340, fill=(220, 230, 255, 255))
+plain_machine('terraformer', front)
+shutil.copy(REF + '/Textures/GUI/terraformergui.png', T + '/gui/terraformer.png')
+shutil.copy(REF + '/Textures/GUI/biomes.png', T + '/gui/biomes.png')
+shaped('terraformer', ['SsS', 'ici', 'PiP'], {'S': STEEL, 's': item('screen'), 'i': item('impeller'), 'c': item('circuit_board'), 'P': item('base_panel')})
+
 lang.update({
+    'block.rotarycraft.terraformer': 'Terraformer',
+    'gui.rotarycraft.terraformer.radius': 'Area: %s',
+    'gui.rotarycraft.terraformer.water': 'Water: %s mB',
+    'gui.rotarycraft.terraformer.needs_signal': 'Needs a redstone signal',
+    'gui.rotarycraft.terraformer.power': 'Needs %s',
+    'gui.rotarycraft.terraformer.water_cost': 'Uses %s mB of water',
+    'gui.rotarycraft.terraformer.item': 'Needs %s (used %s%% of the time)',
     'block.rotarycraft.sonic_borer': 'Sonic Borer',
     'block.rotarycraft.bedrock_breaker': 'Bedrock Breaker',
     'block.rotarycraft.bedrock_slice': 'Bedrock',

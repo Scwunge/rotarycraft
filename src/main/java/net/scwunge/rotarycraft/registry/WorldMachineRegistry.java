@@ -19,15 +19,18 @@ import net.scwunge.rotarycraft.block.BedrockBreakerBlock;
 import net.scwunge.rotarycraft.block.BedrockSliceBlock;
 import net.scwunge.rotarycraft.block.BorerBlock;
 import net.scwunge.rotarycraft.block.ChunkLoaderBlock;
+import net.scwunge.rotarycraft.block.TerraformerBlock;
 import net.scwunge.rotarycraft.weapon.OwnedMachineBlock;
 import net.scwunge.rotarycraft.block.MiningPipeBlock;
 import net.scwunge.rotarycraft.block.WeatherControllerBlock;
 import net.scwunge.rotarycraft.blockentity.BedrockBreakerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.BorerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ChunkLoaderBlockEntity;
+import net.scwunge.rotarycraft.blockentity.TerraformerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.SonicBorerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.WeatherControllerBlockEntity;
 import net.scwunge.rotarycraft.menu.BorerMenu;
+import net.scwunge.rotarycraft.menu.TerraformerMenu;
 import net.scwunge.rotarycraft.menu.WeatherMenu;
 
 /**
@@ -81,8 +84,17 @@ public final class WorldMachineRegistry {
             RotaryBlockEntities.TYPES.register("sonic_borer",
                     () -> BlockEntityType.Builder.of(SonicBorerBlockEntity::new, SONIC_BORER.get()).build(null));
 
+    // ---- Terraformer ----
+    public static final DeferredBlock<TerraformerBlock> TERRAFORMER = RotaryBlocks.BLOCKS.register("terraformer",
+            () -> new TerraformerBlock(RotaryBlocks.machineProps(), WorldMachineRegistry.TERRAFORMER_BE, TerraformerBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TerraformerBlockEntity>> TERRAFORMER_BE =
+            RotaryBlockEntities.TYPES.register("terraformer", () -> BlockEntityType.Builder.of(TerraformerBlockEntity::new, TERRAFORMER.get()).build(null));
+    public static final DeferredHolder<MenuType<?>, MenuType<TerraformerMenu>> TERRAFORMER_MENU = RotaryMenus.MENUS.register("terraformer",
+            () -> IMenuTypeExtension.create(TerraformerMenu::fromNetwork));
+
     static {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(CHUNK_LOADER));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(TERRAFORMER));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(SONIC_BORER));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(BEDROCK_BREAKER));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(BORER));
@@ -98,6 +110,8 @@ public final class WorldMachineRegistry {
     @SubscribeEvent
     public static void capabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, WEATHER_CONTROLLER_BE.get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, TERRAFORMER_BE.get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, TERRAFORMER_BE.get(), (be, side) -> net.scwunge.rotarycraft.pipe.FluidAccess.fillOnly(be.tank()));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BEDROCK_BREAKER_BE.get(), (be, side) -> be.automationItems());
     }
 

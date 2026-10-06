@@ -603,6 +603,12 @@ public class BorerBlockEntity extends ConsumerBlockEntity implements MenuProvide
         step = tag.getInt("step");
     }
 
+    /** The default would load the packet as if it were saved data, skipping {@link #handleUpdateTag}, so clients would never see the sync. */
+    @Override
+    public void onDataPacket(net.minecraft.network.Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider registries) {
+        handleUpdateTag(pkt.getTag(), registries);
+    }
+
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
