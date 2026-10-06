@@ -30,6 +30,11 @@ PIPES = {
     'pipe': ((170, 180, 192), 'Fluid Pipe'),
     'fuel_line': ((30, 22, 40), 'Fuel Line'),
     'bedrock_pipe': ((60, 60, 60), 'Bedrock Pipe'),
+    # fittings, framed like the blocks they're made from
+    'valve': ((175, 30, 20), 'Valve'),
+    'separator': ((35, 70, 160), 'Separator'),
+    'bypass': ((215, 200, 150), 'Bypass'),
+    'suction_pipe': ((70, 35, 40), 'Suction Pipe'),
 }
 ROT = {'north': {}, 'south': {'y': 180}, 'east': {'y': 90}, 'west': {'y': 270}, 'up': {'x': 270}, 'down': {'x': 90}}
 
@@ -73,7 +78,8 @@ def add_tag(path, values):
     w(path, data)
 
 
-add_tag(R + '/data/minecraft/tags/block/mineable/pickaxe.json', ['rotarycraft:pipe', 'rotarycraft:fuel_line', 'rotarycraft:bedrock_pipe'])
+add_tag(R + '/data/minecraft/tags/block/mineable/pickaxe.json', ['rotarycraft:pipe', 'rotarycraft:fuel_line', 'rotarycraft:bedrock_pipe',
+                                                                 'rotarycraft:valve', 'rotarycraft:separator', 'rotarycraft:bypass', 'rotarycraft:suction_pipe'])
 add_tag(R + '/data/minecraft/tags/block/mineable/axe.json', ['rotarycraft:hose'])
 add_tag(R + '/data/minecraft/tags/block/needs_diamond_tool.json', ['rotarycraft:bedrock_pipe'])
 # fluids that only fuel lines (and bedrock pipes) carry
@@ -92,6 +98,11 @@ shaped('hose', ['WGW', 'WGW', 'WGW'], {'W': {'tag': 'minecraft:planks'}, 'G': GL
 shaped('pipe', ['SGS', 'SGS', 'SGS'], {'S': {'tag': 'c:ingots/steel'}, 'G': GLASS}, 16)
 shaped('fuel_line', ['OGO', 'OGO', 'OGO'], {'O': {'tag': 'c:obsidians'}, 'G': GLASS}, 16)
 shaped('bedrock_pipe', ['BGB', 'BGB', 'BGB'], {'B': {'item': 'rotarycraft:bedrock_ingot'}, 'G': {'item': 'minecraft:tinted_glass'}}, 16)  # tinted glass until Blast Glass
+STEEL_ING = {'tag': 'c:ingots/steel'}
+shaped('valve', ['sGs', 'OGO', 'sGs'], {'s': STEEL_ING, 'G': GLASS, 'O': {'item': 'minecraft:redstone_block'}}, 4)
+shaped('separator', ['sGs', 'OGO', 'sGs'], {'s': STEEL_ING, 'G': GLASS, 'O': {'item': 'minecraft:lapis_block'}}, 4)
+shaped('bypass', ['OGO', 'OGO', 'OGO'], {'O': {'item': 'minecraft:sandstone'}, 'G': GLASS}, 4)
+shaped('suction_pipe', ['SGS', 'SGS', 'SGS'], {'S': {'item': 'minecraft:nether_bricks'}, 'G': GLASS}, 4)
 
 # Reservoir: an open steel tank (covered: with a glass lid); Pump: an impeller housing
 steel = (170, 180, 192)

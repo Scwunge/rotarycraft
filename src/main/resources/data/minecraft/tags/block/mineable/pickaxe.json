@@ -57,6 +57,10 @@
     "rotarycraft:pipe",
     "rotarycraft:fuel_line",
     "rotarycraft:bedrock_pipe",
+    "rotarycraft:valve",
+    "rotarycraft:separator",
+    "rotarycraft:bypass",
+    "rotarycraft:suction_pipe",
     "rotarycraft:reservoir"
   ]
 }

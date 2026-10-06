@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "OGO",
+    "OGO",
+    "OGO"
+  ],
+  "key": {
+    "O": {
+      "item": "minecraft:sandstone"
+    },
+    "G": {
+      "tag": "c:glass_blocks"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bypass",
+    "count": 4
+  }
+}

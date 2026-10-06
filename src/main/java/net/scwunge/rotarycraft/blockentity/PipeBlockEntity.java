@@ -145,14 +145,20 @@ public class PipeBlockEntity extends BlockEntity {
         }
     }
 
+    private boolean powered() {
+        return level.hasNeighborSignal(worldPosition);
+    }
+
     private void intake() {
+        boolean powered = powered();
         for (Direction d : Direction.values()) {
             if (!connected(d)) {
                 continue;
             }
             BlockPos p = worldPosition.relative(d);
             if (level.getBlockEntity(p) instanceof PipeBlockEntity other) {
-                if (type().connectsTo(other.type()) && other.amount > amount && canTake(other.fluid)) {
+                if (type().connectsTo(other.type()) && type().receivesFromPipe(d, powered) && other.type().emitsToPipe(d.getOpposite(), other.powered())
+                        && other.amount > amount && canTake(other.fluid)) {
                     int take = Math.min(CAPACITY_LIMIT - amount, (other.amount - amount) / 4);
                     if (take > 0) {
                         FluidStack f = other.fluid;
@@ -160,8 +166,8 @@ public class PipeBlockEntity extends BlockEntity {
                         add(f, take);
                     }
                 }
-            } else if (d.getAxis() == Direction.Axis.Y || isOwnMachine(p)) {
-                // this mod's machines give fluid on whichever sides they choose; other mods' tanks feed from above and below
+            } else if (type().drawsFromTank(d, powered, isOwnMachine(p))) {
+                // this mod's machines give fluid on whichever sides they choose; other mods' tanks feed pipes from above and below
                 IFluidHandler h = level.getCapability(Capabilities.FluidHandler.BLOCK, p, d.getOpposite());
                 if (h == null) {
                     continue;
@@ -189,6 +195,7 @@ public class PipeBlockEntity extends BlockEntity {
         if (amount <= 1 || fluid.isEmpty()) {
             return;
         }
+        boolean powered = powered();
         for (Direction d : Direction.values()) {
             if (amount <= 0) {
                 return;
@@ -198,7 +205,8 @@ public class PipeBlockEntity extends BlockEntity {
             }
             BlockPos p = worldPosition.relative(d);
             if (level.getBlockEntity(p) instanceof PipeBlockEntity other) {
-                if (type().connectsTo(other.type()) && other.canTake(fluid) && amount > other.amount) {
+                if (type().connectsTo(other.type()) && type().emitsToPipe(d, powered) && other.type().receivesFromPipe(d.getOpposite(), other.powered())
+                        && other.canTake(fluid) && amount > other.amount) {
                     int give = Math.min((amount - other.amount) / 4, amount - KEEP);
                     if (give > 0) {
                         FluidStack f = fluid;
@@ -206,8 +214,8 @@ public class PipeBlockEntity extends BlockEntity {
                         other.add(f, give);
                     }
                 }
-            } else if (d.getAxis() != Direction.Axis.Y || isOwnMachine(p)) {
-                // the pipe feeds this mod's machines on any side they take fluid, other mods' tanks beside it
+            } else if (type().fillsTank(d, isOwnMachine(p))) {
+                // pipes feed this mod's machines on any side they take fluid, other mods' tanks beside them
                 IFluidHandler h = level.getCapability(Capabilities.FluidHandler.BLOCK, p, d.getOpposite());
                 if (h == null) {
                     continue;

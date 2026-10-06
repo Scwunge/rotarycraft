@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SGS",
+    "SGS",
+    "SGS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:nether_bricks"
+    },
+    "G": {
+      "tag": "c:glass_blocks"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:suction_pipe",
+    "count": 4
+  }
+}

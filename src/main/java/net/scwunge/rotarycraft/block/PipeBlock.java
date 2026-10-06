@@ -66,39 +66,64 @@ public class PipeBlock extends BaseEntityBlock {
         PROPERTIES.values().forEach(builder::add);
     }
 
-    private boolean joins(LevelAccessor level, BlockPos pos, Direction d) {
+    /**
+     * Whether this pipe joins its neighbour on side {@code d}. Two bypasses keep whatever was decided when one was placed
+     * against the other (stored in the state); everything else follows the kinds' rules.
+     */
+    private boolean joins(BlockState state, LevelAccessor level, BlockPos pos, Direction d) {
         BlockPos n = pos.relative(d);
         BlockState other = level.getBlockState(n);
         if (other.getBlock() instanceof PipeBlock p) {
+            if (type == PipeType.BYPASS && p.type() == PipeType.BYPASS) {
+                return state.getBlock() == this && state.getValue(PROPERTIES.get(d));
+            }
             return type.connectsTo(p.type());
         }
-        return level instanceof Level l && l.getCapability(Capabilities.FluidHandler.BLOCK, n, d.getOpposite()) != null;
+        return type.touchesTanks() && level instanceof Level l && l.getCapability(Capabilities.FluidHandler.BLOCK, n, d.getOpposite()) != null;
     }
 
     private BlockState withConnections(BlockState state, LevelAccessor level, BlockPos pos) {
         for (Direction d : Direction.values()) {
-            state = state.setValue(PROPERTIES.get(d), joins(level, pos, d));
+            state = state.setValue(PROPERTIES.get(d), joins(state, level, pos, d));
         }
         return state;
     }
 
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        return withConnections(defaultBlockState(), ctx.getLevel(), ctx.getClickedPos());
+        BlockState state = defaultBlockState();
+        // a bypass placed against another bypass joins it (and only that one)
+        Direction against = ctx.getClickedFace().getOpposite();
+        if (type == PipeType.BYPASS && ctx.getLevel().getBlockState(ctx.getClickedPos().relative(against)).getBlock() instanceof PipeBlock p
+                && p.type() == PipeType.BYPASS) {
+            state = state.setValue(PROPERTIES.get(against), true);
+        }
+        return withConnections(state, ctx.getLevel(), ctx.getClickedPos());
     }
 
     @Override
     protected BlockState updateShape(BlockState state, Direction dir, BlockState neighbor, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
-        return state.setValue(PROPERTIES.get(dir), joins(level, pos, dir));
+        return state.setValue(PROPERTIES.get(dir), joins(state, level, pos, dir));
     }
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState old, boolean moving) {
         super.onPlace(state, level, pos, old, moving);
-        // machines placed next to a pipe don't always change its shape, so check again once their capabilities exist
-        if (!level.isClientSide()) {
-            level.scheduleTick(pos, this, 1);
+        if (level.isClientSide()) {
+            return;
         }
+        // tell a bypass we were placed against that it is joined to us
+        if (type == PipeType.BYPASS && !old.is(this)) {
+            for (Direction d : Direction.values()) {
+                BlockPos n = pos.relative(d);
+                BlockState other = level.getBlockState(n);
+                if (state.getValue(PROPERTIES.get(d)) && other.getBlock() instanceof PipeBlock p && p.type() == PipeType.BYPASS) {
+                    level.setBlock(n, other.setValue(PROPERTIES.get(d.getOpposite()), true), Block.UPDATE_ALL);
+                }
+            }
+        }
+        // machines placed next to a pipe don't always change its shape, so check again once their capabilities exist
+        level.scheduleTick(pos, this, 1);
     }
 
     @Override
