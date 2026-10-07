@@ -27,4 +27,8 @@ public class RotaryComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<net.scwunge.rotarycraft.crafting.CraftPattern>> CRAFT_PATTERN = COMPONENTS.register("craft_pattern",
             () -> DataComponentType.<net.scwunge.rotarycraft.crafting.CraftPattern>builder().persistent(net.scwunge.rotarycraft.crafting.CraftPattern.CODEC)
                     .networkSynchronized(net.scwunge.rotarycraft.crafting.CraftPattern.STREAM_CODEC).build());
+    /** Where the first pulley was, in a belt or chain waiting for its second. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<net.minecraft.core.GlobalPos>> BELT_END = COMPONENTS.register("belt_end",
+            () -> DataComponentType.<net.minecraft.core.GlobalPos>builder().persistent(net.minecraft.core.GlobalPos.CODEC)
+                    .networkSynchronized(net.minecraft.core.GlobalPos.STREAM_CODEC).build());
 }

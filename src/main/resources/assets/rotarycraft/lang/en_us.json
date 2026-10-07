@@ -649,5 +649,14 @@
   "message.rotarycraft.ecu.set": "ECU set to %s (%s%% speed).",
   "message.rotarycraft.ecu.redstone": "ECU is now redstone-operated.",
   "message.rotarycraft.ecu.manual": "ECU is now manually controlled.",
-  "message.rotarycraft.ecu.status": "ECU: %s (%s%% speed), fuel %s / %s mB"
+  "message.rotarycraft.ecu.status": "ECU: %s (%s%% speed), fuel %s / %s mB",
+  "block.rotarycraft.belt_hub": "Belt Pulley",
+  "block.rotarycraft.chain_drive": "Chain Drive",
+  "block.rotarycraft.split_belt": "Split Belt Pulley",
+  "message.rotarycraft.belt.first": "First pulley chosen: use the belt on the other one.",
+  "message.rotarycraft.belt.lost": "The first pulley is gone.",
+  "message.rotarycraft.belt.short": "Not enough belt: it needs %s.",
+  "message.rotarycraft.belt.invalid": "The pulleys cannot be joined like that.",
+  "message.rotarycraft.belt.receiving": "This pulley now receives the belt.",
+  "message.rotarycraft.belt.driving": "This pulley now drives the belt."
 }

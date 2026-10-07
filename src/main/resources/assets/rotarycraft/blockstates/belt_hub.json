@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/belt_hub"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/belt_hub"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/belt_hub"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/belt_hub"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/belt_hub"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/belt_hub"
+    }
+  }
+}

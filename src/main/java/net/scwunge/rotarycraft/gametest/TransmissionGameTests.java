@@ -19,6 +19,13 @@ import net.scwunge.rotarycraft.power.ShaftMaterial;
 import net.scwunge.rotarycraft.registry.RotaryFluids;
 import net.scwunge.rotarycraft.registry.RotaryParts;
 import net.scwunge.rotarycraft.transmission.BusControllerBlockEntity;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.phys.BlockHitResult;
+import net.scwunge.rotarycraft.item.BeltItem;
+import net.scwunge.rotarycraft.registry.RotaryComponents;
+import net.scwunge.rotarycraft.transmission.BeltHubBlock;
+import net.scwunge.rotarycraft.transmission.BeltHubBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GasEngineBlockEntity;
 import net.scwunge.rotarycraft.registry.RotaryItems;
 import net.scwunge.rotarycraft.transmission.EngineControllerBlockEntity;
@@ -431,6 +438,169 @@ public class TransmissionGameTests {
         EngineControllerBlockEntity other = helper.getBlockEntity(CLUTCH.below());
         other.loadWithComponents(saved, registries);
         helper.assertTrue(other.redstoneMode() && other.setting() == EngineControllerBlockEntity.Setting.SHUTDOWN, "the settings were lost");
+        helper.succeed();
+    }
+
+    // ---- belt, chain and split belt pulleys ----
+
+    static final String ROOM = SolarGameTests.ROOM;
+    static final BlockPos DRIVER = new BlockPos(2, 2, 3);
+    static final BlockPos RECEIVER = new BlockPos(8, 2, 3);
+
+    /** A driver at the west end, fed from the north by a spinning flywheel, and a receiving end at the east, with a meter on its shaft side. */
+    static BeltHubBlockEntity[] belt(GameTestHelper helper, DeferredBlock<BeltHubBlock> block, int torque, int omega, boolean connect) {
+        WeaponGameTests.spinningFlywheel(helper, DRIVER.north(), torque, omega, Direction.SOUTH);
+        helper.setBlock(DRIVER, block.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.NORTH));
+        helper.setBlock(RECEIVER, block.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.NORTH));
+        BeltHubBlockEntity driver = helper.getBlockEntity(DRIVER);
+        BeltHubBlockEntity receiver = helper.getBlockEntity(RECEIVER);
+        receiver.setReceivingEnd(true);
+        if (connect) {
+            helper.assertTrue(driver.tryConnect(helper.absolutePos(RECEIVER)) && receiver.tryConnect(helper.absolutePos(DRIVER)), "the pulleys would not join");
+        }
+        return new BeltHubBlockEntity[] {driver, receiver};
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 60)
+    public static void aBeltCarriesPowerBetweenTwoPulleys(GameTestHelper helper) {
+        belt(helper, TransmissionRegistry.BELT_HUB, 64, 64, true);
+        DynamometerBlockEntity meter = meter(helper, RECEIVER.north(), Direction.NORTH);
+        helper.succeedWhen(() -> helper.assertTrue(meter.getTorque() == 64 && meter.getOmega() == 64, "the far end gave " + meter.getTorque() + " N*m " + meter.getOmega() + " rad/s"));
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 60)
+    public static void aBeltSlipsAboveItsLimitAndAWetOneTakesAQuarter(GameTestHelper helper) {
+        BeltHubBlockEntity[] hubs = belt(helper, TransmissionRegistry.BELT_HUB, 10000, 64, true);
+        DynamometerBlockEntity meter = meter(helper, RECEIVER.north(), Direction.NORTH);
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(meter.getTorque() == 8192, "a dry belt should cap at 8192, gave " + meter.getTorque());
+            helper.assertTrue(hubs[1].isSlipping(), "it should be slipping");
+            hubs[1].makeWet(1);
+        });
+        helper.succeedWhen(() -> helper.assertTrue(meter.getTorque() == 2048, "a wet belt should cap at 2048, gave " + meter.getTorque()));
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 60)
+    public static void aBeltSmoothsSpeedAboveItsLimit(GameTestHelper helper) {
+        belt(helper, TransmissionRegistry.BELT_HUB, 4, 8192 + 100, true);
+        DynamometerBlockEntity meter = meter(helper, RECEIVER.north(), Direction.NORTH);
+        helper.succeedWhen(() -> helper.assertTrue(meter.getOmega() == 8192 + 10, "the speed over the limit passes on as its square root: " + meter.getOmega()));
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 60)
+    public static void aChainTakesMoreButTearsItselfApartAboveItsSpeed(GameTestHelper helper) {
+        belt(helper, TransmissionRegistry.CHAIN_DRIVE, 12000, 64, true);
+        DynamometerBlockEntity meter = meter(helper, RECEIVER.north(), Direction.NORTH);
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(meter.getTorque() == 12000, "a chain should take 12000 N*m, gave " + meter.getTorque());
+            WeaponGameTests.spinningFlywheel(helper, DRIVER.north(), 4, 70000, Direction.SOUTH);
+        });
+        helper.succeedWhen(() -> helper.assertBlockNotPresent(TransmissionRegistry.CHAIN_DRIVE.get(), RECEIVER));
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 60)
+    public static void aSplitBeltTakesOffAFixedTorqueAndTheShaftCarriesOn(GameTestHelper helper) {
+        belt(helper, TransmissionRegistry.SPLIT_BELT, 200, 64, true);
+        DynamometerBlockEntity through = meter(helper, DRIVER.south(), Direction.SOUTH);
+        DynamometerBlockEntity taken = meter(helper, RECEIVER.south(), Direction.SOUTH);
+        helper.succeedWhen(() -> {
+            helper.assertTrue(through.getTorque() == 200 - BeltHubBlockEntity.TAKEOFF_TORQUE && through.getOmega() == 64, "the shaft carries " + through.getTorque() + " N*m " + through.getOmega() + " rad/s");
+            helper.assertTrue(taken.getTorque() == BeltHubBlockEntity.TAKEOFF_TORQUE && taken.getOmega() == 64, "the belt delivers " + taken.getTorque() + " N*m " + taken.getOmega() + " rad/s");
+        });
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 60)
+    public static void aSplitBeltsReceivingEndAddsTheBeltsTorqueToItsOwnShaft(GameTestHelper helper) {
+        belt(helper, TransmissionRegistry.SPLIT_BELT, 200, 64, true);
+        WeaponGameTests.spinningFlywheel(helper, RECEIVER.north(), 100, 64, Direction.SOUTH);
+        DynamometerBlockEntity taken = meter(helper, RECEIVER.south(), Direction.SOUTH);
+        helper.succeedWhen(() -> helper.assertTrue(taken.getTorque() == 100 + BeltHubBlockEntity.TAKEOFF_TORQUE && taken.getOmega() == 64, "the line carries " + taken.getTorque() + " N*m " + taken.getOmega() + " rad/s"));
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 60)
+    public static void pulleysOnlyJoinInAStraightClearLineAcrossParallelShafts(GameTestHelper helper) {
+        BeltHubBlockEntity[] hubs = belt(helper, TransmissionRegistry.BELT_HUB, 4, 4, false);
+        BlockPos driverAt = helper.absolutePos(DRIVER);
+        BlockPos receiverAt = helper.absolutePos(RECEIVER);
+        helper.setBlock(DRIVER.east(2), Blocks.STONE);
+        helper.assertFalse(hubs[0].canConnect(receiverAt), "a belt cannot pass through stone");
+        helper.setBlock(DRIVER.east(2), Blocks.AIR);
+        helper.assertTrue(hubs[0].canConnect(receiverAt) && hubs[1].canConnect(driverAt), "it is clear now");
+        hubs[1].setReceivingEnd(false);
+        helper.assertFalse(hubs[0].canConnect(receiverAt), "two drivers cannot be joined");
+        hubs[1].setReceivingEnd(true);
+        helper.setBlock(RECEIVER.above(), Blocks.AIR);
+        BlockPos off = RECEIVER.above(2);
+        helper.setBlock(off, TransmissionRegistry.BELT_HUB.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.NORTH));
+        ((BeltHubBlockEntity) helper.getBlockEntity(off)).setReceivingEnd(true);
+        helper.assertFalse(hubs[0].canConnect(helper.absolutePos(off)), "not in a straight line");
+        helper.setBlock(RECEIVER, TransmissionRegistry.BELT_HUB.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.UP));
+        BeltHubBlockEntity turned = helper.getBlockEntity(RECEIVER);
+        turned.setReceivingEnd(true);
+        helper.assertFalse(hubs[0].canConnect(receiverAt), "the shafts must be parallel");
+        helper.succeed();
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 60)
+    public static void theBeltItemJoinsTwoPulleysAndSpendsABeltForEveryBlockBetween(GameTestHelper helper) {
+        BeltHubBlockEntity[] hubs = belt(helper, TransmissionRegistry.BELT_HUB, 4, 4, false);
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        ItemStack belts = new ItemStack(RotaryParts.part("belt").get(), 8);
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, belts);
+        BeltItem item = (BeltItem) belts.getItem();
+        item.useOn(new UseOnContext(helper.getLevel(), player, net.minecraft.world.InteractionHand.MAIN_HAND, belts, new BlockHitResult(helper.absolutePos(DRIVER).getCenter(), Direction.UP, helper.absolutePos(DRIVER), false)));
+        helper.assertTrue(belts.has(RotaryComponents.BELT_END.get()), "the first pulley should be remembered");
+        item.useOn(new UseOnContext(helper.getLevel(), player, net.minecraft.world.InteractionHand.MAIN_HAND, belts, new BlockHitResult(helper.absolutePos(RECEIVER).getCenter(), Direction.UP, helper.absolutePos(RECEIVER), false)));
+        helper.assertTrue(hubs[0].hasValidConnection() && hubs[1].hasValidConnection(), "the belt should be on");
+        helper.assertTrue(belts.getCount() == 3, "five of the eight belts go between the pulleys six apart, left " + belts.getCount());
+        helper.assertFalse(belts.has(RotaryComponents.BELT_END.get()), "the memory should be wiped");
+        // too short a belt
+        hubs[0].resetOther();
+        hubs[0].reset();
+        ItemStack few = new ItemStack(RotaryParts.part("belt").get(), 3);
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, few);
+        item.useOn(new UseOnContext(helper.getLevel(), player, net.minecraft.world.InteractionHand.MAIN_HAND, few, new BlockHitResult(helper.absolutePos(DRIVER).getCenter(), Direction.UP, helper.absolutePos(DRIVER), false)));
+        item.useOn(new UseOnContext(helper.getLevel(), player, net.minecraft.world.InteractionHand.MAIN_HAND, few, new BlockHitResult(helper.absolutePos(RECEIVER).getCenter(), Direction.UP, helper.absolutePos(RECEIVER), false)));
+        helper.assertFalse(hubs[0].hasValidConnection(), "three belts should not reach");
+        helper.assertTrue(few.getCount() == 3, "nothing should be spent");
+        helper.succeed();
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 60)
+    public static void breakingAPulleyDropsTheBeltAndFreesTheOtherEnd(GameTestHelper helper) {
+        BeltHubBlockEntity[] hubs = belt(helper, TransmissionRegistry.BELT_HUB, 4, 4, true);
+        helper.setBlock(DRIVER, Blocks.AIR);
+        helper.assertFalse(hubs[1].hasValidConnection(), "the other end should be free");
+        int dropped = 0;
+        for (var drop : helper.getLevel().getEntitiesOfClass(net.minecraft.world.entity.item.ItemEntity.class, new net.minecraft.world.phys.AABB(helper.absolutePos(DRIVER)).inflate(3))) {
+            if (drop.getItem().is(RotaryParts.part("belt").get())) {
+                dropped += drop.getItem().getCount();
+            }
+        }
+        helper.assertTrue(dropped == 5, "five belts should drop, got " + dropped);
+        helper.succeed();
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 60)
+    public static void theScrewdriverSwapsWhichPulleyReceivesAndSavedPulleysKeepTheirBelt(GameTestHelper helper) {
+        BeltHubBlockEntity[] hubs = belt(helper, TransmissionRegistry.BELT_HUB, 4, 4, true);
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        player.setShiftKeyDown(true);
+        ItemStack driver = new ItemStack(RotaryItems.SCREWDRIVER.get());
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, driver);
+        RotaryItems.SCREWDRIVER.get().useOn(new UseOnContext(helper.getLevel(), player, net.minecraft.world.InteractionHand.MAIN_HAND, driver,
+                new BlockHitResult(helper.absolutePos(DRIVER).getCenter(), Direction.UP, helper.absolutePos(DRIVER), false)));
+        helper.assertTrue(hubs[0].isReceivingEnd(), "sneaking should make it the receiving end");
+        helper.assertFalse(hubs[0].hasValidConnection() || hubs[1].hasValidConnection(), "the belt should come off");
+        hubs[0].setReceivingEnd(false);
+        helper.assertTrue(hubs[0].tryConnect(helper.absolutePos(RECEIVER)) && hubs[1].tryConnect(helper.absolutePos(DRIVER)), "it joins again");
+        var registries = helper.getLevel().registryAccess();
+        var saved = hubs[0].saveWithFullMetadata(registries);
+        helper.setBlock(DRIVER, Blocks.AIR);
+        helper.setBlock(DRIVER, TransmissionRegistry.BELT_HUB.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.NORTH));
+        BeltHubBlockEntity other = helper.getBlockEntity(DRIVER);
+        other.loadWithComponents(saved, registries);
+        helper.assertTrue(other.otherEnd() != null && other.otherEnd().equals(helper.absolutePos(RECEIVER)) && !other.isReceivingEnd(), "the belt was lost");
         helper.succeed();
     }
 }

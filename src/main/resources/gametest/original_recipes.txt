@@ -23,7 +23,7 @@ PENDING|BEDSHEARS|bedrock tools and armour (items, section 6)
 PENDING|BEDSHOVEL|bedrock tools and armour (items, section 6)
 PENDING|BEDSICKLE|bedrock tools and armour (items, section 6)
 PENDING|BEDSWORD|bedrock tools and armour (items, section 6)
-MAP|BELT|belt
+MAP|BELT|belt_hub
 MAP|BEVELGEARS|bevel_gear
 MAP|BIGFURNACE|big_furnace
 MAP|BLOCKCANNON|block_cannon
@@ -37,7 +37,7 @@ MAP|BYPASS|bypass
 MAP|CAVESCANNER|cave_scanner
 MAP|CCTV|cctv
 MAP|CENTRIFUGE|centrifuge
-MAP|CHAIN|chain
+MAP|CHAIN|chain_drive
 MAP|CHUNKLOADER|chunk_loader
 MAP|CLUTCH|clutch
 MAP|COMPACTOR|compactor
@@ -153,7 +153,7 @@ PENDING|SORTING|not ported yet
 MAP|SPAWNERCONTROLLER|spawner_controller
 MAP|SPILLER|spiller
 PENDING|SPILLWAY|not ported yet
-PENDING|SPLITBELT|not ported yet
+MAP|SPLITBELT|split_belt
 MAP|SPLITTER|splitter
 MAP|SPRING|spring
 MAP|SPRINKLER|sprinkler

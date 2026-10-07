@@ -14,7 +14,7 @@ ALIASES = {
     'BEDPIPE': 'bedrock_pipe', 'BEVELGEARS': 'bevel_gear', 'CRAFTER': 'auto_crafter', 'DRYING': 'dryer', 'FILLER': 'block_filler',
     'FIREWORK': 'firework_machine', 'FRICTION': 'friction_heater', 'HYDRATOR': 'ground_hydrator', 'LAVAMAKER': 'rock_melter',
     'MAGNETIC': 'magnetic_motor', 'OBSIDIAN': 'obsidian_maker', 'PARTICLE': 'particle_emitter', 'PNEUENGINE': 'pneumatic_engine',
-    'SUCTION': 'suction_pipe', 'DISTRIBCLUTCH': 'distribution_clutch', 'ECU': 'engine_controller', 'VANDEGRAFF': 'van_de_graaff', 'FUELENGINE': 'gas_engine',
+    'SUCTION': 'suction_pipe', 'DISTRIBCLUTCH': 'distribution_clutch', 'BELT': 'belt_hub', 'CHAIN': 'chain_drive', 'SPLITBELT': 'split_belt', 'ECU': 'engine_controller', 'VANDEGRAFF': 'van_de_graaff', 'FUELENGINE': 'gas_engine',
     'ENGINE': 'dc_engine,ac_engine,wind_engine,steam_engine,gas_engine,performance_engine,hydro_engine,jet_engine',
     'FLYWHEEL': 'flywheel_wood,flywheel_stone,flywheel_iron,flywheel_gold,flywheel_bedrock',
     'SHAFT': 'shaft_wood,shaft_stone,shaft_steel,shaft_diamond,shaft_bedrock',

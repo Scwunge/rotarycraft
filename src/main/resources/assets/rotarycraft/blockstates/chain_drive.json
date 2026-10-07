@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/chain_drive"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/chain_drive"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/chain_drive"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/chain_drive"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/chain_drive"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/chain_drive"
+    }
+  }
+}

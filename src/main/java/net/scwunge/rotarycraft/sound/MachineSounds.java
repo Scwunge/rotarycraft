@@ -27,6 +27,7 @@ import net.scwunge.rotarycraft.config.SoundConfig;
 import net.scwunge.rotarycraft.farm.FanBlockEntity;
 import net.scwunge.rotarycraft.farm.SprinklerBaseBlockEntity;
 import net.scwunge.rotarycraft.registry.MachineSoundRegistry;
+import net.scwunge.rotarycraft.transmission.BeltHubBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -95,6 +96,9 @@ public final class MachineSounds {
         }
         if (be instanceof PulseFurnaceBlockEntity) {
             return new Spec("pulsejet", 18, 1F, 1F, false);
+        }
+        if (be instanceof BeltHubBlockEntity) {
+            return new Spec("belt", 26, 0.6F, 1F, false);
         }
         if (be instanceof FanBlockEntity fan) {
             return fan.getPower() >= FanBlockEntity.REQUIREMENT.minPower() ? new Spec("fan", 27, 0.5F, 1F, false) : null;

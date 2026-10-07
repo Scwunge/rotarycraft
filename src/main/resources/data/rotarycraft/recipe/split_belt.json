@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " B ",
+    "SgS",
+    " B "
+  ],
+  "key": {
+    "S": {
+      "item": "rotarycraft:shaft_core"
+    },
+    "B": {
+      "item": "rotarycraft:belt_hub"
+    },
+    "g": {
+      "item": "rotarycraft:steel_gear"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:split_belt",
+    "count": 2
+  }
+}

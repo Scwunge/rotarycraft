@@ -62,8 +62,14 @@ public final class RotaryParts {
                 "spring_tungsten_ingot", "bedrock_dust", "bedrock_ingot",
                 // flywheel cores (FLYWHEELCRAFT)
                 "wood_flywheel_core", "stone_flywheel_core", "iron_flywheel_core", "gold_flywheel_core", "bedrock_flywheel_core"}) {
-            PARTS.put(id, simple(id));
+            PARTS.put(id, id.equals("belt") || id.equals("chain") ? belt(id) : simple(id));
         }
+    }
+
+    /** A belt or a chain: used on two pulleys, it joins them. */
+    private static DeferredItem<Item> belt(String id) {
+        boolean chain = id.equals("chain");
+        return RotaryItems.add(RotaryItems.ITEMS.register(id, () -> new net.scwunge.rotarycraft.item.BeltItem(new Item.Properties(), chain)));
     }
 
     private static DeferredItem<Item> simple(String id) {

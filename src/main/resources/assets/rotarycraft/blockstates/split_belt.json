@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/split_belt"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/split_belt"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/split_belt"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/split_belt"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/split_belt"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/split_belt"
+    }
+  }
+}

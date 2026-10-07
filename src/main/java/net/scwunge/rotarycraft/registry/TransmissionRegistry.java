@@ -19,6 +19,8 @@ import net.scwunge.rotarycraft.transmission.BusControllerBlock;
 import net.scwunge.rotarycraft.transmission.BusControllerBlockEntity;
 import net.scwunge.rotarycraft.transmission.PowerBusBlock;
 import net.scwunge.rotarycraft.transmission.PowerBusBlockEntity;
+import net.scwunge.rotarycraft.transmission.BeltHubBlock;
+import net.scwunge.rotarycraft.transmission.BeltHubBlockEntity;
 import net.scwunge.rotarycraft.transmission.DistributionClutchBlock;
 import net.scwunge.rotarycraft.transmission.EngineControllerBlock;
 import net.scwunge.rotarycraft.transmission.EngineControllerBlockEntity;
@@ -57,7 +59,19 @@ public final class TransmissionRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<EngineControllerBlockEntity>> ENGINE_CONTROLLER_BE =
             RotaryBlockEntities.TYPES.register("engine_controller", () -> BlockEntityType.Builder.of(EngineControllerBlockEntity::new, ENGINE_CONTROLLER.get()).build(null));
 
+    public static final DeferredBlock<BeltHubBlock> BELT_HUB = RotaryBlocks.BLOCKS.register("belt_hub",
+            () -> new BeltHubBlock(RotaryBlocks.machineProps().noOcclusion(), BeltHubBlock.Kind.BELT));
+    public static final DeferredBlock<BeltHubBlock> CHAIN_DRIVE = RotaryBlocks.BLOCKS.register("chain_drive",
+            () -> new BeltHubBlock(RotaryBlocks.machineProps().noOcclusion(), BeltHubBlock.Kind.CHAIN));
+    public static final DeferredBlock<BeltHubBlock> SPLIT_BELT = RotaryBlocks.BLOCKS.register("split_belt",
+            () -> new BeltHubBlock(RotaryBlocks.machineProps().noOcclusion(), BeltHubBlock.Kind.SPLIT));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BeltHubBlockEntity>> BELT_HUB_BE =
+            RotaryBlockEntities.TYPES.register("belt_hub", () -> BlockEntityType.Builder.of(BeltHubBlockEntity::new, BELT_HUB.get(), CHAIN_DRIVE.get(), SPLIT_BELT.get()).build(null));
+
     static {
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(BELT_HUB));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(CHAIN_DRIVE));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(SPLIT_BELT));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(ENGINE_CONTROLLER));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(MULTI_CLUTCH));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(DISTRIBUTION_CLUTCH));

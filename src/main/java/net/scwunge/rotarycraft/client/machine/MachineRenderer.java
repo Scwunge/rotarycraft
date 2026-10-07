@@ -105,7 +105,7 @@ public class MachineRenderer<T extends PowerBlockEntity> implements BlockEntityR
     }
 
     /** The original's turning of the model for the way the block faces. */
-    static void turn(PoseStack pose, float[] yaws, float offset, Direction facing) {
+    public static void turn(PoseStack pose, float[] yaws, float offset, Direction facing) {
         switch (facing) {
             case WEST -> pose.mulPose(Axis.YP.rotationDegrees(yaws[0] + offset));
             case EAST -> pose.mulPose(Axis.YP.rotationDegrees(yaws[1] + offset));

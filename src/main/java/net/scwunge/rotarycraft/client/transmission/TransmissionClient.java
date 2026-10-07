@@ -34,6 +34,7 @@ public final class TransmissionClient {
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(TransmissionRegistry.MULTI_CLUTCH_BE.get(), c -> new MachineRenderer<>(MULTI_CLUTCH));
+        event.registerBlockEntityRenderer(TransmissionRegistry.BELT_HUB_BE.get(), c -> new BeltRenderer());
         event.registerBlockEntityRenderer(TransmissionRegistry.DISTRIBUTION_CLUTCH_BE.get(), c -> new MachineRenderer<>(DISTRIBUTION_CLUTCH));
     }
 
@@ -58,6 +59,20 @@ public final class TransmissionClient {
                 return renderer;
             }
         }, TransmissionRegistry.MULTI_CLUTCH.get().asItem());
+        for (var block : java.util.List.of(TransmissionRegistry.BELT_HUB, TransmissionRegistry.CHAIN_DRIVE, TransmissionRegistry.SPLIT_BELT)) {
+            event.registerItem(new IClientItemExtensions() {
+                private BlockEntityWithoutLevelRenderer renderer;
+
+                @Override
+                public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                    if (renderer == null) {
+                        Minecraft mc = Minecraft.getInstance();
+                        renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new BeltRenderer(), "belt_hub", "belt_hub");
+                    }
+                    return renderer;
+                }
+            }, block.get().asItem());
+        }
         event.registerItem(new IClientItemExtensions() {
             private BlockEntityWithoutLevelRenderer renderer;
 

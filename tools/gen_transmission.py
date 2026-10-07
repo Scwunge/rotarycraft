@@ -157,6 +157,24 @@ LANG.update({'block.rotarycraft.engine_controller': 'Engine Control Unit',
              'message.rotarycraft.ecu.manual': 'ECU is now manually controlled.',
              'message.rotarycraft.ecu.status': 'ECU: %s (%s%% speed), fuel %s / %s mB'})
 
+# ---- Belt, Chain and Split Belt pulleys ----
+texture('Transmission/belttex.png', 'belt_hub')
+MODELS.append('ModelBelt:belt_hub')
+for name, color in (('belt', (192, 120, 70)), ('chain', (80, 80, 80)), ('split_belt', (48, 96, 64))):
+    Image.new('RGBA', (16, 16), color + (255,)).save(T + '/machine/belt_band_%s.png' % name)
+for block in ('belt_hub', 'chain_drive', 'split_belt'):
+    rendered(block)
+shaped('belt_hub', ['sBs', ' G ', 'sBs'], {'s': STEEL, 'B': item('base_panel'), 'G': item('hub')}, 2)
+shaped('chain_drive', ['sBs', ' G ', 'sBs'], {'s': STEEL, 'B': item('base_panel'), 'G': item('steel_gear')}, 2)
+shaped('split_belt', [' B ', 'SgS', ' B '], {'S': item('shaft_core'), 'B': item('belt_hub'), 'g': item('steel_gear')}, 2)
+LANG.update({'block.rotarycraft.belt_hub': 'Belt Pulley', 'block.rotarycraft.chain_drive': 'Chain Drive', 'block.rotarycraft.split_belt': 'Split Belt Pulley',
+             'message.rotarycraft.belt.first': 'First pulley chosen: use the belt on the other one.',
+             'message.rotarycraft.belt.lost': 'The first pulley is gone.',
+             'message.rotarycraft.belt.short': 'Not enough belt: it needs %s.',
+             'message.rotarycraft.belt.invalid': 'The pulleys cannot be joined like that.',
+             'message.rotarycraft.belt.receiving': 'This pulley now receives the belt.',
+             'message.rotarycraft.belt.driving': 'This pulley now drives the belt.'})
+
 # ---- lang, tags, models ----
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

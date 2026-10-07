@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sBs",
+    " G ",
+    "sBs"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "B": {
+      "item": "rotarycraft:base_panel"
+    },
+    "G": {
+      "item": "rotarycraft:hub"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:belt_hub",
+    "count": 2
+  }
+}
