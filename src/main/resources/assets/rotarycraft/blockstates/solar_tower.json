@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/solar_tower"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/solar_tower"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/solar_tower"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/solar_tower"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/solar_tower"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/solar_tower"
+    }
+  }
+}

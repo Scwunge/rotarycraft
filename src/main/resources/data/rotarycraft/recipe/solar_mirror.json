@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "bmb",
+    " g ",
+    "pcp"
+  ],
+  "key": {
+    "b": {
+      "item": "rotarycraft:blast_glass"
+    },
+    "m": {
+      "item": "rotarycraft:mirror"
+    },
+    "g": {
+      "item": "rotarycraft:steel_gear"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    },
+    "c": {
+      "item": "rotarycraft:circuit_board"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:solar_mirror",
+    "count": 1
+  }
+}

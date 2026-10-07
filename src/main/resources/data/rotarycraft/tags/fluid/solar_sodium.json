@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "reactorcraft:sodium",
+      "required": false
+    },
+    {
+      "id": "mekanism:sodium",
+      "required": false
+    }
+  ]
+}

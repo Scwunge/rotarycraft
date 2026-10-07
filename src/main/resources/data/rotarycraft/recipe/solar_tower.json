@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "pPp",
+    "iPi",
+    "pPp"
+  ],
+  "key": {
+    "p": {
+      "item": "rotarycraft:base_panel"
+    },
+    "P": {
+      "item": "rotarycraft:pipe"
+    },
+    "i": {
+      "tag": "c:dyes/black"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:solar_tower",
+    "count": 1
+  }
+}

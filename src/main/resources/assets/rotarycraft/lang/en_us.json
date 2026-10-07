@@ -328,6 +328,8 @@
   "block.rotarycraft.cave_scanner": "Cave Scanner",
   "block.rotarycraft.mob_radar": "Mob Radar",
   "block.rotarycraft.gpr": "Ground-Penetrating Radar",
+  "block.rotarycraft.solar_tower": "Solar Tower",
+  "block.rotarycraft.solar_mirror": "Solar Mirror",
   "block.rotarycraft.terraformer": "Terraformer",
   "gui.rotarycraft.terraformer.radius": "Area: %s",
   "gui.rotarycraft.terraformer.water": "Water: %s mB",

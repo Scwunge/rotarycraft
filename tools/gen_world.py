@@ -190,7 +190,21 @@ shutil.copy(REF + '/Textures/GUI/terraformergui.png', T + '/gui/terraformer.png'
 shutil.copy(REF + '/Textures/GUI/biomes.png', T + '/gui/biomes.png')
 shaped('terraformer', ['SsS', 'ici', 'PiP'], {'S': STEEL, 's': item('screen'), 'i': item('impeller'), 'c': item('circuit_board'), 'P': item('base_panel')})
 
+# ---- Solar Tower and Solar Mirror ----
+model_texture('solartex.png', 'solar_tower')
+model_texture('mirrortex.png', 'solar_mirror')
+rendered_machine('solar_tower')
+rendered_machine('solar_mirror')
+MODELS.append('ModelSolar:solar_tower')
+MODELS.append('ModelMirror:solar_mirror')
+shaped('solar_tower', ['pPp', 'iPi', 'pPp'], {'p': item('base_panel'), 'P': item('pipe'), 'i': {'tag': 'c:dyes/black'}})
+shaped('solar_mirror', ['bmb', ' g ', 'pcp'], {'b': item('blast_glass'), 'm': item('mirror'), 'g': item('steel_gear'), 'p': item('base_panel'), 'c': item('circuit_board')})
+w(R + '/data/rotarycraft/tags/fluid/solar_sodium.json', {'replace': False, 'values': [
+    {'id': 'reactorcraft:sodium', 'required': False}, {'id': 'mekanism:sodium', 'required': False}]})
+
 lang.update({
+    'block.rotarycraft.solar_tower': 'Solar Tower',
+    'block.rotarycraft.solar_mirror': 'Solar Mirror',
     'block.rotarycraft.terraformer': 'Terraformer',
     'gui.rotarycraft.terraformer.radius': 'Area: %s',
     'gui.rotarycraft.terraformer.water': 'Water: %s mB',
