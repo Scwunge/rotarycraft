@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "rotarycraft:item/jetpack"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "rotarycraft:winged": 1
+      },
+      "model": "rotarycraft:item/jetpack_winged"
+    }
+  ]
+}

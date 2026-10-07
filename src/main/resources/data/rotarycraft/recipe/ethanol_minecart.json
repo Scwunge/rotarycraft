@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "g",
+    "m"
+  ],
+  "key": {
+    "g": {
+      "item": "rotarycraft:gas_engine"
+    },
+    "m": {
+      "item": "minecraft:minecart"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:ethanol_minecart",
+    "count": 1
+  }
+}

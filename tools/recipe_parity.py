@@ -22,7 +22,7 @@ ALIASES = {
     'BEDSHEARS': 'bedrock_shears', 'BEDSICKLE': 'bedrock_sickle', 'BEDHELM': 'bedrock_helmet', 'BEDCHEST': 'bedrock_chestplate', 'BEDLEGS': 'bedrock_leggings',
     'BEDBOOTS': 'bedrock_boots',
     'STUNGUN': 'stun_gun', 'RANGEFINDER': 'range_finder', 'ULTRASOUND': 'ultrasound', 'MOTION': 'motion_tracker', 'NVG': 'night_vision_goggles',
-    'HANDCRAFT': 'handheld_crafting', 'TARGET': 'target',
+    'HANDCRAFT': 'handheld_crafting', 'TARGET': 'target', 'IOGOGGLES': 'io_goggles', 'SHELL': 'explosive_shell', 'MINECART': 'ethanol_minecart', 'FUEL': 'fuel_tank', 'JUMP': 'jump_boots', 'BEDJUMP': 'bedrock_jump_boots',
     'ENGINE': 'dc_engine,ac_engine,wind_engine,steam_engine,gas_engine,performance_engine,hydro_engine,jet_engine',
     'FLYWHEEL': 'flywheel_wood,flywheel_stone,flywheel_iron,flywheel_gold,flywheel_bedrock',
     'SHAFT': 'shaft_wood,shaft_stone,shaft_steel,shaft_diamond,shaft_bedrock',
@@ -43,7 +43,6 @@ PENDING_NOTE = {
 BY_TAG = {
     'steelingot': 'steel is the c:ingots/steel tag (made in the Blast Furnace)', 'steelblock': 'c:storage_blocks/steel from other mods',
     'cokeblock': 'no coke block; coke is crafted in the Blast Furnace', 'ironscrap': 'scrap is made by the Grinder',
-    'nitrate': 'not an item of this port yet',
 }
 
 

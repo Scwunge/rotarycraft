@@ -79,12 +79,20 @@ public final class RotaryClient {
     @SubscribeEvent
     public static void renderers(net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(net.scwunge.rotarycraft.registry.RotaryBlockEntities.RESERVOIR.get(), ReservoirRenderer::new);
+        event.registerEntityRenderer(net.scwunge.rotarycraft.registry.GadgetRegistry.ETHANOL_MINECART_ENTITY.get(),
+                ctx -> new net.minecraft.client.renderer.entity.MinecartRenderer<>(ctx, net.minecraft.client.model.geom.ModelLayers.FURNACE_MINECART));
     }
 
     @SubscribeEvent
     public static void translucentFluids(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
         ItemBlockRenderTypes.setRenderLayer(net.scwunge.rotarycraft.registry.RotaryBlocks.CANOLA.get(), RenderType.cutout());
         net.scwunge.rotarycraft.registry.RotaryBlocks.PIPES.values().forEach(b -> ItemBlockRenderTypes.setRenderLayer(b.get(), RenderType.cutout()));
+        // a jetpack with its wings out is drawn with them
+        for (net.minecraft.world.item.Item pack : new net.minecraft.world.item.Item[] {net.scwunge.rotarycraft.registry.GadgetRegistry.JETPACK.get(),
+                net.scwunge.rotarycraft.registry.GadgetRegistry.STEEL_JETPACK.get(), net.scwunge.rotarycraft.registry.GadgetRegistry.BEDROCK_JETPACK.get()}) {
+            net.minecraft.client.renderer.item.ItemProperties.register(pack, net.scwunge.rotarycraft.RotaryCraft.id("winged"),
+                    (stack, level, entity, seed) -> net.scwunge.rotarycraft.charged.Jetpack.winged(stack) ? 1F : 0F);
+        }
         for (RotaryFluids.Entry f : RotaryFluids.ALL) {
             ItemBlockRenderTypes.setRenderLayer(f.source.get(), RenderType.translucent());
             ItemBlockRenderTypes.setRenderLayer(f.flowing.get(), RenderType.translucent());

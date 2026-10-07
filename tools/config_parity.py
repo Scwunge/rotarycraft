@@ -7,6 +7,10 @@ import re
 SRC = open('reference/RotaryCraft/Registry/ConfigRegistry.java', encoding='latin-1').read()
 
 MAP = {
+    'SNEAKWINGS': 'jetpackWingsOnSneak',
+    'KICKFLYING': 'jetpackBypassesFlyCheck',
+    'JETFUELPACK': 'jetpackNeedsJetFuel',
+    'CONSERVEPACK': 'conservativeJetpack',
     'ENGINEVOLUME': 'engineVolume', 'MACHINEVOLUME': 'machineVolume', 'FLOODLIGHTRANGE': 'floodlightRange', 'HEATRAYRANGE': 'heatRayRange',
     'BRIDGERANGE': 'bridgeRange', 'FANRANGE': 'fanRange', 'AERORANGE': 'aerosolizerRange', 'VACUUMRANGE': 'vacuumRange', 'FORCERANGE': 'forceFieldRange',
     'SONICBORERRANGE': 'sonicBorerRange', 'SPAWNERLIMIT': 'spawnerMobLimit', 'BREEDERRANGE': 'breederRange', 'BAITRANGE': 'baitBoxRange', 'DETECTORRANGE': 'detectorRange', 'GRAVELPLAYER': 'gravelGunPvp', 'HARDGRAVELGUN': 'hardGravelGun', 'FREEWATER': 'freeWaterFactor',
@@ -36,13 +40,12 @@ PENDING = {
     'EMPLOAD': ('the EMP\'s charging speed', 'empChargeSpeed'), 'CHESTGEN': ('chest loot (not ported)', 'chestLootTier'),
     'PROJECTORLINES': ('a client option for the Projector', 'projectorLines'), 'COLORBLIND': ('a client option', 'colorBlindMode'),
     'SPRINKLER': ('a client option for the Sprinkler\'s particles', 'sprinklerParticles'), 'HANDBOOK': ('the Handbook (not ported)', 'spawnWithHandbook'),
-    'CONSERVEPACK': ('the Jetpack (item 6)', 'conservativeJetpack'), 'FLOWSPEED': ('how fast fluid flows through pipes', 'fluidFlowSpeed'),
-    'JETFUELPACK': ('the Jetpack (item 6)', 'jetpackNeedsJetFuel'), 'EXTRAIRON': ('extra iron ore in world generation', 'extraIron'),
-    'CLEARCHAT': ('the chat-writing tools', 'toolsClearChat'), 'KICKFLYING': ('the Jetpack (item 6)', 'jetpackBypassesFlyCheck'), 'EXTRACTORMAINTAIN': ('the Extractor\'s drill wearing down', 'extractorWear'),
+    'FLOWSPEED': ('how fast fluid flows through pipes', 'fluidFlowSpeed'),
+    'EXTRAIRON': ('extra iron ore in world generation', 'extraIron'),
+    'CLEARCHAT': ('the chat-writing tools', 'toolsClearChat'), 'EXTRACTORMAINTAIN': ('the Extractor\'s drill wearing down', 'extractorWear'),
     'PIPEHARDNESS': ('the pipes\' block hardness', 'pipeHardness'), 'FAKEBEDROCK': ('bedrock tools (item 6)', 'fakePlayerBedrockAbilities'),
     'BORERGEN': ('the Borer generating chunks', 'borerChunkRadius'), 'CRAFTERPROFILE': ('the Auto-Crafter\'s lag compensation', 'crafterProfiling'),
     'HSLAHARVEST': ('steel tools (item 6)', 'steelToolsHarvestHigher'), 'LATEDYNAMO': ('the Dynamo\'s recipe gate', 'dynamoRecipeGate'), 'VACPOWER': ('the Item Vacuum\'s power per metre', 'vacuumPowerPerMetre'),
-    'SNEAKWINGS': ('the Jetpack (item 6)', 'jetpackWingsOnSneak'),
 }
 
 

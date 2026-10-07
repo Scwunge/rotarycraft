@@ -54,6 +54,12 @@ GADGETS = [
     ('night_vision_goggles', 97, 'Night Vision Goggles', 'minecraft:item/generated'),
     ('handheld_crafting', 33, 'Handheld Crafting Grid', 'minecraft:item/generated'),
     ('target', 98, 'Target Designator', 'minecraft:item/generated'),
+    ('io_goggles', 1, 'IO Goggles', 'minecraft:item/generated'),
+    ('fuel_tank', 27, 'Portable Fuel Tank', 'minecraft:item/generated'),
+    ('explosive_shell', 5, 'Explosive Shell', 'minecraft:item/generated'),
+    ('ethanol_minecart', 6, 'Ethanol Minecart', 'minecraft:item/generated'),
+    ('jump_boots', 30, 'Jump Boots', 'minecraft:item/generated'),
+    ('bedrock_jump_boots', 31, 'Bedrock Jump Boots', 'minecraft:item/generated'),
 ]
 for name, index, title, parent in GADGETS:
     sprite(index, name, parent)
@@ -66,8 +72,36 @@ shaped('range_finder', [' e ', 'rGr', 'sss'], {'s': STEEL, 'G': vanilla('glowsto
 shaped('handheld_crafting', [' g ', 'scs', ' g '], {'s': STEEL, 'g': vanilla('gold_ingot'), 'c': vanilla('crafting_table')})
 shaped('night_vision_goggles', ['scs', 'ese'], {'s': STEEL, 'c': item('screen'), 'e': vanilla('ender_eye')})
 shaped('target', [' E ', 'SRS', 'SLS'], {'S': STEEL, 'R': vanilla('redstone'), 'E': vanilla('ender_pearl'), 'L': vanilla('lapis_lazuli')})
+shaped('io_goggles', ['scs', 'ese'], {'s': STEEL, 'c': vanilla('ender_pearl'), 'e': vanilla('redstone')})
+shaped('jump_boots', ['GbG', 'SgS', 'B B'], {'B': item('base_panel'), 'G': item('steel_gear'), 'b': item('steel_boots'), 'g': item('steel_gear_unit_2'), 'S': item('spring')})
+w(D + '/recipe/bedrock_jump_boots.json', {'type': 'minecraft:crafting_shapeless', 'category': 'equipment', 'ingredients': [item('bedrock_boots'), item('jump_boots')],
+                                          'result': {'id': 'rotarycraft:bedrock_jump_boots', 'count': 1}})
+
+# the jetpacks: a sprite, and the same with wings (the item's `winged` property chooses)
+for name, index, wing, title in (('jetpack', 28, 60, 'Jetpack'), ('steel_jetpack', 44, 61, 'Steel Jetpack'), ('bedrock_jetpack', 12, 59, 'Bedrock Jetpack')):
+    sprite(index, name)
+    sprite(wing, name + '_wing')
+    w('%s/models/item/%s_winged.json' % (A, name), {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/' + name, 'layer1': 'rotarycraft:item/' + name + '_wing'}})
+    w('%s/models/item/%s.json' % (A, name), {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/' + name},
+                                           'overrides': [{'predicate': {'rotarycraft:winged': 1}, 'model': 'rotarycraft:item/' + name + '_winged'}]})
+    lang['item.rotarycraft.' + name] = title
+    os.remove('%s/models/item/%s_wing.json' % (A, name))
+shaped('jetpack', ['CRC', 'cBc', 'd d'], {'C': item('combustor'), 'R': item('reservoir'), 'B': item('base_panel'), 'd': item('diffuser'), 'c': item('compressor')})
+w(D + '/recipe/jetpack_work.json', {'type': 'rotarycraft:jetpack', 'category': 'equipment'})
+shaped('fuel_tank', ['SBS', 'BGB', 'SPS'], {'S': STEEL, 'B': item('base_panel'), 'G': vanilla('glass'), 'P': item('pipe')})
+shaped('explosive_shell', [' s ', 'sns', ' s '], {'s': STEEL, 'n': item('nitrate')}, 16)
+w(D + '/recipe/nitrate.json', {'type': 'minecraft:crafting_shapeless', 'category': 'misc', 'ingredients': [vanilla('gunpowder'), vanilla('redstone'), {'tag': 'minecraft:coals'}],
+                              'result': {'id': 'rotarycraft:nitrate', 'count': 4}})
+shaped('ethanol_minecart', ['g', 'm'], {'g': item('gas_engine'), 'm': vanilla('minecart')})
 
 lang.update({
+    'item.rotarycraft.fuel_tank.empty': 'Empty',
+    'item.rotarycraft.fuel_tank.contents': 'Contents: %s mB of %s',
+    'tooltip.rotarycraft.explosive_shell': 'Needs no torque; explodes where it lands',
+    'entity.rotarycraft.ethanol_minecart': 'Ethanol Minecart',
+    'item.rotarycraft.jetpack.fuel': 'Fuel: %s mB of %s',
+    'item.rotarycraft.jetpack.empty': 'No Fuel',
+    'item.rotarycraft.jetpack.wings_off': '[Wing Disabled]',
     'item.rotarycraft.charge': 'Charge: %s / %s kJ',
     'message.rotarycraft.tool.depleted': 'Tool charge is depleted!',
     'message.rotarycraft.tool.very_low': 'Tool charge is very low (%s kJ)!',
@@ -89,3 +123,8 @@ w(lang_path, lang)
 os.makedirs(A + '/textures/models/armor', exist_ok=True)
 shutil.copy(REF + '/Misc/NVGoggles.png', A + '/textures/models/armor/night_vision_layer_1.png')
 shutil.copy(REF + '/Misc/NVGoggles.png', A + '/textures/models/armor/night_vision_layer_2.png')
+shutil.copy(REF + '/Misc/IOGoggles.png', A + '/textures/models/armor/io_goggles_layer_1.png')
+shutil.copy(REF + '/Misc/IOGoggles.png', A + '/textures/models/armor/io_goggles_layer_2.png')
+for src, name in (('jet', 'jet'), ('bedrock_jet', 'bedrock_jet')):
+    for layer in (1, 2):
+        shutil.copy(REF + '/Misc/%s.png' % src, A + '/textures/models/armor/%s_layer_%d.png' % (name, layer))

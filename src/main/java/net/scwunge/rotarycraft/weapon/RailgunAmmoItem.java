@@ -21,7 +21,12 @@ public class RailgunAmmoItem extends Item {
     }
 
     public int requiredTorque() {
-        return (int) Math.sqrt(512 * Math.pow(2, tier));
+        return tier < 0 ? 0 : (int) Math.sqrt(512 * Math.pow(2, tier));
+    }
+
+    /** Explosive shells blow up where they land (the original's explosive shell) instead of smashing blocks by tier. */
+    public boolean explosive() {
+        return false;
     }
 
     @Override

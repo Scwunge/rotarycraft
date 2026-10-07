@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "SBS",
+    "BGB",
+    "SPS"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "B": {
+      "item": "rotarycraft:base_panel"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "P": {
+      "item": "rotarycraft:pipe"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:fuel_tank",
+    "count": 1
+  }
+}

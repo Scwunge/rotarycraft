@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "rotarycraft:bedrock_boots"
+    },
+    {
+      "item": "rotarycraft:jump_boots"
+    }
+  ],
+  "result": {
+    "id": "rotarycraft:bedrock_jump_boots",
+    "count": 1
+  }
+}

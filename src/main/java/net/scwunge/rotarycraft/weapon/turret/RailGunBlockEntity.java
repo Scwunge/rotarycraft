@@ -66,7 +66,8 @@ public class RailGunBlockEntity extends AmmoTurretBlockEntity {
         useOne(ammo);
         Vec3 v = at.subtract(worldPosition.getX(), worldPosition.getY(), worldPosition.getZ()).normalize().scale(SPEED);
         Vec3 d = v.normalize();
-        level.addFreshEntity(new RailgunShot(level, worldPosition.getX() + 0.5 + d.x, firingY(d.y), worldPosition.getZ() + 0.5 + d.z, v, ammo.tier(),
-                worldPosition, owner()));
+        RailgunShot shot = new RailgunShot(level, worldPosition.getX() + 0.5 + d.x, firingY(d.y), worldPosition.getZ() + 0.5 + d.z, v, Math.max(ammo.tier(), 0),
+                worldPosition, owner());
+        level.addFreshEntity(ammo.explosive() ? shot.explosive() : shot);
     }
 }

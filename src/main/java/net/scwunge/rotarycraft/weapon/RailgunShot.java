@@ -37,6 +37,7 @@ import java.util.Set;
  */
 public class RailgunShot extends TurretShot {
     private int power;
+    private boolean explosive;
 
     public RailgunShot(EntityType<? extends RailgunShot> type, Level level) {
         super(type, level);
@@ -46,6 +47,12 @@ public class RailgunShot extends TurretShot {
         this(WeaponRegistry.RAILGUN_SHOT.get(), level);
         launch(x, y, z, velocity, gun, owner);
         this.power = power;
+    }
+
+    /** A shell: blows up on impact. */
+    public RailgunShot explosive() {
+        explosive = true;
+        return this;
     }
 
     public int power() {
@@ -80,6 +87,10 @@ public class RailgunShot extends TurretShot {
 
     @Override
     protected void impact(ServerLevel level) {
+        if (explosive) {
+            level.explode(this, getX(), getY(), getZ(), ExplosiveShellItem.EXPLOSION, true, blockDamage() ? Level.ExplosionInteraction.TNT : Level.ExplosionInteraction.NONE);
+            return;
+        }
         BlockPos o = blockPosition();
         level.sendParticles(ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 1, 0, 0, 0, 0);
         if (blockDamage()) {

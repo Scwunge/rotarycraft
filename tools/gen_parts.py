@@ -183,6 +183,7 @@ simple['red_gold_dust'] = dust((220, 80, 40))
 simple['red_gold_ingot'] = ingot((220, 90, 50))
 simple['spring_tungsten_ingot'] = ingot((100, 105, 125))
 simple['bedrock_dust'] = dust((70, 70, 70))
+simple['nitrate'] = dust((232, 232, 220))
 simple['bedrock_ingot'] = ingot((60, 60, 60))
 for name, im in simple.items():
     save(im, name)
@@ -431,7 +432,7 @@ lang.update({
     'item.rotarycraft.silicon': 'Silicon', 'item.rotarycraft.aluminum_powder': 'Aluminum Powder', 'item.rotarycraft.aluminum_ingot': 'Aluminum Ingot',
     'item.rotarycraft.silumin_ingot': 'Silumin Ingot', 'item.rotarycraft.red_gold_dust': 'Red Gold Dust', 'item.rotarycraft.red_gold_ingot': 'Red Gold Ingot',
     'item.rotarycraft.spring_tungsten_ingot': 'Spring Tungsten Ingot', 'item.rotarycraft.bedrock_dust': 'Bedrock Dust',
-    'item.rotarycraft.bedrock_ingot': 'Bedrock Alloy Ingot',
+    'item.rotarycraft.bedrock_ingot': 'Bedrock Alloy Ingot', 'item.rotarycraft.nitrate': 'Nitrate',
     'item.rotarycraft.wood_flywheel_core': 'Wooden Flywheel Core', 'item.rotarycraft.stone_flywheel_core': 'Stone Flywheel Core',
     'item.rotarycraft.iron_flywheel_core': 'Iron Flywheel Core', 'item.rotarycraft.gold_flywheel_core': 'Gold Flywheel Core',
     'item.rotarycraft.bedrock_flywheel_core': 'Bedrock Flywheel Core',

@@ -59,7 +59,7 @@ public final class RotaryParts {
                 "circuit_board", "screen", "drill", "saw", "mixer", "radar_unit", "sonar_unit", "press_head",
                 // alloys and materials (COMPACTS / POWDERS)
                 "silicon", "aluminum_powder", "aluminum_ingot", "silumin_ingot", "red_gold_dust", "red_gold_ingot",
-                "spring_tungsten_ingot", "bedrock_dust", "bedrock_ingot",
+                "spring_tungsten_ingot", "bedrock_dust", "bedrock_ingot", "nitrate",
                 // flywheel cores (FLYWHEELCRAFT)
                 "wood_flywheel_core", "stone_flywheel_core", "iron_flywheel_core", "gold_flywheel_core", "bedrock_flywheel_core"}) {
             PARTS.put(id, id.equals("belt") || id.equals("chain") ? belt(id) : simple(id));

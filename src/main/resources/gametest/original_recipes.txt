@@ -76,7 +76,7 @@ MAP|FORCEFIELD|force_field
 MAP|FRACTIONATOR|fractionator
 MAP|FREEZEGUN|freeze_gun
 MAP|FRICTION|friction_heater
-PENDING|FUEL|not ported yet
+MAP|FUEL|fuel_tank
 MAP|FUELENGINE|gas_engine
 MAP|FUELENHANCER|fuel_enhancer
 MAP|FUELLINE|fuel_line
@@ -98,11 +98,11 @@ MAP|HELDPISTON|spring_piston
 MAP|HOSE|hose
 MAP|HYDRATOR|ground_hydrator
 MAP|IGNITER|igniter
-PENDING|IOGOGGLES|not ported yet
+MAP|IOGOGGLES|io_goggles
 MAP|ITEMCANNON|item_cannon
 MAP|ITEMFILTER|item_filter
-PENDING|JETPACK|not ported yet
-PENDING|JUMP|not ported yet
+MAP|JETPACK|jetpack
+MAP|JUMP|jump_boots
 MAP|KEY|cannon_key
 MAP|LAMP|lamp
 MAP|LANDMINE|landmine
@@ -228,7 +228,7 @@ MAP|lonsda|lonsdaleite
 MAP|mirror|mirror
 MAP|mixer|mixer
 MAP|mount|mount
-BY_TAG|nitrate|not an item of this port yet
+MAP|nitrate|nitrate
 MAP|pcb|circuit_board
 MAP|power|power_module
 MAP|presshead|press_head

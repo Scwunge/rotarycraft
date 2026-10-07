@@ -27,6 +27,10 @@ public class RotaryComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CHARGE = COMPONENTS.register("charge",
             () -> DataComponentType.<Integer>builder().persistent(com.mojang.serialization.Codec.intRange(0, 1_000_000))
                     .networkSynchronized(net.minecraft.network.codec.ByteBufCodecs.VAR_INT).build());
+    /** The upgrades a jetpack has (wings, thrust boost, fin cooling) as bits, and whether its wings are folded away. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> PACK_UPGRADES = COMPONENTS.register("pack_upgrades",
+            () -> DataComponentType.<Integer>builder().persistent(com.mojang.serialization.Codec.intRange(0, 15))
+                    .networkSynchronized(net.minecraft.network.codec.ByteBufCodecs.VAR_INT).build());
     /** A shaft core's magnetization in microtesla (Magnetizer charges it, the AC Engine uses it up). */
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAGNETIZATION = COMPONENTS.register("magnetization",
             () -> DataComponentType.<Integer>builder().persistent(com.mojang.serialization.Codec.intRange(1, Integer.MAX_VALUE))

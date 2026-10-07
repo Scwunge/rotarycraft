@@ -119,7 +119,17 @@ public class RotaryItems {
             .displayItems((params, output) -> {
                 TAB_ORDER.forEach(i -> {
                     Item item = i.get();
-                    if (item instanceof net.scwunge.rotarycraft.tool.Forced forced) {
+                    if (item instanceof net.scwunge.rotarycraft.charged.FuelTankItem) {
+                        output.accept(item);
+                        for (var fuel : new net.minecraft.world.level.material.Fluid[] {RotaryFluids.ETHANOL.get(), RotaryFluids.JET_FUEL.get()}) {
+                            ItemStack full = new ItemStack(item);
+                            full.set(RotaryComponents.ITEM_FLUID.get(), net.neoforged.neoforge.fluids.SimpleFluidContent.copyOf(
+                                    new net.neoforged.neoforge.fluids.FluidStack(fuel, net.scwunge.rotarycraft.charged.FuelTankItem.CAPACITY)));
+                            output.accept(full);
+                        }
+                    } else if (item instanceof net.scwunge.rotarycraft.charged.Jetpack) {
+                        net.scwunge.rotarycraft.charged.Jetpack.creative(item, params.holders()).forEach(output::accept);
+                    } else if (item instanceof net.scwunge.rotarycraft.tool.Forced forced) {
                         output.accept(net.scwunge.rotarycraft.tool.Forced.stackOf(item, params.holders(), forced.needs()));
                     } else if (item instanceof net.scwunge.rotarycraft.charged.Rechargeable) {
                         output.accept(net.scwunge.rotarycraft.charged.Charge.full(new ItemStack(item)));

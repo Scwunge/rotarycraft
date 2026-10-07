@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "GbG",
+    "SgS",
+    "B B"
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:base_panel"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear"
+    },
+    "b": {
+      "item": "rotarycraft:steel_boots"
+    },
+    "g": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    },
+    "S": {
+      "item": "rotarycraft:spring"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:jump_boots",
+    "count": 1
+  }
+}

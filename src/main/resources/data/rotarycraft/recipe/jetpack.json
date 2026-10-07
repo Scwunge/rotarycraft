@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "CRC",
+    "cBc",
+    "d d"
+  ],
+  "key": {
+    "C": {
+      "item": "rotarycraft:combustor"
+    },
+    "R": {
+      "item": "rotarycraft:reservoir"
+    },
+    "B": {
+      "item": "rotarycraft:base_panel"
+    },
+    "d": {
+      "item": "rotarycraft:diffuser"
+    },
+    "c": {
+      "item": "rotarycraft:compressor"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:jetpack",
+    "count": 1
+  }
+}

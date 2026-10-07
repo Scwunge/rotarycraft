@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "rotarycraft:item/bedrock_jetpack",
+    "layer1": "rotarycraft:item/bedrock_jetpack_wing"
+  }
+}

@@ -41,19 +41,19 @@ NA|HSLADICT|steel is the c:ingots/steel tag
 MAP|PREENCHANT|lockBedrockEnchants
 PENDING|SPRINKLER|a client option for the Sprinkler's particles|sprinklerParticles
 PENDING|HANDBOOK|the Handbook (not ported)|spawnWithHandbook
-PENDING|CONSERVEPACK|the Jetpack (item 6)|conservativeJetpack
+MAP|CONSERVEPACK|conservativeJetpack
 NA|ALLOWBAN|claim mods can stop any machine
 NA|LOGBLOCKS|claim and logging mods see the block events the machines fire
 PENDING|FLOWSPEED|how fast fluid flows through pipes|fluidFlowSpeed
 MAP|ATTACKBLOCKS|weaponBlockDamage
 MAP|VOIDHOLE|bedrockBreakerVoidHole
-PENDING|JETFUELPACK|the Jetpack (item 6)|jetpackNeedsJetFuel
+MAP|JETFUELPACK|jetpackNeedsJetFuel
 MAP|ALLOWTNTCANNON|tntCannon
 MAP|ALLOWEMP|emp
 PENDING|EXTRAIRON|extra iron ore in world generation|extraIron
 NA|TEGLASS|Thermal Expansion only
 PENDING|CLEARCHAT|the chat-writing tools|toolsClearChat
-PENDING|KICKFLYING|the Jetpack (item 6)|jetpackBypassesFlyCheck
+MAP|KICKFLYING|jetpackBypassesFlyCheck
 MAP|BLOWERSPILL|itemPumpSpills
 PENDING|EXTRACTORMAINTAIN|the Extractor's drill wearing down|extractorWear
 MAP|HARDGRAVELGUN|hardGravelGun
@@ -88,4 +88,4 @@ NA|HYDROSTREAMFALLMAX|Streams mod only
 NA|TINKERFLAKES|Tinkers' Construct only
 NA|IC2BLAZECOMPRESS|IC2 only
 MAP|FREEWATER|freeWaterFactor
-PENDING|SNEAKWINGS|the Jetpack (item 6)|jetpackWingsOnSneak
+MAP|SNEAKWINGS|jetpackWingsOnSneak

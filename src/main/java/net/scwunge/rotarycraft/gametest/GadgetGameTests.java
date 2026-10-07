@@ -21,6 +21,7 @@ import net.neoforged.neoforge.gametest.PrefixGameTestTemplate;
 import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.blockentity.BlockCannonBlockEntity;
 import net.scwunge.rotarycraft.charged.Charge;
+import net.scwunge.rotarycraft.charged.JumpBootsItem;
 import net.scwunge.rotarycraft.charged.StunGunItem;
 import net.scwunge.rotarycraft.crafting.WorktableBlockEntity;
 import net.scwunge.rotarycraft.item.CoilItem;
@@ -131,6 +132,41 @@ public class GadgetGameTests {
         player.setItemSlot(EquipmentSlot.HEAD, flat);
         flat.getItem().inventoryTick(flat, helper.getLevel(), player, 39, false);
         helper.assertTrue(!player.hasEffect(MobEffects.NIGHT_VISION), "flat goggles worked");
+        helper.succeed();
+    }
+
+    @GameTest(template = RotaryGameTests.TEMPLATE, timeoutTicks = 60, batch = "gadgets")
+    public static void jumpBootsLeapAndStrideWhileChargedAndNotWhenFlat(GameTestHelper helper) {
+        ItemStack boots = Charge.full(new ItemStack(GadgetRegistry.JUMP_BOOTS.get()));
+        ServerPlayer player = player(helper, ItemStack.EMPTY, "springy");
+        player.setItemSlot(EquipmentSlot.FEET, boots);
+        boots.getItem().inventoryTick(boots, helper.getLevel(), player, 36, false);
+        helper.assertTrue(player.hasEffect(MobEffects.JUMP) && player.getEffect(MobEffects.JUMP).getAmplifier() == JumpBootsItem.JUMP_AMPLIFIER, "no jump boost");
+        helper.assertTrue(player.hasEffect(MobEffects.MOVEMENT_SPEED), "no speed");
+        player.removeAllEffects();
+        ItemStack flat = new ItemStack(GadgetRegistry.JUMP_BOOTS.get());
+        player.setItemSlot(EquipmentSlot.FEET, flat);
+        flat.getItem().inventoryTick(flat, helper.getLevel(), player, 36, false);
+        helper.assertTrue(!player.hasEffect(MobEffects.JUMP), "flat boots worked");
+        helper.succeed();
+    }
+
+    @GameTest(template = RotaryGameTests.TEMPLATE, timeoutTicks = 60, batch = "gadgets")
+    public static void bedrockJumpBootsNeverRunDownAndStepUp(GameTestHelper helper) {
+        ItemStack boots = net.scwunge.rotarycraft.tool.Forced.stackOf(GadgetRegistry.BEDROCK_JUMP_BOOTS.get(), helper.getLevel().registryAccess(),
+                net.scwunge.rotarycraft.tool.BedrockTools.BOOTS);
+        ServerPlayer player = player(helper, ItemStack.EMPTY, "bedspring");
+        player.setItemSlot(EquipmentSlot.FEET, boots);
+        boots.getItem().inventoryTick(boots, helper.getLevel(), player, 36, false);
+        helper.assertTrue(player.hasEffect(MobEffects.JUMP), "no jump boost");
+        double plain = player.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.STEP_HEIGHT);
+        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(new net.neoforged.neoforge.event.tick.PlayerTickEvent.Post(player));
+        double stride = player.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.STEP_HEIGHT);
+        helper.assertTrue(stride > plain + 0.5, "step " + plain + " -> " + stride);
+        player.setShiftKeyDown(true);
+        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(new net.neoforged.neoforge.event.tick.PlayerTickEvent.Post(player));
+        helper.assertTrue(player.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.STEP_HEIGHT) == plain, "sneaking still strides");
+        helper.assertTrue(boots.has(net.minecraft.core.component.DataComponents.UNBREAKABLE), "wears out");
         helper.succeed();
     }
 
