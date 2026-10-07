@@ -1,6 +1,6 @@
 PENDING|ADVANCEDGEARS|not ported yet
 MAP|AEROSOLIZER|aerosolizer
-PENDING|AGGREGATOR|not ported yet
+MAP|AGGREGATOR|aggregator
 MAP|AIRGUN|air_gun
 MAP|ANTIAIR|anti_air
 MAP|ARROWGUN|arrow_gun
@@ -30,7 +30,7 @@ MAP|BLOCKCANNON|block_cannon
 MAP|BLOWER|blower
 MAP|BOILER|boiler
 MAP|BORER|borer
-PENDING|BUCKETFILLER|not ported yet
+MAP|BUCKETFILLER|bucket_filler
 PENDING|BUNDLEDBUS|not ported yet
 MAP|BUSCONTROLLER|bus_controller
 MAP|BYPASS|bypass
@@ -66,7 +66,7 @@ MAP|FAN|fan
 MAP|FERMENTER|fermenter
 MAP|FERTILIZER|fertilizer
 MAP|FILLER|block_filler
-PENDING|FILLINGSTATION|not ported yet
+MAP|FILLINGSTATION|filling_station
 PENDING|FIREBALL|not ported yet
 MAP|FIREWORK|firework_machine
 MAP|FLAMETURRET|flame_turret
@@ -89,10 +89,10 @@ MAP|GPR|gpr
 PENDING|GRAFTER|not ported yet
 PENDING|GRAVELGUN|not ported yet
 MAP|GRINDER|grinder
-PENDING|GRINDSTONE|not ported yet
+MAP|GRINDSTONE|grindstone
 PENDING|HANDBOOK|not ported yet
 PENDING|HANDCRAFT|not ported yet
-PENDING|HEATER|not ported yet
+MAP|HEATER|heater
 MAP|HEATRAY|heat_ray
 PENDING|HELDPISTON|not ported yet
 MAP|HOSE|hose
@@ -127,16 +127,16 @@ MAP|PARTICLE|particle_emitter
 MAP|PILEDRIVER|pile_driver
 MAP|PIPE|pipe
 MAP|PIPEPUMP|pipe_pump
-PENDING|PLAYERDETECTOR|not ported yet
+MAP|PLAYERDETECTOR|player_detector
 MAP|PNEUENGINE|pneumatic_engine
 MAP|POWERBUS|power_bus
 MAP|PROJECTOR|projector
 PENDING|PULSEJET|not ported yet
 MAP|PUMP|pump
-PENDING|PURIFIER|not ported yet
+MAP|PURIFIER|purifier
 MAP|RAILGUN|railgun
 PENDING|RANGEFINDER|not ported yet
-PENDING|REFRESHER|not ported yet
+MAP|REFRESHER|refresher
 MAP|REFRIGERATOR|refrigerator
 MAP|RESERVOIR|reservoir
 PENDING|SCALECHEST|not ported yet
@@ -145,7 +145,7 @@ MAP|SCREWDRIVER|screwdriver
 MAP|SELFDESTRUCT|self_destruct
 MAP|SEPARATION|separator
 MAP|SHAFT|shaft_wood,shaft_stone,shaft_steel,shaft_diamond,shaft_bedrock
-PENDING|SMOKEDETECTOR|not ported yet
+MAP|SMOKEDETECTOR|smoke_detector
 MAP|SOLARTOWER|solar_tower
 MAP|SONICBORER|sonic_borer
 MAP|SONICWEAPON|sonic_weapon
@@ -183,7 +183,7 @@ MAP|VACUUM|vacuum
 MAP|VALVE|valve
 MAP|VANDEGRAFF|van_de_graaff
 MAP|WEATHERCONTROLLER|weather_controller
-PENDING|WETTER|not ported yet
+MAP|WETTER|wetter
 MAP|WINDER|winder
 MAP|WOODCUTTER|woodcutter
 PENDING|canolaSeeds|not ported yet
