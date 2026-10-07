@@ -1,8 +1,8 @@
 package net.scwunge.rotarycraft.client.farm;
 
-import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -12,23 +12,22 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.scwunge.rotarycraft.RotaryCraft;
+import net.scwunge.rotarycraft.blockentity.PowerBlockEntity;
+import net.scwunge.rotarycraft.client.machine.MachineRenderer;
+import net.scwunge.rotarycraft.client.machine.MachineRenderer.Look;
 import net.scwunge.rotarycraft.farm.AutoBreederBlockEntity;
 import net.scwunge.rotarycraft.farm.BaitBoxBlockEntity;
 import net.scwunge.rotarycraft.farm.DefoliatorBlockEntity;
-import net.scwunge.rotarycraft.farm.MobHarvesterBlockEntity;
-import net.scwunge.rotarycraft.farm.SpawnerControllerBlockEntity;
-import net.scwunge.rotarycraft.farm.VacuumBlockEntity;
-import net.scwunge.rotarycraft.farm.WoodcutterBlockEntity;
 import net.scwunge.rotarycraft.farm.FanBlockEntity;
-import net.scwunge.rotarycraft.farm.FarmBlock;
-import net.scwunge.rotarycraft.farm.FarmBlockEntity;
 import net.scwunge.rotarycraft.farm.FertilizerBlockEntity;
 import net.scwunge.rotarycraft.farm.GroundHydratorBlockEntity;
 import net.scwunge.rotarycraft.farm.LawnSprinklerBlockEntity;
+import net.scwunge.rotarycraft.farm.MobHarvesterBlockEntity;
+import net.scwunge.rotarycraft.farm.SpawnerControllerBlockEntity;
 import net.scwunge.rotarycraft.farm.SprinklerBlockEntity;
+import net.scwunge.rotarycraft.farm.VacuumBlockEntity;
+import net.scwunge.rotarycraft.farm.WoodcutterBlockEntity;
 import net.scwunge.rotarycraft.registry.FarmRegistry;
-
-import java.util.Set;
 
 /** Renderers, item renderers and screens of the farming and automation machines. */
 @EventBusSubscriber(modid = RotaryCraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -40,43 +39,40 @@ public final class FarmClient {
         return scale * Math.pow(Math.log(omega + 1) / Math.log(2), 1.05);
     }
 
-    static final FarmRenderer.Look<FanBlockEntity> FAN = new FarmRenderer.Look<>("fan", be -> be.isWide() ? "fan_wide" : "fan",
-            Set.of("Shape1", "Shape5", "Shape6", "Shape7", "Shape8", "Shape9", "Shape3", "Shape4", "Shape2"), Axis.ZP, 1, true,
-            be -> be.getPower() < FanBlockEntity.REQUIREMENT.minPower() ? 0 : -spin(be.getOmega(), 3));
-    static final FarmRenderer.Look<SprinklerBlockEntity> SPRINKLER = FarmRenderer.Look.still("sprinkler", "sprinkler");
-    static final FarmRenderer.Look<LawnSprinklerBlockEntity> LAWN_SPRINKLER = new FarmRenderer.Look<>("lawn_sprinkler", be -> "lawn_sprinkler",
-            Set.of("Shape1"), Axis.YP, 0, false, be -> be.isWorking() ? 24 : 0);
-    static final FarmRenderer.Look<GroundHydratorBlockEntity> HYDRATOR = FarmRenderer.Look.still("reservoir", "ground_hydrator");
-    static final FarmRenderer.Look<FertilizerBlockEntity> FERTILIZER = new FarmRenderer.Look<>("fertilizer", be -> "fertilizer", Set.of("Shape2", "Shape2a"),
-            Axis.YP, 0, false, be -> be.getPower() < FertilizerBlockEntity.REQUIREMENT.minPower() ? 0 : spin(be.getOmega(), 1));
-
-    static final FarmRenderer.Look<DefoliatorBlockEntity> DEFOLIATOR = new FarmRenderer.Look<>("defoliator", be -> "defoliator", Set.of("Shape1"), Axis.YP, 0, false,
-            be -> be.getPower() < DefoliatorBlockEntity.REQUIREMENT.minPower() ? 0 : spin(be.getOmega(), 1));
-    static final FarmRenderer.Look<WoodcutterBlockEntity> WOODCUTTER = new FarmRenderer.Look<>("woodcutter", be -> "woodcutter",
-            Set.of("Shape1", "Shape2", "Shape3", "Shape4", "Shape5a", "Shape5b", "Shape5d", "Shape5e", "Shape5f", "Shape5", "Shape5c", "Shape5g", "Shape6", "Shape7",
-                    "Shape5fa", "Shape5aa", "Shape5ca", "Shape51", "Shape5ga", "Shape5ba", "Shape5ea", "Shape5da", "Shape5fab", "Shape5fa1"),
-            Axis.XP, 1, true, be -> be.getPower() < WoodcutterBlockEntity.REQUIREMENT.minPower() ? 0 : spin(be.getOmega(), 1));
-    static final FarmRenderer.Look<VacuumBlockEntity> VACUUM = FarmRenderer.Look.still("vacuum", "vacuum");
-    static final FarmRenderer.Look<AutoBreederBlockEntity> AUTO_BREEDER = new FarmRenderer.Look<>("auto_breeder", be -> be.hasFeedClient() ? "auto_breeder" : "auto_breeder_empty",
-            Set.of(), null, 0, false, be -> 0);
-    static final FarmRenderer.Look<BaitBoxBlockEntity> BAIT_BOX = FarmRenderer.Look.still("bait_box", "bait_box");
-    static final FarmRenderer.Look<MobHarvesterBlockEntity> MOB_HARVESTER = FarmRenderer.Look.still("mob_harvester", "mob_harvester");
-    static final FarmRenderer.Look<SpawnerControllerBlockEntity> SPAWNER_CONTROLLER = FarmRenderer.Look.still("spawner_controller", "spawner_controller");
+    static final Look<FanBlockEntity> FAN = Look.<FanBlockEntity>spinning("fan", "fan", MachineRenderer.BEAM,
+            be -> be.getPower() < FanBlockEntity.REQUIREMENT.minPower() ? 0 : spin(be.getOmega(), 3), -1).textured(be -> be.isWide() ? "fan_wide" : "fan");
+    static final Look<SprinklerBlockEntity> SPRINKLER = Look.still("sprinkler", "sprinkler", MachineRenderer.BEAM);
+    static final Look<LawnSprinklerBlockEntity> LAWN_SPRINKLER = Look.<LawnSprinklerBlockEntity>spinning("lawn_sprinkler", "lawn_sprinkler", null,
+            be -> be.isWorking() ? 24 : 0, 1);
+    static final Look<GroundHydratorBlockEntity> HYDRATOR = Look.still("reservoir", "ground_hydrator", null);
+    static final Look<FertilizerBlockEntity> FERTILIZER = Look.<FertilizerBlockEntity>spinning("fertilizer", "fertilizer", null,
+            be -> be.getPower() < FertilizerBlockEntity.REQUIREMENT.minPower() ? 0 : spin(be.getOmega(), 1), 1);
+    static final Look<DefoliatorBlockEntity> DEFOLIATOR = Look.<DefoliatorBlockEntity>spinning("defoliator", "defoliator", null,
+            be -> be.getPower() < DefoliatorBlockEntity.REQUIREMENT.minPower() ? 0 : spin(be.getOmega(), 1), -1);
+    static final Look<WoodcutterBlockEntity> WOODCUTTER = Look.<WoodcutterBlockEntity>spinning("woodcutter", "woodcutter", MachineRenderer.BEAM,
+            be -> be.getPower() < WoodcutterBlockEntity.REQUIREMENT.minPower() ? 0 : spin(be.getOmega(), 1), 1);
+    static final Look<VacuumBlockEntity> VACUUM = Look.still("vacuum", "vacuum", null);
+    static final Look<AutoBreederBlockEntity> AUTO_BREEDER = Look.<AutoBreederBlockEntity>still("auto_breeder", "auto_breeder", null)
+            .textured(be -> be.hasWheat() ? "auto_breeder" : "auto_breeder_empty").withFlags(AutoBreederBlockEntity::feedFlags);
+    static final Look<BaitBoxBlockEntity> BAIT_BOX = Look.still("bait_box", "bait_box", null);
+    static final Look<MobHarvesterBlockEntity> MOB_HARVESTER = Look.still("mob_harvester", "mob_harvester", null);
+    static final Look<SpawnerControllerBlockEntity> SPAWNER_CONTROLLER = Look.<SpawnerControllerBlockEntity>still("spawner_controller", "spawner_controller", null)
+            .withFlags(be -> new boolean[] {be.isValidClient()});
 
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerBlockEntityRenderer(FarmRegistry.FAN_BE.get(), c -> new FarmRenderer<>(FAN));
-        event.registerBlockEntityRenderer(FarmRegistry.SPRINKLER_BE.get(), c -> new FarmRenderer<>(SPRINKLER));
-        event.registerBlockEntityRenderer(FarmRegistry.LAWN_SPRINKLER_BE.get(), c -> new FarmRenderer<>(LAWN_SPRINKLER));
-        event.registerBlockEntityRenderer(FarmRegistry.GROUND_HYDRATOR_BE.get(), c -> new FarmRenderer<>(HYDRATOR));
-        event.registerBlockEntityRenderer(FarmRegistry.FERTILIZER_BE.get(), c -> new FarmRenderer<>(FERTILIZER));
-        event.registerBlockEntityRenderer(FarmRegistry.DEFOLIATOR_BE.get(), c -> new FarmRenderer<>(DEFOLIATOR));
-        event.registerBlockEntityRenderer(FarmRegistry.VACUUM_BE.get(), c -> new FarmRenderer<>(VACUUM));
-        event.registerBlockEntityRenderer(FarmRegistry.WOODCUTTER_BE.get(), c -> new FarmRenderer<>(WOODCUTTER));
-        event.registerBlockEntityRenderer(FarmRegistry.AUTO_BREEDER_BE.get(), c -> new FarmRenderer<>(AUTO_BREEDER));
-        event.registerBlockEntityRenderer(FarmRegistry.BAIT_BOX_BE.get(), c -> new FarmRenderer<>(BAIT_BOX));
-        event.registerBlockEntityRenderer(FarmRegistry.MOB_HARVESTER_BE.get(), c -> new FarmRenderer<>(MOB_HARVESTER));
-        event.registerBlockEntityRenderer(FarmRegistry.SPAWNER_CONTROLLER_BE.get(), c -> new FarmRenderer<>(SPAWNER_CONTROLLER));
+        event.registerBlockEntityRenderer(FarmRegistry.FAN_BE.get(), c -> new MachineRenderer<>(FAN));
+        event.registerBlockEntityRenderer(FarmRegistry.SPRINKLER_BE.get(), c -> new MachineRenderer<>(SPRINKLER));
+        event.registerBlockEntityRenderer(FarmRegistry.LAWN_SPRINKLER_BE.get(), c -> new MachineRenderer<>(LAWN_SPRINKLER));
+        event.registerBlockEntityRenderer(FarmRegistry.GROUND_HYDRATOR_BE.get(), c -> new MachineRenderer<>(HYDRATOR));
+        event.registerBlockEntityRenderer(FarmRegistry.FERTILIZER_BE.get(), c -> new MachineRenderer<>(FERTILIZER));
+        event.registerBlockEntityRenderer(FarmRegistry.DEFOLIATOR_BE.get(), c -> new MachineRenderer<>(DEFOLIATOR));
+        event.registerBlockEntityRenderer(FarmRegistry.WOODCUTTER_BE.get(), c -> new MachineRenderer<>(WOODCUTTER));
+        event.registerBlockEntityRenderer(FarmRegistry.VACUUM_BE.get(), c -> new MachineRenderer<>(VACUUM));
+        event.registerBlockEntityRenderer(FarmRegistry.AUTO_BREEDER_BE.get(), c -> new MachineRenderer<>(AUTO_BREEDER));
+        event.registerBlockEntityRenderer(FarmRegistry.BAIT_BOX_BE.get(), c -> new MachineRenderer<>(BAIT_BOX));
+        event.registerBlockEntityRenderer(FarmRegistry.MOB_HARVESTER_BE.get(), c -> new MachineRenderer<>(MOB_HARVESTER));
+        event.registerBlockEntityRenderer(FarmRegistry.SPAWNER_CONTROLLER_BE.get(), c -> new MachineRenderer<>(SPAWNER_CONTROLLER));
     }
 
     @SubscribeEvent
@@ -84,8 +80,9 @@ public final class FarmClient {
         event.register(FarmRegistry.FARM_MENU.get(), FarmScreen::new);
     }
 
-    private static <T extends FarmBlockEntity> void item(RegisterClientExtensionsEvent event, DeferredBlock<FarmBlock> block, FarmRenderer.Look<T> look,
-                                                         String texture) {
+    /** Registers the item form of a machine drawn by a {@link MachineRenderer}. */
+    public static <T extends PowerBlockEntity> void item(RegisterClientExtensionsEvent event, DeferredBlock<? extends Block> block, Look<T> look, String texture,
+                                                         boolean... flags) {
         event.registerItem(new IClientItemExtensions() {
             private BlockEntityWithoutLevelRenderer renderer;
 
@@ -93,7 +90,7 @@ public final class FarmClient {
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 if (renderer == null) {
                     Minecraft mc = Minecraft.getInstance();
-                    renderer = new FarmRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new FarmRenderer<>(look), texture);
+                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(look), texture, flags);
                 }
                 return renderer;
             }
@@ -108,11 +105,11 @@ public final class FarmClient {
         item(event, FarmRegistry.GROUND_HYDRATOR, HYDRATOR, "ground_hydrator");
         item(event, FarmRegistry.FERTILIZER, FERTILIZER, "fertilizer");
         item(event, FarmRegistry.DEFOLIATOR, DEFOLIATOR, "defoliator");
-        item(event, FarmRegistry.VACUUM, VACUUM, "vacuum");
         item(event, FarmRegistry.WOODCUTTER, WOODCUTTER, "woodcutter");
-        item(event, FarmRegistry.AUTO_BREEDER, AUTO_BREEDER, "auto_breeder");
+        item(event, FarmRegistry.VACUUM, VACUUM, "vacuum");
+        item(event, FarmRegistry.AUTO_BREEDER, AUTO_BREEDER, "auto_breeder_empty", true, true, true, true, true);
         item(event, FarmRegistry.BAIT_BOX, BAIT_BOX, "bait_box");
         item(event, FarmRegistry.MOB_HARVESTER, MOB_HARVESTER, "mob_harvester");
-        item(event, FarmRegistry.SPAWNER_CONTROLLER, SPAWNER_CONTROLLER, "spawner_controller");
+        item(event, FarmRegistry.SPAWNER_CONTROLLER, SPAWNER_CONTROLLER, "spawner_controller", true);
     }
 }

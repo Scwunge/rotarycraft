@@ -20,6 +20,9 @@ public abstract class PowerBlockEntity extends BlockEntity implements IShaftPowe
     public long nextSoundTick;
     /** Whether the machine's start-up sound has played for this run (see MachineSounds). */
     public boolean soundStarted;
+    /** Client side: the angle of the machine's turning parts, and the game time it was last moved on (see MachineRenderer). */
+    public float phi;
+    public long phiTime;
     protected int omega;
 
     protected PowerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {

@@ -29,9 +29,6 @@ public abstract class FarmBlockEntity extends ConsumerBlockEntity implements Own
     @Nullable
     protected WorldGuard.Owner owner;
     private int syncedTorque, syncedOmega;
-    /** Client side: the angle of the machine's turning parts, and the game time it was last moved on. */
-    public float phi;
-    public long phiTime;
 
     protected FarmBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);

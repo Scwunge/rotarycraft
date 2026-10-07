@@ -328,5 +328,55 @@
     0.0
    ]
   }
- }
+ },
+ "anim": [
+  [
+   "p",
+   "Shape2"
+  ],
+  [
+   "p",
+   "Shape2a"
+  ],
+  [
+   "p",
+   "Shape2b"
+  ],
+  [
+   "p",
+   "Shape2c"
+  ],
+  [
+   "p",
+   "Shape2d"
+  ],
+  [
+   "p",
+   "Shape2e"
+  ],
+  [
+   "p",
+   "Shape2f"
+  ],
+  [
+   "p",
+   "Shape2g"
+  ],
+  [
+   "p",
+   "Shape2i"
+  ],
+  [
+   "p",
+   "Shape21"
+  ],
+  [
+   "p",
+   "Shape22"
+  ],
+  [
+   "p",
+   "Shape23"
+  ]
+ ]
 }

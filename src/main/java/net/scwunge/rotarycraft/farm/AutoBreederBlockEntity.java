@@ -116,20 +116,44 @@ public class AutoBreederBlockEntity extends FarmBlockEntity {
                 || animal instanceof net.minecraft.world.entity.animal.Chicken || animal instanceof net.minecraft.world.entity.animal.Pig;
     }
 
-    private boolean hasFeedClient;
+    /** Which foods it holds, for the model's parts that show them: wheat, carrots, meat, fish, seeds. */
+    private int feedBits;
 
-    public boolean hasFeedClient() {
-        return hasFeedClient;
+    public boolean[] feedFlags() {
+        return new boolean[] {true, (feedBits & 2) != 0, (feedBits & 4) != 0, (feedBits & 8) != 0, (feedBits & 16) != 0};
+    }
+
+    public boolean hasWheat() {
+        return (feedBits & 1) != 0;
+    }
+
+    private int computeFeedBits() {
+        int bits = 0;
+        for (int i = 0; i < SLOTS; i++) {
+            ItemStack stack = items.getStackInSlot(i);
+            if (stack.is(Items.WHEAT)) {
+                bits |= 1;
+            } else if (stack.is(Items.CARROT)) {
+                bits |= 2;
+            } else if (stack.is(Items.PORKCHOP)) {
+                bits |= 4;
+            } else if (stack.is(Items.COD)) {
+                bits |= 8;
+            } else if (stack.is(Items.WHEAT_SEEDS)) {
+                bits |= 16;
+            }
+        }
+        return bits;
     }
 
     @Override
     protected void writeClientData(net.minecraft.nbt.CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
-        tag.putBoolean("feed", !isIdle());
+        tag.putInt("feed", computeFeedBits());
     }
 
     @Override
     protected void readClientData(net.minecraft.nbt.CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
-        hasFeedClient = tag.getBoolean("feed");
+        feedBits = tag.getInt("feed");
     }
 
     /** Whether any animal that could be fed is idle (the original's comparator reading). */
@@ -149,8 +173,8 @@ public class AutoBreederBlockEntity extends FarmBlockEntity {
         }
         ServerLevel server = server();
         boolean pathing = server.getGameTime() % 20 == 0;
-        if (pathing && hasFeedClient == isIdle()) {
-            hasFeedClient = !isIdle();
+        if (pathing && feedBits != computeFeedBits()) {
+            feedBits = computeFeedBits();
             syncNow();
         }
         AABB box = new AABB(worldPosition).inflate(range());

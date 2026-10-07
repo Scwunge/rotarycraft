@@ -134,6 +134,10 @@ public class SpawnerControllerBlockEntity extends FarmBlockEntity {
     @Override
     protected void machineTick(boolean powered) {
         SpawnerBlockEntity spawner = spawner();
+        if (level.getGameTime() % 20 == 0 && validClient != (spawner != null)) {
+            validClient = spawner != null;
+            syncNow();
+        }
         if (spawner == null) {
             timer = 0;
             savedRange = -1;
@@ -206,6 +210,22 @@ public class SpawnerControllerBlockEntity extends FarmBlockEntity {
                 mob.spawnAnim();
             }
         }
+    }
+
+    private boolean validClient;
+
+    public boolean isValidClient() {
+        return validClient;
+    }
+
+    @Override
+    protected void writeClientData(CompoundTag tag, HolderLookup.Provider registries) {
+        tag.putBoolean("valid", isValidLocation());
+    }
+
+    @Override
+    protected void readClientData(CompoundTag tag, HolderLookup.Provider registries) {
+        validClient = tag.getBoolean("valid");
     }
 
     @Override

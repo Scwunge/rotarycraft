@@ -29,6 +29,8 @@ public final class ReikaModel {
     private static final org.slf4j.Logger LOGGER = com.mojang.logging.LogUtils.getLogger();
     private final ResourceLocation location;
     private Map<String, ModelPart> parts;
+    /** The original's render program (see tools/modelanim.py), or null if the model has none. */
+    private JsonArray anim;
 
     public ReikaModel(String name) {
         this.location = RotaryCraft.id("reika_models/" + name + ".json");
@@ -46,6 +48,7 @@ public final class ReikaModel {
         try (Reader in = new InputStreamReader(Minecraft.getInstance().getResourceManager().open(location), StandardCharsets.UTF_8)) {
             JsonObject json = JsonParser.parseReader(in).getAsJsonObject();
             JsonArray size = json.getAsJsonArray("texture_size");
+            anim = json.has("anim") ? json.getAsJsonArray("anim") : null;
             for (Map.Entry<String, JsonElement> e : json.getAsJsonObject("parts").entrySet()) {
                 JsonObject p = e.getValue().getAsJsonObject();
                 JsonArray uv = p.getAsJsonArray("uv");
@@ -75,6 +78,85 @@ public final class ReikaModel {
     public static void enterModelSpace(PoseStack pose) {
         pose.translate(0.5, 1.5, 0.5);
         pose.scale(1, -1, -1);
+    }
+
+    /** Whether the model has the original's own draw program, with its moving parts. */
+    public boolean hasProgram() {
+        parts();
+        return anim != null;
+    }
+
+    /**
+     * Draws the model as the original's renderAll did: its parts, with the translations and rotations it did between them, turning by
+     * {@code phi} and {@code theta} degrees where it used those. {@code flags} are the booleans the original's renderers passed in
+     * (a missing one is false).
+     */
+    public void renderAnimated(PoseStack pose, VertexConsumer buffer, int light, int overlay, double phi, double theta, boolean... flags) {
+        Map<String, ModelPart> all = parts();
+        if (anim == null) {
+            renderAll(pose, buffer, light, overlay);
+            return;
+        }
+        pose.pushPose();
+        int skipping = 0;
+        java.util.ArrayDeque<Boolean> inside = new java.util.ArrayDeque<>();
+        int pushes = 0;
+        for (JsonElement e : anim) {
+            JsonArray op = e.getAsJsonArray();
+            String code = op.get(0).getAsString();
+            if (code.equals("if")) {
+                int flag = op.get(1).getAsInt();
+                boolean value = flag >= 0 && flag < flags.length && flags[flag];
+                boolean pass = value == op.get(2).getAsBoolean();
+                inside.push(pass);
+                if (!pass) {
+                    skipping++;
+                }
+                continue;
+            }
+            if (code.equals("end")) {
+                if (!inside.isEmpty() && !inside.pop()) {
+                    skipping--;
+                }
+                continue;
+            }
+            if (skipping > 0) {
+                continue;
+            }
+            switch (code) {
+                case "t" -> pose.translate(op.get(1).getAsDouble(), op.get(2).getAsDouble(), op.get(3).getAsDouble());
+                case "s" -> pose.scale(op.get(1).getAsFloat(), op.get(2).getAsFloat(), op.get(3).getAsFloat());
+                case "r" -> {
+                    double angle = op.get(1).getAsDouble() + op.get(2).getAsDouble() * phi + op.get(3).getAsDouble() * theta;
+                    org.joml.Vector3f axis = new org.joml.Vector3f(op.get(4).getAsFloat(), op.get(5).getAsFloat(), op.get(6).getAsFloat());
+                    if (axis.lengthSquared() > 0) {
+                        pose.mulPose(new org.joml.Quaternionf().fromAxisAngleDeg(axis.normalize(), (float) angle));
+                    }
+                }
+                case "push" -> {
+                    pose.pushPose();
+                    pushes++;
+                }
+                case "pop" -> {
+                    if (pushes > 0) {
+                        pose.popPose();
+                        pushes--;
+                    }
+                }
+                case "p" -> {
+                    ModelPart part = all.get(op.get(1).getAsString());
+                    if (part != null) {
+                        part.render(pose, buffer, light, overlay);
+                    }
+                }
+                default -> {
+                }
+            }
+        }
+        while (pushes-- > 0) {
+            pose.popPose();
+        }
+        pose.popPose();
     }
 
     /** The names of the model's parts. */
