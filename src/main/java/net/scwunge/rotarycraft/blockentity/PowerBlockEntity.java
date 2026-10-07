@@ -4,6 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,6 +23,41 @@ public abstract class PowerBlockEntity extends BlockEntity implements IShaftPowe
     public long nextSoundTick;
     /** Whether the machine's start-up sound has played for this run (see MachineSounds). */
     public boolean soundStarted;
+    private boolean powerDirty;
+    private long lastPowerSync;
+
+    /** Tells the clients the machine's speed now and then while it changes, for the animations and sounds (at most every half second). */
+    public final void flushPowerSync() {
+        if (powerDirty && level != null && !level.isClientSide && level.getGameTime() - lastPowerSync >= 10) {
+            powerDirty = false;
+            lastPowerSync = level.getGameTime();
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
+        }
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag tag = new CompoundTag();
+        tag.putInt("torque", torque);
+        tag.putInt("omega", omega);
+        return tag;
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+        torque = tag.getInt("torque");
+        omega = tag.getInt("omega");
+    }
+
+    @Override
+    public void onDataPacket(net.minecraft.network.Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider registries) {
+        handleUpdateTag(pkt.getTag(), registries);
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
     /** Client side: the angle of the machine's turning parts, and the game time it was last moved on (see MachineRenderer). */
     public float phi;
     public long phiTime;
@@ -91,6 +129,7 @@ public abstract class PowerBlockEntity extends BlockEntity implements IShaftPowe
         if (torque != this.torque || omega != this.omega) {
             this.torque = torque;
             this.omega = omega;
+            powerDirty = true;
             setChanged();
         }
     }

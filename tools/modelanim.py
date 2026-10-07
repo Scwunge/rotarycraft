@@ -283,6 +283,9 @@ class Program:
             cond = cond[1:].strip()
         if re.fullmatch(r'\w+', cond) and cond in self.flags:
             return (self.flags[cond], not neg)
+        m = re.fullmatch(r'\(Boolean\)\s*li\.get\((\d+)\)', cond)
+        if m:
+            return (int(m.group(1)), not neg)
         self.warnings.append('condition not understood: ' + cond)
         return None
 

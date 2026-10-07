@@ -132,6 +132,8 @@ public final class ModelMachinesClient {
         renderer(event, RotaryBlockEntities.EXTRACTOR::get, EXTRACTOR_LOOK);
         renderer(event, RotaryBlockEntities.COMPACTOR::get, COMPACTOR_LOOK);
         renderer(event, RotaryBlockEntities.CENTRIFUGE::get, CENTRIFUGE);
+        event.registerBlockEntityRenderer(RotaryBlockEntities.BEVEL_GEAR.get(), c -> new JunctionRenderers.Bevel());
+        event.registerBlockEntityRenderer(RotaryBlockEntities.SPLITTER.get(), c -> new JunctionRenderers.Splitter());
     }
 
     private static <T extends PowerBlockEntity> void item(RegisterClientExtensionsEvent event, DeferredBlock<? extends Block> block, Look<T> look, String model,
@@ -176,5 +178,29 @@ public final class ModelMachinesClient {
         item(event, RotaryBlocks.EXTRACTOR, EXTRACTOR_LOOK, "extractor", "extractor");
         item(event, RotaryBlocks.COMPACTOR, COMPACTOR_LOOK, "compactor", "compactor");
         item(event, RotaryBlocks.CENTRIFUGE, CENTRIFUGE, "centrifuge", "centrifuge");
+        event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    Minecraft mc = Minecraft.getInstance();
+                    renderer = new JunctionRenderers.Bevel.Item(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels());
+                }
+                return renderer;
+            }
+        }, RotaryBlocks.BEVEL_GEAR.get().asItem());
+        event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    Minecraft mc = Minecraft.getInstance();
+                    renderer = new JunctionRenderers.Splitter.Item(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels());
+                }
+                return renderer;
+            }
+        }, RotaryBlocks.SPLITTER.get().asItem());
     }
 }

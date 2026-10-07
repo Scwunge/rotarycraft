@@ -52,6 +52,9 @@ public class SplitterBlockEntity extends PowerBlockEntity {
     public void toggleMode() {
         splitting = !splitting;
         setChanged();
+        if (level != null && !level.isClientSide) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
+        }
     }
 
     /** Cycles 1:1, then 2..32 favouring the straight output, then 2..32 favouring the bent one. */
@@ -140,6 +143,19 @@ public class SplitterBlockEntity extends PowerBlockEntity {
         straightTorque = t;
         bentTorque = 0;
         setPower(t, w);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag tag = super.getUpdateTag(registries);
+        tag.putBoolean("splitting", splitting);
+        return tag;
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+        super.handleUpdateTag(tag, registries);
+        splitting = tag.getBoolean("splitting");
     }
 
     @Override

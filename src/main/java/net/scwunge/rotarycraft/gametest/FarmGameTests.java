@@ -765,6 +765,7 @@ public class FarmGameTests {
         box.items().setStackInSlot(0, new ItemStack(Items.WHEAT));
         var cow = helper.spawn(EntityType.COW, new BlockPos(16, 3, 3));
         var pig = helper.spawn(EntityType.PIG, new BlockPos(16, 3, 5));
+        pig.setNoAi(true);
         double cowX = cow.getX(), pigX = pig.getX();
         helper.runAfterDelay(3, () -> helper.assertTrue(box.canAttract(cow) && !box.canRepel(cow) && !box.canAttract(pig), "wrong bait read"));
         helper.runAfterDelay(80, () -> {

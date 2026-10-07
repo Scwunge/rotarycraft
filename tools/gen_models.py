@@ -84,4 +84,38 @@ for block, model, tex in [('pump', 'ModelPump', 'pumptex.png'), ('friction_heate
     MODELS.append('%s:%s' % (model, block))
     rendered(block)
 
+# ---- Bevel gear and splitter: their blocks have one blockstate for every arrangement of shafts; the renderers do the turning ----
+import re
+
+for block in ('bevel_gear', 'splitter'):
+    w('%s/blockstates/%s.json' % (A, block), {'variants': {'': {'model': 'rotarycraft:block/' + block}}})
+    w('%s/models/block/%s.json' % (A, block), {'textures': {'particle': 'rotarycraft:block/machine_side'}})
+    w('%s/models/item/%s.json' % (A, block), {'parent': 'minecraft:builtin/entity', 'gui_light': 'side', 'textures': {'particle': 'rotarycraft:block/machine_side'}, 'display': DISPLAY})
+texture('Transmission/beveltex.png', 'bevel_gear')
+texture('Transmission/splittertex.png', 'splitter')
+texture('Transmission/bedsplittertex.png', 'splitter_bedrock')
+MODELS += ['ModelBevel:bevel_gear', 'ModelSplitter:splitter', 'ModelSplitter2:splitter2']
+
+# the bevel gear's table: which shafts (in, out) it joins, and how the original turned its model for them
+src = open('reference/RotaryCraft/TileEntities/Transmission/TileEntityBevelGear.java', encoding='utf-8', errors='replace').read()
+blk = src[src.index('case 0://-x'):src.index('directions.put')]
+parts = re.split(r'case (\d+):', blk)
+ios = {}
+for k in range(1, len(parts), 2):
+    body = parts[k + 1]
+    ios[int(parts[k])] = (re.search(r'read = ForgeDirection\.(\w+)', body).group(1).lower(), re.search(r'write = ForgeDirection\.(\w+)', body).group(1).lower())
+src = open('reference/RotaryCraft/Renders/RenderBevel.java', encoding='utf-8', errors='replace').read()
+blk = src[src.index('switch(tile.direction)'):src.index('GL11.glRotatef(var11')]
+parts = re.split(r'case (\d+):', blk)
+table = []
+for k in range(1, len(parts), 2):
+    n = int(parts[k])
+    body = parts[k + 1]
+    v = re.search(r'var11 = (-?\d+); var12 = (-?\d+)', body)
+    t = re.search(r'glTranslatef\((-?\d+)F, (-?\d+)F, (-?\d+)F\)', body)
+    table.append({'read': ios[n][0], 'write': ios[n][1], 'y': int(v.group(1)), 'x': int(v.group(2)), 't': [int(g) for g in t.groups()] if t else [0, 0, 0],
+                  'dir': -1 if 'dir = -1' in body else 1})
+os.makedirs(A + '/reika_models', exist_ok=True)
+w(A + '/reika_models/bevel_orientations.json', table)
+
 subprocess.run([sys.executable, 'tools/modelbase2json.py'] + MODELS, check=True)
