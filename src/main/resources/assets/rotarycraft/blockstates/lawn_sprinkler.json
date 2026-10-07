@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/lawn_sprinkler"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/lawn_sprinkler"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/lawn_sprinkler"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/lawn_sprinkler"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/lawn_sprinkler"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/lawn_sprinkler"
+    }
+  }
+}

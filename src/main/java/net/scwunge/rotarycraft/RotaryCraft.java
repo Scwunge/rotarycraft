@@ -30,6 +30,7 @@ public class RotaryCraft {
 
     public RotaryCraft(IEventBus modBus, ModContainer container) {
         container.registerConfig(ModConfig.Type.SERVER, RotaryConfig.SPEC, "rotarycraft-server.toml");
+        container.registerConfig(ModConfig.Type.SERVER, net.scwunge.rotarycraft.config.FarmConfig.SPEC, "rotarycraft-farm.toml");
         // fluids add their blocks and buckets to the block and item registers, so they load first
         net.scwunge.rotarycraft.registry.RotaryFluids.TYPES.register(modBus);
         net.scwunge.rotarycraft.registry.RotaryFluids.FLUIDS.register(modBus);
@@ -39,6 +40,7 @@ public class RotaryCraft {
         net.scwunge.rotarycraft.registry.WeaponRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.SurveyRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.WorldMachineRegistry.init(modBus);
+        net.scwunge.rotarycraft.registry.FarmRegistry.init(modBus);
         RotaryItems.TABS.register(modBus);
         RotaryBlockEntities.TYPES.register(modBus);
         net.scwunge.rotarycraft.registry.RotaryRecipes.TYPES.register(modBus);

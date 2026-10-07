@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "WWW",
+    "WIW",
+    "#s#"
+  ],
+  "key": {
+    "#": {
+      "item": "rotarycraft:base_panel"
+    },
+    "W": {
+      "tag": "minecraft:planks"
+    },
+    "I": {
+      "item": "rotarycraft:impeller"
+    },
+    "s": {
+      "item": "rotarycraft:shaft_core"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:fan",
+    "count": 1
+  }
+}

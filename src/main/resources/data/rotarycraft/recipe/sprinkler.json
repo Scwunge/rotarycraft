@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " s ",
+    " p ",
+    " i "
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "p": {
+      "item": "rotarycraft:pipe"
+    },
+    "i": {
+      "item": "rotarycraft:impeller"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:sprinkler",
+    "count": 4
+  }
+}

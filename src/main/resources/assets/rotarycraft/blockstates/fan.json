@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/fan"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/fan"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/fan"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/fan"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/fan"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/fan"
+    }
+  }
+}

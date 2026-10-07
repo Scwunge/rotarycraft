@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sls",
+    "p p",
+    "PpP"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "l": {
+      "item": "minecraft:ladder"
+    },
+    "p": {
+      "tag": "minecraft:planks"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:ground_hydrator",
+    "count": 1
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/fertilizer"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/fertilizer"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/fertilizer"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/fertilizer"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/fertilizer"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/fertilizer"
+    }
+  }
+}
