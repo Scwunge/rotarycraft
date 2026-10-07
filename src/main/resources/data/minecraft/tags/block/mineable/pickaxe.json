@@ -171,6 +171,7 @@
     "rotarycraft:belt_hub",
     "rotarycraft:chain_drive",
     "rotarycraft:split_belt",
-    "rotarycraft:worm_drive"
+    "rotarycraft:worm_drive",
+    "rotarycraft:cvt"
   ]
 }

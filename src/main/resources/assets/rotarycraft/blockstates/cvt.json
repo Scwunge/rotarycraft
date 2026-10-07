@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/cvt"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/cvt"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/cvt"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/cvt"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/cvt"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/cvt"
+    }
+  }
+}

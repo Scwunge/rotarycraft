@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BSB",
+    "BSB",
+    "sMc"
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:diamond_bearing"
+    },
+    "S": {
+      "item": "rotarycraft:bedrock_shaft_core"
+    },
+    "s": {
+      "item": "rotarycraft:circuit_board"
+    },
+    "M": {
+      "item": "rotarycraft:mount"
+    },
+    "c": {
+      "item": "rotarycraft:screen"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:cvt",
+    "count": 1
+  }
+}

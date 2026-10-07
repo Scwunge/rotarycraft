@@ -704,6 +704,7 @@
   "message.rotarycraft.belt.receiving": "This pulley now receives the belt.",
   "message.rotarycraft.belt.driving": "This pulley now drives the belt.",
   "block.rotarycraft.worm_drive": "Worm Gear",
+  "block.rotarycraft.cvt": "CVT",
   "item.rotarycraft.steel_pickaxe": "HSLA Steel Pickaxe",
   "item.rotarycraft.steel_axe": "HSLA Steel Axe",
   "item.rotarycraft.steel_shovel": "HSLA Steel Shovel",

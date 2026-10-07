@@ -21,6 +21,7 @@ import net.scwunge.rotarycraft.registry.RotaryParts;
 import net.scwunge.rotarycraft.transmission.BusControllerBlockEntity;
 import net.scwunge.rotarycraft.transmission.AdvancedGearBlock;
 import net.scwunge.rotarycraft.transmission.AdvancedGearBlockEntity;
+import net.scwunge.rotarycraft.menu.CvtMenu;
 import net.minecraft.server.level.ServerLevel;
 import net.scwunge.rotarycraft.transmission.PortalShafts;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -699,6 +700,143 @@ public class TransmissionGameTests {
         helper.assertTrue(Math.abs(AdvancedGearBlockEntity.wormLoss(1024) - 0.88) < 1.0E-9, "at 1024 rad/s " + AdvancedGearBlockEntity.wormLoss(1024));
         helper.assertTrue(Math.abs(AdvancedGearBlockEntity.wormLoss(4096) - 0.80) < 1.0E-9, "at 4096 rad/s " + AdvancedGearBlockEntity.wormLoss(4096));
         helper.assertTrue(AdvancedGearBlockEntity.wormSpeed(63) == 0, "below 64 rad/s nothing comes out");
+        helper.succeed();
+    }
+
+    // ---- the CVT ----
+
+    /** A CVT fed 64 N*m at 64 rad/s, lubricated, with its last belt in and {@code row} belts in a row from the first slot. */
+    static AdvancedGearBlockEntity cvt(GameTestHelper helper, int row, boolean lubricated) {
+        AdvancedGearBlockEntity gear = advancedGear(helper, TransmissionRegistry.CVT, 64, 64);
+        ItemStack belt = new ItemStack(RotaryParts.part("belt").get());
+        for (int i = 0; i < row; i++) {
+            gear.belts().setStackInSlot(i, belt.copy());
+        }
+        gear.belts().setStackInSlot(AdvancedGearBlockEntity.BELT_SLOTS - 1, belt.copy());
+        if (lubricated) {
+            gear.lubricant().fill(new FluidStack(RotaryFluids.LUBRICANT.get(), 1000), IFluidHandler.FluidAction.EXECUTE);
+        }
+        return gear;
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void aCvtNeedsLubricantAndABeltInItsLastSlot(GameTestHelper helper) {
+        AdvancedGearBlockEntity dry = cvt(helper, 3, false);
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(dry.getTorque() == 0 && dry.getOmega() == 0, "a dry CVT passed power");
+            dry.lubricant().fill(new FluidStack(RotaryFluids.LUBRICANT.get(), 100), IFluidHandler.FluidAction.EXECUTE);
+            dry.belts().setStackInSlot(AdvancedGearBlockEntity.BELT_SLOTS - 1, ItemStack.EMPTY);
+        });
+        helper.runAfterDelay(20, () -> {
+            helper.assertTrue(dry.getTorque() == 0, "a CVT with no belt in its last slot passed power");
+            dry.belts().setStackInSlot(AdvancedGearBlockEntity.BELT_SLOTS - 1, new ItemStack(RotaryParts.part("belt").get()));
+        });
+        helper.succeedWhen(() -> helper.assertTrue(dry.getTorque() > 0, "it should run now"));
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void aCvtTradesTorqueForSpeedOrTheOtherWayByItsRatio(GameTestHelper helper) {
+        AdvancedGearBlockEntity gear = cvt(helper, 3, true);
+        gear.setRatio(4);
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(gear.getTorque() == 16 && gear.getOmega() == 256, "speed mode gave " + gear.getTorque() + " N*m " + gear.getOmega() + " rad/s");
+            gear.setRatio(-4);
+        });
+        helper.succeedWhen(() -> helper.assertTrue(gear.getTorque() == 256 && gear.getOmega() == 16, "torque mode gave " + gear.getTorque() + " N*m " + gear.getOmega() + " rad/s"));
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 20)
+    public static void theBeltsInARowSetTheCvtsTopRatioInPowersOfTwo(GameTestHelper helper) {
+        AdvancedGearBlockEntity gear = cvt(helper, 0, true);
+        helper.assertTrue(gear.maxRatio() == 1, "no belts: " + gear.maxRatio());
+        ItemStack belt = new ItemStack(RotaryParts.part("belt").get());
+        gear.belts().setStackInSlot(0, belt.copy());
+        helper.assertTrue(gear.maxRatio() == 2, "one belt: " + gear.maxRatio());
+        gear.belts().setStackInSlot(1, belt.copy());
+        helper.assertTrue(gear.maxRatio() == 2, "two belts: " + gear.maxRatio());
+        gear.belts().setStackInSlot(2, belt.copy());
+        helper.assertTrue(gear.maxRatio() == 4, "three belts: " + gear.maxRatio());
+        gear.belts().setStackInSlot(4, belt.copy());
+        helper.assertTrue(gear.maxRatio() == 4, "a gap stops the count: " + gear.maxRatio());
+        for (int i = 3; i < 31; i++) {
+            gear.belts().setStackInSlot(i, belt.copy());
+        }
+        helper.assertTrue(gear.maxRatio() == 32, "thirty belts: " + gear.maxRatio());
+        gear.setRatio(100);
+        helper.assertTrue(gear.ratio() == 32, "the ratio should be held to the top one: " + gear.ratio());
+        gear.setRatio(0);
+        helper.assertTrue(gear.ratio() == 1, "zero is one");
+        gear.setRatio(-50);
+        helper.assertTrue(gear.ratio() == -32, "torque too: " + gear.ratio());
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void aCvtInRedstoneModeUsesTheRatioForTheSignal(GameTestHelper helper) {
+        AdvancedGearBlockEntity gear = cvt(helper, 7, true);
+        gear.stepMode();
+        gear.stepMode();
+        helper.assertTrue(gear.mode() == AdvancedGearBlockEntity.CvtMode.AUTO, "mode " + gear.mode());
+        gear.stepMode();
+        helper.assertTrue(gear.mode() == AdvancedGearBlockEntity.CvtMode.MANUAL, "the modes go round");
+        gear.stepMode();
+        helper.assertTrue(gear.mode() == AdvancedGearBlockEntity.CvtMode.REDSTONE, "mode " + gear.mode());
+        gear.stepState(true);
+        gear.stepState(true);
+        helper.assertTrue(gear.stateRatio(false) == 1 && gear.stateRatio(true) == 4, "states " + gear.stateRatio(false) + ", " + gear.stateRatio(true));
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(gear.getTorque() == 64 && gear.getOmega() == 64, "no signal should be 1x: " + gear.getTorque() + ", " + gear.getOmega());
+            helper.setBlock(CLUTCH.above(), Blocks.REDSTONE_BLOCK);
+        });
+        helper.succeedWhen(() -> helper.assertTrue(gear.getTorque() == 16 && gear.getOmega() == 256, "a signal should be 4x speed: " + gear.getTorque() + ", " + gear.getOmega()));
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void anAutomaticCvtPicksTheRatioThatKeepsTheTorqueNearItsTarget(GameTestHelper helper) {
+        AdvancedGearBlockEntity gear = cvt(helper, 7, true);
+        gear.stepMode();
+        gear.stepMode();
+        gear.setTargetTorque(100);
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(gear.ratio() == -2 && gear.getTorque() == 128, "short of the target: ratio " + gear.ratio() + ", " + gear.getTorque() + " N*m");
+            gear.setTargetTorque(20);
+        });
+        helper.succeedWhen(() -> helper.assertTrue(gear.ratio() == 3 && gear.getTorque() == 21 && gear.getOmega() == 192, "over the target: ratio " + gear.ratio() + ", " + gear.getTorque() + " N*m " + gear.getOmega() + " rad/s"));
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void aCvtNeverGivesMoreThanTheLimit(GameTestHelper helper) {
+        AdvancedGearBlockEntity gear = advancedGear(helper, TransmissionRegistry.CVT, 4, 1_000_000_000);
+        ItemStack belt = new ItemStack(RotaryParts.part("belt").get());
+        gear.belts().setStackInSlot(0, belt.copy());
+        gear.belts().setStackInSlot(1, belt.copy());
+        gear.belts().setStackInSlot(AdvancedGearBlockEntity.BELT_SLOTS - 1, belt.copy());
+        gear.lubricant().fill(new FluidStack(RotaryFluids.LUBRICANT.get(), 1000), IFluidHandler.FluidAction.EXECUTE);
+        gear.setRatio(4);
+        helper.succeedWhen(() -> helper.assertTrue(gear.getOmega() == AdvancedGearBlockEntity.LIMIT, "speed " + gear.getOmega()));
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void theCvtScreenButtonsAndNumbersWorkAndTheCvtKeepsItsThingsWhenSaved(GameTestHelper helper) {
+        AdvancedGearBlockEntity gear = cvt(helper, 7, true);
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        CvtMenu menu = new CvtMenu(1, player.getInventory(), gear);
+        gear.setRatio(4);
+        helper.assertTrue(menu.clickMenuButton(player, CvtMenu.FLIP) && gear.ratio() == -4, "flip should make it torque");
+        helper.assertTrue(menu.clickMenuButton(player, CvtMenu.MODE) && gear.mode() == AdvancedGearBlockEntity.CvtMode.REDSTONE, "the mode button");
+        helper.assertFalse(menu.clickMenuButton(player, CvtMenu.FLIP), "flipping is for manual mode");
+        helper.assertTrue(menu.clickMenuButton(player, CvtMenu.STATE_ON) && gear.stateRatio(true) == 2, "state on");
+        helper.assertTrue(menu.clickMenuButton(player, CvtMenu.STATE_OFF) && gear.stateRatio(false) == 2, "state off");
+        gear.setTargetTorque(77);
+        helper.assertTrue(menu.slots.size() == 32 + 36 && menu.getSlot(31).container != null, "the belts and the inventory are in the menu");
+        var registries = helper.getLevel().registryAccess();
+        var saved = gear.saveWithFullMetadata(registries);
+        helper.setBlock(CLUTCH, Blocks.AIR);
+        helper.setBlock(CLUTCH, TransmissionRegistry.CVT.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        AdvancedGearBlockEntity other = helper.getBlockEntity(CLUTCH);
+        other.loadWithComponents(saved, registries);
+        helper.assertTrue(other.ratio() == -4 && other.mode() == AdvancedGearBlockEntity.CvtMode.REDSTONE && other.stateRatio(true) == 2 && other.targetTorque() == 77, "settings lost");
+        helper.assertTrue(other.maxRatio() == 8 && other.hasRequiredBelt() && other.lubricant().getFluidAmount() == 1000, "belts or lubricant lost: " + other.maxRatio());
         helper.succeed();
     }
 }

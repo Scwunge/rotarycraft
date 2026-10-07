@@ -15,6 +15,7 @@ import net.scwunge.rotarycraft.RotaryCraft;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.scwunge.rotarycraft.menu.CvtMenu;
 import net.scwunge.rotarycraft.menu.DistributionClutchMenu;
 import net.scwunge.rotarycraft.menu.MultiClutchMenu;
 import net.scwunge.rotarycraft.menu.PowerBusMenu;
@@ -77,6 +78,9 @@ public final class TransmissionRegistry {
     /** The advanced gears, one block for each kind (worm gear, CVT, energy coil, 256x gear). */
     public static final Map<AdvancedGearBlock.Kind, DeferredBlock<AdvancedGearBlock>> ADVANCED_GEARS = new EnumMap<>(AdvancedGearBlock.Kind.class);
     public static final DeferredBlock<AdvancedGearBlock> WORM_DRIVE = gear(AdvancedGearBlock.Kind.WORM, "worm_drive");
+    public static final DeferredBlock<AdvancedGearBlock> CVT = gear(AdvancedGearBlock.Kind.CVT, "cvt");
+    public static final DeferredHolder<MenuType<?>, MenuType<CvtMenu>> CVT_MENU = RotaryMenus.MENUS.register("cvt",
+            () -> IMenuTypeExtension.create(CvtMenu::fromNetwork));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AdvancedGearBlockEntity>> ADVANCED_GEAR_BE =
             RotaryBlockEntities.TYPES.register("advanced_gear", () -> BlockEntityType.Builder.of(AdvancedGearBlockEntity::new,
                     ADVANCED_GEARS.values().stream().map(DeferredBlock::get).toArray(net.minecraft.world.level.block.Block[]::new)).build(null));
@@ -108,6 +112,8 @@ public final class TransmissionRegistry {
     @SubscribeEvent
     public static void capabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, POWER_BUS_BE.get(), (be, side) -> be.automation());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ADVANCED_GEAR_BE.get(), (be, side) -> be.kind() == AdvancedGearBlock.Kind.CVT ? be.belts() : null);
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ADVANCED_GEAR_BE.get(), (be, side) -> be.kind() == AdvancedGearBlock.Kind.CVT ? FluidAccess.fillOnly(be.lubricant()) : null);
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ENGINE_CONTROLLER_BE.get(), (be, side) -> FluidAccess.fillOnly(be.tank()));
         // lubricant goes into a Bus Controller through its top or bottom only
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BUS_CONTROLLER_BE.get(), (be, side) -> side == null || side.getAxis().isVertical() ? FluidAccess.fillOnly(be.tank()) : null);

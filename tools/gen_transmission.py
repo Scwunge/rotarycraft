@@ -181,6 +181,15 @@ rendered('worm_drive')
 shaped('worm_drive', ['SW ', ' GS', ' M '], {'S': item('shaft_core'), 'W': item('worm_gear'), 'G': item('steel_gear'), 'M': item('mount')})
 LANG.update({'block.rotarycraft.worm_drive': 'Worm Gear'})
 
+# ---- the CVT ----
+texture('Transmission/cvttex.png', 'cvt')
+MODELS.append('ModelCVT:cvt')
+rendered('cvt')
+gui('cvtgui.png', 'cvt')
+gui('cvtgui2.png', 'cvt_redstone')
+shaped('cvt', ['BSB', 'BSB', 'sMc'], {'B': item('diamond_bearing'), 'S': item('bedrock_shaft_core'), 's': item('circuit_board'), 'M': item('mount'), 'c': item('screen')})
+LANG.update({'block.rotarycraft.cvt': 'CVT'})
+
 # ---- lang, tags, models ----
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

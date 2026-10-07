@@ -21,6 +21,7 @@ public final class TransmissionNetwork {
     public static void register(RegisterPayloadHandlersEvent event) {
         var registrar = event.registrar("transmission-1").optional();
         registrar.playToServer(DistributionRequests.TYPE, DistributionRequests.CODEC, (p, ctx) -> ctx.enqueueWork(() -> DistributionRequests.handle(p, ctx)));
+        registrar.playToServer(CvtValue.TYPE, CvtValue.CODEC, (p, ctx) -> ctx.enqueueWork(() -> CvtValue.handle(p, ctx)));
     }
 
     /** The torques (N*m) a Distribution Clutch's screen asks each side (north, south, west, east) for. */
@@ -41,6 +42,31 @@ public final class TransmissionNetwork {
             if (player.distanceToSqr(p.pos.getCenter()) <= 64 && player.level().isLoaded(p.pos)
                     && player.level().getBlockEntity(p.pos) instanceof DistributionClutchBlockEntity clutch) {
                 clutch.setTorqueRequests(new int[] {p.north, p.south, p.west, p.east});
+            }
+        }
+    }
+
+    /** A CVT screen's number: the ratio in manual mode (negative for torque), or the target torque in auto mode. */
+    public record CvtValue(BlockPos pos, int value, boolean target) implements CustomPacketPayload {
+        public static final Type<CvtValue> TYPE = new Type<>(RotaryCraft.id("cvt_value"));
+        public static final StreamCodec<ByteBuf, CvtValue> CODEC = StreamCodec.composite(BlockPos.STREAM_CODEC, CvtValue::pos,
+                ByteBufCodecs.INT, CvtValue::value, ByteBufCodecs.BOOL, CvtValue::target, CvtValue::new);
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
+        }
+
+        /** Only someone standing at the gear can change it. */
+        static void handle(CvtValue p, IPayloadContext ctx) {
+            Player player = ctx.player();
+            if (player.distanceToSqr(p.pos.getCenter()) <= 64 && player.level().isLoaded(p.pos)
+                    && player.level().getBlockEntity(p.pos) instanceof AdvancedGearBlockEntity gear && gear.kind() == AdvancedGearBlock.Kind.CVT) {
+                if (p.target) {
+                    gear.setTargetTorque(p.value);
+                } else {
+                    gear.setRatio(p.value);
+                }
             }
         }
     }

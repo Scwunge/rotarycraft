@@ -14,6 +14,7 @@ import net.scwunge.rotarycraft.blockentity.PowerBlockEntity;
 import net.scwunge.rotarycraft.client.machine.MachineRenderer;
 import net.scwunge.rotarycraft.client.machine.MachineRenderer.Look;
 import net.scwunge.rotarycraft.registry.TransmissionRegistry;
+import net.scwunge.rotarycraft.transmission.AdvancedGearBlock;
 import net.scwunge.rotarycraft.transmission.AdvancedGearBlockEntity;
 import net.scwunge.rotarycraft.transmission.DistributionClutchBlockEntity;
 import net.scwunge.rotarycraft.transmission.MultiClutchBlockEntity;
@@ -36,10 +37,10 @@ public final class TransmissionClient {
     static final float[] GEAR_YAWS = {180, 0, 270, 90};
     static final Look<AdvancedGearBlockEntity> ADVANCED_GEAR = Look.<AdvancedGearBlockEntity>spinning("worm_gear", "clutch", GEAR_YAWS, TransmissionClient::spin, 1)
             .modelled(be -> switch (be.kind()) {
-                case WORM -> "worm_gear";
+                case CVT -> "cvt";
                 default -> "worm_gear";
             }).textured(be -> switch (be.kind()) {
-                case WORM -> "clutch";
+                case CVT -> "cvt";
                 default -> "clutch";
             });
 
@@ -55,6 +56,7 @@ public final class TransmissionClient {
     public static void screens(RegisterMenuScreensEvent event) {
         event.register(TransmissionRegistry.MULTI_CLUTCH_MENU.get(), MultiClutchScreen::new);
         event.register(TransmissionRegistry.POWER_BUS_MENU.get(), PowerBusScreen::new);
+        event.register(TransmissionRegistry.CVT_MENU.get(), CvtScreen::new);
         event.register(TransmissionRegistry.DISTRIBUTION_CLUTCH_MENU.get(), DistributionClutchScreen::new);
     }
 
@@ -79,7 +81,7 @@ public final class TransmissionClient {
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 if (renderer == null) {
                     Minecraft mc = Minecraft.getInstance();
-                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(ADVANCED_GEAR), "worm_gear", "clutch");
+                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(ADVANCED_GEAR), kind == AdvancedGearBlock.Kind.CVT ? "cvt" : "worm_gear", kind == AdvancedGearBlock.Kind.CVT ? "cvt" : "clutch");
                 }
                 return renderer;
             }
