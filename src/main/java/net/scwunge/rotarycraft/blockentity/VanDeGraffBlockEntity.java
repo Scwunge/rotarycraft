@@ -186,7 +186,7 @@ public class VanDeGraffBlockEntity extends ConsumerBlockEntity {
             ay = s.getAimY();
             az = s.getAimZ();
         }
-        level.playSound(null, worldPosition, SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.BLOCKS, 0.25F, 2F);
+        level.playSound(null, worldPosition, net.scwunge.rotarycraft.registry.MachineSoundRegistry.get("spark").get(), SoundSource.BLOCKS, 0.25F, 1F);
         bolt((ServerLevel) level, new Vec3(target.getX() + ax, target.getY() + ay, target.getZ() + az));
         charge = 0;
         setChanged();
@@ -202,7 +202,7 @@ public class VanDeGraffBlockEntity extends ConsumerBlockEntity {
             server.sendParticles(ParticleTypes.ELECTRIC_SPARK, p.x + (level.random.nextDouble() - 0.5) * 0.2, p.y + (level.random.nextDouble() - 0.5) * 0.2,
                     p.z + (level.random.nextDouble() - 0.5) * 0.2, 1, 0, 0, 0, 0);
         }
-        level.playSound(null, worldPosition, SoundEvents.LIGHTNING_BOLT_IMPACT, SoundSource.BLOCKS, 0.25F, 2F);
+        level.playSound(null, worldPosition, net.scwunge.rotarycraft.registry.MachineSoundRegistry.get("spark").get(), SoundSource.BLOCKS, 0.25F, 1F);
     }
 
     private void shock(LivingEntity e) {

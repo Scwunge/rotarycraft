@@ -447,7 +447,7 @@ public class JetEngineBlockEntity extends FuelEngineBlockEntity {
             if (living.isAlive() && canDamageEngine(living)) {
                 damageEngine();
             }
-            level.playSound(null, worldPosition, SoundEvents.PLAYER_HURT_SWEET_BERRY_BUSH, SoundSource.BLOCKS, 1, 1.4F);
+            level.playSound(null, worldPosition, net.scwunge.rotarycraft.registry.MachineSoundRegistry.get("ingest_short").get(), SoundSource.BLOCKS, 1, 1.4F);
             living.hurt(new DamageSource(level.registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE).getOrThrow(INGESTED)), 10000);
         }
     }

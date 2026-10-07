@@ -22,5 +22,275 @@
       "rotarycraft:sonic"
     ],
     "subtitle": "subtitles.rotarycraft.sonic"
+  },
+  "afterburner": {
+    "sounds": [
+      "rotarycraft:afterburner"
+    ],
+    "subtitle": "subtitles.rotarycraft.afterburner"
+  },
+  "belt": {
+    "sounds": [
+      "rotarycraft:belt"
+    ],
+    "subtitle": "subtitles.rotarycraft.belt"
+  },
+  "coil": {
+    "sounds": [
+      "rotarycraft:coil"
+    ],
+    "subtitle": "subtitles.rotarycraft.coil"
+  },
+  "compress": {
+    "sounds": [
+      "rotarycraft:compress"
+    ],
+    "subtitle": "subtitles.rotarycraft.compress"
+  },
+  "craft": {
+    "sounds": [
+      "rotarycraft:craft"
+    ],
+    "subtitle": "subtitles.rotarycraft.craft"
+  },
+  "diesel": {
+    "sounds": [
+      "rotarycraft:diesel"
+    ],
+    "subtitle": "subtitles.rotarycraft.diesel"
+  },
+  "dynamo": {
+    "sounds": [
+      "rotarycraft:dynamo"
+    ],
+    "subtitle": "subtitles.rotarycraft.dynamo"
+  },
+  "elecengine": {
+    "sounds": [
+      "rotarycraft:elecengine"
+    ],
+    "subtitle": "subtitles.rotarycraft.elecengine"
+  },
+  "fan": {
+    "sounds": [
+      "rotarycraft:fan"
+    ],
+    "subtitle": "subtitles.rotarycraft.fan"
+  },
+  "flywheel": {
+    "sounds": [
+      "rotarycraft:flywheel"
+    ],
+    "subtitle": "subtitles.rotarycraft.flywheel"
+  },
+  "friction": {
+    "sounds": [
+      "rotarycraft:friction"
+    ],
+    "subtitle": "subtitles.rotarycraft.friction"
+  },
+  "fridge": {
+    "sounds": [
+      "rotarycraft:fridge"
+    ],
+    "subtitle": "subtitles.rotarycraft.fridge"
+  },
+  "gasengine": {
+    "sounds": [
+      "rotarycraft:gasengine"
+    ],
+    "subtitle": "subtitles.rotarycraft.gasengine"
+  },
+  "hydroengine": {
+    "sounds": [
+      "rotarycraft:hydroengine"
+    ],
+    "subtitle": "subtitles.rotarycraft.hydroengine"
+  },
+  "ingest": {
+    "sounds": [
+      "rotarycraft:ingest"
+    ],
+    "subtitle": "subtitles.rotarycraft.ingest"
+  },
+  "ingest_short": {
+    "sounds": [
+      "rotarycraft:ingest_short"
+    ],
+    "subtitle": "subtitles.rotarycraft.ingest_short"
+  },
+  "jetengine": {
+    "sounds": [
+      "rotarycraft:jetengine"
+    ],
+    "subtitle": "subtitles.rotarycraft.jetengine"
+  },
+  "jetstart": {
+    "sounds": [
+      "rotarycraft:jetstart"
+    ],
+    "subtitle": "subtitles.rotarycraft.jetstart"
+  },
+  "knockback": {
+    "sounds": [
+      "rotarycraft:knockback"
+    ],
+    "subtitle": "subtitles.rotarycraft.knockback"
+  },
+  "linebuild": {
+    "sounds": [
+      "rotarycraft:linebuild"
+    ],
+    "subtitle": "subtitles.rotarycraft.linebuild"
+  },
+  "massivebang": {
+    "sounds": [
+      "rotarycraft:massivebang"
+    ],
+    "subtitle": "subtitles.rotarycraft.massivebang"
+  },
+  "microengine": {
+    "sounds": [
+      "rotarycraft:microengine"
+    ],
+    "subtitle": "subtitles.rotarycraft.microengine"
+  },
+  "pack": {
+    "sounds": [
+      "rotarycraft:pack"
+    ],
+    "subtitle": "subtitles.rotarycraft.pack"
+  },
+  "piledriver": {
+    "sounds": [
+      "rotarycraft:piledriver"
+    ],
+    "subtitle": "subtitles.rotarycraft.piledriver"
+  },
+  "pneu": {
+    "sounds": [
+      "rotarycraft:pneu"
+    ],
+    "subtitle": "subtitles.rotarycraft.pneu"
+  },
+  "projector": {
+    "sounds": [
+      "rotarycraft:projector"
+    ],
+    "subtitle": "subtitles.rotarycraft.projector"
+  },
+  "pulsejet": {
+    "sounds": [
+      "rotarycraft:pulsejet"
+    ],
+    "subtitle": "subtitles.rotarycraft.pulsejet"
+  },
+  "pump": {
+    "sounds": [
+      "rotarycraft:pump"
+    ],
+    "subtitle": "subtitles.rotarycraft.pump"
+  },
+  "rumble": {
+    "sounds": [
+      "rotarycraft:rumble"
+    ],
+    "subtitle": "subtitles.rotarycraft.rumble"
+  },
+  "rumble2": {
+    "sounds": [
+      "rotarycraft:rumble2"
+    ],
+    "subtitle": "subtitles.rotarycraft.rumble2"
+  },
+  "shortjet": {
+    "sounds": [
+      "rotarycraft:shortjet"
+    ],
+    "subtitle": "subtitles.rotarycraft.shortjet"
+  },
+  "smokealarm": {
+    "sounds": [
+      "rotarycraft:smokealarm"
+    ],
+    "subtitle": "subtitles.rotarycraft.smokealarm"
+  },
+  "spark": {
+    "sounds": [
+      "rotarycraft:spark"
+    ],
+    "subtitle": "subtitles.rotarycraft.spark"
+  },
+  "sprinkler": {
+    "sounds": [
+      "rotarycraft:sprinkler"
+    ],
+    "subtitle": "subtitles.rotarycraft.sprinkler"
+  },
+  "steamengine": {
+    "sounds": [
+      "rotarycraft:steamengine"
+    ],
+    "subtitle": "subtitles.rotarycraft.steamengine"
+  },
+  "windengine": {
+    "sounds": [
+      "rotarycraft:windengine"
+    ],
+    "subtitle": "subtitles.rotarycraft.windengine"
+  },
+  "note_bass_low": {
+    "sounds": [
+      "rotarycraft:music/basslo"
+    ],
+    "subtitle": "subtitles.rotarycraft.note"
+  },
+  "note_bass": {
+    "sounds": [
+      "rotarycraft:music/bass"
+    ],
+    "subtitle": "subtitles.rotarycraft.note"
+  },
+  "note_bass_high": {
+    "sounds": [
+      "rotarycraft:music/basshi"
+    ],
+    "subtitle": "subtitles.rotarycraft.note"
+  },
+  "note_harp_low": {
+    "sounds": [
+      "rotarycraft:music/harplo"
+    ],
+    "subtitle": "subtitles.rotarycraft.note"
+  },
+  "note_harp": {
+    "sounds": [
+      "rotarycraft:music/harp"
+    ],
+    "subtitle": "subtitles.rotarycraft.note"
+  },
+  "note_harp_high": {
+    "sounds": [
+      "rotarycraft:music/harphi"
+    ],
+    "subtitle": "subtitles.rotarycraft.note"
+  },
+  "note_pling_low": {
+    "sounds": [
+      "rotarycraft:music/plinglo"
+    ],
+    "subtitle": "subtitles.rotarycraft.note"
+  },
+  "note_pling": {
+    "sounds": [
+      "rotarycraft:music/pling"
+    ],
+    "subtitle": "subtitles.rotarycraft.note"
+  },
+  "note_pling_high": {
+    "sounds": [
+      "rotarycraft:music/plinghi"
+    ],
+    "subtitle": "subtitles.rotarycraft.note"
   }
 }

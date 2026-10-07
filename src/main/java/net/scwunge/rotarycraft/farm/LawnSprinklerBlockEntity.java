@@ -82,9 +82,6 @@ public class LawnSprinklerBlockEntity extends SprinklerBaseBlockEntity {
                         worldPosition.getZ() + 0.5 + 0.6 * Math.cos(angle), 0, Math.sin(angle) * v, 0.05, Math.cos(angle) * v, 1);
             }
         }
-        if (server.getGameTime() % 40 == 0) {
-            server.playSound(null, worldPosition, SoundEvents.WEATHER_RAIN, SoundSource.BLOCKS, 0.3F, 1.4F);
-        }
         if (pressure() > PRESSURE_TO_HURT && RotaryConfig.get(FarmConfig.LAWN_SPRINKLER_HURTS)) {
             damageMobs(server, range, pressure() >= PRESSURE_TO_KILL ? 4 : 1);
         }

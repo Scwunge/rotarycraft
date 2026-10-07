@@ -16,6 +16,10 @@ import net.scwunge.rotarycraft.power.IShaftPowerOutput;
  */
 public abstract class PowerBlockEntity extends BlockEntity implements IShaftPowerOutput {
     protected int torque;
+    /** The game time of the next time the machine's sound is played (see MachineSounds). */
+    public long nextSoundTick;
+    /** Whether the machine's start-up sound has played for this run (see MachineSounds). */
+    public boolean soundStarted;
     protected int omega;
 
     protected PowerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {

@@ -153,6 +153,9 @@ public class MachineBlock extends BaseEntityBlock {
         return (l, p, s, be) -> {
             if (!((PowerBlockEntity) be).isShutdown()) {
                 ((PowerBlockEntity) be).serverTick();
+                if (!(be instanceof net.scwunge.rotarycraft.farm.FarmBlockEntity farm) || farm.isSwitchedOn()) {
+                    net.scwunge.rotarycraft.sound.MachineSounds.tick((PowerBlockEntity) be);
+                }
             }
         };
     }
