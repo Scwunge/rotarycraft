@@ -35,8 +35,14 @@ public class FloodlightRenderer extends ModelMachineRenderer<FloodlightBlockEnti
     protected void orient(FloodlightBlockEntity machine, PoseStack pose) {
         Direction facing = machine == null ? Direction.EAST : machine.facing();
         if (facing.getAxis().isHorizontal()) {
-            pose.mulPose(Axis.YP.rotationDegrees(sideYaw(facing) + 90));
-        } else if (facing == Direction.UP) {
+            int yaw = switch (facing) {
+                case EAST -> 270;
+                case WEST -> 90;
+                case SOUTH -> 0;
+                default -> 180;
+            };
+            pose.mulPose(Axis.YP.rotationDegrees(yaw));
+        } else if (facing == Direction.DOWN) {
             pose.mulPose(Axis.XP.rotationDegrees(180));
             pose.translate(0, -2, 0);
         }
