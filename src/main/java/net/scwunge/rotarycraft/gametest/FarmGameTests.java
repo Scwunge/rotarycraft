@@ -279,22 +279,38 @@ public class FarmGameTests {
         });
     }
 
-    @GameTest(template = LONG, timeoutTicks = 400, batch = "farm")
+    @GameTest(template = LONG, timeoutTicks = 600, batch = "farm_lawn")
     public static void aLawnSprinklerWetsFarmlandAndPutsOutFires(GameTestHelper helper) {
         BlockPos at = new BlockPos(8, 3, 3);
         helper.setBlock(at, FarmRegistry.LAWN_SPRINKLER.get());
         feed(helper, at.below(), 500);
         helper.setBlock(at.below(), RotaryBlocks.PIPES.get(PipeType.PIPE).get());
-        BlockPos farm = new BlockPos(9, 2, 3);
-        BlockPos fire = new BlockPos(8, 2, 5);
-        helper.setBlock(farm, Blocks.FARMLAND.defaultBlockState().setValue(FarmBlock.MOISTURE, 0));
-        helper.setBlock(fire.below(), Blocks.OAK_PLANKS);
-        helper.setBlock(fire, Blocks.FIRE);
+        // a patch of dry farmland and a row of fires, so that one of each gives way quickly (it picks its spots at random)
+        for (int x = 9; x <= 11; x++) {
+            for (int z = 2; z <= 4; z++) {
+                helper.setBlock(new BlockPos(x, 2, z), Blocks.FARMLAND.defaultBlockState().setValue(FarmBlock.MOISTURE, 0));
+            }
+        }
+        for (int x = 5; x <= 9; x++) {
+            helper.setBlock(new BlockPos(x, 2, 6), Blocks.OAK_PLANKS);
+            helper.setBlock(new BlockPos(x, 3, 6), Blocks.FIRE);
+        }
         helper.succeedWhen(() -> {
             LawnSprinklerBlockEntity lawn = helper.getBlockEntity(at);
             helper.assertTrue(lawn.range() > 0, "no pressure yet");
-            helper.assertTrue(helper.getBlockState(farm).getValue(FarmBlock.MOISTURE) == 7, "farmland still dry");
-            helper.assertBlock(fire, b -> b == Blocks.AIR, () -> "fire still burning");
+            boolean wet = false;
+            for (int x = 9; x <= 11; x++) {
+                for (int z = 2; z <= 4; z++) {
+                    BlockState state = helper.getBlockState(new BlockPos(x, 2, z));
+                    wet |= state.is(Blocks.FARMLAND) && state.getValue(FarmBlock.MOISTURE) == 7;
+                }
+            }
+            helper.assertTrue(wet, "farmland still dry");
+            boolean out = false;
+            for (int x = 5; x <= 9; x++) {
+                out |= helper.getBlockState(new BlockPos(x, 3, 6)).isAir();
+            }
+            helper.assertTrue(out, "every fire still burning");
         });
     }
 

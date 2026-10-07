@@ -56,14 +56,14 @@ public final class ModelMachinesClient {
     private ModelMachinesClient() {}
 
     /** The original's renderers' rotations for the machines whose models were turned to face their shafts. */
-    static final float[] FLYWHEEL = {180, 0, 270, 90};
+    static final float[] FLYWHEEL = MachineRenderer.ENGINE;
     static final float[] COMPACTOR = {180, 0, 270, 90};
     static final float[] PULSE = {180, 0, 270, 90};
     static final float[] FRIDGE = {270, 90, 0, 180};
     static final float[] EXTRACTOR = {90, 270, 0, 180};
-    static final float[] PUMP = {90, 90, 0, 0};
-    static final float[] MOTOR = {180, 90, 0, 270};
-    static final float[] GENERATOR = {0, 270, 180, 90};
+    static final float[] PUMP = {0, 0, 90, 90};
+    static final float[] MOTOR = {270, 90, 0, 180};
+    static final float[] GENERATOR = {90, 270, 180, 0};
 
     /** The turn of the parts each tick, in degrees, while the machine's shaft turns. */
     static double spin(PowerBlockEntity be, double power) {

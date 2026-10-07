@@ -39,9 +39,9 @@ public final class FarmClient {
         return scale * Math.pow(Math.log(omega + 1) / Math.log(2), 1.05);
     }
 
-    static final Look<FanBlockEntity> FAN = Look.<FanBlockEntity>spinning("fan", "fan", MachineRenderer.BEAM,
+    static final Look<FanBlockEntity> FAN = Look.<FanBlockEntity>spinning("fan", "fan", MachineRenderer.FAN,
             be -> be.getPower() < FanBlockEntity.REQUIREMENT.minPower() ? 0 : spin(be.getOmega(), 3), -1).textured(be -> be.isWide() ? "fan_wide" : "fan");
-    static final Look<SprinklerBlockEntity> SPRINKLER = Look.still("sprinkler", "sprinkler", MachineRenderer.BEAM);
+    static final Look<SprinklerBlockEntity> SPRINKLER = Look.still("sprinkler", "sprinkler", MachineRenderer.FAN);
     static final Look<LawnSprinklerBlockEntity> LAWN_SPRINKLER = Look.<LawnSprinklerBlockEntity>spinning("lawn_sprinkler", "lawn_sprinkler", null,
             be -> be.isWorking() ? 24 : 0, 1);
     static final Look<GroundHydratorBlockEntity> HYDRATOR = Look.still("reservoir", "ground_hydrator", null);

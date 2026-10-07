@@ -30,6 +30,8 @@ public class MachineRenderer<T extends PowerBlockEntity> implements BlockEntityR
     /** Yaw in degrees for a block facing WEST, EAST, NORTH, SOUTH (the way each original's renderer turned its model). */
     public static final float[] BEAM = {90, 270, 180, 0};
     public static final float[] ENGINE = {0, 180, 90, 270};
+    /** The Fan's and the Sprinklers' table (the original turned them a quarter turn further than the other beam machines). */
+    public static final float[] FAN = {90, 270, 0, 180};
 
     /**
      * How a machine looks.
