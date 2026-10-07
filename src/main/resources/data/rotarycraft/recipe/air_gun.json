@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sps",
+    "I S",
+    "sps"
+  ],
+  "key": {
+    "I": {
+      "item": "rotarycraft:impeller"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "S": {
+      "item": "rotarycraft:sonar_unit"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:air_gun",
+    "count": 1
+  }
+}

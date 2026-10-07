@@ -9,7 +9,7 @@ import java.util.List;
  * the menu's name and the picture's: {@code textures/gui/<name>.png}.
  */
 public record GuiLayout(String name, int width, int height, List<SlotPos> slots, List<Gauge> gauges, List<Bar> bars, int tankCount, int extraCount,
-                        int inventoryX, int inventoryY, int storageRows, boolean customScreen) {
+                        int inventoryX, int inventoryY, int storageRows, boolean customScreen, List<Field> fields, List<Button> buttons) {
     public record SlotPos(int x, int y) {
     }
 
@@ -22,6 +22,17 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
      * is of extra value {@code max}; horizontal bars grow rightwards, vertical bars upwards.
      */
     public record Bar(int value, int max, int x, int y, int u, int v, int w, int h, boolean horizontal) {
+    }
+
+    /**
+     * A box on the screen for a whole number, between {@code min} and {@code max}: its number is machine extra {@code extra}, and typing in it sends the new
+     * number to the machine ({@link MachineHost#setField}). {@code label} is a lang key drawn at ({@code labelX}, {@code labelY}), or null.
+     */
+    public record Field(int index, int extra, int x, int y, int width, int min, int max, String label, int labelX, int labelY) {
+    }
+
+    /** A button that sends {@code id} to the machine ({@link MachineHost#menuButton}) and says its state, machine extra {@code state}, in its words: the lang key gui.rotarycraft.&lt;layout&gt;.button&lt;id&gt;.&lt;state&gt;. */
+    public record Button(int id, int x, int y, int width, int height, int state) {
     }
 
     public static Builder named(String name) {
@@ -41,6 +52,8 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
         private final List<SlotPos> slots = new ArrayList<>();
         private final List<Gauge> gauges = new ArrayList<>();
         private final List<Bar> bars = new ArrayList<>();
+        private final List<Field> fields = new ArrayList<>();
+        private final List<Button> buttons = new ArrayList<>();
 
         private Builder(String name) {
             this.name = name;
@@ -108,13 +121,27 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
             return this;
         }
 
+        /** A number box (see {@link Field}); it takes the next free extra, so call {@link #extras} for the machine's own extras first. */
+        public Builder field(int x, int y, int width, int min, int max, String label, int labelX, int labelY) {
+            fields.add(new Field(fields.size(), extras, x, y, width, min, max, label, labelX, labelY));
+            extras++;
+            return this;
+        }
+
+        /** A button (see {@link Button}) whose words follow machine extra {@code state}, which must be one of the machine's extras. */
+        public Builder button(int id, int x, int y, int width, int height, int state) {
+            buttons.add(new Button(id, x, y, width, height, state));
+            extras = Math.max(extras, state + 1);
+            return this;
+        }
+
         public Builder extras(int count) {
             extras = Math.max(extras, count);
             return this;
         }
 
         public GuiLayout build() {
-            return new GuiLayout(name, width, height, List.copyOf(slots), List.copyOf(gauges), List.copyOf(bars), tanks, extras, inventoryX, inventoryY, storageRows, customScreen);
+            return new GuiLayout(name, width, height, List.copyOf(slots), List.copyOf(gauges), List.copyOf(bars), tanks, extras, inventoryX, inventoryY, storageRows, customScreen, List.copyOf(fields), List.copyOf(buttons));
         }
     }
 

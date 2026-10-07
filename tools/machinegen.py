@@ -93,6 +93,24 @@ def cube_machine(name, textures, particle=None):
     loot(name)
 
 
+def facing_machine(name, draw, base='machine_side'):
+    """A plain cube machine with a front that points the way it faces (arrows come out of it, power comes in at the back): the shared machine side with
+    {@code draw(image)} on the front. The blockstate turns the front to every facing."""
+    from PIL import Image
+    os.makedirs(T + '/block', exist_ok=True)
+    side = Image.open('%s/block/%s.png' % (T, base)).convert('RGBA')
+    art = side.copy()
+    draw(art)
+    art.save('%s/block/%s_front.png' % (T, name))
+    MACHINES.append(name)
+    w('%s/models/block/%s.json' % (A, name), {'parent': 'minecraft:block/orientable', 'textures': {
+        'front': 'rotarycraft:block/%s_front' % name, 'side': 'rotarycraft:block/' + base, 'top': 'rotarycraft:block/' + base, 'particle': 'rotarycraft:block/' + base}})
+    turns = {'north': {}, 'east': {'y': 90}, 'south': {'y': 180}, 'west': {'y': 270}, 'up': {'x': 270}, 'down': {'x': 90}}
+    w('%s/blockstates/%s.json' % (A, name), {'variants': {'facing=' + f: dict({'model': 'rotarycraft:block/' + name}, **t) for f, t in turns.items()}})
+    w('%s/models/item/%s.json' % (A, name), {'parent': 'rotarycraft:block/' + name})
+    loot(name)
+
+
 def drawn_machine(name, draw, face='down', base='machine_side'):
     """A plain cube machine (the original's BlockMachine icons are not in the reference): the shared machine side with {@code draw(image)} on one face."""
     from PIL import Image

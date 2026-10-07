@@ -167,4 +167,29 @@ gui('basicstorage.png', 'firework_machine')
 shaped('firework_machine', ['BEB', 'BDB', 'BRB'], {'B': BASEPANEL, 'E': vanilla('ender_eye'), 'D': vanilla('dispenser'), 'R': vanilla('redstone')})
 names({'block.rotarycraft.firework_machine': 'Firework Machine'})
 
+# ---- Item Cannon ----
+rendered_machine('item_cannon', model='ModelItemCannon', texture='itemcannontex.png')
+gui('targetgui.png', 'item_cannon')
+shaped('item_cannon', ['s c', 'pcp', 'pCr'], {'s': STEEL, 'c': GEAR2, 'p': BASEPANEL, 'C': COMPRESSOR, 'r': vanilla('chest')})
+names({'block.rotarycraft.item_cannon': 'Item Cannon', 'gui.rotarycraft.item_cannon.x': 'Target X', 'gui.rotarycraft.item_cannon.y': 'Target Y',
+       'gui.rotarycraft.item_cannon.z': 'Target Z', 'gui.rotarycraft.item_cannon.dim': 'Target Dim'})
+
+# ---- Arrow Gun (a plain cube with a muzzle) and Air Gun ----
+
+
+def arrow_front(im):
+    from PIL import ImageDraw
+    g = ImageDraw.Draw(im)
+    g.rectangle([3, 3, 12, 12], fill=(50, 50, 56, 255), outline=(150, 154, 162, 255))
+    g.rectangle([6, 6, 9, 9], fill=(10, 10, 12, 255))
+    g.line([(2, 8), (5, 8)], fill=(196, 160, 90, 255))
+
+
+facing_machine('arrow_gun', arrow_front)
+gui('basicstorage.png', 'arrow_gun')
+shaped('arrow_gun', ['SSS', 'BDB', 'SBS'], {'B': BASEPANEL, 'S': STEEL, 'D': vanilla('dispenser')})
+rendered_machine('air_gun', model='ModelAirGun', texture='airguntex.png')
+shaped('air_gun', ['sps', 'I S', 'sps'], {'I': IMPELLER, 'p': BASEPANEL, 's': STEEL, 'S': item('sonar_unit')})
+names({'block.rotarycraft.arrow_gun': 'Arrow Gun', 'block.rotarycraft.air_gun': 'Air Gun'})
+
 mg.finish()

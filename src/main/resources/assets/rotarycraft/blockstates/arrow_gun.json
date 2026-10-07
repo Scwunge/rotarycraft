@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "rotarycraft:block/arrow_gun"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/arrow_gun",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/arrow_gun",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/arrow_gun",
+      "y": 270
+    },
+    "facing=up": {
+      "model": "rotarycraft:block/arrow_gun",
+      "x": 270
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/arrow_gun",
+      "x": 90
+    }
+  }
+}

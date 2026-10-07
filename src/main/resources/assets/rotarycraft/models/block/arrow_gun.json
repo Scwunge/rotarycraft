@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "front": "rotarycraft:block/arrow_gun_front",
+    "side": "rotarycraft:block/machine_side",
+    "top": "rotarycraft:block/machine_side",
+    "particle": "rotarycraft:block/machine_side"
+  }
+}

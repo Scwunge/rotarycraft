@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "s c",
+    "pcp",
+    "pCr"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "c": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    },
+    "C": {
+      "item": "rotarycraft:compressor"
+    },
+    "r": {
+      "item": "minecraft:chest"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:item_cannon",
+    "count": 1
+  }
+}

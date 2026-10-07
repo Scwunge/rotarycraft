@@ -14,10 +14,13 @@ import net.scwunge.rotarycraft.block.BridgeBlock;
 import net.scwunge.rotarycraft.block.PilePipeBlock;
 import net.scwunge.rotarycraft.block.SelfDestructBlock;
 import net.scwunge.rotarycraft.blockentity.AerosolizerBlockEntity;
+import net.scwunge.rotarycraft.blockentity.AirGunBlockEntity;
+import net.scwunge.rotarycraft.blockentity.ArrowGunBlockEntity;
 import net.scwunge.rotarycraft.blockentity.BeamMirrorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.BlockFillerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.FireworkMachineBlockEntity;
 import net.scwunge.rotarycraft.blockentity.FloodlightBlockEntity;
+import net.scwunge.rotarycraft.blockentity.ItemCannonBlockEntity;
 import net.scwunge.rotarycraft.blockentity.LampBlockEntity;
 import net.scwunge.rotarycraft.blockentity.LightBridgeBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ParticleEmitterBlockEntity;
@@ -82,6 +85,17 @@ public final class DecorRegistry {
     public static final Machines.Entry<FireworkMachineBlockEntity, LayoutMachineBlock> FIREWORK_MACHINE = Machines.machine("firework_machine", FireworkMachineBlockEntity::new);
     public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> FIREWORK_MACHINE_MENU = LayoutMenus.register(FireworkMachineBlockEntity.LAYOUT);
 
+    // ---- Item Cannon ----
+    public static final Machines.Entry<ItemCannonBlockEntity, LayoutMachineBlock> ITEM_CANNON = Machines.machine("item_cannon", ItemCannonBlockEntity::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> ITEM_CANNON_MENU = LayoutMenus.register(ItemCannonBlockEntity.LAYOUT);
+
+    // ---- Arrow Gun and Air Gun ----
+    public static final Machines.Entry<ArrowGunBlockEntity, LayoutMachineBlock> ARROW_GUN = Machines.register("arrow_gun", ArrowGunBlockEntity::new,
+            type -> new LayoutMachineBlock(RotaryBlocks.machineProps(), type::get, ArrowGunBlockEntity::new, true));
+    public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> ARROW_GUN_MENU = LayoutMenus.register(ArrowGunBlockEntity.LAYOUT);
+    public static final Machines.Entry<AirGunBlockEntity, LayoutMachineBlock> AIR_GUN = Machines.register("air_gun", AirGunBlockEntity::new,
+            type -> new LayoutMachineBlock(RotaryBlocks.machineProps().noOcclusion(), type::get, AirGunBlockEntity::new, true));
+
     private DecorRegistry() {}
 
     /** Loads the class, so its entries join the shared registers. */
@@ -98,6 +112,8 @@ public final class DecorRegistry {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, LAMP.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, AEROSOLIZER.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FIREWORK_MACHINE.type().get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ITEM_CANNON.type().get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ARROW_GUN.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, SPILLER.type().get(), (be, side) -> be.fluidHandler(side));
     }
 }

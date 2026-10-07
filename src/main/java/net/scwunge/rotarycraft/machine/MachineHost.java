@@ -23,6 +23,11 @@ public interface MachineHost {
         return false;
     }
 
+    /** A number box of the machine's screen was typed in (see {@link GuiLayout.Field}); true if the machine took the number. */
+    default boolean setField(net.minecraft.world.entity.player.Player player, int field, int value) {
+        return false;
+    }
+
     /** The machine's own numbers for its progress bars (indexes as in the layout). */
     default int extra(int index) {
         return 0;

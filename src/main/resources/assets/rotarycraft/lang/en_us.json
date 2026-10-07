@@ -530,5 +530,12 @@
   "block.rotarycraft.pile_driver": "Pile Driver",
   "block.rotarycraft.pile_pipe": "Pile",
   "block.rotarycraft.beam_mirror": "Beam Mirror",
-  "block.rotarycraft.firework_machine": "Firework Machine"
+  "block.rotarycraft.firework_machine": "Firework Machine",
+  "block.rotarycraft.item_cannon": "Item Cannon",
+  "gui.rotarycraft.item_cannon.x": "Target X",
+  "gui.rotarycraft.item_cannon.y": "Target Y",
+  "gui.rotarycraft.item_cannon.z": "Target Z",
+  "gui.rotarycraft.item_cannon.dim": "Target Dim",
+  "block.rotarycraft.arrow_gun": "Arrow Gun",
+  "block.rotarycraft.air_gun": "Air Gun"
 }

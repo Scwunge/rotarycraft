@@ -126,6 +126,9 @@
     "rotarycraft:self_destruct",
     "rotarycraft:pile_driver",
     "rotarycraft:beam_mirror",
-    "rotarycraft:firework_machine"
+    "rotarycraft:firework_machine",
+    "rotarycraft:item_cannon",
+    "rotarycraft:arrow_gun",
+    "rotarycraft:air_gun"
   ]
 }
