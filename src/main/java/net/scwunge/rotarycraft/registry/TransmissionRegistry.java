@@ -6,7 +6,10 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.scwunge.rotarycraft.menu.DistributionClutchMenu;
 import net.scwunge.rotarycraft.menu.MultiClutchMenu;
+import net.scwunge.rotarycraft.transmission.DistributionClutchBlock;
+import net.scwunge.rotarycraft.transmission.DistributionClutchBlockEntity;
 import net.scwunge.rotarycraft.transmission.MultiClutchBlock;
 import net.scwunge.rotarycraft.transmission.MultiClutchBlockEntity;
 
@@ -19,8 +22,16 @@ public final class TransmissionRegistry {
     public static final DeferredHolder<MenuType<?>, MenuType<MultiClutchMenu>> MULTI_CLUTCH_MENU = RotaryMenus.MENUS.register("multi_clutch",
             () -> IMenuTypeExtension.create(MultiClutchMenu::fromNetwork));
 
+    public static final DeferredBlock<DistributionClutchBlock> DISTRIBUTION_CLUTCH = RotaryBlocks.BLOCKS.register("distribution_clutch",
+            () -> new DistributionClutchBlock(RotaryBlocks.machineProps().noOcclusion(), TransmissionRegistry.DISTRIBUTION_CLUTCH_BE, DistributionClutchBlockEntity::new));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DistributionClutchBlockEntity>> DISTRIBUTION_CLUTCH_BE =
+            RotaryBlockEntities.TYPES.register("distribution_clutch", () -> BlockEntityType.Builder.of(DistributionClutchBlockEntity::new, DISTRIBUTION_CLUTCH.get()).build(null));
+    public static final DeferredHolder<MenuType<?>, MenuType<DistributionClutchMenu>> DISTRIBUTION_CLUTCH_MENU = RotaryMenus.MENUS.register("distribution_clutch",
+            () -> IMenuTypeExtension.create(DistributionClutchMenu::fromNetwork));
+
     static {
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(MULTI_CLUTCH));
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(DISTRIBUTION_CLUTCH));
     }
 
     private TransmissionRegistry() {}

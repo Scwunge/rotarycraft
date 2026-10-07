@@ -76,6 +76,19 @@ gui('multigui.png', 'multi_clutch')
 shaped('multi_clutch', ['PSP', 'SGS', 'RSR'], {'P': item('base_panel'), 'S': item('shaft_steel'), 'G': item('steel_gear_unit_2'), 'R': {'item': 'minecraft:redstone'}})
 LANG.update({'block.rotarycraft.multi_clutch': 'Multi-Clutch'})
 
+# ---- Distribution Clutch ----
+texture('Transmission/distribclutchtex.png', 'distribution_clutch')
+MODELS.append('ModelDistribClutch:distribution_clutch')
+rendered('distribution_clutch')
+gui('distribclutchgui.png', 'distribution_clutch')
+shaped('distribution_clutch', ['sgs', 'SGS', 'PrP'], {'s': STEEL, 'g': item('steel_gear'), 'S': item('shaft_steel'), 'G': item('steel_gear_unit_2'),
+                                                      'P': item('base_panel'), 'r': item('circuit_board')})
+LANG.update({'block.rotarycraft.distribution_clutch': 'Distribution Clutch',
+             'gui.rotarycraft.distribution_clutch.gui': 'Control: Screen',
+             'gui.rotarycraft.distribution_clutch.redstone': 'Control: Redstone',
+             'gui.rotarycraft.distribution_clutch.input': 'Input side',
+             'gui.rotarycraft.distribution_clutch.front': 'Front: gets what is left over'})
+
 # ---- lang, tags, models ----
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

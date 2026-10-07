@@ -1,0 +1,33 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sgs",
+    "SGS",
+    "PrP"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "g": {
+      "item": "rotarycraft:steel_gear"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "r": {
+      "item": "rotarycraft:circuit_board"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:distribution_clutch",
+    "count": 1
+  }
+}

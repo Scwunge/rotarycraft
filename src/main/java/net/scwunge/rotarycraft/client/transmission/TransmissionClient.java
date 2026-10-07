@@ -14,6 +14,7 @@ import net.scwunge.rotarycraft.blockentity.PowerBlockEntity;
 import net.scwunge.rotarycraft.client.machine.MachineRenderer;
 import net.scwunge.rotarycraft.client.machine.MachineRenderer.Look;
 import net.scwunge.rotarycraft.registry.TransmissionRegistry;
+import net.scwunge.rotarycraft.transmission.DistributionClutchBlockEntity;
 import net.scwunge.rotarycraft.transmission.MultiClutchBlockEntity;
 
 /** Renderers, item renderers and screens of the transmission pieces. */
@@ -28,14 +29,18 @@ public final class TransmissionClient {
 
     static final Look<MultiClutchBlockEntity> MULTI_CLUTCH = Look.spinning("multi_clutch", "multi_clutch", null, TransmissionClient::spin, 1);
 
+    static final Look<DistributionClutchBlockEntity> DISTRIBUTION_CLUTCH = Look.spinning("distribution_clutch", "distribution_clutch", MachineRenderer.BEAM, TransmissionClient::spin, 1);
+
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(TransmissionRegistry.MULTI_CLUTCH_BE.get(), c -> new MachineRenderer<>(MULTI_CLUTCH));
+        event.registerBlockEntityRenderer(TransmissionRegistry.DISTRIBUTION_CLUTCH_BE.get(), c -> new MachineRenderer<>(DISTRIBUTION_CLUTCH));
     }
 
     @SubscribeEvent
     public static void screens(RegisterMenuScreensEvent event) {
         event.register(TransmissionRegistry.MULTI_CLUTCH_MENU.get(), MultiClutchScreen::new);
+        event.register(TransmissionRegistry.DISTRIBUTION_CLUTCH_MENU.get(), DistributionClutchScreen::new);
     }
 
     @SubscribeEvent
@@ -52,5 +57,17 @@ public final class TransmissionClient {
                 return renderer;
             }
         }, TransmissionRegistry.MULTI_CLUTCH.get().asItem());
+        event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    Minecraft mc = Minecraft.getInstance();
+                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(DISTRIBUTION_CLUTCH), "distribution_clutch", "distribution_clutch");
+                }
+                return renderer;
+            }
+        }, TransmissionRegistry.DISTRIBUTION_CLUTCH.get().asItem());
     }
 }
