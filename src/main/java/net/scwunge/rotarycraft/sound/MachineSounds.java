@@ -100,6 +100,15 @@ public final class MachineSounds {
         if (be instanceof BeltHubBlockEntity) {
             return new Spec("belt", 26, 0.6F, 1F, false);
         }
+        if (be instanceof net.scwunge.rotarycraft.process.AirCompressorBlockEntity) {
+            return new Spec("compress", 33, 0.5F, 1F, false);
+        }
+        if (be instanceof net.scwunge.rotarycraft.process.PneumaticEngineBlockEntity) {
+            return new Spec("pneu", 73, 1.2F, 1F, false);
+        }
+        if (be instanceof net.scwunge.rotarycraft.process.MagneticMotorBlockEntity) {
+            return new Spec("dynamo", 85, 0.5F, 1F, false);
+        }
         if (be instanceof FanBlockEntity fan) {
             return fan.getPower() >= FanBlockEntity.REQUIREMENT.minPower() ? new Spec("fan", 27, 0.5F, 1F, false) : null;
         }

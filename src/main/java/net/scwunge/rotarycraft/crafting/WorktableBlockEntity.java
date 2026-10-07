@@ -262,7 +262,7 @@ public class WorktableBlockEntity extends BlockEntity implements MenuProvider, n
         if (player != null) {
             result.onCraftedBy(level, player, result.getCount());
         }
-        level.playSound(null, worldPosition, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundSource.BLOCKS, 0.3F, 1.5F);
+        level.playSound(null, worldPosition, net.scwunge.rotarycraft.registry.MachineSoundRegistry.get("craft").get(), SoundSource.BLOCKS, 0.3F, 1.5F);
         setChanged();
         return true;
     }
@@ -407,7 +407,7 @@ public class WorktableBlockEntity extends BlockEntity implements MenuProvider, n
                 items.setStackInSlot(FIRST_OUTPUT + i, in);
             }
         }
-        level.playSound(null, worldPosition, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundSource.BLOCKS, 0.3F, 1.5F);
+        level.playSound(null, worldPosition, net.scwunge.rotarycraft.registry.MachineSoundRegistry.get("craft").get(), SoundSource.BLOCKS, 0.3F, 1.5F);
         setChanged();
     }
 
@@ -479,7 +479,7 @@ public class WorktableBlockEntity extends BlockEntity implements MenuProvider, n
                 items.setStackInSlot(second, coilStack);
                 items.setStackInSlot(tool, ItemStack.EMPTY);
                 items.setStackInSlot(coil, ItemStack.EMPTY);
-                level.playSound(null, worldPosition, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundSource.BLOCKS, 0.3F, 1.5F);
+                level.playSound(null, worldPosition, net.scwunge.rotarycraft.registry.MachineSoundRegistry.get("craft").get(), SoundSource.BLOCKS, 0.3F, 1.5F);
             }
         }
     }

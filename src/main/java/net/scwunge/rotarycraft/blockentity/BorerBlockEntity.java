@@ -293,7 +293,7 @@ public class BorerBlockEntity extends ConsumerBlockEntity implements MenuProvide
             if (getPower() >= requiredPower && requiredPower != -1) {
                 dig(server);
                 if (!miningAir) {
-                    net.scwunge.rotarycraft.sound.MachineSounds.playOnce(server, worldPosition, "rumble", 1F, 1F);
+                    net.scwunge.rotarycraft.sound.MachineSounds.playOnce(server, worldPosition, "rumble2", 1F, 1F);
                 }
                 if (!miningAir && durability != Integer.MAX_VALUE) {
                     durability--;

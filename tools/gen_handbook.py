@@ -290,6 +290,47 @@ manual('ethanol_minecart', 'ethanol_minecart', 'Ethanol Minecart', 'A furnace mi
 for slug, item in (('winder', 'winder'),):
     pass
 
+
+# ---- the same words for the recipe viewer's information pages (info.rotarycraft.<id>) of anything the handbook describes ----
+INFO_ONLY = {
+    'jetpack': 'A tank of ethanol or jet fuel (30000 mB) and a thruster to wear or fit to a steel or bedrock chestplate. Hold jump to climb, jump and sneak to hover. Wings, fin cooling and the thrust boost are added by crafting the pack with three ingots, two Cooling Fins or a Jet Engine.',
+    'steel_jetpack': 'A steel chestplate with a jetpack built in; crafting it alone takes it apart again. Fuel and upgrades are kept.',
+    'bedrock_jetpack': 'A bedrock chestplate with a jetpack built in. It never wears and burns twice the fuel; crafting it alone takes it apart again.',
+    'jump_boots': 'Jump Boost IV, Speed III and a stride of a block and a half (not while sneaking) while they have charge; a unit about every three minutes. Charge them on the Worktable with a spring coil.',
+    'bedrock_jump_boots': 'Bedrock boots with the leap, speed and stride of jump boots that never run out.',
+    'io_goggles': 'Shows every shaft machine within 24 blocks with a green block where it takes power in and a red one where it gives it out.',
+    'handbook': 'A guide to the machines and items. Right-click to read it.',
+    'dense_canola_seeds': 'Nine canola seeds pressed together; craft it alone to get them back.',
+    'nitrate': 'Made from gunpowder, redstone and coal; the main part of explosive shells.',
+    'bedrock_ingot_block': 'Nine bedrock alloy ingots; craft it alone to get them back.',
+    'shield_block': 'Steel round obsidian: as hard to blow up as obsidian.',
+    'stun_gun': 'Throws back what is in front of you for a unit of charge. Sneaking with plenty of charge it clears every block of a kind that touches the one you point at.',
+    'range_finder': 'Tells you the block you point at and how far away it is.',
+    'ultrasound': 'Looks five blocks into what you point at and says whether it holds ore, silverfish, a fluid or a cave.',
+    'motion_tracker': 'Lists what is along your line of sight, coloured by what it is.',
+    'target': 'Aims every cannon within 16 blocks that is in target mode at the block you point at.',
+    'handheld_crafting': 'A crafting table you carry.',
+    'night_vision_goggles': 'Night vision while they have charge.',
+}
+GROUPS = {
+    'shafts': ['shaft_wood', 'shaft_stone', 'shaft_steel', 'shaft_diamond', 'shaft_bedrock'],
+    'gearboxes': ['gearbox_%s_%dx' % (m, r) for m in ('wood', 'stone', 'steel', 'tungsten', 'diamond', 'bedrock') for r in (2, 4, 8, 16)],
+    'flywheels': ['flywheel_wood', 'flywheel_stone', 'flywheel_iron', 'flywheel_gold', 'flywheel_bedrock'],
+    'pipes': ['hose', 'fuel_line', 'bedrock_pipe', 'pipe'],
+    'fittings': ['valve', 'separator', 'bypass', 'suction_pipe'],
+}
+
+
+def known(item):
+    return 'block.rotarycraft.' + item in lang or 'item.rotarycraft.' + item in lang
+
+
+for slug, (item, name, text) in list(ENTRIES.items()) + [(k, (k, k, v)) for k, v in INFO_ONLY.items()]:
+    for target in [item] + GROUPS.get(slug, []):
+        key = 'info.rotarycraft.' + target
+        if known(target) and key not in lang:
+            lang[key] = text
+
 # ---- output ----
 structure = {'chapters': []}
 used = set()

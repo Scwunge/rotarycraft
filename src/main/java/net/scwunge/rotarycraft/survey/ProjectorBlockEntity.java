@@ -92,7 +92,7 @@ public class ProjectorBlockEntity extends ConsumerBlockEntity implements MenuPro
             items.setStackInSlot(i, items.getStackInSlot(i + 1));
         }
         items.setStackInSlot(SLOTS - 1, first);
-        level.playSound(null, worldPosition, SoundEvents.UI_BUTTON_CLICK.value(), SoundSource.BLOCKS, 1, 0.8f);
+        level.playSound(null, worldPosition, net.scwunge.rotarycraft.registry.MachineSoundRegistry.get("projector").get(), SoundSource.BLOCKS, 1, 1);
         setChanged();
     }
 

@@ -65,7 +65,7 @@ public class StunGunItem extends ChargedItem {
             level.sendParticles(ParticleTypes.ENCHANT, front.x + (level.random.nextDouble() - 0.5) * 0.6, front.y + (level.random.nextDouble() - 0.5) * 0.6,
                     front.z + (level.random.nextDouble() - 0.5) * 0.6, 0, level.random.nextDouble() - 0.5, level.random.nextDouble() - 0.5, level.random.nextDouble() - 0.5, 0.5);
         }
-        level.playSound(null, player.blockPosition(), SoundEvents.PLAYER_ATTACK_KNOCKBACK, SoundSource.PLAYERS, 2F, 0.5F);
+        level.playSound(null, player.blockPosition(), net.scwunge.rotarycraft.registry.MachineSoundRegistry.get("knockback").get(), SoundSource.PLAYERS, 2F, 2F);
         Set<LivingEntity> hit = new LinkedHashSet<>();
         for (double d = 1; d <= 5; d += 0.5) {
             Vec3 at = eye.add(look.scale(d));

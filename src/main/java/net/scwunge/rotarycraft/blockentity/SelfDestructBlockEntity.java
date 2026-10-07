@@ -103,6 +103,7 @@ public class SelfDestructBlockEntity extends OmniConsumerBlockEntity implements 
         }
         if (blasts > BLASTS) {
             counting = false;
+            server.playSound(null, worldPosition, net.scwunge.rotarycraft.registry.MachineSoundRegistry.get("massivebang").get(), net.minecraft.sounds.SoundSource.BLOCKS, 4F, 1F);
             if (MachineGuard.mayChange(server, worldPosition, owner)) {
                 server.explode(null, worldPosition.getX() + 0.5, worldPosition.getY() + 0.5, worldPosition.getZ() + 0.5, FINAL_BLAST, true, Level.ExplosionInteraction.MOB);
             }

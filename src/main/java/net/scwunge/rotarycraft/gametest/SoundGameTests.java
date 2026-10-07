@@ -78,6 +78,18 @@ public class SoundGameTests {
         helper.succeed();
     }
 
+    /** The converter engines and the air compressor have their sounds. */
+    @GameTest(template = TEMPLATE, timeoutTicks = 40, batch = "sounds")
+    public static void theConverterMachinesSound(GameTestHelper helper) {
+        var compressor = MachineSounds.specFor(spinning(helper, net.scwunge.rotarycraft.registry.ProcessRegistry.AIR_COMPRESSOR.get(), 4, 512));
+        helper.assertTrue(compressor != null && compressor.sound().equals("compress") && compressor.length() == 33, "air compressor " + compressor);
+        var pneumatic = MachineSounds.specFor(spinning(helper, net.scwunge.rotarycraft.registry.ProcessRegistry.PNEUMATIC_ENGINE_M.block().get(), 4, 64));
+        helper.assertTrue(pneumatic != null && pneumatic.sound().equals("pneu"), "pneumatic engine " + pneumatic);
+        var magnetic = MachineSounds.specFor(spinning(helper, net.scwunge.rotarycraft.registry.ProcessRegistry.MAGNETIC_MOTOR_M.block().get(), 4, 64));
+        helper.assertTrue(magnetic != null && magnetic.sound().equals("dynamo") && magnetic.length() == 85, "magnetic motor " + magnetic);
+        helper.succeed();
+    }
+
     @GameTest(template = TEMPLATE, timeoutTicks = 40, batch = "sounds")
     public static void aStoppedMachineIsSilent(GameTestHelper helper) {
         helper.assertTrue(MachineSounds.specFor(spinning(helper, RotaryBlocks.DC_ENGINE.get(), 4, 0)) == null, "a stopped engine made a sound");

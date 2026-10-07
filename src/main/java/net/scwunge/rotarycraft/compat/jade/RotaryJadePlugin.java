@@ -82,6 +82,23 @@ public class RotaryJadePlugin implements IWailaPlugin {
             } else if (be instanceof DynamoBlockEntity dynamo) {
                 data.putString("kind", "dynamo");
                 data.putIntArray("status", new int[] {dynamo.generated()});
+            } else if (be instanceof net.scwunge.rotarycraft.transmission.AdvancedGearBlockEntity gear) {
+                data.putString("kind", "advancedGear");
+                data.putString("gear", gear.kind().name());
+                data.putInt("ratio", gear.effectiveRatio());
+                data.putLong("energy", gear.energy());
+                data.putLong("capacity", gear.capacity());
+                data.putBoolean("releasing", gear.isReleasing());
+            } else if (be instanceof net.scwunge.rotarycraft.transmission.BeltHubBlockEntity belt) {
+                data.putString("kind", "belt");
+                data.putIntArray("status", new int[] {belt.hasValidConnection() ? 1 : 0, belt.isReceivingEnd() ? 1 : 0, belt.isSlipping() ? 1 : 0, belt.isWet() ? 1 : 0});
+            } else if (be instanceof net.scwunge.rotarycraft.transmission.EngineControllerBlockEntity ecu) {
+                data.putString("kind", "ecu");
+                data.putString("setting", ecu.setting().name().toLowerCase(java.util.Locale.ROOT));
+                data.putBoolean("redstone", ecu.redstoneMode());
+            } else if (be instanceof net.scwunge.rotarycraft.transmission.DistributionClutchBlockEntity clutch) {
+                data.putString("kind", "distribution");
+                data.putString("control", clutch.control().name().toLowerCase(java.util.Locale.ROOT));
             }
         }
 
@@ -138,6 +155,29 @@ public class RotaryJadePlugin implements IWailaPlugin {
                 case "pipePump" -> tooltip.add(Component.translatable("jade.rotarycraft.pump", s[0]));
                 case "converter" -> tooltip.add(Component.translatable("jade.rotarycraft.stored", s[0], s[1]));
                 case "dynamo" -> tooltip.add(Component.translatable("jade.rotarycraft.generated", s[0]));
+                case "advancedGear" -> {
+                    switch (data.getString("gear")) {
+                        case "CVT" -> tooltip.add(Component.translatable(data.getInt("ratio") >= 0 ? "jade.rotarycraft.cvt.torque" : "jade.rotarycraft.cvt.speed", Math.abs(data.getInt("ratio"))));
+                        case "COIL", "BEDROCK_COIL" -> {
+                            tooltip.add(Component.translatable("jade.rotarycraft.coil.energy", String.format("%,d", data.getLong("energy")), String.format("%,d", data.getLong("capacity"))));
+                            tooltip.add(Component.translatable(data.getBoolean("releasing") ? "jade.rotarycraft.coil.releasing" : "jade.rotarycraft.coil.holding"));
+                        }
+                        default -> {
+                        }
+                    }
+                }
+                case "belt" -> {
+                    tooltip.add(Component.translatable(s[0] == 1 ? (s[1] == 1 ? "jade.rotarycraft.belt.receiving" : "jade.rotarycraft.belt.driving") : "jade.rotarycraft.belt.unjoined"));
+                    if (s[2] == 1) {
+                        tooltip.add(Component.translatable("jade.rotarycraft.belt.slipping"));
+                    }
+                    if (s[3] == 1) {
+                        tooltip.add(Component.translatable("jade.rotarycraft.belt.wet"));
+                    }
+                }
+                case "ecu" -> tooltip.add(Component.translatable("jade.rotarycraft.ecu", Component.translatable("message.rotarycraft.ecu.setting." + data.getString("setting")),
+                        Component.translatable(data.getBoolean("redstone") ? "jade.rotarycraft.ecu.redstone" : "jade.rotarycraft.ecu.manual")));
+                case "distribution" -> tooltip.add(Component.translatable("jade.rotarycraft.distribution", Component.translatable("gui.rotarycraft.distribution_clutch." + data.getString("control"))));
                 default -> {
                 }
             }
