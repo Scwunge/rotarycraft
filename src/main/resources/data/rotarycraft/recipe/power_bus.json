@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SMS",
+    "MCM",
+    "SMS"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "M": {
+      "item": "rotarycraft:steel_bearing"
+    },
+    "C": {
+      "item": "rotarycraft:belt"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:power_bus",
+    "count": 4
+  }
+}

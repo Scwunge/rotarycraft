@@ -148,6 +148,8 @@
     "rotarycraft:worktable",
     "rotarycraft:auto_crafter",
     "rotarycraft:multi_clutch",
-    "rotarycraft:distribution_clutch"
+    "rotarycraft:distribution_clutch",
+    "rotarycraft:power_bus",
+    "rotarycraft:bus_controller"
   ]
 }

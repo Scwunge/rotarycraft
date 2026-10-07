@@ -89,6 +89,46 @@ LANG.update({'block.rotarycraft.distribution_clutch': 'Distribution Clutch',
              'gui.rotarycraft.distribution_clutch.input': 'Input side',
              'gui.rotarycraft.distribution_clutch.front': 'Front: gets what is left over'})
 
+# ---- Power Bus and Bus Controller ----
+from PIL import Image, ImageDraw
+
+BLOCK_TEX = T + '/block'
+side = Image.open(BLOCK_TEX + '/machine_side.png').convert('RGBA')
+bus = side.copy()
+g = ImageDraw.Draw(bus)
+g.rectangle([1, 1, 14, 14], outline=(52, 54, 60, 255))
+g.rectangle([6, 0, 9, 15], fill=(96, 100, 108, 255))
+g.rectangle([0, 6, 15, 9], fill=(96, 100, 108, 255))
+g.rectangle([5, 5, 10, 10], fill=(60, 62, 68, 255), outline=(190, 194, 200, 255))
+bus.save(BLOCK_TEX + '/power_bus.png')
+w(A + '/models/block/power_bus.json', {'parent': 'minecraft:block/cube_all', 'textures': {'all': 'rotarycraft:block/power_bus'}})
+w(A + '/blockstates/power_bus.json', {'variants': {'': {'model': 'rotarycraft:block/power_bus'}}})
+w(A + '/models/item/power_bus.json', {'parent': 'rotarycraft:block/power_bus'})
+w(D + '/loot_table/blocks/power_bus.json', {'type': 'minecraft:block', 'pools': [{
+    'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'rotarycraft:power_bus'}], 'conditions': [{'condition': 'minecraft:survives_explosion'}]}]})
+front = side.copy()
+g = ImageDraw.Draw(front)
+g.ellipse([2, 2, 13, 13], fill=(40, 44, 52, 255), outline=(190, 194, 200, 255))
+g.line([(4, 8), (11, 8)], fill=(80, 200, 90, 255))
+g.line([(9, 6), (11, 8), (9, 10)], fill=(80, 200, 90, 255))
+front.save(BLOCK_TEX + '/bus_controller_front.png')
+w(A + '/models/block/bus_controller.json', {'parent': 'minecraft:block/cube', 'textures': {
+    'north': 'rotarycraft:block/bus_controller_front', 'south': 'rotarycraft:block/machine_back', 'east': 'rotarycraft:block/machine_side',
+    'west': 'rotarycraft:block/machine_side', 'up': 'rotarycraft:block/machine_side', 'down': 'rotarycraft:block/machine_side', 'particle': 'rotarycraft:block/machine_side'}})
+ROT = {'north': {}, 'south': {'y': 180}, 'east': {'y': 90}, 'west': {'y': 270}, 'up': {'x': 270}, 'down': {'x': 90}}
+w(A + '/blockstates/bus_controller.json', {'variants': {'facing=' + f: dict({'model': 'rotarycraft:block/bus_controller'}, **r) for f, r in ROT.items()}})
+w(A + '/models/item/bus_controller.json', {'parent': 'rotarycraft:block/bus_controller'})
+w(D + '/loot_table/blocks/bus_controller.json', {'type': 'minecraft:block', 'pools': [{
+    'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'rotarycraft:bus_controller'}], 'conditions': [{'condition': 'minecraft:survives_explosion'}]}]})
+PICKAXE += ['rotarycraft:power_bus', 'rotarycraft:bus_controller']
+gui('bus.png', 'power_bus')
+shaped('power_bus', ['SMS', 'MCM', 'SMS'], {'S': STEEL, 'M': item('steel_bearing'), 'C': item('belt')}, 4)
+shaped('bus_controller', ['SMS', 'MCM', 'SMS'], {'S': STEEL, 'M': item('steel_bearing'), 'C': item('circuit_board')})
+LANG.update({'block.rotarycraft.power_bus': 'Power Bus', 'block.rotarycraft.bus_controller': 'Bus Controller',
+             'gui.rotarycraft.bus.torque_mode': 'Torque mode: trades speed for torque',
+             'gui.rotarycraft.bus.speed_mode': 'Speed mode: trades torque for speed',
+             'message.rotarycraft.bus.status': 'Bus: %s blocks, %s output sides, %s N*m at %s rad/s, lubricant %s / %s mB'})
+
 # ---- lang, tags, models ----
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

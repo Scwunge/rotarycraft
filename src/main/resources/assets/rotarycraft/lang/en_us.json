@@ -620,5 +620,10 @@
   "gui.rotarycraft.distribution_clutch.gui": "Control: Screen",
   "gui.rotarycraft.distribution_clutch.redstone": "Control: Redstone",
   "gui.rotarycraft.distribution_clutch.input": "Input side",
-  "gui.rotarycraft.distribution_clutch.front": "Front: gets what is left over"
+  "gui.rotarycraft.distribution_clutch.front": "Front: gets what is left over",
+  "block.rotarycraft.power_bus": "Power Bus",
+  "block.rotarycraft.bus_controller": "Bus Controller",
+  "gui.rotarycraft.bus.torque_mode": "Torque mode: trades speed for torque",
+  "gui.rotarycraft.bus.speed_mode": "Speed mode: trades torque for speed",
+  "message.rotarycraft.bus.status": "Bus: %s blocks, %s output sides, %s N*m at %s rad/s, lubricant %s / %s mB"
 }

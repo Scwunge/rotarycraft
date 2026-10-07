@@ -40,6 +40,7 @@ public final class TransmissionClient {
     @SubscribeEvent
     public static void screens(RegisterMenuScreensEvent event) {
         event.register(TransmissionRegistry.MULTI_CLUTCH_MENU.get(), MultiClutchScreen::new);
+        event.register(TransmissionRegistry.POWER_BUS_MENU.get(), PowerBusScreen::new);
         event.register(TransmissionRegistry.DISTRIBUTION_CLUTCH_MENU.get(), DistributionClutchScreen::new);
     }
 

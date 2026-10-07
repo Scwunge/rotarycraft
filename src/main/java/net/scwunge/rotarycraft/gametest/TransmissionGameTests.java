@@ -14,6 +14,15 @@ import net.scwunge.rotarycraft.block.MachineBlock;
 import net.scwunge.rotarycraft.blockentity.DynamometerBlockEntity;
 import net.scwunge.rotarycraft.menu.DistributionClutchMenu;
 import net.scwunge.rotarycraft.menu.MultiClutchMenu;
+import net.scwunge.rotarycraft.menu.PowerBusMenu;
+import net.scwunge.rotarycraft.power.ShaftMaterial;
+import net.scwunge.rotarycraft.registry.RotaryFluids;
+import net.scwunge.rotarycraft.registry.RotaryParts;
+import net.scwunge.rotarycraft.transmission.BusControllerBlockEntity;
+import net.scwunge.rotarycraft.transmission.PowerBusBlockEntity;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.scwunge.rotarycraft.registry.RotaryBlocks;
 import net.scwunge.rotarycraft.registry.TransmissionRegistry;
 import net.scwunge.rotarycraft.transmission.DistributionClutchBlockEntity;
@@ -197,6 +206,131 @@ public class TransmissionGameTests {
         other.loadWithComponents(saved, registries);
         helper.assertTrue(other.isSideEnabled(Direction.EAST) && other.torqueRequest(Direction.EAST) == 800000 && other.torqueRequest(Direction.SOUTH) == 6, "the settings were lost");
         helper.assertFalse(menu.clickMenuButton(player, 9), "no such button");
+        helper.succeed();
+    }
+
+    // ---- power bus and bus controller ----
+
+    static final BlockPos BUS = CLUTCH.east();
+
+    static BusControllerBlockEntity controller(GameTestHelper helper, boolean lubricated) {
+        WeaponGameTests.spinningFlywheel(helper, SOURCE, 64, 64, Direction.EAST);
+        helper.setBlock(CLUTCH, TransmissionRegistry.BUS_CONTROLLER.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        BusControllerBlockEntity hub = helper.getBlockEntity(CLUTCH);
+        if (lubricated) {
+            hub.tank().fill(new FluidStack(RotaryFluids.LUBRICANT.get(), 8000), IFluidHandler.FluidAction.EXECUTE);
+        }
+        return hub;
+    }
+
+    static PowerBusBlockEntity bus(GameTestHelper helper, BlockPos pos) {
+        helper.setBlock(pos, TransmissionRegistry.POWER_BUS.get().defaultBlockState());
+        return helper.getBlockEntity(pos);
+    }
+
+    static ItemStack unit(ShaftMaterial material, int ratio) {
+        return new ItemStack(RotaryParts.GEAR_UNITS.get(material).get(ratio).get());
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void aPowerBusSharesItsPowerAndEachSideChangesItByItsGearUnit(GameTestHelper helper) {
+        BusControllerBlockEntity hub = controller(helper, true);
+        PowerBusBlockEntity bus = bus(helper, BUS);
+        bus.items().setStackInSlot(0, unit(ShaftMaterial.STEEL, 2));
+        bus.items().setStackInSlot(1, unit(ShaftMaterial.STEEL, 4));
+        bus.setSideSpeedMode(Direction.SOUTH, true);
+        DynamometerBlockEntity north = meter(helper, BUS.north(), Direction.NORTH);
+        DynamometerBlockEntity south = meter(helper, BUS.south(), Direction.SOUTH);
+        helper.succeedWhen(() -> {
+            helper.assertTrue(hub.sides() == 2 && hub.busSize() == 1, "sides " + hub.sides() + ", blocks " + hub.busSize());
+            // 64 N*m shared over two sides is 32 each: x2 and /2 on the north side, /4 and x4 on the south side
+            helper.assertTrue(north.getTorque() == 64 && north.getOmega() == 32, "north got " + north.getTorque() + " N*m " + north.getOmega() + " rad/s");
+            helper.assertTrue(south.getTorque() == 8 && south.getOmega() == 256, "south got " + south.getTorque() + " N*m " + south.getOmega() + " rad/s");
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void aBusControllerWithNoLubricantPassesNothingOn(GameTestHelper helper) {
+        BusControllerBlockEntity hub = controller(helper, false);
+        PowerBusBlockEntity bus = bus(helper, BUS);
+        bus.items().setStackInSlot(0, unit(ShaftMaterial.STEEL, 2));
+        DynamometerBlockEntity north = meter(helper, BUS.north(), Direction.NORTH);
+        helper.runAfterDelay(25, () -> {
+            helper.assertTrue(hub.getTorque() == 0 && hub.getOmega() == 0, "the controller has power with no lubricant");
+            helper.assertTrue(north.getTorque() == 0, "the bus gave power with no lubricant");
+            hub.tank().fill(new FluidStack(RotaryFluids.LUBRICANT.get(), 1000), IFluidHandler.FluidAction.EXECUTE);
+        });
+        helper.succeedWhen(() -> helper.assertTrue(north.getTorque() == 128 && north.getOmega() == 32, "no power after lubricating: " + north.getTorque()));
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void aGearUnitThatCannotTakeTheLoadBreaks(GameTestHelper helper) {
+        controller(helper, true);
+        PowerBusBlockEntity bus = bus(helper, BUS);
+        bus.items().setStackInSlot(0, unit(ShaftMaterial.WOOD, 16));
+        helper.succeedWhen(() -> helper.assertTrue(bus.items().getStackInSlot(0).isEmpty(), "the wooden 16:1 gear unit should break under 1024 N*m"));
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void busBlocksJoinInAChainAndShareTheSameInput(GameTestHelper helper) {
+        BusControllerBlockEntity hub = controller(helper, true);
+        PowerBusBlockEntity first = bus(helper, BUS);
+        PowerBusBlockEntity second = bus(helper, BUS.east());
+        first.items().setStackInSlot(0, unit(ShaftMaterial.STEEL, 2));
+        second.items().setStackInSlot(0, unit(ShaftMaterial.STEEL, 2));
+        DynamometerBlockEntity far = meter(helper, BUS.east().north(), Direction.NORTH);
+        helper.succeedWhen(() -> {
+            helper.assertTrue(hub.busSize() == 2 && hub.sides() == 2, "blocks " + hub.busSize() + ", sides " + hub.sides());
+            helper.assertTrue(second.isOnBus() && second.inputSide() == Direction.WEST, "the second block should be fed from the west");
+            helper.assertTrue(far.getTorque() == 64 && far.getOmega() == 32, "the far side got " + far.getTorque() + " N*m " + far.getOmega() + " rad/s");
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void takingABusBlockAwayLeavesTheOthersWithTheirShare(GameTestHelper helper) {
+        BusControllerBlockEntity hub = controller(helper, true);
+        PowerBusBlockEntity first = bus(helper, BUS);
+        bus(helper, BUS.east()).items().setStackInSlot(0, unit(ShaftMaterial.STEEL, 2));
+        first.items().setStackInSlot(0, unit(ShaftMaterial.STEEL, 2));
+        helper.runAfterDelay(15, () -> {
+            helper.assertTrue(hub.sides() == 2, "sides " + hub.sides());
+            helper.setBlock(BUS.east(), Blocks.AIR);
+        });
+        helper.runAfterDelay(35, () -> {
+            helper.assertTrue(hub.busSize() == 1 && hub.sides() == 1, "after: blocks " + hub.busSize() + ", sides " + hub.sides());
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 200)
+    public static void aBusControllerUsesLubricantWhilePowerFlows(GameTestHelper helper) {
+        BusControllerBlockEntity hub = controller(helper, false);
+        hub.tank().fill(new FluidStack(RotaryFluids.LUBRICANT.get(), 1000), IFluidHandler.FluidAction.EXECUTE);
+        PowerBusBlockEntity bus = bus(helper, BUS);
+        bus.items().setStackInSlot(0, unit(ShaftMaterial.STEEL, 2));
+        helper.succeedWhen(() -> helper.assertTrue(hub.tank().getFluidAmount() < 1000, "no lubricant used"));
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void theBusScreenTogglesModesAndSlotsFollowWhatIsBesideThem(GameTestHelper helper) {
+        controller(helper, true);
+        PowerBusBlockEntity bus = bus(helper, BUS);
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        PowerBusMenu menu = new PowerBusMenu(1, player.getInventory(), bus);
+        helper.assertFalse(menu.speedMode(0), "starts in torque mode");
+        helper.assertTrue(menu.clickMenuButton(player, 0) && bus.isSideSpeedMode(Direction.NORTH), "button 0 should switch north to speed mode");
+        helper.assertTrue(menu.hasSlot(0) && menu.hasSlot(1) && menu.hasSlot(3), "north, south and east are free");
+        helper.assertFalse(menu.hasSlot(2), "the west side faces the controller and has no slot");
+        helper.assertFalse(bus.items().insertItem(2, unit(ShaftMaterial.STEEL, 2), false).isEmpty(), "a gear unit went in a side with no slot");
+        helper.assertFalse(bus.items().insertItem(0, new ItemStack(net.minecraft.world.item.Items.DIRT), false).isEmpty(), "dirt went in");
+        helper.assertTrue(bus.items().insertItem(0, unit(ShaftMaterial.STEEL, 2), false).isEmpty(), "a gear unit should go in");
+        helper.assertFalse(menu.clickMenuButton(player, 5), "no such button");
+        var registries = helper.getLevel().registryAccess();
+        var saved = bus.saveWithFullMetadata(registries);
+        helper.setBlock(BUS, Blocks.AIR);
+        PowerBusBlockEntity other = bus(helper, BUS);
+        other.loadWithComponents(saved, registries);
+        helper.assertTrue(other.isSideSpeedMode(Direction.NORTH) && other.ratio(Direction.NORTH) == 2, "the settings were lost");
         helper.succeed();
     }
 }
