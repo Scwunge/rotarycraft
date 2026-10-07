@@ -357,8 +357,10 @@ public class LightGameTests {
     @GameTest(template = WIDE, batch = "light_bridgelight", timeoutTicks = 100)
     public static void lightBridgeNeedsLightAbove(GameTestHelper helper) {
         Runnable restore = DecorGameTests.enable("lightBridge");
-        bridge(helper, 1024, 1024, false);
-        helper.runAfterDelay(30, () -> {
+        // the light engine works behind the game: the stone goes up first and the bridge is built once the sky is shut out, or it may still see it
+        helper.setBlock(MACHINE.above(), Blocks.STONE);
+        helper.runAfterDelay(15, () -> bridge(helper, 1024, 1024, false));
+        helper.runAfterDelay(45, () -> {
             restore.run();
             helper.assertFalse(isBridge(helper, MACHINE.east()), "built without light");
             helper.succeed();
