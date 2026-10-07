@@ -1,21 +1,6 @@
 {
   "variants": {
-    "facing=up": {
-      "model": "rotarycraft:block/solar_mirror"
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/solar_mirror"
-    },
-    "facing=north": {
-      "model": "rotarycraft:block/solar_mirror"
-    },
-    "facing=south": {
-      "model": "rotarycraft:block/solar_mirror"
-    },
-    "facing=east": {
-      "model": "rotarycraft:block/solar_mirror"
-    },
-    "facing=west": {
+    "": {
       "model": "rotarycraft:block/solar_mirror"
     }
   }

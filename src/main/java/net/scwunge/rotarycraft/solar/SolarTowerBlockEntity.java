@@ -338,6 +338,12 @@ public class SolarTowerBlockEntity extends BlockEntity implements SolarPlantMemb
         super.saveAdditional(tag, registries);
         tag.put("tank", tank.writeToNBT(registries, new CompoundTag()));
         tag.putInt("temperature", temperature);
+        // what it is doing now, for anything that looks at its data (not read back)
+        tag.putInt("torque", torque);
+        tag.putInt("omega", omega);
+        tag.putInt("mirrors", size);
+        tag.putFloat("brightness", overallBrightness);
+        tag.putBoolean("hasPlant", plant != null);
     }
 
     @Override

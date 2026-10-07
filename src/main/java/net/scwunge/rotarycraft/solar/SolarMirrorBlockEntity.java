@@ -87,6 +87,8 @@ public class SolarMirrorBlockEntity extends BlockEntity implements SolarPlantMem
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.putBoolean("broken", broken);
+        tag.putBoolean("working", isFunctional());
+        tag.putBoolean("hasPlant", plant != null);
     }
 
     @Override

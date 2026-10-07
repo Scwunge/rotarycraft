@@ -45,11 +45,11 @@ def sprite(sheet, index, name):
     w('%s/models/item/%s.json' % (A, name), {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/' + name}})
 
 
-def rendered_machine(name, facings=('up', 'down', 'north', 'south', 'east', 'west'), particle='rotarycraft:block/shaft_steel'):
+def rendered_machine(name, facings=('up', 'down', 'north', 'south', 'east', 'west'), particle='rotarycraft:block/shaft_steel', plain=False):
     """A machine drawn entirely by its renderer: the block model only gives break particles; the item is drawn by the renderer too."""
     MACHINES.append(name)
     w('%s/models/block/%s.json' % (A, name), {'textures': {'particle': particle}})
-    w('%s/blockstates/%s.json' % (A, name), {'variants': {'facing=' + f: {'model': 'rotarycraft:block/' + name} for f in facings}})
+    w('%s/blockstates/%s.json' % (A, name), {'variants': {'': {'model': 'rotarycraft:block/' + name}} if plain else {'facing=' + f: {'model': 'rotarycraft:block/' + name} for f in facings}})
     w('%s/models/item/%s.json' % (A, name), {'parent': 'minecraft:builtin/entity', 'gui_light': 'side', 'textures': {'particle': particle},
                                              'display': BLOCK_DISPLAY})
     w('%s/loot_table/blocks/%s.json' % (D, name), {'type': 'minecraft:block', 'pools': [{
@@ -193,8 +193,8 @@ shaped('terraformer', ['SsS', 'ici', 'PiP'], {'S': STEEL, 's': item('screen'), '
 # ---- Solar Tower and Solar Mirror ----
 model_texture('solartex.png', 'solar_tower')
 model_texture('mirrortex.png', 'solar_mirror')
-rendered_machine('solar_tower')
-rendered_machine('solar_mirror')
+rendered_machine('solar_tower', plain=True)
+rendered_machine('solar_mirror', plain=True)
 MODELS.append('ModelSolar:solar_tower')
 MODELS.append('ModelMirror:solar_mirror')
 shaped('solar_tower', ['pPp', 'iPi', 'pPp'], {'p': item('base_panel'), 'P': item('pipe'), 'i': {'tag': 'c:dyes/black'}})
