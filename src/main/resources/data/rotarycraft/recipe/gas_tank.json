@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SIS",
+    "PRP",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "I": {
+      "item": "rotarycraft:impeller"
+    },
+    "R": {
+      "item": "rotarycraft:reservoir"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:gas_tank",
+    "count": 1
+  }
+}

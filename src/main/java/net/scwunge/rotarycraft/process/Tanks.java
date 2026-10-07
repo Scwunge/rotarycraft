@@ -7,6 +7,44 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 public final class Tanks {
     private Tanks() {}
 
+    /** Joins pipes to a machine without giving them any of its fluid, or taking any of theirs (the Pipe Pump, which moves it itself). */
+    public static final IFluidHandler NONE = new IFluidHandler() {
+        @Override
+        public int getTanks() {
+            return 0;
+        }
+
+        @Override
+        public FluidStack getFluidInTank(int tank) {
+            return FluidStack.EMPTY;
+        }
+
+        @Override
+        public int getTankCapacity(int tank) {
+            return 0;
+        }
+
+        @Override
+        public boolean isFluidValid(int tank, FluidStack stack) {
+            return false;
+        }
+
+        @Override
+        public int fill(FluidStack resource, FluidAction action) {
+            return 0;
+        }
+
+        @Override
+        public FluidStack drain(FluidStack resource, FluidAction action) {
+            return FluidStack.EMPTY;
+        }
+
+        @Override
+        public FluidStack drain(int maxDrain, FluidAction action) {
+            return FluidStack.EMPTY;
+        }
+    };
+
     /** Fluid goes into {@code in} and comes out of {@code out}. */
     public static IFluidHandler split(IFluidHandler in, IFluidHandler out) {
         return new IFluidHandler() {

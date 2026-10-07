@@ -112,6 +112,13 @@ public class FarmScreen extends AbstractContainerScreen<FarmMenu> {
                 lines.add(Component.translatable("gui.rotarycraft.farm.poison", menu.value(0), menu.value(1)));
                 lines.add(Component.translatable("gui.rotarycraft.farm.range", menu.value(2)));
             }
+            case "fuelEnhancer" -> {
+                lines.add(Component.translatable("gui.rotarycraft.farm.fuel_in", menu.value(0), menu.value(2)));
+                lines.add(Component.translatable("gui.rotarycraft.farm.fuel_out", menu.value(1), menu.value(2)));
+            }
+            case "bigFurnace" -> {
+                lines.clear();
+            }
             case "spawnerController" -> {
                 lines.clear();
             }
@@ -125,6 +132,14 @@ public class FarmScreen extends AbstractContainerScreen<FarmMenu> {
     private void drawOverlay(GuiGraphics g) {
         ResourceLocation texture = RotaryCraft.id("textures/gui/" + menu.ui().texture() + ".png");
         switch (menu.kind()) {
+            case "bigFurnace" -> {
+                int cook = menu.value(3) * 17 / Math.max(1, menu.value(4));
+                g.blit(texture, leftPos + 7, topPos + 55, 0, 208, 162, cook);
+                int lava = menu.value(1) * 91 / Math.max(1, menu.value(2));
+                g.fill(leftPos + 173, topPos + 109 - lava, leftPos + 183, topPos + 109, 0xFFE8601A);
+                String temperature = menu.value(0) + "C";
+                g.drawString(font, temperature, leftPos + imageWidth - 13 - font.width(temperature) / 2, topPos + 6, 0x404040, false);
+            }
             case "defoliator" -> {
                 int level = menu.value(0) * 52 / Math.max(1, menu.value(1));
                 g.blit(texture, leftPos + 134, topPos + 69 - level, 177, 69 - level, 16, level);

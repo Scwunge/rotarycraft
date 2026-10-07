@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/fuel_enhancer"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/fuel_enhancer"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/fuel_enhancer"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/fuel_enhancer"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/fuel_enhancer"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/fuel_enhancer"
+    }
+  }
+}

@@ -65,6 +65,7 @@ IMPELLER = item('impeller')
 PIPE = item('pipe')
 SHAFT = item('shaft_core')
 GLASS = tag('c:glass_blocks')
+RESERVOIR = item('reservoir')
 
 
 def shaped(name, pattern, key, count=1, result=None, suffix=''):
@@ -89,6 +90,30 @@ for block, model, tex, name in [('boiler', 'ModelBoiler', 'Converter/boilertex.p
     MODELS.append('%s:%s' % (model, block))
     rendered_machine(block)
 model_texture('Converter/dynamotex2.png', 'dynamo_running')
+model_texture('gascompressortex.png', 'gas_tank')
+model_texture('pipepumptex.png', 'pipe_pump')
+MODELS += ['ModelGasCompressor:gas_tank', 'ModelPipePump:pipe_pump']
+rendered_machine('gas_tank')
+rendered_machine('pipe_pump')
+model_texture('distillertex.png', 'distiller')
+model_texture('fuelconverttex.png', 'fuel_enhancer')
+model_texture('bigfurnace.png', 'big_furnace')
+MODELS += ['ModelDistillery:distiller', 'ModelFuelConverter:fuel_enhancer', 'ModelBigFurnace:big_furnace']
+for m in ('distiller', 'fuel_enhancer', 'big_furnace'):
+    rendered_machine(m)
+os.makedirs(T + '/gui', exist_ok=True)
+shutil.copy(REF + '/Textures/GUI/bigfurngui.png', T + '/gui/big_furnace.png')
+GLASS_PANE = vanilla('glass_pane')
+shaped('distiller', ['PGP', 'gMg', 'PGP'], {'G': GLASS_PANE, 'M': item('mixer'), 'P': PANEL, 'g': vanilla('iron_ingot')})
+shaped('fuel_enhancer', ['PGP', 'gMg', 'PGP'], {'G': GLASS_PANE, 'M': item('mixer'), 'P': PANEL, 'g': vanilla('gold_ingot')})
+shaped('big_furnace', ['SFS', 'FRF', 'SRS'], {'S': PANEL, 'F': vanilla('furnace'), 'R': RESERVOIR})
+# a Gas Tank keeps what it held in the item
+w(D + '/loot_table/blocks/gas_tank.json', {'type': 'minecraft:block', 'pools': [{'rolls': 1, 'entries': [{
+    'type': 'minecraft:item', 'name': 'rotarycraft:gas_tank',
+    'functions': [{'function': 'minecraft:copy_components', 'source': 'block_entity', 'include': ['rotarycraft:gas_contents']}]}],
+    'conditions': [{'condition': 'minecraft:survives_explosion'}]}]})
+shaped('gas_tank', ['SIS', 'PRP', 'PPP'], {'P': PANEL, 'S': STEEL, 'I': IMPELLER, 'R': RESERVOIR})
+shaped('pipe_pump', ['BBB', 'PIP', 'BBB'], {'B': STEEL, 'I': IMPELLER, 'P': PIPE})
 shaped('boiler', ['SPS', 'G G', 'SIS'], {'S': STEEL, 'P': PIPE, 'G': GLASS, 'I': IMPELLER})
 shaped('steam_turbine', ['SPS', 'GTG', 'ScS'], {'S': STEEL, 'P': PANEL, 'G': GLASS, 'T': item('turbine'), 'c': item('diamond_shaft_core')})
 shaped('air_compressor', ['SSS', ' G ', 'CPC'], {'S': STEEL, 'G': GLASS, 'C': item('compressor'), 'P': vanilla('piston')})
@@ -104,6 +129,14 @@ lang.update({
     'block.rotarycraft.pneumatic_engine': 'Pneumatic Engine',
     'block.rotarycraft.magnetic_motor': 'Magnetic Motor',
     'block.rotarycraft.dynamo': 'Dynamo',
+    'tooltip.rotarycraft.gas_contents': 'Contents: %s B of %s',
+    'gui.rotarycraft.farm.fuel_in': 'Fuel: %s / %s mB',
+    'gui.rotarycraft.farm.fuel_out': 'Jet fuel: %s / %s mB',
+    'block.rotarycraft.distiller': 'Distiller',
+    'block.rotarycraft.fuel_enhancer': 'Fuel Enhancer',
+    'block.rotarycraft.big_furnace': 'Big Furnace',
+    'block.rotarycraft.gas_tank': 'Gas Tank',
+    'block.rotarycraft.pipe_pump': 'Pipe Pump',
 })
 w(lang_path, lang)
 

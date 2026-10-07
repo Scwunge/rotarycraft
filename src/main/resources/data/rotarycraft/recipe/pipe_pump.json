@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BBB",
+    "PIP",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "tag": "c:ingots/steel"
+    },
+    "I": {
+      "item": "rotarycraft:impeller"
+    },
+    "P": {
+      "item": "rotarycraft:pipe"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:pipe_pump",
+    "count": 1
+  }
+}

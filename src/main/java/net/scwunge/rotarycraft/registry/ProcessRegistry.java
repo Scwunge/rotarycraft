@@ -18,7 +18,15 @@ import net.scwunge.rotarycraft.farm.FarmBlock;
 import net.scwunge.rotarycraft.pipe.FluidAccess;
 import net.scwunge.rotarycraft.process.AirCompressorBlockEntity;
 import net.scwunge.rotarycraft.process.BoilerBlockEntity;
+import net.scwunge.rotarycraft.process.BigFurnaceBlockEntity;
+import net.scwunge.rotarycraft.process.DistillerBlockEntity;
 import net.scwunge.rotarycraft.process.DynamoBlockEntity;
+import net.scwunge.rotarycraft.process.FuelEnhancerBlockEntity;
+import net.scwunge.rotarycraft.farm.Handlers;
+import net.scwunge.rotarycraft.process.GasTankBlockEntity;
+import net.scwunge.rotarycraft.process.PipePumpBlockEntity;
+import net.scwunge.rotarycraft.process.Tanks;
+import net.minecraft.core.Direction;
 import net.scwunge.rotarycraft.process.MagneticMotorBlockEntity;
 import net.scwunge.rotarycraft.process.PneumaticEngineBlockEntity;
 import net.scwunge.rotarycraft.process.SteamTurbineBlockEntity;
@@ -53,6 +61,23 @@ public final class ProcessRegistry {
     public static final Machine<MagneticMotorBlockEntity> MAGNETIC_MOTOR_M = machine("magnetic_motor", MagneticMotorBlockEntity::new);
     public static final Machine<DynamoBlockEntity> DYNAMO_M = machine("dynamo", DynamoBlockEntity::new);
 
+    public static final Machine<GasTankBlockEntity> GAS_TANK_M = machine("gas_tank", GasTankBlockEntity::new);
+    public static final Machine<PipePumpBlockEntity> PIPE_PUMP_M = machine("pipe_pump", PipePumpBlockEntity::new);
+
+    public static final Machine<DistillerBlockEntity> DISTILLER_M = machine("distiller", DistillerBlockEntity::new);
+    public static final Machine<FuelEnhancerBlockEntity> FUEL_ENHANCER_M = machine("fuel_enhancer", FuelEnhancerBlockEntity::new);
+    public static final Machine<BigFurnaceBlockEntity> BIG_FURNACE_M = machine("big_furnace", BigFurnaceBlockEntity::new);
+
+    public static final DeferredBlock<FarmBlock> DISTILLER = DISTILLER_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DistillerBlockEntity>> DISTILLER_BE = DISTILLER_M.be();
+    public static final DeferredBlock<FarmBlock> FUEL_ENHANCER = FUEL_ENHANCER_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FuelEnhancerBlockEntity>> FUEL_ENHANCER_BE = FUEL_ENHANCER_M.be();
+    public static final DeferredBlock<FarmBlock> BIG_FURNACE = BIG_FURNACE_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BigFurnaceBlockEntity>> BIG_FURNACE_BE = BIG_FURNACE_M.be();
+    public static final DeferredBlock<FarmBlock> GAS_TANK = GAS_TANK_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GasTankBlockEntity>> GAS_TANK_BE = GAS_TANK_M.be();
+    public static final DeferredBlock<FarmBlock> PIPE_PUMP = PIPE_PUMP_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PipePumpBlockEntity>> PIPE_PUMP_BE = PIPE_PUMP_M.be();
     public static final DeferredBlock<FarmBlock> BOILER = BOILER_M.block();
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BoilerBlockEntity>> BOILER_BE = BOILER_M.be();
     public static final DeferredBlock<FarmBlock> STEAM_TURBINE = STEAM_TURBINE_M.block();
@@ -86,6 +111,21 @@ public final class ProcessRegistry {
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, STEAM_TURBINE_BE.get(), (be, side) -> side == be.facing() ? null : be.steam());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, AIR_COMPRESSOR_BE.get(), (be, side) -> side == be.inputSide() ? null : FluidAccess.drainOnly(be.air()));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, PNEUMATIC_ENGINE_BE.get(), (be, side) -> side == be.facing() ? null : be.air());
+        // fluid goes into a Gas Tank from every side but the top, which it comes out of
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, GAS_TANK_BE.get(), (be, side) -> side == null ? be.handler()
+                : side == Direction.UP ? FluidAccess.drainOnly(be.handler()) : FluidAccess.fillOnly(be.handler()));
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, PIPE_PUMP_BE.get(),
+                (be, side) -> side == be.facing() || side == be.facing().getOpposite() ? Tanks.NONE : null);
+        // the Distiller takes fluid from every side but the top, and gives it from the top
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, DISTILLER_BE.get(), (be, side) -> side == null ? be.handler()
+                : side == Direction.UP ? FluidAccess.drainOnly(be.output()) : FluidAccess.fillOnly(be.input()));
+        // the Fuel Enhancer takes fuel from above and gives jet fuel from its sides
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, FUEL_ENHANCER_BE.get(), (be, side) -> side == null ? Tanks.split(be.input(), be.output())
+                : side == Direction.UP ? FluidAccess.fillOnly(be.input()) : side == Direction.DOWN ? null : FluidAccess.drainOnly(be.output()));
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FUEL_ENHANCER_BE.get(), (be, side) -> Handlers.insertOnly(be.items()));
+        // the Big Furnace takes lava from its sides
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BIG_FURNACE_BE.get(), (be, side) -> side == Direction.UP || side == Direction.DOWN ? null : FluidAccess.fillOnly(be.lava()));
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BIG_FURNACE_BE.get(), (be, side) -> Handlers.slots(be.items(), slot -> slot < BigFurnaceBlockEntity.INPUTS, slot -> slot >= BigFurnaceBlockEntity.INPUTS));
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, MAGNETIC_MOTOR_BE.get(), (be, side) -> be.energy());
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, DYNAMO_BE.get(), (be, side) -> side == be.inputSide() ? null : be.energy());
     }

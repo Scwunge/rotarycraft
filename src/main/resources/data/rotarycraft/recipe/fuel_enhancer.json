@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PGP",
+    "gMg",
+    "PGP"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass_pane"
+    },
+    "M": {
+      "item": "rotarycraft:mixer"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:fuel_enhancer",
+    "count": 1
+  }
+}

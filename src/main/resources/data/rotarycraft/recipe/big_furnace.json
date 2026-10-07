@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SFS",
+    "FRF",
+    "SRS"
+  ],
+  "key": {
+    "S": {
+      "item": "rotarycraft:base_panel"
+    },
+    "F": {
+      "item": "minecraft:furnace"
+    },
+    "R": {
+      "item": "rotarycraft:reservoir"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:big_furnace",
+    "count": 1
+  }
+}

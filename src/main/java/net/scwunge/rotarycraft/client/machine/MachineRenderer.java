@@ -45,38 +45,47 @@ public class MachineRenderer<T extends PowerBlockEntity> implements BlockEntityR
      * @param flags   the booleans the original's renderer handed its model
      */
     public record Look<T extends PowerBlockEntity>(Function<T, String> model, Function<T, String> texture, float[] yaws, float offset, ToDoubleFunction<T> speed, int sign,
-                                                   Function<T, boolean[]> flags, Orient orient) {
+                                                   Function<T, boolean[]> flags, Orient orient, Extra<T> extra) {
+        /** Something drawn in block space after the model: fluid in its glass, for one. */
+        public interface Extra<T> {
+            void draw(T be, PoseStack pose, MultiBufferSource buffers, int light);
+        }
+
         /** Turns the pose for a block facing this way, where a table of yaws is not enough. */
         public interface Orient {
             void apply(PoseStack pose, Direction facing);
         }
 
         public static <T extends PowerBlockEntity> Look<T> still(String model, String texture, float[] yaws) {
-            return new Look<>(be -> model, be -> texture, yaws, 0, be -> 0, 1, be -> new boolean[0], null);
+            return new Look<>(be -> model, be -> texture, yaws, 0, be -> 0, 1, be -> new boolean[0], null, null);
         }
 
         public static <T extends PowerBlockEntity> Look<T> spinning(String model, String texture, float[] yaws, ToDoubleFunction<T> speed, int sign) {
-            return new Look<>(be -> model, be -> texture, yaws, 0, speed, sign, be -> new boolean[0], null);
+            return new Look<>(be -> model, be -> texture, yaws, 0, speed, sign, be -> new boolean[0], null, null);
         }
 
         public Look<T> turned(float degrees) {
-            return new Look<>(model, texture, yaws, degrees, speed, sign, flags, orient);
+            return new Look<>(model, texture, yaws, degrees, speed, sign, flags, orient, extra);
         }
 
         public Look<T> modelled(Function<T, String> model) {
-            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient);
+            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient, extra);
+        }
+
+        public Look<T> extra(Extra<T> extra) {
+            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient, extra);
         }
 
         public Look<T> oriented(Orient orient) {
-            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient);
+            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient, extra);
         }
 
         public Look<T> textured(Function<T, String> texture) {
-            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient);
+            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient, extra);
         }
 
         public Look<T> withFlags(Function<T, boolean[]> flags) {
-            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient);
+            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient, extra);
         }
     }
 
@@ -140,6 +149,9 @@ public class MachineRenderer<T extends PowerBlockEntity> implements BlockEntityR
             }
         }
         draw(pose, buffers, light, overlay, look.model().apply(be), look.texture().apply(be), be.facing(), be.phi + speed * partialTick, look.flags().apply(be));
+        if (look.extra() != null) {
+            look.extra().draw(be, pose, buffers, light);
+        }
     }
 
     @Override

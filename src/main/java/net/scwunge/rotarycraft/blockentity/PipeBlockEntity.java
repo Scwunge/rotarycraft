@@ -122,6 +122,21 @@ public class PipeBlockEntity extends BlockEntity {
         return r;
     }
 
+    /** The Pipe Pump moves up to {@code n} mB from this pipe into {@code dest}, which has to take the fluid; how much moved. */
+    public int pumpInto(PipeBlockEntity dest, int n) {
+        if (amount <= 0 || dest == this || !dest.canTake(fluid)) {
+            return 0;
+        }
+        int move = Math.min(Math.min(n, amount), CAPACITY_LIMIT - dest.amount);
+        if (move <= 0) {
+            return 0;
+        }
+        FluidStack f = fluid;
+        remove(move);
+        dest.add(f, move);
+        return move;
+    }
+
     private boolean connected(Direction d) {
         return getBlockState().getValue(PipeBlock.PROPERTIES.get(d));
     }

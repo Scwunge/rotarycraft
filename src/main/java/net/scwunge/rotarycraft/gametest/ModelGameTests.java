@@ -32,10 +32,11 @@ public class ModelGameTests {
             {"spawner_controller", "spawner_controller"}, {"bevel_gear", "bevel_gear"}, {"splitter", "splitter"}, {"splitter2", "splitter_bedrock"},
             {"electric_motor", "electric_motor"}, {"generator", "generator"},
             {"boiler", "boiler"}, {"steam_turbine", "steam_turbine"}, {"air_compressor", "air_compressor"}, {"pneumatic_engine", "pneumatic_engine"},
-            {"magnetic_motor", "magnetic_motor"}, {"dynamo", "dynamo"}};
+            {"magnetic_motor", "magnetic_motor"}, {"dynamo", "dynamo"}, {"gas_tank", "gas_tank"}, {"pipe_pump", "pipe_pump"},
+            {"distiller", "distiller"}, {"fuel_enhancer", "fuel_enhancer"}, {"big_furnace", "big_furnace"}};
     /** The ones that stand still (no moving parts in the original). */
     private static final Set<String> STILL = Set.of("fractionator", "pulse_furnace", "extractor", "refrigerator", "sprinkler", "reservoir", "vacuum", "auto_breeder",
-            "bait_box", "mob_harvester", "spawner_controller", "generator", "bevel_gear", "splitter", "splitter2");
+            "bait_box", "mob_harvester", "spawner_controller", "generator", "bevel_gear", "splitter", "splitter2", "gas_tank", "pipe_pump", "distiller", "big_furnace");
 
     /** The ones that are simply a couple of boxes in the original. */
     private static final Set<String> SIMPLE = Set.of("dynamo");

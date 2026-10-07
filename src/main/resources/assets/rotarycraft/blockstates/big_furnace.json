@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/big_furnace"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/big_furnace"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/big_furnace"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/big_furnace"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/big_furnace"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/big_furnace"
+    }
+  }
+}

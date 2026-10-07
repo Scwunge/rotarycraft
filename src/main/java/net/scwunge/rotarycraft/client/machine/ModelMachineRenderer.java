@@ -81,7 +81,7 @@ public class ModelMachineRenderer<T extends BlockEntity> implements BlockEntityR
     }
 
     /** A flat sheet of fluid at height {@code h} across the block, in block space, drawn at full brightness for glowing fluids. */
-    protected static void fluidSurface(PoseStack pose, MultiBufferSource buffers, Fluid fluid, double h, double inset, int light) {
+    public static void fluidSurface(PoseStack pose, MultiBufferSource buffers, Fluid fluid, double h, double inset, int light) {
         if (fluid == Fluids.EMPTY) {
             return;
         }

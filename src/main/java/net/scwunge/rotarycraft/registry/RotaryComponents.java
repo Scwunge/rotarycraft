@@ -15,6 +15,10 @@ public class RotaryComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<net.scwunge.rotarycraft.item.GearboxState>> GEARBOX_STATE = COMPONENTS.register("gearbox_state",
             () -> DataComponentType.<net.scwunge.rotarycraft.item.GearboxState>builder().persistent(net.scwunge.rotarycraft.item.GearboxState.CODEC)
                     .networkSynchronized(net.scwunge.rotarycraft.item.GearboxState.STREAM_CODEC).build());
+    /** What a Gas Tank held when it was broken. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<net.neoforged.neoforge.fluids.SimpleFluidContent>> GAS_CONTENTS = COMPONENTS.register("gas_contents",
+            () -> DataComponentType.<net.neoforged.neoforge.fluids.SimpleFluidContent>builder().persistent(net.neoforged.neoforge.fluids.SimpleFluidContent.CODEC)
+                    .networkSynchronized(net.neoforged.neoforge.fluids.SimpleFluidContent.STREAM_CODEC).build());
     /** A shaft core's magnetization in microtesla (Magnetizer charges it, the AC Engine uses it up). */
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAGNETIZATION = COMPONENTS.register("magnetization",
             () -> DataComponentType.<Integer>builder().persistent(com.mojang.serialization.Codec.intRange(1, Integer.MAX_VALUE))

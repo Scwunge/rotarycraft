@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/gas_tank"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/gas_tank"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/gas_tank"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/gas_tank"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/gas_tank"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/gas_tank"
+    }
+  }
+}

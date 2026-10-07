@@ -16,7 +16,7 @@ public final class FarmConfig {
     public static final ModConfigSpec.BooleanValue LAWN_SPRINKLER_HURTS;
     public static final ModConfigSpec.BooleanValue BLOWER_SPILLS;
     public static final ModConfigSpec.IntValue CONVERTER_TIER, WATTS_PER_AIR;
-    public static final ModConfigSpec.DoubleValue CONVERTER_EFFICIENCY;
+    public static final ModConfigSpec.DoubleValue CONVERTER_EFFICIENCY, FUEL_ENHANCER_ITEM_CHANCE;
     public static final ModConfigSpec.IntValue VACUUM_RANGE, BREEDER_RANGE, BAIT_RANGE, BAIT_MOBS;
 
     /** The machines and whether they are on unless the server says otherwise. */
@@ -25,6 +25,7 @@ public final class FarmConfig {
             {"defoliator", false}, {"blower", true}, {"vacuum", true}, {"autoBreeder", true}, {"baitBox", true}, {"mobHarvester", false},
             {"spawnerController", false}, {"woodcutter", false},
             {"boiler", true}, {"steamTurbine", true}, {"airCompressor", true}, {"pneumaticEngine", true}, {"magneticMotor", true}, {"dynamo", true},
+            {"gasTank", true}, {"pipePump", true}, {"distiller", true}, {"fuelEnhancer", true}, {"bigFurnace", true},
     };
 
     static {
@@ -47,6 +48,8 @@ public final class FarmConfig {
                 .defineInRange("converterTier", 1, 0, 5);
         CONVERTER_EFFICIENCY = b.comment("Scales how much of its input each conversion machine (Boiler, Compressor, Dynamo, and the engines) gets out.")
                 .defineInRange("converterEfficiency", 1.0, 0.1, 1.0);
+        FUEL_ENHANCER_ITEM_CHANCE = b.comment("The chance each tick that the Fuel Enhancer uses up each of its five ingredients (the original's medium difficulty: a quarter of a percent).")
+                .defineInRange("fuelEnhancerItemChance", 0.0025, 0.0, 1.0);
         WATTS_PER_AIR = b.comment("The watts that a millibucket of compressed air a tick is worth.").defineInRange("wattsPerAir", 20, 1, 100_000);
         b.pop();
         SPEC = b.build();
