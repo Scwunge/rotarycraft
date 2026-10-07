@@ -32,7 +32,7 @@ MAP|BOILER|boiler
 MAP|BORER|borer
 PENDING|BUCKETFILLER|not ported yet
 PENDING|BUNDLEDBUS|not ported yet
-PENDING|BUSCONTROLLER|not ported yet
+MAP|BUSCONTROLLER|bus_controller
 MAP|BYPASS|bypass
 MAP|CAVESCANNER|cave_scanner
 MAP|CCTV|cctv
@@ -52,12 +52,12 @@ MAP|DEFOLIATOR|defoliator
 PENDING|DISK|not ported yet
 MAP|DISPLAY|display
 MAP|DISTILLER|distiller
-PENDING|DISTRIBCLUTCH|not ported yet
+MAP|DISTRIBCLUTCH|distribution_clutch
 PENDING|DROPS|not ported yet
 MAP|DRYING|dryer
 MAP|DYNAMO|dynamo
 MAP|DYNAMOMETER|dynamometer
-PENDING|ECU|not ported yet
+MAP|ECU|engine_controller
 MAP|ELECTRICMOTOR|electric_motor
 MAP|EMP|emp
 MAP|ENGINE|dc_engine,ac_engine,wind_engine,steam_engine,gas_engine,performance_engine,hydro_engine,jet_engine
@@ -118,7 +118,7 @@ MAP|MIRROR|mirror
 MAP|MOBHARVESTER|mob_harvester
 MAP|MOBRADAR|mob_radar
 PENDING|MOTION|not ported yet
-PENDING|MULTICLUTCH|not ported yet
+MAP|MULTICLUTCH|multi_clutch
 MAP|MUSICBOX|music_box
 PENDING|NVG|not ported yet
 PENDING|NVH|not ported yet
@@ -129,7 +129,7 @@ MAP|PIPE|pipe
 MAP|PIPEPUMP|pipe_pump
 PENDING|PLAYERDETECTOR|not ported yet
 MAP|PNEUENGINE|pneumatic_engine
-PENDING|POWERBUS|not ported yet
+MAP|POWERBUS|power_bus
 MAP|PROJECTOR|projector
 PENDING|PULSEJET|not ported yet
 MAP|PUMP|pump
