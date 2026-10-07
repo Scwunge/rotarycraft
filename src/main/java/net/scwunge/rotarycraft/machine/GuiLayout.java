@@ -88,6 +88,12 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
         }
 
         /** The machine has a screen class of its own (it extends LayoutScreen), registered by the client setup instead of the shared one. */
+        /** The screen has no room for the player's inventory (a machine that is all controls). */
+        public Builder noInventory() {
+            inventoryX = -1;
+            return this;
+        }
+
         public Builder customScreen() {
             customScreen = true;
             return this;

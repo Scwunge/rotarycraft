@@ -30,6 +30,7 @@ public class AirGunBlockEntity extends ConsumerBlockEntity implements Owned {
     public static final PowerRequirement REQUIREMENT = new PowerRequirement(512, 1, 16384);
 
     private int tickCount;
+    private int blasts;
     @Nullable
     private WorldGuard.Owner owner;
 
@@ -46,6 +47,11 @@ public class AirGunBlockEntity extends ConsumerBlockEntity implements Owned {
     public void setOwner(Player player) {
         owner = new WorldGuard.Owner(player.getUUID(), player.getGameProfile().getName());
         setChanged();
+    }
+
+    /** How many times it has thrown something. */
+    public int blasts() {
+        return blasts;
     }
 
     private static double log2(int n) {
@@ -98,6 +104,7 @@ public class AirGunBlockEntity extends ConsumerBlockEntity implements Owned {
             moved = true;
         }
         if (moved) {
+            blasts++;
             server.playSound(null, worldPosition, SoundEvents.GENERIC_EXPLODE.value(), SoundSource.BLOCKS, 1F, 1F);
         }
         return moved;

@@ -28,12 +28,12 @@ public class LayoutMenu extends AbstractContainerMenu {
             GuiLayout.SlotPos p = layout.slots().get(i);
             addSlot(new SlotItemHandler(items, i, p.x(), p.y()));
         }
-        for (int row = 0; row < 3; row++) {
+        for (int row = 0; row < 3 && layout.inventoryX() >= 0; row++) {
             for (int col = 0; col < 9; col++) {
                 addSlot(new Slot(inventory, col + row * 9 + 9, layout.inventoryX() + col * 18, layout.inventoryY() + row * 18));
             }
         }
-        for (int col = 0; col < 9; col++) {
+        for (int col = 0; col < 9 && layout.inventoryX() >= 0; col++) {
             addSlot(new Slot(inventory, col, layout.inventoryX() + col * 18, layout.inventoryY() + 58));
         }
         addDataSlots(data);

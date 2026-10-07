@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sns",
+    "ncn",
+    "sns"
+  ],
+  "key": {
+    "n": {
+      "item": "minecraft:note_block"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "c": {
+      "item": "rotarycraft:circuit_board"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:music_box",
+    "count": 4
+  }
+}

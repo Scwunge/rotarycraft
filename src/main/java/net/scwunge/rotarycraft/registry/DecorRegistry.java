@@ -11,6 +11,8 @@ import net.scwunge.rotarycraft.decor.DecoTankBlock;
 import net.scwunge.rotarycraft.decor.DecoTankBlockEntity;
 import net.scwunge.rotarycraft.decor.DecoTankItem;
 import net.scwunge.rotarycraft.decor.DecoTankSettingsRecipe;
+import net.scwunge.rotarycraft.decor.MusicBoxBlockEntity;
+import net.scwunge.rotarycraft.decor.MusicDiscItem;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -118,6 +120,11 @@ public final class DecorRegistry {
     // ---- Block Cannon ----
     public static final Machines.Entry<BlockCannonBlockEntity, LayoutMachineBlock> BLOCK_CANNON = Machines.machine("block_cannon", BlockCannonBlockEntity::new);
     public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> BLOCK_CANNON_MENU = LayoutMenus.register(BlockCannonBlockEntity.LAYOUT);
+
+    // ---- Music Box and its disc ----
+    public static final Machines.Entry<MusicBoxBlockEntity, LayoutMachineBlock> MUSIC_BOX = Machines.machine("music_box", MusicBoxBlockEntity::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> MUSIC_BOX_MENU = LayoutMenus.register(MusicBoxBlockEntity.LAYOUT);
+    public static final DeferredItem<MusicDiscItem> MUSIC_DISC = RotaryItems.add(RotaryItems.ITEMS.register("music_disc", () -> new MusicDiscItem(new Item.Properties())));
 
     private DecorRegistry() {}
 

@@ -38,6 +38,7 @@ public final class MachineClient {
         });
         event.register(DecorRegistry.PARTICLE_EMITTER_MENU.get(), ParticleScreen::new);
         event.register(DecorRegistry.AEROSOLIZER_MENU.get(), AerosolizerScreen::new);
+        event.register(DecorRegistry.MUSIC_BOX_MENU.get(), MusicScreen::new);
     }
 
     @SubscribeEvent

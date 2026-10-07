@@ -239,7 +239,7 @@ public class CannonGameTests {
     @GameTest(template = WIDE, batch = "cannon_airweak", timeoutTicks = 80)
     public static void airGunNeedsFiveHundredAndTwelveNewtonMetres(GameTestHelper helper) {
         Runnable restore = DecorGameTests.enable("airGun");
-        airGun(helper, 511, 64);
+        AirGunBlockEntity weak = airGun(helper, 511, 64);
         for (int x = 4; x <= 14; x++) {
             for (int z = 0; z <= 4; z++) {
                 helper.setBlock(new BlockPos(x, 1, z), Blocks.STONE);
@@ -249,7 +249,7 @@ public class CannonGameTests {
         double start = pig.getX();
         helper.runAfterDelay(40, () -> {
             restore.run();
-            helper.assertTrue(Math.abs(pig.getX() - start) < 2.5, "it threw the pig on 511 N*m");
+            helper.assertTrue(weak.blasts() == 0, "it threw the pig on 511 N*m");
             helper.succeed();
         });
     }
@@ -257,7 +257,7 @@ public class CannonGameTests {
     @GameTest(template = WIDE, batch = "cannon_airoff", timeoutTicks = 80)
     public static void switchedOffAirGunDoesNothing(GameTestHelper helper) {
         Runnable restore = DecorGameTests.disable("airGun");
-        airGun(helper, 512, 32);
+        AirGunBlockEntity off = airGun(helper, 512, 32);
         for (int x = 4; x <= 14; x++) {
             for (int z = 0; z <= 4; z++) {
                 helper.setBlock(new BlockPos(x, 1, z), Blocks.STONE);
@@ -267,7 +267,7 @@ public class CannonGameTests {
         double start = pig.getX();
         helper.runAfterDelay(40, () -> {
             restore.run();
-            helper.assertTrue(Math.abs(pig.getX() - start) < 2.5, "a switched-off air gun threw the pig");
+            helper.assertTrue(off.blasts() == 0, "a switched-off air gun threw the pig");
             helper.succeed();
         });
     }

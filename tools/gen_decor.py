@@ -240,4 +240,27 @@ names({'block.rotarycraft.block_cannon': 'Block Cannon', 'gui.rotarycraft.block_
        'gui.rotarycraft.block_cannon.compass_angle': 'Compass Angle', 'gui.rotarycraft.block_cannon.x': 'X', 'gui.rotarycraft.block_cannon.y': 'Y', 'gui.rotarycraft.block_cannon.z': 'Z',
        'gui.rotarycraft.block_cannon.button0.0': 'Manual', 'gui.rotarycraft.block_cannon.button0.1': 'Target'})
 
+# ---- Music Box and its disc ----
+
+
+def music_mark(im):
+    from PIL import ImageDraw
+    g = ImageDraw.Draw(im)
+    g.rectangle([3, 3, 12, 12], fill=(40, 36, 30, 255), outline=(150, 154, 162, 255))
+    g.ellipse([4, 9, 7, 12], fill=(230, 230, 230, 255))
+    g.line([(7, 10), (7, 4)], fill=(230, 230, 230, 255))
+    g.line([(7, 4), (10, 5)], fill=(230, 230, 230, 255))
+
+
+drawn_machine('music_box', music_mark, face='up')
+gui('musicgui.png', 'music_box')
+gui('musicbuttons.png', 'music_buttons')
+sprite(1, 3, 'music_disc')
+shaped('music_box', ['sns', 'ncn', 'sns'], {'n': vanilla('note_block'), 's': STEEL, 'c': CIRCUIT}, count=4)
+names({'block.rotarycraft.music_box': 'Music Box', 'item.rotarycraft.music_disc': 'Music Box Disc', 'tooltip.rotarycraft.music_disc.stored': 'Contains stored music:',
+       'tooltip.rotarycraft.music_disc.track': 'Track %s: %s entries', 'gui.rotarycraft.music_box.save': 'Save', 'gui.rotarycraft.music_box.load': 'Load',
+       'gui.rotarycraft.music_box.demo': 'Load Demo', 'gui.rotarycraft.music_box.rest': 'Add Rest', 'gui.rotarycraft.music_box.backspace': 'Backspace',
+       'gui.rotarycraft.music_box.clear_channel': 'Clear Channel', 'gui.rotarycraft.music_box.clear_music': 'Clear Music', 'gui.rotarycraft.music_box.length': 'Note Length',
+       'gui.rotarycraft.music_box.instrument': 'Instrument', 'gui.rotarycraft.music_box.channels': 'Channel Select'})
+
 mg.finish()

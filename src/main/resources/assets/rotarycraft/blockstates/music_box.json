@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/music_box"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/music_box"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/music_box"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/music_box"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/music_box"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/music_box"
+    }
+  }
+}
