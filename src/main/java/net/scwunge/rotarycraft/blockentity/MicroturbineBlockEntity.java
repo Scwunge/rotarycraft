@@ -74,4 +74,9 @@ public class MicroturbineBlockEntity extends FuelEngineBlockEntity {
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
         return new FuelEngineMenu(RotaryMenus.TURBINE.get(), id, inventory, this, data);
     }
+
+    @Override
+    protected boolean isTurbine() {
+        return true;
+    }
 }

@@ -20,6 +20,8 @@ import net.scwunge.rotarycraft.transmission.BusControllerBlockEntity;
 import net.scwunge.rotarycraft.transmission.PowerBusBlock;
 import net.scwunge.rotarycraft.transmission.PowerBusBlockEntity;
 import net.scwunge.rotarycraft.transmission.DistributionClutchBlock;
+import net.scwunge.rotarycraft.transmission.EngineControllerBlock;
+import net.scwunge.rotarycraft.transmission.EngineControllerBlockEntity;
 import net.scwunge.rotarycraft.transmission.DistributionClutchBlockEntity;
 import net.scwunge.rotarycraft.transmission.MultiClutchBlock;
 import net.scwunge.rotarycraft.transmission.MultiClutchBlockEntity;
@@ -51,7 +53,12 @@ public final class TransmissionRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BusControllerBlockEntity>> BUS_CONTROLLER_BE =
             RotaryBlockEntities.TYPES.register("bus_controller", () -> BlockEntityType.Builder.of(BusControllerBlockEntity::new, BUS_CONTROLLER.get()).build(null));
 
+    public static final DeferredBlock<EngineControllerBlock> ENGINE_CONTROLLER = RotaryBlocks.BLOCKS.register("engine_controller", () -> new EngineControllerBlock(RotaryBlocks.machineProps()));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<EngineControllerBlockEntity>> ENGINE_CONTROLLER_BE =
+            RotaryBlockEntities.TYPES.register("engine_controller", () -> BlockEntityType.Builder.of(EngineControllerBlockEntity::new, ENGINE_CONTROLLER.get()).build(null));
+
     static {
+        RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(ENGINE_CONTROLLER));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(MULTI_CLUTCH));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(DISTRIBUTION_CLUTCH));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(POWER_BUS));
@@ -67,6 +74,7 @@ public final class TransmissionRegistry {
     @SubscribeEvent
     public static void capabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, POWER_BUS_BE.get(), (be, side) -> be.automation());
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ENGINE_CONTROLLER_BE.get(), (be, side) -> FluidAccess.fillOnly(be.tank()));
         // lubricant goes into a Bus Controller through its top or bottom only
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BUS_CONTROLLER_BE.get(), (be, side) -> side == null || side.getAxis().isVertical() ? FluidAccess.fillOnly(be.tank()) : null);
     }

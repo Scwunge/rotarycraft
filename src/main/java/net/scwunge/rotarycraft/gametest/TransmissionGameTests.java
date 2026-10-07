@@ -19,6 +19,9 @@ import net.scwunge.rotarycraft.power.ShaftMaterial;
 import net.scwunge.rotarycraft.registry.RotaryFluids;
 import net.scwunge.rotarycraft.registry.RotaryParts;
 import net.scwunge.rotarycraft.transmission.BusControllerBlockEntity;
+import net.scwunge.rotarycraft.blockentity.GasEngineBlockEntity;
+import net.scwunge.rotarycraft.registry.RotaryItems;
+import net.scwunge.rotarycraft.transmission.EngineControllerBlockEntity;
 import net.scwunge.rotarycraft.transmission.PowerBusBlockEntity;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -331,6 +334,103 @@ public class TransmissionGameTests {
         PowerBusBlockEntity other = bus(helper, BUS);
         other.loadWithComponents(saved, registries);
         helper.assertTrue(other.isSideSpeedMode(Direction.NORTH) && other.ratio(Direction.NORTH) == 2, "the settings were lost");
+        helper.succeed();
+    }
+
+    // ---- engine control unit ----
+
+    static EngineControllerBlockEntity ecu(GameTestHelper helper, int ethanol) {
+        helper.setBlock(CLUTCH.below(), TransmissionRegistry.ENGINE_CONTROLLER.get().defaultBlockState());
+        helper.setBlock(CLUTCH, RotaryBlocks.GAS_ENGINE.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        EngineControllerBlockEntity ecu = helper.getBlockEntity(CLUTCH.below());
+        ecu.tank().fill(new FluidStack(RotaryFluids.ETHANOL.get(), ethanol), IFluidHandler.FluidAction.EXECUTE);
+        return ecu;
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 200)
+    public static void anEnginesSpeedFollowsItsControlUnitSetting(GameTestHelper helper) {
+        EngineControllerBlockEntity ecu = ecu(helper, 3000);
+        GasEngineBlockEntity engine = helper.getBlockEntity(CLUTCH);
+        ecu.setSetting(EngineControllerBlockEntity.Setting.MEDIUM);
+        helper.succeedWhen(() -> {
+            if (ecu.setting() == EngineControllerBlockEntity.Setting.MEDIUM) {
+                helper.assertTrue(engine.getOmega() == GasEngineBlockEntity.SPEED / 2, "medium: " + engine.getOmega());
+                ecu.setSetting(EngineControllerBlockEntity.Setting.FULL);
+            }
+            if (ecu.setting() == EngineControllerBlockEntity.Setting.FULL) {
+                helper.assertTrue(engine.getOmega() == GasEngineBlockEntity.SPEED, "full: " + engine.getOmega());
+                ecu.setSetting(EngineControllerBlockEntity.Setting.SHUTDOWN);
+            }
+            helper.assertTrue(engine.getOmega() < GasEngineBlockEntity.SPEED / 2, "shut down, should be slowing: " + engine.getOmega());
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void aControlUnitFeedsTheEngineAndAShutDownEngineBurnsNothing(GameTestHelper helper) {
+        EngineControllerBlockEntity ecu = ecu(helper, 2000);
+        GasEngineBlockEntity engine = helper.getBlockEntity(CLUTCH);
+        helper.runAfterDelay(20, () -> {
+            helper.assertTrue(engine.fuel().getFluidAmount() > 0, "the engine got no fuel");
+            helper.assertTrue(ecu.tank().getFluidAmount() < 2000, "the control unit did not give any up");
+            ecu.setSetting(EngineControllerBlockEntity.Setting.SHUTDOWN);
+        });
+        helper.runAfterDelay(25, () -> {
+            int before = engine.fuel().getFluidAmount() + ecu.tank().getFluidAmount();
+            helper.runAfterDelay(30, () -> {
+                helper.assertTrue(engine.fuel().getFluidAmount() + ecu.tank().getFluidAmount() == before, "fuel was burnt while shut down");
+                helper.succeed();
+            });
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void runningSlowBurnsFuelMoreThriftilyAndTurbinesCountAnEighth(GameTestHelper helper) {
+        EngineControllerBlockEntity ecu = ecu(helper, 0);
+        ecu.setSetting(EngineControllerBlockEntity.Setting.LOW);
+        helper.assertTrue(ecu.fuelIntervalFactor(false) == 8 && ecu.speedMultiplier() == 0.25F, "low: " + ecu.fuelIntervalFactor(false) + ", " + ecu.speedMultiplier());
+        helper.assertTrue(ecu.fuelIntervalFactor(true) == 1, "a turbine counts an eighth of 8");
+        ecu.setSetting(EngineControllerBlockEntity.Setting.STANDBY);
+        helper.assertTrue(ecu.fuelIntervalFactor(false) == 64 && ecu.fuelIntervalFactor(true) == 8 && ecu.speedMultiplier() == 1F / 16, "standby");
+        ecu.setSetting(EngineControllerBlockEntity.Setting.SHUTDOWN);
+        helper.assertTrue(!ecu.canProducePower() && !ecu.consumesFuel() && ecu.speedMultiplier() == 0, "shutdown");
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 80)
+    public static void redstoneModePicksTheSettingFromTheSignalStrength(GameTestHelper helper) {
+        EngineControllerBlockEntity ecu = ecu(helper, 0);
+        ecu.setRedstoneMode(true);
+        helper.runAfterDelay(5, () -> {
+            helper.assertTrue(ecu.setting() == EngineControllerBlockEntity.Setting.FULL, "no signal should mean full, got " + ecu.setting());
+            helper.setBlock(CLUTCH.below().west(), Blocks.REDSTONE_BLOCK);
+        });
+        helper.runAfterDelay(15, () -> {
+            helper.assertTrue(ecu.setting() == EngineControllerBlockEntity.Setting.SHUTDOWN, "full strength should shut it down, got " + ecu.setting());
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void theScrewdriverStepsTheControlUnitAndSneakTogglesRedstoneMode(GameTestHelper helper) {
+        EngineControllerBlockEntity ecu = ecu(helper, 0);
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        BlockPos at = helper.absolutePos(CLUTCH.below());
+        net.minecraft.world.phys.BlockHitResult hit = new net.minecraft.world.phys.BlockHitResult(at.getCenter(), Direction.UP, at, false);
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, new ItemStack(RotaryItems.SCREWDRIVER.get()));
+        net.minecraft.world.item.context.UseOnContext use = new net.minecraft.world.item.context.UseOnContext(helper.getLevel(), player,
+                net.minecraft.world.InteractionHand.MAIN_HAND, player.getMainHandItem(), hit);
+        helper.assertTrue(RotaryItems.SCREWDRIVER.get().useOn(use).consumesAction(), "the screwdriver should work on the unit");
+        helper.assertTrue(ecu.setting() == EngineControllerBlockEntity.Setting.SHUTDOWN, "full steps on to shutdown, got " + ecu.setting());
+        player.setShiftKeyDown(true);
+        RotaryItems.SCREWDRIVER.get().useOn(use);
+        helper.assertTrue(ecu.redstoneMode(), "sneaking should turn redstone mode on");
+        var registries = helper.getLevel().registryAccess();
+        var saved = ecu.saveWithFullMetadata(registries);
+        helper.setBlock(CLUTCH.below(), Blocks.AIR);
+        helper.setBlock(CLUTCH.below(), TransmissionRegistry.ENGINE_CONTROLLER.get().defaultBlockState());
+        EngineControllerBlockEntity other = helper.getBlockEntity(CLUTCH.below());
+        other.loadWithComponents(saved, registries);
+        helper.assertTrue(other.redstoneMode() && other.setting() == EngineControllerBlockEntity.Setting.SHUTDOWN, "the settings were lost");
         helper.succeed();
     }
 }

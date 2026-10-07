@@ -150,6 +150,7 @@
     "rotarycraft:multi_clutch",
     "rotarycraft:distribution_clutch",
     "rotarycraft:power_bus",
-    "rotarycraft:bus_controller"
+    "rotarycraft:bus_controller",
+    "rotarycraft:engine_controller"
   ]
 }

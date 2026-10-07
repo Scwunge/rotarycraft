@@ -579,4 +579,9 @@ public class JetEngineBlockEntity extends FuelEngineBlockEntity {
     protected void readStatus(CompoundTag tag) {
         canAfterburn = tag.getBoolean("afterburner");
     }
+
+    @Override
+    protected boolean isTurbine() {
+        return true;
+    }
 }

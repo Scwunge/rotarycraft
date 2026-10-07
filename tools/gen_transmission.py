@@ -129,6 +129,34 @@ LANG.update({'block.rotarycraft.power_bus': 'Power Bus', 'block.rotarycraft.bus_
              'gui.rotarycraft.bus.speed_mode': 'Speed mode: trades torque for speed',
              'message.rotarycraft.bus.status': 'Bus: %s blocks, %s output sides, %s N*m at %s rad/s, lubricant %s / %s mB'})
 
+# ---- Engine Control Unit ----
+ecu_top = side.copy()
+g = ImageDraw.Draw(ecu_top)
+g.rectangle([2, 2, 13, 13], fill=(40, 44, 52, 255), outline=(190, 194, 200, 255))
+for k in range(4):
+    g.line([(4, 4 + 3 * k), (11, 4 + 3 * k)], fill=(80, 200, 90, 255) if k != 1 else (230, 200, 60, 255))
+ecu_top.save(BLOCK_TEX + '/ecu_top.png')
+ecu_side = side.copy()
+g = ImageDraw.Draw(ecu_side)
+g.rectangle([3, 5, 12, 10], fill=(40, 44, 52, 255), outline=(190, 194, 200, 255))
+g.line([(5, 8), (10, 8)], fill=(230, 200, 60, 255))
+ecu_side.save(BLOCK_TEX + '/ecu_side.png')
+w(A + '/models/block/engine_controller.json', {'parent': 'minecraft:block/cube_bottom_top', 'textures': {
+    'top': 'rotarycraft:block/ecu_top', 'side': 'rotarycraft:block/ecu_side', 'bottom': 'rotarycraft:block/ecu_top', 'particle': 'rotarycraft:block/ecu_side'}})
+w(A + '/blockstates/engine_controller.json', {'variants': {'': {'model': 'rotarycraft:block/engine_controller'}}})
+w(A + '/models/item/engine_controller.json', {'parent': 'rotarycraft:block/engine_controller'})
+w(D + '/loot_table/blocks/engine_controller.json', {'type': 'minecraft:block', 'pools': [{
+    'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'rotarycraft:engine_controller'}], 'conditions': [{'condition': 'minecraft:survives_explosion'}]}]})
+PICKAXE.append('rotarycraft:engine_controller')
+shaped('engine_controller', ['IPI', 'IGI', 'IRI'], {'I': STEEL, 'G': {'item': 'minecraft:gold_ingot'}, 'P': item('circuit_board'), 'R': {'item': 'minecraft:redstone'}})
+LANG.update({'block.rotarycraft.engine_controller': 'Engine Control Unit',
+             'message.rotarycraft.ecu.setting.shutdown': 'Shutdown', 'message.rotarycraft.ecu.setting.standby': 'Standby',
+             'message.rotarycraft.ecu.setting.low': 'Low', 'message.rotarycraft.ecu.setting.medium': 'Medium', 'message.rotarycraft.ecu.setting.full': 'Full',
+             'message.rotarycraft.ecu.set': 'ECU set to %s (%s%% speed).',
+             'message.rotarycraft.ecu.redstone': 'ECU is now redstone-operated.',
+             'message.rotarycraft.ecu.manual': 'ECU is now manually controlled.',
+             'message.rotarycraft.ecu.status': 'ECU: %s (%s%% speed), fuel %s / %s mB'})
+
 # ---- lang, tags, models ----
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

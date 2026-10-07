@@ -625,5 +625,15 @@
   "block.rotarycraft.bus_controller": "Bus Controller",
   "gui.rotarycraft.bus.torque_mode": "Torque mode: trades speed for torque",
   "gui.rotarycraft.bus.speed_mode": "Speed mode: trades torque for speed",
-  "message.rotarycraft.bus.status": "Bus: %s blocks, %s output sides, %s N*m at %s rad/s, lubricant %s / %s mB"
+  "message.rotarycraft.bus.status": "Bus: %s blocks, %s output sides, %s N*m at %s rad/s, lubricant %s / %s mB",
+  "block.rotarycraft.engine_controller": "Engine Control Unit",
+  "message.rotarycraft.ecu.setting.shutdown": "Shutdown",
+  "message.rotarycraft.ecu.setting.standby": "Standby",
+  "message.rotarycraft.ecu.setting.low": "Low",
+  "message.rotarycraft.ecu.setting.medium": "Medium",
+  "message.rotarycraft.ecu.setting.full": "Full",
+  "message.rotarycraft.ecu.set": "ECU set to %s (%s%% speed).",
+  "message.rotarycraft.ecu.redstone": "ECU is now redstone-operated.",
+  "message.rotarycraft.ecu.manual": "ECU is now manually controlled.",
+  "message.rotarycraft.ecu.status": "ECU: %s (%s%% speed), fuel %s / %s mB"
 }

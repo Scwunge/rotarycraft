@@ -140,6 +140,31 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
         return side == facing() ? null : fuel;
     }
 
+    /** The Engine Control Unit directly above or below, if there is one. */
+    @org.jetbrains.annotations.Nullable
+    protected net.scwunge.rotarycraft.transmission.EngineControllerBlockEntity ecu() {
+        if (level == null) {
+            return null;
+        }
+        for (Direction side : new Direction[] {Direction.DOWN, Direction.UP}) {
+            if (level.getBlockEntity(worldPosition.relative(side)) instanceof net.scwunge.rotarycraft.transmission.EngineControllerBlockEntity ecu) {
+                return ecu;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    protected double throttle() {
+        net.scwunge.rotarycraft.transmission.EngineControllerBlockEntity ecu = ecu();
+        return ecu == null ? 1 : ecu.speedMultiplier();
+    }
+
+    /** Engines that are turbines count an eighth of the control unit's fuel factor. */
+    protected boolean isTurbine() {
+        return false;
+    }
+
     @Override
     protected boolean canRun() {
         return !fuel.isEmpty() && (!airBreathing() || !isDrowned());
@@ -176,7 +201,14 @@ public abstract class FuelEngineBlockEntity extends EngineBlockEntity implements
         if (!running) {
             return;
         }
-        int unit = omega < targetSpeed() ? Math.max(fuelUnitTicks() / 4, 1) : fuelUnitTicks();
+        net.scwunge.rotarycraft.transmission.EngineControllerBlockEntity ecu = ecu();
+        if (ecu != null && !ecu.consumesFuel()) {
+            return;
+        }
+        int unit = omega < (int) (targetSpeed() * throttle()) ? Math.max(fuelUnitTicks() / 4, 1) : fuelUnitTicks();
+        if (ecu != null) {
+            unit *= ecu.fuelIntervalFactor(isTurbine());
+        }
         if (++fuelTicks >= unit) {
             fuelTicks = 0;
             fuel.drain(fuelPerUnit(), FluidTank.FluidAction.EXECUTE);

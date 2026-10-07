@@ -22,6 +22,11 @@ public abstract class EngineBlockEntity extends PowerBlockEntity {
     /** Whether the engine's running conditions are met this tick. */
     protected abstract boolean canRun();
 
+    /** How much of its top speed the engine may use right now, 0 to 1 (an Engine Control Unit throttles it). */
+    protected double throttle() {
+        return 1;
+    }
+
     /** Called every tick after the speed update; {@code running} is whether it ran. */
     protected void afterTick(boolean running) {
     }
@@ -29,7 +34,7 @@ public abstract class EngineBlockEntity extends PowerBlockEntity {
     @Override
     public void serverTick() {
         boolean running = canRun();
-        int target = running ? Math.max(0, targetSpeed()) : 0;
+        int target = running ? Math.max(0, (int) (targetSpeed() * throttle())) : 0;
         int w = omega;
         if (running && target > 0) {
             if (w < target) {

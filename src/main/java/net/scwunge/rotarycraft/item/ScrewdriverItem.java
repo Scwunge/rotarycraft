@@ -31,6 +31,10 @@ public class ScrewdriverItem extends Item {
             return InteractionResult.sidedSuccess(level.isClientSide());
         }
         if (!(state.getBlock() instanceof MachineBlock)) {
+            if (level.getBlockEntity(context.getClickedPos()) instanceof net.scwunge.rotarycraft.machine.MachineInteractions machine
+                    && (level.isClientSide() || machine.onScrewdriver(context))) {
+                return InteractionResult.sidedSuccess(level.isClientSide());
+            }
             return InteractionResult.PASS;
         }
         if (!level.isClientSide() && level.getBlockEntity(context.getClickedPos()) instanceof net.scwunge.rotarycraft.machine.MachineInteractions machine
