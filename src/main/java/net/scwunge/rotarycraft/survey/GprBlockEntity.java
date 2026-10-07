@@ -171,6 +171,12 @@ public class GprBlockEntity extends OmniConsumerBlockEntity implements MenuProvi
                     color = UNKNOWN_COLOR;
                 } else {
                     BlockState state = world.getBlockState(at);
+                    if (!net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.GPR_SHOWS_ORES) && state.is(net.neoforged.neoforge.common.Tags.Blocks.ORES)) {
+                        // ores drawn as the rock they sit in
+                        state = state.is(net.neoforged.neoforge.common.Tags.Blocks.ORES_IN_GROUND_DEEPSLATE) ? net.minecraft.world.level.block.Blocks.DEEPSLATE.defaultBlockState()
+                                : state.is(net.neoforged.neoforge.common.Tags.Blocks.ORES_IN_GROUND_NETHERRACK) ? net.minecraft.world.level.block.Blocks.NETHERRACK.defaultBlockState()
+                                : net.minecraft.world.level.block.Blocks.STONE.defaultBlockState();
+                    }
                     color = state.isAir() ? AIR_COLOR : state.getMapColor(world, at).col;
                     if (color == 0) {
                         color = AIR_COLOR;

@@ -42,6 +42,10 @@ public class RotaryConfig {
     public static final ModConfigSpec.BooleanValue TERRAFORMER_EDITS_BLOCKS;
     public static final ModConfigSpec.IntValue SONIC_BORER_RANGE;
     public static final ModConfigSpec.BooleanValue BEDROCK_VOID_HOLE;
+    // options the original had that were left for later (see the "extras" section)
+    public static final ModConfigSpec.IntValue EMP_CHARGE_SPEED, FLUID_FLOW_SPEED, BORER_CHUNK_RADIUS, SPRINKLER_PARTICLES, VACUUM_POWER_PER_METRE;
+    public static final ModConfigSpec.BooleanValue OWNER_ONLY_MACHINES, EXTRACTOR_WEAR, FAKE_PLAYER_BEDROCK, SPAWNERS_LEAK, CRAFTER_PROFILING, STEEL_HARVEST_HIGHER, GPR_SHOWS_ORES, PROJECTOR_LINES;
+    public static final ModConfigSpec.DoubleValue PIPE_HARDNESS;
 
     static {
         ModConfigSpec.Builder b = new ModConfigSpec.Builder();
@@ -125,6 +129,24 @@ public class RotaryConfig {
         b.push("generation");
         SOLAR_TOWER = b.comment("Solar towers make power. Off: they stay placed but do nothing.").define("solarTower", true);
         SOLAR_FLUID_USE = b.comment("Scales the water (or sodium) a solar tower uses for the power it makes (1 is the original).").defineInRange("solarTowerFluidUse", 1.0, 0.01, 10.0);
+        b.pop();
+
+        b.push("extras");
+        EMP_CHARGE_SPEED = b.comment("How fast an EMP lists the machines in range while it charges (the original's 4 lists 33 columns a tick; each step adds 8).").defineInRange("empChargeSpeed", 4, 0, 32);
+        FLUID_FLOW_SPEED = b.comment("How often fluid moves between pipes: 5 is every tick (the original), 1 every fifth tick.").defineInRange("fluidFlowSpeed", 5, 1, 5);
+        OWNER_ONLY_MACHINES = b.comment("Only whoever placed a machine can open its screen.").define("ownerOnlyMachines", false);
+        EXTRACTOR_WEAR = b.comment("The Extractor's first stage wears out a drill every 4096 operations, and stops until it is given a new one.").define("extractorWear", false);
+        PIPE_HARDNESS = b.comment("How hard pipes are to break, from 0 (instantly, the original) to 1.").defineInRange("pipeHardness", 0.0, 0.0, 1.0);
+        FAKE_PLAYER_BEDROCK = b.comment("The bedrock axe's tree felling, the bedrock pickaxe's spawner lifting and the bedrock hoe's wide tilling also work for fake players (auto activators).")
+                .define("fakePlayerBedrockAbilities", true);
+        SPAWNERS_LEAK = b.comment("Lifting a mob spawner by hand with the bedrock pickaxe lets a dozen or three mobs out of it (not for fake players).").define("spawnersLeakMobs", true);
+        BORER_CHUNK_RADIUS = b.comment("How many chunks round the borer's head are generated as it works (0 is just its own).").defineInRange("borerChunkRadius", 0, 0, 4);
+        CRAFTER_PROFILING = b.comment("The Auto-Crafter works less often when its rounds take long, to spare the server lag.").define("crafterProfiling", true);
+        STEEL_HARVEST_HIGHER = b.comment("HSLA steel pickaxes, axes and shovels harvest everything of their kind softer than obsidian (not just what iron does).").define("steelToolsHarvestHigher", false);
+        GPR_SHOWS_ORES = b.comment("The ground penetrating radar shows ores as they are; off, it draws them as the stone round them.").define("gprShowsOres", true);
+        PROJECTOR_LINES = b.comment("The Projector draws its beam lines.").define("projectorLines", true);
+        SPRINKLER_PARTICLES = b.comment("How many particles sprinklers spray, 0 (none) to 4 (the original).").defineInRange("sprinklerParticles", 4, 0, 4);
+        VACUUM_POWER_PER_METRE = b.comment("The power (W) an Item Vacuum needs for each metre of reach beyond 8 (a power of two from 1024 up, at most 524288).").defineInRange("vacuumPowerPerMetre", 4096, 1024, 524288);
         b.pop();
 
         SPEC = b.build();

@@ -36,6 +36,9 @@ public class BedrockHoeItem extends HoeItem {
     public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
         Player player = context.getPlayer();
+        if (player != null && !ToolEvents.mayUseAbilities(player)) {
+            return super.useOn(context);
+        }
         BlockPos origin = context.getClickedPos();
         boolean any = false;
         for (int dx = -RADIUS; dx <= RADIUS; dx++) {

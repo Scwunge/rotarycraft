@@ -68,6 +68,10 @@ public class ProjectorRenderer implements BlockEntityRenderer<ProjectorBlockEnti
             vc.addVertex(m, left, bottom, d).setColor(color);
             vc.addVertex(m, left, top, d).setColor(color);
         }
+        if (!net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.PROJECTOR_LINES)) {
+            pose.popPose();
+            return;
+        }
         VertexConsumer lines = buffers.getBuffer(RenderType.lines());
         var last = pose.last();
         float lensX = 0, lensY = 0.0f, lensZ = 0.5f;

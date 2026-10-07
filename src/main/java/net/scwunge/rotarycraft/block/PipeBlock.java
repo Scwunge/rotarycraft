@@ -42,6 +42,13 @@ public class PipeBlock extends BaseEntityBlock {
 
     private final PipeType type;
 
+    /** Pipes break at once unless the config makes them harder. */
+    @Override
+    protected float getDestroyProgress(BlockState state, net.minecraft.world.entity.player.Player player, net.minecraft.world.level.BlockGetter level, BlockPos pos) {
+        double hardness = net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.PIPE_HARDNESS);
+        return hardness <= 0 ? 1F : (float) (player.getDigSpeed(state, pos) / hardness / 30F);
+    }
+
     public PipeBlock(Properties props, PipeType type) {
         super(props);
         this.type = type;

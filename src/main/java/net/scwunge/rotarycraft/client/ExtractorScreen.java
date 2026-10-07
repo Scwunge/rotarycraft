@@ -41,6 +41,13 @@ public class ExtractorScreen extends AbstractContainerScreen<ExtractorMenu> {
         g.blit(TEXTURE, x + 29, y + 34, 176, 48, 10, scaled(0, 32));
         g.blit(TEXTURE, x + 63, y + 35, 186, 48, 14, scaled(1, 28));
         g.blit(TEXTURE, x + 99, y + 35, 200, 48, 14, scaled(2, 28));
+        if (ExtractorBlockEntity.wears()) {
+            // the drill slot, and how much is left of the drill in the machine
+            g.fill(x + 7, y + 33, x + 25, y + 51, 0xFF8B8B8B);
+            g.fill(x + 8, y + 34, x + 24, y + 50, 0xFF373737);
+            g.fill(x + 8, y + 52, x + 24, y + 54, 0xFF373737);
+            g.fill(x + 8, y + 52, x + 8 + 16 * Math.max(0, menu.drill()) / ExtractorBlockEntity.DRILL_LIFE, y + 54, 0xFFC69C3A);
+        }
         int up = scaled(3, 32);
         g.blit(TEXTURE, x + 133, y + 49 - up, 176, 79 - up, 17, up);
     }

@@ -33,7 +33,10 @@ import java.util.List;
 public class VacuumBlockEntity extends FarmBlockEntity {
     public static final PowerRequirement REQUIREMENT = new PowerRequirement(1, 1, 16384);
     public static final int SLOTS = 54;
-    public static final int FALLOFF = 4096;
+    /** Watts of power for each metre of reach beyond 8: the configured one, rounded up to a power of two. */
+    public static int falloff() {
+        return Math.min(524288, Integer.highestOneBit(Math.max(1024, net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.VACUUM_POWER_PER_METRE)) * 2 - 1));
+    }
 
     private final ItemStackHandler items = new ItemStackHandler(SLOTS) {
         @Override
@@ -85,7 +88,7 @@ public class VacuumBlockEntity extends FarmBlockEntity {
         if (getPower() < REQUIREMENT.minPower()) {
             return 0;
         }
-        return (int) Math.min(8 + getPower() / FALLOFF, maxRange());
+        return (int) Math.min(8 + getPower() / falloff(), maxRange());
     }
 
     @Override

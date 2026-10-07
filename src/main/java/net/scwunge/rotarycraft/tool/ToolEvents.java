@@ -32,6 +32,7 @@ import net.neoforged.neoforge.event.entity.living.LivingDropsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingExperienceDropEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.scwunge.rotarycraft.RotaryCraft;
+import net.neoforged.neoforge.common.util.FakePlayer;
 import net.scwunge.rotarycraft.config.RotaryConfig;
 
 import java.util.ArrayDeque;
@@ -66,11 +67,11 @@ public final class ToolEvents {
             if (sickle.breakAround(tool, pos, player)) {
                 event.setCanceled(true);
             }
-        } else if (tool.getItem() instanceof BedrockAxeItem && !player.isShiftKeyDown() && !player.isCreative()) {
+        } else if (tool.getItem() instanceof BedrockAxeItem && !player.isShiftKeyDown() && !player.isCreative() && mayUseAbilities(player)) {
             if (fell(level, sp, tool, pos, state)) {
                 event.setCanceled(true);
             }
-        } else if (tool.getItem() instanceof BedrockPickaxeItem && state.is(Blocks.SPAWNER) && RotaryConfig.get(RotaryConfig.BEDROCK_PICK_SPAWNERS) && !player.isCreative()) {
+        } else if (tool.getItem() instanceof BedrockPickaxeItem && state.is(Blocks.SPAWNER) && RotaryConfig.get(RotaryConfig.BEDROCK_PICK_SPAWNERS) && !player.isCreative() && mayUseAbilities(player)) {
             ItemStack drop = new ItemStack(Blocks.SPAWNER);
             BlockEntity be = level.getBlockEntity(pos);
             if (be != null) {
@@ -78,6 +79,7 @@ public final class ToolEvents {
                 BlockEntity.addEntityType(tag, be.getType());
                 drop.set(DataComponents.BLOCK_ENTITY_DATA, CustomData.of(tag));
             }
+            maybeLeak(level, pos, player);
             level.removeBlock(pos, false);
             Block.popResource(level, pos, drop);
             event.setCanceled(true);
@@ -87,6 +89,44 @@ public final class ToolEvents {
             }
         } else if (tool.getItem() instanceof BedrockShovelItem && !player.isCreative()) {
             extraFinds(level, tool, pos, state);
+        }
+    }
+
+    /** The bedrock tools' special abilities are for fake players (auto activators) too, unless the config says not. */
+    public static boolean mayUseAbilities(Player player) {
+        return !(player instanceof FakePlayer) || RotaryConfig.get(RotaryConfig.FAKE_PLAYER_BEDROCK);
+    }
+
+    /** Lifting a spawner by hand (not with an auto activator) lets out a dozen to three dozen of what it spawns, if the config says so. */
+    public static void maybeLeak(ServerLevel level, BlockPos pos, Player player) {
+        if (RotaryConfig.get(RotaryConfig.SPAWNERS_LEAK) && !(player instanceof FakePlayer)) {
+            leak(level, pos);
+        }
+    }
+
+    private static void leak(ServerLevel level, BlockPos pos) {
+        if (!(level.getBlockEntity(pos) instanceof net.minecraft.world.level.block.entity.SpawnerBlockEntity spawner)) {
+            return;
+        }
+        net.minecraft.world.entity.Entity sample = spawner.getSpawner().getOrCreateDisplayEntity(level, pos);
+        if (sample == null) {
+            return;
+        }
+        int count = 12 + level.random.nextInt(25);
+        for (int i = 0; i < count; i++) {
+            net.minecraft.world.entity.Entity mob = sample.getType().create(level);
+            if (mob == null) {
+                continue;
+            }
+            mob.moveTo(pos.getX() + 0.5 + (level.random.nextDouble() - 0.5) * 8, pos.getY() + level.random.nextInt(3) - 1, pos.getZ() + 0.5 + (level.random.nextDouble() - 0.5) * 8,
+                    level.random.nextFloat() * 360F, 0F);
+            if (!level.noCollision(mob)) {
+                continue;
+            }
+            if (mob instanceof net.minecraft.world.entity.Mob m) {
+                m.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), net.minecraft.world.entity.MobSpawnType.SPAWNER, null);
+            }
+            level.addFreshEntity(mob);
         }
     }
 

@@ -94,9 +94,40 @@ public class MachineBlock extends BaseEntityBlock {
         return super.useItemOn(stack, state, level, pos, player, hand, hit);
     }
 
+    /** A machine remembers who placed it, for the ownerOnlyMachines option. */
+    @Override
+    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @org.jetbrains.annotations.Nullable net.minecraft.world.entity.LivingEntity placer, ItemStack stack) {
+        super.setPlacedBy(level, pos, state, placer, stack);
+        if (placer instanceof Player player && !level.isClientSide() && level.getBlockEntity(pos) != null) {
+            level.getBlockEntity(pos).setData(net.scwunge.rotarycraft.registry.RotaryAttachments.PLACER, player.getUUID());
+        }
+    }
+
+    /** With ownerOnlyMachines on, only whoever placed a machine can open it (a machine placed by no one is open to all). */
+    public static boolean mayUse(Level level, BlockPos pos, Player player) {
+        if (!net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.OWNER_ONLY_MACHINES)) {
+            return true;
+        }
+        BlockEntity be = level.getBlockEntity(pos);
+        if (be == null || !be.hasData(net.scwunge.rotarycraft.registry.RotaryAttachments.PLACER)) {
+            return true;
+        }
+        java.util.UUID owner = be.getData(net.scwunge.rotarycraft.registry.RotaryAttachments.PLACER);
+        if (owner.equals(player.getUUID())) {
+            return true;
+        }
+        if (!level.isClientSide()) {
+            player.displayClientMessage(net.minecraft.network.chat.Component.translatable("message.rotarycraft.machine_locked"), true);
+        }
+        return false;
+    }
+
     /** Machines with a screen open it on right-click. */
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
+        if (!mayUse(level, pos, player)) {
+            return InteractionResult.sidedSuccess(level.isClientSide());
+        }
         if (level.getBlockEntity(pos) instanceof MenuProvider provider) {
             if (player instanceof ServerPlayer sp) {
                 sp.openMenu(provider, buf -> buf.writeBlockPos(pos));

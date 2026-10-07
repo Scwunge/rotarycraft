@@ -54,8 +54,13 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements MenuPro
     public static final int WATER_PER_OPERATION = 125;
     public static final int STAGES = 4;
     public static final int SLOT_BONUS = 8;
+    /** With extractorWear on, the first stage wears a drill out after this many operations; a new one goes in this slot. */
+    public static final int SLOT_DRILL = 9;
+    public static final int DRILL_LIFE = 4096;
 
-    private final ItemStackHandler items = new ItemStackHandler(9) {
+    private int drillTime = DRILL_LIFE;
+
+    private final ItemStackHandler items = new ItemStackHandler(10) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
@@ -65,6 +70,9 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements MenuPro
         public boolean isItemValid(int slot, ItemStack stack) {
             if (slot == 0) {
                 return findRecipeForOre(stack).isPresent();
+            }
+            if (slot == SLOT_DRILL) {
+                return stack.is(net.scwunge.rotarycraft.registry.RotaryParts.part("drill").get());
             }
             if (slot < STAGES) {
                 return stack.getItem() == stageInputItem(slot) && stack.has(RotaryComponents.ORE_PRODUCT.get());
@@ -82,7 +90,7 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements MenuPro
     private final IItemHandler automation = new IItemHandler() {
         @Override
         public int getSlots() {
-            return 9;
+            return SLOT_DRILL;
         }
 
         @Override
@@ -129,6 +137,7 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements MenuPro
                 case 2 -> torque >>> 16;
                 case 3 -> omega & 0xFFFF;
                 case 4 -> omega >>> 16;
+                case 5 -> drillTime;
                 default -> 0;
             };
         }
@@ -145,6 +154,19 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements MenuPro
 
     public ExtractorBlockEntity(BlockPos pos, BlockState state) {
         super(RotaryBlockEntities.EXTRACTOR.get(), pos, state);
+    }
+
+    public static boolean wears() {
+        return net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.EXTRACTOR_WEAR);
+    }
+
+    /** How many operations the drill in the machine has left. */
+    public int drillTime() {
+        return drillTime;
+    }
+
+    public void setDrillTime(int time) {
+        drillTime = time;
     }
 
     public ItemStackHandler items() {
@@ -237,6 +259,12 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements MenuPro
 
     @Override
     protected void machineTick(boolean basePowered) {
+        if (!wears()) {
+            drillTime = DRILL_LIFE;
+        } else if (drillTime <= 0 && !items.getStackInSlot(SLOT_DRILL).isEmpty()) {
+            items.extractItem(SLOT_DRILL, 1, false);
+            drillTime = DRILL_LIFE;
+        }
         for (int stage = 0; stage < STAGES; stage++) {
             tickStage(stage);
         }
@@ -254,7 +282,7 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements MenuPro
         Optional<ExtractionRecipe> recipe = recipeFor(stage);
         boolean usesWater = stage == 1 || stage == 2;
         // room for a doubled result (as the original checks)
-        boolean canRun = stagePowered(stage) && recipe.isPresent()
+        boolean canRun = stagePowered(stage) && recipe.isPresent() && (stage != 0 || drillTime > 0)
                 && (!usesWater || water.getFluidAmount() >= WATER_PER_OPERATION)
                 && fits(stage + 4, OreProductItem.of(stageOutputItem(stage), recipe.get().product(), 2));
         if (!canRun) {
@@ -273,6 +301,9 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements MenuPro
         ExtractionRecipe r = recipe.get();
         int count = level.random.nextDouble() < r.doublingChance() ? 2 : 1;
         items.extractItem(stage, 1, false);
+        if (stage == 0 && wears()) {
+            drillTime--;
+        }
         addTo(stage + 4, OreProductItem.of(stageOutputItem(stage), r.product(), count));
         if (usesWater) {
             water.drain(WATER_PER_OPERATION, FluidTank.FluidAction.EXECUTE);
@@ -299,6 +330,7 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements MenuPro
         tag.put("items", items.serializeNBT(registries));
         tag.put("water", water.writeToNBT(registries, new CompoundTag()));
         tag.putIntArray("progress", progress);
+        tag.putInt("drill", drillTime);
     }
 
     @Override
@@ -306,6 +338,7 @@ public class ExtractorBlockEntity extends ConsumerBlockEntity implements MenuPro
         super.loadAdditional(tag, registries);
         items.deserializeNBT(registries, tag.getCompound("items"));
         water.readFromNBT(registries, tag.getCompound("water"));
+        drillTime = tag.contains("drill") ? tag.getInt("drill") : DRILL_LIFE;
         int[] saved = tag.getIntArray("progress");
         System.arraycopy(saved, 0, progress, 0, Math.min(saved.length, STAGES));
     }

@@ -60,6 +60,7 @@ public class RotaryCraft {
         net.scwunge.rotarycraft.registry.RotaryRecipes.SERIALIZERS.register(modBus);
         net.scwunge.rotarycraft.registry.RotaryMenus.MENUS.register(modBus);
         net.scwunge.rotarycraft.registry.RotaryComponents.COMPONENTS.register(modBus);
+        net.scwunge.rotarycraft.registry.RotaryAttachments.ATTACHMENTS.register(modBus);
         LOOT_MODIFIERS.register(modBus);
         modBus.addListener(RotaryCraft::registerCapabilities);
     }

@@ -1,8 +1,8 @@
 MAP|ENGINEVOLUME|engineVolume
-PENDING|GPRORES|the GPR's ore display|gprShowsOres
+MAP|GPRORES|gprShowsOres
 NA|INSTACUT|only the instant mode (the originals default) exists
-PENDING|CRAFTABLEBEDROCK|the bedrock recipe|craftableBedrock
-PENDING|LOCKMACHINES|owner-only use of machines|ownerOnlyMachines
+NA|CRAFTABLEBEDROCK|the bedrock recipes ship on; a data pack removes them (recipes load before this port's configs)
+MAP|LOCKMACHINES|ownerOnlyMachines
 MAP|MACHINEVOLUME|machineVolume
 MAP|FLOODLIGHTRANGE|floodlightRange
 MAP|HEATRAYRANGE|heatRayRange
@@ -23,67 +23,67 @@ MAP|BANRAIN|weatherControllerBansRain
 NA|ACHIEVEMENTS|no achievements; advancements can be added by a data pack
 NA|MODORES|ores are matched through c: tags
 MAP|BEDPICKSPAWNERS|bedrockPickHarvestsSpawners
-PENDING|SPAWNERLEAK|bedrock tools (item 6)|spawnersLeakMobs
+MAP|SPAWNERLEAK|spawnersLeakMobs
 MAP|BLOCKDAMAGE|explosionsBreakBlocks
 NA|DIFFICULTY|the original's medium-difficulty numbers are used throughout
 MAP|BIOMEBLOCKS|terraformerEditsBlocks
 NA|DYNAMICHANDBOOK|the handbook is read from the resource packs, so reloading them (F3 + T) picks up changes
 NA|TABLEMACHINES|machines are made at the ordinary crafting table; a data pack can change that
-PENDING|EMPLOAD|the EMP's charging speed|empChargeSpeed
+MAP|EMPLOAD|empChargeSpeed
 NA|ROTATEHOSE|a recipe-conflict workaround for old mods
 MAP|RAILGUNDAMAGE|railgunBlockDamage
 MAP|GRAVELPLAYER|gravelGunPvp
-PENDING|CHESTGEN|chest loot (not ported)|chestLootTier
-PENDING|PROJECTORLINES|a client option for the Projector|projectorLines
-PENDING|COLORBLIND|a client option|colorBlindMode
+NA|CHESTGEN|dungeon loot is a loot-table data pack in 1.21 (data/rotarycraft/loot_modifiers)
+MAP|PROJECTORLINES|projectorLines
+NA|COLORBLIND|the port has no colour-coded IO-side overlay for it to change
 MAP|TURRETPLAYERS|turretsTargetPlayers
 NA|HSLADICT|steel is the c:ingots/steel tag
 MAP|PREENCHANT|lockBedrockEnchants
-PENDING|SPRINKLER|a client option for the Sprinkler's particles|sprinklerParticles
+MAP|SPRINKLER|sprinklerParticles
 MAP|HANDBOOK|spawnWithHandbook
 MAP|CONSERVEPACK|conservativeJetpack
 NA|ALLOWBAN|claim mods can stop any machine
 NA|LOGBLOCKS|claim and logging mods see the block events the machines fire
-PENDING|FLOWSPEED|how fast fluid flows through pipes|fluidFlowSpeed
+MAP|FLOWSPEED|fluidFlowSpeed
 MAP|ATTACKBLOCKS|weaponBlockDamage
 MAP|VOIDHOLE|bedrockBreakerVoidHole
 MAP|JETFUELPACK|jetpackNeedsJetFuel
 MAP|ALLOWTNTCANNON|tntCannon
 MAP|ALLOWEMP|emp
-PENDING|EXTRAIRON|extra iron ore in world generation|extraIron
+NA|EXTRAIRON|ore density is a placed-feature data pack in 1.21 (change the iron ore feature's count)
 NA|TEGLASS|Thermal Expansion only
-PENDING|CLEARCHAT|the chat-writing tools|toolsClearChat
+NA|CLEARCHAT|messages go to the action bar, which does not pile up in chat
 MAP|KICKFLYING|jetpackBypassesFlyCheck
 MAP|BLOWERSPILL|itemPumpSpills
-PENDING|EXTRACTORMAINTAIN|the Extractor's drill wearing down|extractorWear
+MAP|EXTRACTORMAINTAIN|extractorWear
 MAP|HARDGRAVELGUN|hardGravelGun
 MAP|BORERMAINTAIN|borerRequiresMaintenance
 NA|NOMINERS|switch the Borer, Bedrock Breaker and Sonic Borer off in their own settings
 NA|HARDEU|IC2/GregTech EU compatibility only
-PENDING|PIPEHARDNESS|the pipes' block hardness|pipeHardness
+MAP|PIPEHARDNESS|pipeHardness
 MAP|FRICTIONXP|frictionHeaterXp
 MAP|SPILLERRANGE|areaFillerRange
 NA|POWERCLIENT|power is read on the server and synced
 NA|FRAMES|frame mods are not supported
 MAP|CONVERTERLOSS|converterEfficiency
-PENDING|FAKEBEDROCK|bedrock tools (item 6)|fakePlayerBedrockAbilities
-PENDING|BORERGEN|the Borer generating chunks|borerChunkRadius
+MAP|FAKEBEDROCK|fakePlayerBedrockAbilities
+MAP|BORERGEN|borerChunkRadius
 MAP|ALLOWLIGHTBRIDGE|lightBridge
 MAP|ALLOWITEMCANNON|itemCannon
 MAP|ALLOWCHUNKLOADER|chunkLoader
 MAP|CHUNKLOADERSIZE|chunkLoaderMaxRadius
 NA|RECIPEMOD|recipes are data packs
 NA|STRONGRECIPEMOD|recipes are data packs
-PENDING|CRAFTERPROFILE|the Auto-Crafter's lag compensation|crafterProfiling
-PENDING|HSLAHARVEST|steel tools (item 6)|steelToolsHarvestHigher
-PENDING|LATEDYNAMO|the Dynamo's recipe gate|dynamoRecipeGate
+MAP|CRAFTERPROFILE|crafterProfiling
+MAP|HSLAHARVEST|steelToolsHarvestHigher
+NA|LATEDYNAMO|recipe gating is a data-pack concern (recipes load before this port's configs)
 MAP|BORERPOW|borerPowerFactor
 NA|BEEYEAST|Forestry only
 NA|HARDCONVERTERS|converter units to other mods' energy are not made
 NA|OREALUDUST|other mods' dusts join through c: tags
 NA|GATEBLAST|recipe gating is a data-pack concern
 NA|GATEWORK|recipe gating is a data-pack concern
-PENDING|VACPOWER|the Item Vacuum's power per metre|vacuumPowerPerMetre
+MAP|VACPOWER|vacuumPowerPerMetre
 NA|HYDROSTREAMFALLMAX|Streams mod only
 NA|TINKERFLAKES|Tinkers' Construct only
 NA|IC2BLAZECOMPRESS|IC2 only

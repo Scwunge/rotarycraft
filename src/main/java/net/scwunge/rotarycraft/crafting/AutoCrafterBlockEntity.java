@@ -56,8 +56,9 @@ public class AutoCrafterBlockEntity extends OmniConsumerBlockEntity implements M
     public static final int CONTAINER_OFFSET = SIZE * 2;
     public static final int SLOTS = SIZE * 3;
     public static final PowerRequirement REQUIREMENT = new PowerRequirement(1, 1, 1024);
-    /** Ticks between rounds in Continuous mode. */
-    public static final int INTERVAL = 2;
+    /** The shortest and the longest wait (ticks) between rounds in Continuous mode: it lengthens when rounds take long (crafterProfiling) and shortens again when they do not. */
+    public static final int MIN_DELAY = 1;
+    public static final int MAX_DELAY = 100;
     private static final int MAX_DEPTH = 40;
     /** How long a pattern's lamp stays lit after it crafts, in ticks. */
     public static final int FLASH = 5;
@@ -117,6 +118,7 @@ public class AutoCrafterBlockEntity extends OmniConsumerBlockEntity implements M
     private final int[] crafting = new int[SIZE];
     private Mode mode = Mode.REQUEST;
     private int tick;
+    private int delay = MIN_DELAY;
 
     public AutoCrafterBlockEntity(BlockPos pos, BlockState state) {
         super(CraftingRegistry.AUTO_CRAFTER_BE.get(), pos, state);
@@ -233,12 +235,27 @@ public class AutoCrafterBlockEntity extends OmniConsumerBlockEntity implements M
         if (level == null || level.isClientSide() || !powered) {
             return;
         }
-        if (++tick >= INTERVAL && mode == Mode.CONTINUOUS) {
+        if (mode == Mode.CONTINUOUS && ++tick >= delay) {
             tick = 0;
+            long start = System.nanoTime();
             for (int i = 0; i < SIZE; i++) {
                 craftSlot(i);
             }
+            profile(System.nanoTime() - start);
         }
+    }
+
+    /** A round that took longer than the wait between rounds makes the wait longer (by more the longer it already is); a quick one makes it shorter. */
+    public void profile(long nanos) {
+        if (net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.CRAFTER_PROFILING) && nanos > 1_000_000L * delay && delay < MAX_DELAY) {
+            delay += delay < 10 ? 1 : delay < 20 ? 2 : delay < 40 ? 5 : 10;
+        } else if (delay > MIN_DELAY) {
+            delay--;
+        }
+    }
+
+    public int delay() {
+        return delay;
     }
 
     /** Makes one batch of what the pattern in {@code slot} makes, if the machine has power; true if it did. */

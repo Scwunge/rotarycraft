@@ -44,8 +44,6 @@ public class EmpBlockEntity extends ConsumerBlockEntity implements Owned {
     public static final PowerRequirement REQUIREMENT = new PowerRequirement(1, 1, MIN_POWER);
     public static final long BLAST_ENERGY = 4_184_000_000L;
     public static final int RANGE = 64;
-    /** Columns of the area it lists per tick while loading (the original's charging speed of 4 gives 33). */
-    private static final int LOAD_PER_TICK = 33;
     private static final int COLUMNS = (2 * RANGE + 1) * (2 * RANGE + 1);
     private static final int EFFECT_TICKS = 30;
 
@@ -69,6 +67,11 @@ public class EmpBlockEntity extends ConsumerBlockEntity implements Owned {
     public void setOwner(Player player) {
         owner = new WorldGuard.Owner(player.getUUID(), player.getGameProfile().getName());
         setChanged();
+    }
+
+    /** How many columns of its area it has listed so far. */
+    public int loadedColumns() {
+        return loaded;
     }
 
     public boolean isLoading() {
@@ -107,7 +110,7 @@ public class EmpBlockEntity extends ConsumerBlockEntity implements Owned {
         }
         if (isLoading()) {
             int before = loaded;
-            loaded = Math.min(COLUMNS, loaded + LOAD_PER_TICK);
+            loaded = Math.min(COLUMNS, loaded + (1 + 8 * net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.EMP_CHARGE_SPEED)));
             server.sendParticles(ParticleTypes.PORTAL, worldPosition.getX() + 0.5, worldPosition.getY() + 0.9, worldPosition.getZ() + 0.5, 6, 0.5, 0.3, 0.5, 0.5);
             if (!isLoading() || before == 0) {
                 syncNow();

@@ -7,6 +7,7 @@
   "item.rotarycraft.screwdriver": "Screwdriver",
   "item.rotarycraft.angular_transducer": "Angular Transducer",
   "item.rotarycraft.hsla_steel_ingot": "HSLA Steel Ingot",
+  "message.rotarycraft.machine_locked": "This machine is locked: only the one who placed it can use it.",
   "message.rotarycraft.meter.reading": "Torque: %s N*m, Speed: %s rad/s, Power: %s",
   "message.rotarycraft.meter.shaft_limits": "Shaft limits: %s N*m, %s rad/s",
   "message.rotarycraft.meter.generator": "Making %s FE/t, stored %s / %s FE",

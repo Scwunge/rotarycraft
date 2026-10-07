@@ -13,6 +13,11 @@ public class SteelPickaxeItem extends PickaxeItem {
     }
 
     @Override
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+        return SteelTools.harvestsHigher(state, net.minecraft.tags.BlockTags.MINEABLE_WITH_PICKAXE) || super.isCorrectToolForDrops(stack, state);
+    }
+
+    @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         if (state.is(Tags.Blocks.GLASS_BLOCKS) || state.is(Tags.Blocks.GLASS_PANES)) {
             return 8F;

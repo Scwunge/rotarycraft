@@ -83,9 +83,9 @@ public final class ToolRegistry {
     public static final DeferredItem<PickaxeItem> STEEL_PICKAXE = RotaryItems.add(RotaryItems.ITEMS.register("steel_pickaxe",
             () -> new SteelPickaxeItem(STEEL, new Item.Properties().attributes(PickaxeItem.createAttributes(STEEL, 1.0F, -2.8F)))));
     public static final DeferredItem<AxeItem> STEEL_AXE = RotaryItems.add(RotaryItems.ITEMS.register("steel_axe",
-            () -> new AxeItem(STEEL, new Item.Properties().attributes(AxeItem.createAttributes(STEEL, 6.0F, -3.1F)))));
+            () -> new net.scwunge.rotarycraft.tool.SteelAxeItem(STEEL, new Item.Properties().attributes(AxeItem.createAttributes(STEEL, 6.0F, -3.1F)))));
     public static final DeferredItem<ShovelItem> STEEL_SHOVEL = RotaryItems.add(RotaryItems.ITEMS.register("steel_shovel",
-            () -> new ShovelItem(STEEL, new Item.Properties().attributes(ShovelItem.createAttributes(STEEL, 1.5F, -3.0F)))));
+            () -> new net.scwunge.rotarycraft.tool.SteelShovelItem(STEEL, new Item.Properties().attributes(ShovelItem.createAttributes(STEEL, 1.5F, -3.0F)))));
     public static final DeferredItem<HoeItem> STEEL_HOE = RotaryItems.add(RotaryItems.ITEMS.register("steel_hoe",
             () -> new HoeItem(STEEL_PLAIN, new Item.Properties().attributes(HoeItem.createAttributes(STEEL_PLAIN, -2.0F, -1.0F)))));
     public static final DeferredItem<SwordItem> STEEL_SWORD = RotaryItems.add(RotaryItems.ITEMS.register("steel_sword",

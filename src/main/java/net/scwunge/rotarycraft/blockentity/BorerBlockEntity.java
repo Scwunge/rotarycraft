@@ -340,7 +340,21 @@ public class BorerBlockEntity extends ConsumerBlockEntity implements MenuProvide
         return chunk.getBlockState(pos);
     }
 
+    /** The chunks round the head are made as it comes to them, as far out as the config says. */
+    private void generateAround(ServerLevel server) {
+        int radius = RotaryConfig.get(RotaryConfig.BORER_CHUNK_RADIUS);
+        if (radius > 0) {
+            BlockPos head = worldPosition.relative(facing(), step);
+            for (int dx = -radius; dx <= radius; dx++) {
+                for (int dz = -radius; dz <= radius; dz++) {
+                    server.getChunk((head.getX() >> 4) + dx, (head.getZ() >> 4) + dz, ChunkStatus.FULL, true);
+                }
+            }
+        }
+    }
+
     private boolean checkMiningAir(ServerLevel server) {
+        generateAround(server);
         for (int i = 0; i < COLS; i++) {
             for (int j = 0; j < ROWS; j++) {
                 if (cutsCell(i, j) && !stateAt(server, cellPos(step, i, j)).isAir()) {

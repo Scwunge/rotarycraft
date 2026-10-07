@@ -49,7 +49,8 @@ public class SprinklerBlockEntity extends SprinklerBaseBlockEntity {
         ServerLevel server = server();
         int range = range();
         if (server.getGameTime() % 3 == 0) {
-            server.sendParticles(ParticleTypes.RAIN, worldPosition.getX() + 0.5, worldPosition.getY() + 0.4, worldPosition.getZ() + 0.5, 6, range / 3.0, 0.2, range / 3.0, 0.1);
+            server.sendParticles(ParticleTypes.RAIN, worldPosition.getX() + 0.5, worldPosition.getY() + 0.4, worldPosition.getZ() + 0.5,
+                    Math.round(6 * net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.SPRINKLER_PARTICLES) / 4F), range / 3.0, 0.2, range / 3.0, 0.1);
         }
         for (int n = 0; n < COLUMNS_PER_TICK; n++) {
             int i = server.random.nextInt(2 * range + 1) - range;

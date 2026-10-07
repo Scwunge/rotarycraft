@@ -16,13 +16,13 @@ import net.scwunge.rotarycraft.registry.RotaryMenus;
 
 /** Extractor screen: four stage inputs on top, their outputs below, the bonus slot, and the player's inventory. */
 public class ExtractorMenu extends AbstractContainerMenu {
-    public static final int DATA_COUNT = 13;
-    private static final int MACHINE_SLOTS = 9;
+    public static final int DATA_COUNT = 14;
+    private static final int MACHINE_SLOTS = 10;
     /** Slot positions from the original GUI: inputs 0-3 on top, outputs 4-7 below, bonus at the right. */
     private static final int[][] POSITIONS = {
             {26, 13}, {62, 13}, {98, 13}, {134, 13},
             {26, 55}, {62, 55}, {98, 55}, {134, 55},
-            {152, 55}};
+            {152, 55}, {8, 34}};
 
     private final ContainerData data;
     private final BlockPos pos;
@@ -44,11 +44,17 @@ public class ExtractorMenu extends AbstractContainerMenu {
         this.data = data;
         this.pos = pos;
         for (int slot = 0; slot < MACHINE_SLOTS; slot++) {
-            boolean output = slot >= ExtractorBlockEntity.STAGES;
+            boolean output = slot >= ExtractorBlockEntity.STAGES && slot != ExtractorBlockEntity.SLOT_DRILL;
             addSlot(new SlotItemHandler(items, slot, POSITIONS[slot][0], POSITIONS[slot][1]) {
                 @Override
                 public boolean mayPlace(ItemStack stack) {
                     return !output && super.mayPlace(stack);
+                }
+
+                /** The drill slot is there only when the extractorWear option is on. */
+                @Override
+                public boolean isActive() {
+                    return getSlotIndex() != ExtractorBlockEntity.SLOT_DRILL || ExtractorBlockEntity.wears();
                 }
             });
         }
@@ -83,6 +89,11 @@ public class ExtractorMenu extends AbstractContainerMenu {
         return (data.get(11) & 0xFFFF) | (data.get(12) << 16);
     }
 
+    /** The operations left in the drill in the machine, out of {@link ExtractorBlockEntity#DRILL_LIFE}. */
+    public int drill() {
+        return data.get(13);
+    }
+
     @Override
     public boolean stillValid(Player player) {
         return player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= 64;
@@ -98,6 +109,10 @@ public class ExtractorMenu extends AbstractContainerMenu {
         ItemStack copy = stack.copy();
         if (index < MACHINE_SLOTS) {
             if (!moveItemStackTo(stack, MACHINE_SLOTS, slots.size(), true)) {
+                return ItemStack.EMPTY;
+            }
+        } else if (ExtractorBlockEntity.wears() && slots.get(ExtractorBlockEntity.SLOT_DRILL).mayPlace(stack)) {
+            if (!moveItemStackTo(stack, ExtractorBlockEntity.SLOT_DRILL, ExtractorBlockEntity.SLOT_DRILL + 1, false)) {
                 return ItemStack.EMPTY;
             }
         } else if (!moveItemStackTo(stack, 0, ExtractorBlockEntity.STAGES, false)) {

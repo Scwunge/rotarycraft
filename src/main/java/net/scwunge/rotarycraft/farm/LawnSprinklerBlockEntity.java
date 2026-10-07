@@ -75,7 +75,7 @@ public class LawnSprinklerBlockEntity extends SprinklerBaseBlockEntity {
             extinguishFire(server, range);
         }
         if (server.getGameTime() % 2 == 0) {
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < Math.round(3 * net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.SPRINKLER_PARTICLES) / 4F); i++) {
                 double angle = Math.toRadians(server.getGameTime() * 9 + i * 120);
                 double v = range * 0.1 * (0.5 + server.random.nextDouble());
                 server.sendParticles(ParticleTypes.SPLASH, worldPosition.getX() + 0.5 + 0.6 * Math.sin(angle), worldPosition.getY() + 0.75,

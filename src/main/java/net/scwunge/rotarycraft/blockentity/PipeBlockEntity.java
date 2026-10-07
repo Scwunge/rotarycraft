@@ -145,8 +145,11 @@ public class PipeBlockEntity extends BlockEntity {
         if (level == null) {
             return;
         }
-        intake();
-        dump();
+        int delay = 6 - Math.max(1, Math.min(5, net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.FLUID_FLOW_SPEED)));
+        if (delay == 1 || level.getGameTime() % delay == 0) {
+            intake();
+            dump();
+        }
         if (amount > 0) {
             if (PipeType.pressure(amount) > type().maxPressure) {
                 burst();
