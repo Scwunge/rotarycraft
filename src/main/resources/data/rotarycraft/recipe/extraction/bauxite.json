@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/bauxite"
+  },
+  "ore_type": "bauxite",
+  "color": 7484203,
+  "rarity": "common"
+}

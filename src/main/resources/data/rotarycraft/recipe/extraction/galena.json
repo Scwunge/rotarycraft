@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/galena"
+  },
+  "ore_type": "galena",
+  "color": 8351381,
+  "rarity": "common"
+}

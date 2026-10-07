@@ -128,3 +128,67 @@ shutil.copy(REF + '/Misc/IOGoggles.png', A + '/textures/models/armor/io_goggles_
 for src, name in (('jet', 'jet'), ('bedrock_jet', 'bedrock_jet')):
     for layer in (1, 2):
         shutil.copy(REF + '/Misc/%s.png' % src, A + '/textures/models/armor/%s_layer_%d.png' % (name, layer))
+
+
+# ---- canola seeds pressed, the bedrock coil, and the decorative blocks (bedrock ingot block, shield block) ----
+import random
+_rnd = random.Random(31)
+
+
+def _noise(c, spread):
+    im = Image.new('RGBA', (16, 16))
+    px = im.load()
+    for x in range(16):
+        for y in range(16):
+            d = _rnd.randint(-spread, spread)
+            px[x, y] = tuple(max(0, min(255, v + d)) for v in c) + (255,)
+    return im
+
+
+# dense canola seeds: the seeds sprite, bigger and darker
+_seeds = Image.open(A + '/textures/item/canola_seeds.png').convert('RGBA')
+_dense = Image.new('RGBA', (16, 16))
+for _dx, _dy in ((-1, -1), (1, 0), (0, 1)):
+    _dense.alpha_composite(_seeds, (_dx, _dy))
+_dense.save(A + '/textures/item/dense_canola_seeds.png')
+w(A + '/models/item/dense_canola_seeds.json', {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/dense_canola_seeds'}})
+w(D + '/recipe/dense_canola_seeds.json', {'type': 'minecraft:crafting_shaped', 'category': 'misc', 'pattern': ['DDD', 'DDD', 'DDD'], 'key': {'D': item('canola_seeds')},
+                                          'result': {'id': 'rotarycraft:dense_canola_seeds', 'count': 1}})
+w(D + '/recipe/canola_seeds_from_dense.json', {'type': 'minecraft:crafting_shapeless', 'category': 'misc', 'ingredients': [item('dense_canola_seeds')],
+                                               'result': {'id': 'rotarycraft:canola_seeds', 'count': 9}})
+
+_blocks = []
+for _name, _title, _color, _spread in (('bedrock_ingot_block', 'Block of Bedrock Alloy', (46, 46, 54), 10), ('shield_block', 'Shield Block', (96, 100, 112), 8)):
+    _im = _noise(_color, _spread)
+    if _name == 'shield_block':
+        _px = _im.load()
+        for _i in range(16):
+            for _edge in (0, 15):
+                _px[_i, _edge] = (60, 62, 72, 255)
+                _px[_edge, _i] = (60, 62, 72, 255)
+        for _x in range(4, 12):
+            for _y in range(4, 12):
+                _px[_x, _y] = (28 + _rnd.randint(0, 10), 18 + _rnd.randint(0, 8), 44 + _rnd.randint(0, 12), 255)
+    os.makedirs(A + '/textures/block', exist_ok=True)
+    _im.save(A + '/textures/block/%s.png' % _name)
+    w(A + '/blockstates/%s.json' % _name, {'variants': {'': {'model': 'rotarycraft:block/' + _name}}})
+    w(A + '/models/block/%s.json' % _name, {'parent': 'minecraft:block/cube_all', 'textures': {'all': 'rotarycraft:block/' + _name}})
+    w(A + '/models/item/%s.json' % _name, {'parent': 'rotarycraft:block/' + _name})
+    w(D + '/loot_table/blocks/%s.json' % _name, {'type': 'minecraft:block', 'pools': [{
+        'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'rotarycraft:' + _name}], 'conditions': [{'condition': 'minecraft:survives_explosion'}]}]})
+    lang['block.rotarycraft.' + _name] = _title
+    _blocks.append('rotarycraft:' + _name)
+_tag = R + '/data/minecraft/tags/block/mineable/pickaxe.json'
+_data = json.load(open(_tag))
+_data['values'] += [v for v in _blocks if v not in _data['values']]
+w(_tag, _data)
+_tag = R + '/data/minecraft/tags/block/needs_diamond_tool.json'
+_data = json.load(open(_tag)) if os.path.exists(_tag) else {'values': []}
+_data['values'] += [v for v in _blocks[:1] if v not in _data['values']]
+w(_tag, _data)
+shaped('bedrock_ingot_block', ['BBB', 'BBB', 'BBB'], {'B': item('bedrock_ingot')})
+w(D + '/recipe/bedrock_ingot_from_block.json', {'type': 'minecraft:crafting_shapeless', 'category': 'misc', 'ingredients': [item('bedrock_ingot_block')],
+                                                'result': {'id': 'rotarycraft:bedrock_ingot', 'count': 9}})
+shaped('shield_block', [' S ', 'SOS', ' S '], {'S': STEEL, 'O': vanilla('obsidian')}, 4)
+lang.update({'item.rotarycraft.dense_canola_seeds': 'Dense Canola Seeds'})
+w(lang_path, lang)

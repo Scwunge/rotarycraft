@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/apatite"
+  },
+  "ore_type": "apatite",
+  "color": 3315397,
+  "rarity": "common"
+}

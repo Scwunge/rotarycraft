@@ -309,4 +309,29 @@ public class JetpackGameTests {
             helper.succeed();
         });
     }
+
+    private static ItemStack craft(GameTestHelper helper, int count, ItemStack stack) {
+        List<ItemStack> grid = new java.util.ArrayList<>();
+        for (int i = 0; i < 9; i++) {
+            grid.add(i < count ? stack.copy() : ItemStack.EMPTY);
+        }
+        CraftingInput input = CraftingInput.of(3, 3, grid);
+        var recipe = helper.getLevel().getRecipeManager().getRecipeFor(net.minecraft.world.item.crafting.RecipeType.CRAFTING, input, helper.getLevel());
+        return recipe.map(r -> r.value().assemble(input, helper.getLevel().registryAccess())).orElse(ItemStack.EMPTY);
+    }
+
+    @GameTest(template = RotaryGameTests.TEMPLATE, timeoutTicks = 40, batch = "jetpack")
+    public static void packedSeedsAndBlocksCraftBothWays(GameTestHelper helper) {
+        var seeds = new ItemStack(net.scwunge.rotarycraft.registry.RotaryItems.CANOLA_SEEDS.get());
+        ItemStack dense = craft(helper, 9, seeds);
+        helper.assertTrue(dense.is(net.scwunge.rotarycraft.registry.RotaryItems.DENSE_CANOLA_SEEDS.get()), "dense seeds: " + dense);
+        ItemStack back = craft(helper, 1, dense);
+        helper.assertTrue(back.is(net.scwunge.rotarycraft.registry.RotaryItems.CANOLA_SEEDS.get()) && back.getCount() == 9, "seeds back: " + back);
+        ItemStack block = craft(helper, 9, new ItemStack(RotaryParts.part("bedrock_ingot").get()));
+        helper.assertTrue(block.is(RotaryBlocks.BEDROCK_INGOT_BLOCK.asItem()), "ingot block: " + block);
+        helper.assertTrue(craft(helper, 1, block).getCount() == 9, "ingots back");
+        ItemStack coil = craft(helper, 9, new ItemStack(net.scwunge.rotarycraft.registry.WeaponRegistry.STRONG_COIL.get()));
+        helper.assertTrue(coil.isEmpty(), "bedrock coil needs its shaft core in the middle");
+        helper.succeed();
+    }
 }

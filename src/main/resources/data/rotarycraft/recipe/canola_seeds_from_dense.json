@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "rotarycraft:dense_canola_seeds"
+    }
+  ],
+  "result": {
+    "id": "rotarycraft:canola_seeds",
+    "count": 9
+  }
+}

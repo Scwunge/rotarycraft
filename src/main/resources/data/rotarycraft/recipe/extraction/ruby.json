@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/ruby"
+  },
+  "ore_type": "ruby",
+  "color": 12320768,
+  "rarity": "rare"
+}

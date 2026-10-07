@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/chromium"
+  },
+  "ore_type": "chromium",
+  "color": 9756917,
+  "rarity": "common"
+}

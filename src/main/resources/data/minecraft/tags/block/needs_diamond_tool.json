@@ -5,6 +5,7 @@
     "rotarycraft:gearbox_bedrock_4x",
     "rotarycraft:gearbox_bedrock_8x",
     "rotarycraft:gearbox_bedrock_16x",
-    "rotarycraft:bedrock_pipe"
+    "rotarycraft:bedrock_pipe",
+    "rotarycraft:bedrock_ingot_block"
   ]
 }

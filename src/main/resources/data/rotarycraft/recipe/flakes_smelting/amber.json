@@ -1,0 +1,17 @@
+{
+  "type": "rotarycraft:tag_smelting",
+  "ingredient": {
+    "type": "neoforge:components",
+    "items": "rotarycraft:ore_flakes",
+    "components": {
+      "rotarycraft:ore_product": {
+        "type": "amber",
+        "color": 11632407
+      }
+    }
+  },
+  "result_tag": "c:gems/amber",
+  "count": 1,
+  "experience": 0.7,
+  "cookingtime": 200
+}

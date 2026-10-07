@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/fluorite"
+  },
+  "ore_type": "fluorite",
+  "color": 14668970,
+  "rarity": "common"
+}

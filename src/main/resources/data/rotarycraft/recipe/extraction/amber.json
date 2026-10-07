@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/amber"
+  },
+  "ore_type": "amber",
+  "color": 11632407,
+  "rarity": "common"
+}

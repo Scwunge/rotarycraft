@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/iridium"
+  },
+  "ore_type": "iridium",
+  "color": 12706515,
+  "rarity": "rare"
+}

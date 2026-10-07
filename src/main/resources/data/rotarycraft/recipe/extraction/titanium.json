@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/titanium"
+  },
+  "ore_type": "titanium",
+  "color": 8427415,
+  "rarity": "common"
+}

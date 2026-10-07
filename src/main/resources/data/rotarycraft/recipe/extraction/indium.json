@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/indium"
+  },
+  "ore_type": "indium",
+  "color": 11780056,
+  "rarity": "common"
+}

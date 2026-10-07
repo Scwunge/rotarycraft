@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/cadmium"
+  },
+  "ore_type": "cadmium",
+  "color": 8890088,
+  "rarity": "common"
+}

@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/sulfur"
+  },
+  "ore_type": "sulfur",
+  "color": 16776960,
+  "rarity": "common"
+}

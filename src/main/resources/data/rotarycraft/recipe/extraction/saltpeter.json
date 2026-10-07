@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/saltpeter"
+  },
+  "ore_type": "saltpeter",
+  "color": 15263968,
+  "rarity": "common"
+}

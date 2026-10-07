@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/cobalt"
+  },
+  "ore_type": "cobalt",
+  "color": 1847461,
+  "rarity": "common"
+}

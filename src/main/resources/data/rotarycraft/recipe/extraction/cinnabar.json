@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/cinnabar"
+  },
+  "ore_type": "cinnabar",
+  "color": 8460826,
+  "rarity": "common"
+}

@@ -45,6 +45,8 @@ public class RotaryItems {
     public static final DeferredItem<net.minecraft.world.item.ItemNameBlockItem> CANOLA_SEEDS = add(ITEMS.register("canola_seeds",
             () -> new net.minecraft.world.item.ItemNameBlockItem(RotaryBlocks.CANOLA.get(), new Item.Properties())));
     public static final DeferredItem<Item> CANOLA_HUSKS = add(ITEMS.registerSimpleItem("canola_husks"));
+    /** Nine canola seeds pressed into one (and back). */
+    public static final DeferredItem<Item> DENSE_CANOLA_SEEDS = add(ITEMS.registerSimpleItem("dense_canola_seeds"));
     /** The original's afterburner engine upgrade: right-click a Jet Engine to fit it. */
     public static final DeferredItem<Item> AFTERBURNER_UPGRADE = add(ITEMS.register("afterburner_upgrade", () -> new Item(new Item.Properties().stacksTo(16))));
     public static final DeferredItem<Item> ETHANOL_CRYSTALS = add(ITEMS.registerSimpleItem("ethanol_crystals"));
@@ -104,6 +106,8 @@ public class RotaryItems {
         blockItem(RotaryBlocks.COMPOSTER);
         blockItem(RotaryBlocks.BLAST_GLASS);
         blockItem(RotaryBlocks.ANTHRACITE_BLOCK);
+        blockItem(RotaryBlocks.BEDROCK_INGOT_BLOCK);
+        blockItem(RotaryBlocks.SHIELD_BLOCK);
         blockItem(RotaryBlocks.LONSDALEITE_BLOCK);
         blockItem(RotaryBlocks.RESERVOIR);
         blockItem(RotaryBlocks.MAGNETIZER);

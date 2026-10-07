@@ -59,6 +59,25 @@ ORES = {
     'tungsten': ('c:ores/tungsten', TUNGSTEN, 'common', 'c:ingots/tungsten', 1, 'Tungsten', flakes('iron', 0xD8AF93), 0.75),
     'thorium':  ('c:ores/thorium', 0x3D3D3D, 'common', 'c:ingots/thorium', 1, 'Thorium', None, 0),
     'certus_quartz': ('c:ores/certus_quartz', CERTUS, 'common', 'c:gems/certus_quartz', 1, 'Certus Quartz', flakes('quartz', 0xE7E0D5), 0.5),
+    # the rest of the original's ore list that other mods make (colours are the original's)
+    'iridium':  ('c:ores/iridium', 0xC1E2D3, 'rare', 'c:ingots/iridium', 1, 'Iridium', None, 0),
+    'cobalt':   ('c:ores/cobalt', 0x1C30A5, 'common', 'c:ingots/cobalt', 1, 'Cobalt', None, 0),
+    'titanium': ('c:ores/titanium', 0x809797, 'common', 'c:ingots/titanium', 1, 'Titanium', None, 0),
+    'chromium': ('c:ores/chromium', 0x94E0F5, 'common', 'c:ingots/chromium', 1, 'Chromite', None, 0),
+    'cadmium':  ('c:ores/cadmium', 0x87A6E8, 'common', 'c:ingots/cadmium', 1, 'Cadmium', None, 0),
+    'indium':   ('c:ores/indium', 0xB3BFD8, 'common', 'c:ingots/indium', 1, 'Indium', None, 0),
+    'sulfur':   ('c:ores/sulfur', 0xFFFF00, 'common', 'c:dusts/sulfur', 3, 'Sulfur', None, 0),
+    'saltpeter': ('c:ores/saltpeter', 0xE8E8E0, 'common', 'c:dusts/saltpeter', 2, 'Saltpeter', None, 0),
+    'bauxite':  ('c:ores/bauxite', 0x72332B, 'common', 'c:dusts/bauxite', 1, 'Bauxite', None, 0),
+    'galena':   ('c:ores/galena', 0x7F6E95, 'common', 'c:dusts/galena', 1, 'Galena', None, 0),
+    'pyrite':   ('c:ores/pyrite', 0xE1B531, 'common', 'c:dusts/pyrite', 1, 'Pyrite', None, 0),
+    'apatite':  ('c:ores/apatite', 0x3296C5, 'common', 'c:gems/apatite', 3, 'Apatite', None, 0),
+    'ruby':     ('c:ores/ruby', 0xBC0000, 'rare', 'c:gems/ruby', 1, 'Ruby', None, 0),
+    'sapphire': ('c:ores/sapphire', 0x0019AA, 'rare', 'c:gems/sapphire', 1, 'Sapphire', None, 0),
+    'peridot':  ('c:ores/peridot', 0x00C416, 'rare', 'c:gems/peridot', 1, 'Peridot', None, 0),
+    'amber':    ('c:ores/amber', 0xB17F17, 'common', 'c:gems/amber', 1, 'Amber', None, 0),
+    'fluorite': ('c:ores/fluorite', 0xDFD4AA, 'common', 'c:gems/fluorite', 6, 'Fluorite', None, 0),
+    'cinnabar': ('c:ores/cinnabar', 0x811A1A, 'common', 'c:gems/cinnabar', 1, 'Cinnabar', None, 0),
 }
 
 for t, (tag, color, rarity, result, count, name, bonus, chance) in ORES.items():

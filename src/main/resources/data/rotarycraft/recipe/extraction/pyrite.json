@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/pyrite"
+  },
+  "ore_type": "pyrite",
+  "color": 14791985,
+  "rarity": "common"
+}

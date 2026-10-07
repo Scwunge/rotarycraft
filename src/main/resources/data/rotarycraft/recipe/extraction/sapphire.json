@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/sapphire"
+  },
+  "ore_type": "sapphire",
+  "color": 6570,
+  "rarity": "rare"
+}

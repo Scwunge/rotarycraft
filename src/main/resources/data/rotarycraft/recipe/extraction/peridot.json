@@ -1,0 +1,9 @@
+{
+  "type": "rotarycraft:extraction",
+  "ore": {
+    "tag": "c:ores/peridot"
+  },
+  "ore_type": "peridot",
+  "color": 50198,
+  "rarity": "rare"
+}

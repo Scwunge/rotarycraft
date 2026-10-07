@@ -186,8 +186,8 @@ MAP|WEATHERCONTROLLER|weather_controller
 MAP|WETTER|wetter
 MAP|WINDER|winder
 MAP|WOODCUTTER|woodcutter
-PENDING|canolaSeeds|not ported yet
-PENDING|denseCanolaSeeds|not ported yet
+MAP|canolaSeeds|canola_seeds
+MAP|denseCanolaSeeds|dense_canola_seeds
 MAP|aluminumcylinder|silumin_cylinder
 MAP|anthrablock|anthracite_block
 MAP|anthracite|anthracite
@@ -195,7 +195,7 @@ MAP|ballbearing|ball_bearing
 MAP|barrel|barrel
 MAP|basepanel|base_panel
 MAP|bedingot|bedrock_ingot
-PENDING|bedingotblock|not ported yet
+MAP|bedingotblock|bedrock_ingot_block
 MAP|bedrockcoil|bedrock_coil
 MAP|bedrockshaft|bedrock_shaft_core
 MAP|belt|belt
@@ -242,7 +242,7 @@ MAP|redgolddust|red_gold_dust
 MAP|saw|saw
 MAP|screen|screen
 MAP|shaftitem|shaft_core
-PENDING|shieldblock|not ported yet
+MAP|shieldblock|shield_block
 MAP|silveriodide|silver_iodide
 MAP|sonar|sonar_unit
 BY_TAG|steelblock|c:storage_blocks/steel from other mods

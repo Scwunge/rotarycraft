@@ -126,6 +126,11 @@ public class RotaryBlocks {
                     .isSuffocating((s, l, p) -> false).isViewBlocking((s, l, p) -> false)));
     public static final DeferredBlock<Block> ANTHRACITE_BLOCK = BLOCKS.registerSimpleBlock("anthracite_block",
             BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(5.0F, 6.0F).requiresCorrectToolForDrops());
+    public static final DeferredBlock<Block> BEDROCK_INGOT_BLOCK = BLOCKS.registerSimpleBlock("bedrock_ingot_block",
+            BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).strength(25.0F, 1200.0F).requiresCorrectToolForDrops());
+    /** The original's shield block: steel round obsidian, as hard to blow up as obsidian. */
+    public static final DeferredBlock<Block> SHIELD_BLOCK = BLOCKS.registerSimpleBlock("shield_block",
+            BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(10.0F, 1200.0F).requiresCorrectToolForDrops().sound(SoundType.METAL));
     public static final DeferredBlock<Block> LONSDALEITE_BLOCK = BLOCKS.registerSimpleBlock("lonsdaleite_block",
             BlockBehaviour.Properties.of().mapColor(MapColor.DIAMOND).strength(5.0F, 6.0F).requiresCorrectToolForDrops());
     public static final DeferredBlock<MachineBlock> PUMP = BLOCKS.register("pump",
