@@ -1092,4 +1092,34 @@ public class WorldMachineGameTests {
         helper.assertTrue(client.getOmega() == 512 && client.getTorque() == 64, "the client's winder did not take the packet: " + client.getTorque() + " N*m, " + client.getOmega() + " rad/s");
         helper.succeed();
     }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void terraformerKeepsItsWaterAndItemsWhenSavedAndLoaded(GameTestHelper helper) {
+        helper.setBlock(MACHINE, WorldMachineRegistry.TERRAFORMER.get().defaultBlockState());
+        TerraformerBlockEntity t = helper.getBlockEntity(MACHINE);
+        t.tank().fill(new net.neoforged.neoforge.fluids.FluidStack(net.minecraft.world.level.material.Fluids.WATER, 5000),
+                net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+        t.items().setStackInSlot(3, new ItemStack(Items.OAK_SAPLING, 7));
+        t.setTarget(net.minecraft.world.level.biome.Biomes.SAVANNA);
+        net.minecraft.nbt.CompoundTag saved = t.saveCustomOnly(helper.getLevel().registryAccess());
+        helper.setBlock(MACHINE, Blocks.AIR);
+        helper.setBlock(MACHINE, WorldMachineRegistry.TERRAFORMER.get().defaultBlockState());
+        TerraformerBlockEntity fresh = helper.getBlockEntity(MACHINE);
+        load(helper, fresh, saved);
+        helper.assertTrue(fresh.tank().getFluidAmount() == 5000, "water after loading: " + fresh.tank().getFluidAmount() + " from " + saved.get("tank"));
+        helper.assertTrue(fresh.items().getStackInSlot(3).getCount() == 7, "saplings after loading");
+        helper.assertTrue(net.minecraft.world.level.biome.Biomes.SAVANNA.equals(fresh.target()), "target after loading");
+        // the tank as a hand-written command gives it
+        net.minecraft.nbt.CompoundTag byHand = new net.minecraft.nbt.CompoundTag();
+        net.minecraft.nbt.CompoundTag fluid = new net.minecraft.nbt.CompoundTag();
+        fluid.putString("id", "minecraft:water");
+        fluid.putInt("amount", 3000);
+        net.minecraft.nbt.CompoundTag tank = new net.minecraft.nbt.CompoundTag();
+        tank.put("Fluid", fluid);
+        byHand.put("tank", tank);
+        TerraformerBlockEntity other = helper.getBlockEntity(MACHINE);
+        load(helper, other, byHand);
+        helper.assertTrue(other.tank().getFluidAmount() == 3000, "water from hand-written data: " + other.tank().getFluidAmount() + "; the real saved tank is " + saved.get("tank"));
+        helper.succeed();
+    }
 }
