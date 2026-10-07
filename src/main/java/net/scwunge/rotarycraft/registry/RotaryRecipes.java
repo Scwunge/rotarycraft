@@ -77,6 +77,11 @@ public class RotaryRecipes {
     public static final DeferredHolder<RecipeSerializer<?>, MeltingRecipe.Serializer> MELTING_SERIALIZER =
             SERIALIZERS.register("melting", MeltingRecipe.Serializer::new);
 
+    public static final DeferredHolder<RecipeType<?>, RecipeType<net.scwunge.rotarycraft.recipe.WorktableRecipe>> WORKTABLE =
+            TYPES.register("worktable", () -> RecipeType.simple(RotaryCraft.id("worktable")));
+    public static final DeferredHolder<RecipeSerializer<?>, net.scwunge.rotarycraft.recipe.WorktableRecipe.Serializer> WORKTABLE_SERIALIZER =
+            SERIALIZERS.register("worktable", net.scwunge.rotarycraft.recipe.WorktableRecipe.Serializer::new);
+
     /** Furnace recipes whose result comes from an item tag (Extractor flakes into the pack's ingot). */
     public static final DeferredHolder<RecipeSerializer<?>, TagResultSmeltingRecipe.Serializer> TAG_SMELTING_SERIALIZER =
             SERIALIZERS.register("tag_smelting", TagResultSmeltingRecipe.Serializer::new);

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SCS",
+    "PcP",
+    "SPS"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "C": {
+      "item": "minecraft:crafting_table"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "c": {
+      "item": "rotarycraft:circuit_board"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:auto_crafter",
+    "count": 1
+  }
+}

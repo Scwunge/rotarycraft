@@ -551,5 +551,18 @@
   "gui.rotarycraft.item_cannon.z": "Target Z",
   "gui.rotarycraft.item_cannon.dim": "Target Dim",
   "block.rotarycraft.arrow_gun": "Arrow Gun",
-  "block.rotarycraft.air_gun": "Air Gun"
+  "block.rotarycraft.air_gun": "Air Gun",
+  "block.rotarycraft.worktable": "Worktable",
+  "block.rotarycraft.auto_crafter": "Auto-Crafter",
+  "item.rotarycraft.craft_pattern": "Craft Pattern",
+  "item.rotarycraft.craft_pattern.crafts": "Crafts %s %s",
+  "item.rotarycraft.craft_pattern.no_output": "Items, no output.",
+  "item.rotarycraft.craft_pattern.empty": "No crafting pattern.",
+  "item.rotarycraft.craft_pattern.mode": "Recipe mode: %s",
+  "gui.rotarycraft.pattern_mode.crafting": "Crafting Recipe",
+  "gui.rotarycraft.pattern_mode.worktable": "Worktable Recipe",
+  "gui.rotarycraft.pattern_mode.blast_furnace": "Blast Furnace Crafting",
+  "gui.rotarycraft.pattern_limit": "Input Limit",
+  "gui.rotarycraft.crafter_mode.request": "Request: crafts one cycle per request",
+  "gui.rotarycraft.crafter_mode.continuous": "Continuous: crafts as long as there are ingredients"
 }

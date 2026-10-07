@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sCs",
+    "SBS",
+    "srs"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:stone_slab"
+    },
+    "C": {
+      "item": "minecraft:crafting_table"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "B": {
+      "item": "minecraft:bricks"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:worktable",
+    "count": 1
+  }
+}

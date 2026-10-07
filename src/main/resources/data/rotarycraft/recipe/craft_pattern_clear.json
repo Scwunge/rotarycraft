@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "rotarycraft:craft_pattern"
+    }
+  ],
+  "result": {
+    "id": "rotarycraft:craft_pattern",
+    "count": 1
+  }
+}

@@ -137,6 +137,8 @@
     "rotarycraft:firework_machine",
     "rotarycraft:item_cannon",
     "rotarycraft:arrow_gun",
-    "rotarycraft:air_gun"
+    "rotarycraft:air_gun",
+    "rotarycraft:worktable",
+    "rotarycraft:auto_crafter"
   ]
 }

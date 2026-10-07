@@ -43,6 +43,7 @@ public class RotaryCraft {
         net.scwunge.rotarycraft.registry.SurveyRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.WorldMachineRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.SolarRegistry.init(modBus);
+        net.scwunge.rotarycraft.registry.CraftingRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.FarmRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.ProcessRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.MachineSoundRegistry.init(modBus);
