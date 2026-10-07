@@ -166,4 +166,20 @@ gui('filtergui2.png', 'item_filter')
 shaped('item_filter', ['sSs', 'CCC', 'PRP'], {'s': STEEL, 'S': item('screen'), 'C': CIRCUIT, 'R': vanilla('redstone'), 'P': BASEPANEL})
 names({'block.rotarycraft.item_filter': 'Item Filter'})
 
+# ---- Drop Processor (a plain cube) ----
+
+
+def drops_mark(im):
+    from PIL import ImageDraw
+    g = ImageDraw.Draw(im)
+    g.rectangle([3, 3, 12, 12], fill=(66, 62, 58, 255), outline=(150, 154, 162, 255))
+    g.polygon([(8, 4), (11, 8), (8, 12), (5, 8)], fill=(200, 150, 70, 255))
+    g.point((8, 8), fill=(255, 255, 255, 255))
+
+
+drawn_machine('drop_processor', drops_mark, face='up')
+gui('dropgui.png', 'drop_processor')
+shaped('drop_processor', ['PSP', 'PDP', 'PSP'], {'S': STEEL, 'D': item('drill'), 'P': BASEPANEL})
+names({'block.rotarycraft.drop_processor': 'Drop Processor'})
+
 mg.finish()

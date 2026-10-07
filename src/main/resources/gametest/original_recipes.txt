@@ -53,7 +53,7 @@ PENDING|DISK|not ported yet
 MAP|DISPLAY|display
 MAP|DISTILLER|distiller
 MAP|DISTRIBCLUTCH|distribution_clutch
-PENDING|DROPS|not ported yet
+MAP|DROPS|drop_processor
 MAP|DRYING|dryer
 MAP|DYNAMO|dynamo
 MAP|DYNAMOMETER|dynamometer

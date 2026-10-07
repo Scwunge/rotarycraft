@@ -14,7 +14,7 @@ ALIASES = {
     'BEDPIPE': 'bedrock_pipe', 'BEVELGEARS': 'bevel_gear', 'CRAFTER': 'auto_crafter', 'DRYING': 'dryer', 'FILLER': 'block_filler',
     'FIREWORK': 'firework_machine', 'FRICTION': 'friction_heater', 'HYDRATOR': 'ground_hydrator', 'LAVAMAKER': 'rock_melter',
     'MAGNETIC': 'magnetic_motor', 'OBSIDIAN': 'obsidian_maker', 'PARTICLE': 'particle_emitter', 'PNEUENGINE': 'pneumatic_engine',
-    'SUCTION': 'suction_pipe', 'DISTRIBCLUTCH': 'distribution_clutch', 'BELT': 'belt_hub', 'CHAIN': 'chain_drive', 'SPLITBELT': 'split_belt', 'ECU': 'engine_controller', 'VANDEGRAFF': 'van_de_graaff', 'FUELENGINE': 'gas_engine',
+    'SUCTION': 'suction_pipe', 'DISTRIBCLUTCH': 'distribution_clutch', 'DROPS': 'drop_processor', 'BELT': 'belt_hub', 'CHAIN': 'chain_drive', 'SPLITBELT': 'split_belt', 'ECU': 'engine_controller', 'VANDEGRAFF': 'van_de_graaff', 'FUELENGINE': 'gas_engine',
     'STEELPICK': 'steel_pickaxe', 'STEELAXE': 'steel_axe', 'STEELSHOVEL': 'steel_shovel', 'STEELHOE': 'steel_hoe', 'STEELSWORD': 'steel_sword',
     'STEELSHEARS': 'steel_shears', 'STEELSICKLE': 'steel_sickle', 'STEELHELMET': 'steel_helmet', 'STEELCHEST': 'steel_chestplate', 'STEELLEGS': 'steel_leggings',
     'STEELBOOTS': 'steel_boots',

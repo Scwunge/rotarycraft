@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/drop_processor"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/drop_processor"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/drop_processor"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/drop_processor"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/drop_processor"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/drop_processor"
+    }
+  }
+}

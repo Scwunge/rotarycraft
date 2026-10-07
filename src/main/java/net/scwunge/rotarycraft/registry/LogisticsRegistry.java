@@ -22,6 +22,7 @@ import net.scwunge.rotarycraft.logistics.ChestContents;
 import net.scwunge.rotarycraft.logistics.ScaleChestBlockEntity;
 import net.scwunge.rotarycraft.logistics.ScaleChestMenu;
 import net.scwunge.rotarycraft.logistics.PurifierBlockEntity;
+import net.scwunge.rotarycraft.logistics.DropProcessorBlockEntity;
 import net.scwunge.rotarycraft.logistics.ItemFilterBlockEntity;
 import net.scwunge.rotarycraft.logistics.SortingBlockEntity;
 import net.scwunge.rotarycraft.logistics.SpillwayBlockEntity;
@@ -69,6 +70,8 @@ public final class LogisticsRegistry {
     public static final Machines.Entry<FillingStationBlockEntity, LayoutMachineBlock> FILLING_STATION = Machines.machine("filling_station", FillingStationBlockEntity::new);
     public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> FILLING_STATION_MENU = LayoutMenus.register(FillingStationBlockEntity.LAYOUT);
 
+    public static final Machines.Entry<DropProcessorBlockEntity, LayoutMachineBlock> DROP_PROCESSOR = Machines.machine("drop_processor", DropProcessorBlockEntity::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> DROP_PROCESSOR_MENU = LayoutMenus.register(DropProcessorBlockEntity.LAYOUT);
     public static final Machines.Entry<ItemFilterBlockEntity, LayoutMachineBlock> ITEM_FILTER = Machines.machine("item_filter", ItemFilterBlockEntity::new);
     public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> ITEM_FILTER_MENU = LayoutMenus.register(ItemFilterBlockEntity.LAYOUT);
     public static final Machines.Entry<SortingBlockEntity, LayoutMachineBlock> SORTING = Machines.register("sorting", SortingBlockEntity::new,
@@ -97,6 +100,7 @@ public final class LogisticsRegistry {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SMOKE_DETECTOR.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, HEATER.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, IGNITER.type().get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, DROP_PROCESSOR.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ITEM_FILTER.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SCALE_CHEST.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, SPILLWAY.type().get(), (be, side) -> be.fluidHandler(side));

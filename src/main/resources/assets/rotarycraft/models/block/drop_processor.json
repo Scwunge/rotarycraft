@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "up": "rotarycraft:block/drop_processor_up",
+    "down": "rotarycraft:block/machine_side",
+    "north": "rotarycraft:block/machine_side",
+    "south": "rotarycraft:block/machine_side",
+    "east": "rotarycraft:block/machine_side",
+    "west": "rotarycraft:block/machine_side",
+    "particle": "rotarycraft:block/drop_processor_up"
+  }
+}
