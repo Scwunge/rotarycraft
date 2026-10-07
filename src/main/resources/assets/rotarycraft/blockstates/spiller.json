@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/spiller"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/spiller"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/spiller"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/spiller"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/spiller"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/spiller"
+    }
+  }
+}

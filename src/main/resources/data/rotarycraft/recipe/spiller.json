@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sSs",
+    "PpP",
+    "sgs"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "S": {
+      "item": "rotarycraft:pipe"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "p": {
+      "item": "minecraft:bucket"
+    },
+    "g": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:spiller",
+    "count": 1
+  }
+}

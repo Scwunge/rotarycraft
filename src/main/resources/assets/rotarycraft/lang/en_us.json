@@ -515,5 +515,8 @@
   "item.rotarycraft.iron_flywheel_core": "Iron Flywheel Core",
   "item.rotarycraft.gold_flywheel_core": "Gold Flywheel Core",
   "item.rotarycraft.bedrock_flywheel_core": "Bedrock Flywheel Core",
-  "block.rotarycraft.obsidian_maker": "Obsidian Maker"
+  "block.rotarycraft.obsidian_maker": "Obsidian Maker",
+  "block.rotarycraft.line_builder": "Line Builder",
+  "block.rotarycraft.block_filler": "Block Filler",
+  "block.rotarycraft.spiller": "Spiller"
 }

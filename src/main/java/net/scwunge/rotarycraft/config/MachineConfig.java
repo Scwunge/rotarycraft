@@ -17,6 +17,7 @@ public final class MachineConfig {
     public static final ModConfigSpec.IntValue PILE_DRIVER_DEPTH;
     public static final ModConfigSpec.IntValue LINE_BUILDER_LENGTH;
     public static final ModConfigSpec.IntValue BLOCK_FILLER_VOLUME;
+    public static final ModConfigSpec.IntValue AREA_FILLER_RANGE;
 
     /** The original's machines in this group, with whether each is on by default (the ones that change blocks or burn things are not). */
     private static final Object[][] MACHINES = {
@@ -26,7 +27,7 @@ public final class MachineConfig {
             {"particleEmitter", true}, {"decorativeTank", true}, {"itemCannon", true}, {"blockCannon", false}, {"arrowGun", true}, {"airGun", true},
             // logistics
             {"itemFilter", true}, {"sortingMachine", true}, {"dropProcessor", true}, {"itemRefresher", true}, {"scaleChest", true}, {"bucketFiller", true},
-            {"fillingStation", true}, {"spiller", false}, {"blockFillerFluid", false}, {"spillway", false}, {"wetter", true}, {"aggregator", true},
+            {"fillingStation", true}, {"spiller", false}, {"spillway", false}, {"wetter", true}, {"aggregator", true},
             {"purifier", true}, {"grindstone", true}, {"igniter", false}, {"heater", true}, {"furnaceHeater", true}, {"playerDetector", true},
             {"smokeDetector", true},
     };
@@ -41,8 +42,10 @@ public final class MachineConfig {
                     + (on ? "" : " Off by default because it changes blocks or sets things alight.")).define(name, on));
         }
         PILE_DRIVER_DEPTH = b.comment("Deepest a pile driver drives a pile, in blocks.").defineInRange("pileDriverDepth", 64, 1, 512);
-        LINE_BUILDER_LENGTH = b.comment("Longest line a line builder lays, in blocks.").defineInRange("lineBuilderLength", 64, 1, 512);
+        LINE_BUILDER_LENGTH = b.comment("Longest line a line builder lays, in blocks.").defineInRange("lineBuilderLength", 512, 64, 4096);
         BLOCK_FILLER_VOLUME = b.comment("Most blocks a block filler places in one go.").defineInRange("blockFillerVolume", 4096, 1, 1_000_000);
+        AREA_FILLER_RANGE = b.comment("How far out from itself a block filler or spiller looks for space to fill. 0 turns both off.")
+                .defineInRange("areaFillerRange", 16, 0, 64);
         b.pop();
         SPEC = b.build();
     }

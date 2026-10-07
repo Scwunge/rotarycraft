@@ -255,4 +255,60 @@ public abstract class InventoryMachineBlockEntity extends ConsumerBlockEntity im
         }
         owner = tag.hasUUID("owner_id") ? new WorldGuard.Owner(tag.getUUID("owner_id"), tag.getString("owner_name")) : null;
     }
+
+    // ---- keeping clients in step (renderers need a few numbers; the default would read the packet as saved data and miss them) ----
+
+    private boolean clientDirty;
+    private int syncedOmega;
+
+    /** Something the renderer shows has changed: the clients get an update within a few ticks. */
+    protected void markClientDirty() {
+        clientDirty = true;
+    }
+
+    /** What the client needs: its torque and speed, plus whatever the machine adds. */
+    protected void writeClient(CompoundTag tag) {
+        tag.putInt("omega", omega);
+        tag.putInt("torque", torque);
+    }
+
+    protected void readClient(CompoundTag tag) {
+        omega = tag.getInt("omega");
+        torque = tag.getInt("torque");
+    }
+
+    @Override
+    public void serverTick() {
+        super.serverTick();
+        if (omega != syncedOmega) {
+            syncedOmega = omega;
+            clientDirty = true;
+        }
+        if (clientDirty && level != null && level.getGameTime() % 5 == 0) {
+            clientDirty = false;
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
+        }
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        CompoundTag tag = new CompoundTag();
+        writeClient(tag);
+        return tag;
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
+        readClient(tag);
+    }
+
+    @Override
+    public void onDataPacket(net.minecraft.network.Connection net, net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider registries) {
+        handleUpdateTag(pkt.getTag(), registries);
+    }
+
+    @Override
+    public net.minecraft.network.protocol.Packet<net.minecraft.network.protocol.game.ClientGamePacketListener> getUpdatePacket() {
+        return net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket.create(this);
+    }
 }

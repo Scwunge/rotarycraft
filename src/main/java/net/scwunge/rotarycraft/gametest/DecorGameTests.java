@@ -108,4 +108,179 @@ public class DecorGameTests {
         maker.addTemperature(ObsidianMakerBlockEntity.MAX_TEMPERATURE + 100 - maker.temperature());
         helper.succeedWhen(() -> helper.assertBlock(MACHINE, b -> b == Blocks.LAVA, () -> "it should have burst into lava"));
     }
+
+    // ---- Line Builder ----
+
+    /** Stops machines owned by nobody (they act as an anonymous fake player) from changing blocks in {@code box}, as a claim mod would. */
+    static Runnable claim(net.minecraft.world.phys.AABB box) {
+        java.util.function.Consumer<net.neoforged.neoforge.event.level.BlockEvent.BreakEvent> listener = e -> {
+            if (box.contains(e.getPos().getX() + 0.5, e.getPos().getY() + 0.5, e.getPos().getZ() + 0.5)) {
+                e.setCanceled(true);
+            }
+        };
+        net.neoforged.neoforge.common.NeoForge.EVENT_BUS.addListener(listener);
+        return () -> net.neoforged.neoforge.common.NeoForge.EVENT_BUS.unregister(listener);
+    }
+
+    static net.scwunge.rotarycraft.blockentity.LineBuilderBlockEntity lineBuilder(GameTestHelper helper) {
+        WeaponGameTests.spinningFlywheel(helper, MACHINE.west(), 1024, 256, Direction.EAST);
+        helper.setBlock(MACHINE, DecorRegistry.LINE_BUILDER.block().get().defaultBlockState()
+                .setValue(net.scwunge.rotarycraft.block.MachineBlock.FACING, Direction.EAST));
+        net.scwunge.rotarycraft.blockentity.LineBuilderBlockEntity builder = helper.getBlockEntity(MACHINE);
+        builder.items().setStackInSlot(0, new ItemStack(Items.COBBLESTONE, 8));
+        return builder;
+    }
+
+    @GameTest(template = TEMPLATE, batch = "decor_linebuilderpushes", timeoutTicks = 100)
+    public static void lineBuilderPushesTheLineAndAddsABlock(GameTestHelper helper) {
+        Runnable restore = enable("lineBuilder");
+        net.scwunge.rotarycraft.blockentity.LineBuilderBlockEntity builder = lineBuilder(helper);
+        helper.setBlock(MACHINE.east(), Blocks.STONE);
+        helper.runAfterDelay(60, () -> {
+            restore.run();
+            helper.assertBlock(MACHINE.east(2), b -> b == Blocks.STONE, () -> "the stone should have been pushed along");
+            helper.assertBlock(MACHINE.east(), b -> b == Blocks.COBBLESTONE, () -> "and a block added behind it");
+            helper.assertTrue(builder.items().getStackInSlot(0).getCount() < 8, "from its slots");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "decor_linebuilderoff", timeoutTicks = 100)
+    public static void lineBuilderDoesNothingUnlessSwitchedOn(GameTestHelper helper) {
+        lineBuilder(helper);
+        helper.setBlock(MACHINE.east(), Blocks.STONE);
+        helper.runAfterDelay(60, () -> {
+            helper.assertBlock(MACHINE.east(), b -> b == Blocks.STONE, () -> "it should be switched off by default");
+            helper.assertBlock(MACHINE.east(2), b -> b == Blocks.AIR, () -> "so nothing moves");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "decor_linebuilderblockentity", timeoutTicks = 100)
+    public static void lineBuilderWillNotPushABlockEntity(GameTestHelper helper) {
+        Runnable restore = enable("lineBuilder");
+        lineBuilder(helper);
+        helper.setBlock(MACHINE.east(), Blocks.CHEST);
+        helper.runAfterDelay(60, () -> {
+            restore.run();
+            helper.assertBlock(MACHINE.east(), b -> b == Blocks.CHEST, () -> "the chest must stay put");
+            helper.assertBlock(MACHINE.east(2), b -> b == Blocks.AIR, () -> "and nothing is pushed");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "decor_linebuilderclaim", timeoutTicks = 100)
+    public static void lineBuilderRespectsClaims(GameTestHelper helper) {
+        Runnable restore = enable("lineBuilder");
+        BlockPos abs = helper.absolutePos(MACHINE.east());
+        Runnable release = claim(new net.minecraft.world.phys.AABB(abs).inflate(0.1));
+        lineBuilder(helper);
+        helper.runAfterDelay(60, () -> {
+            restore.run();
+            release.run();
+            helper.assertBlock(MACHINE.east(), b -> b == Blocks.AIR, () -> "a claimed block must not be built on");
+            helper.succeed();
+        });
+    }
+
+    // ---- Block Filler and Spiller ----
+
+    static final BlockPos PIT = new BlockPos(2, 3, 2);
+
+    /** A one-block-wide pit two deep beneath {@code PIT}, walled in with stone. */
+    static void pit(GameTestHelper helper) {
+        for (BlockPos p : new BlockPos[] {new BlockPos(2, 0, 2), new BlockPos(1, 1, 2), new BlockPos(3, 1, 2), new BlockPos(2, 1, 1), new BlockPos(2, 1, 3),
+                new BlockPos(1, 2, 2), new BlockPos(3, 2, 2), new BlockPos(2, 2, 1), new BlockPos(2, 2, 3)}) {
+            helper.setBlock(p, Blocks.STONE);
+        }
+        helper.setBlock(new BlockPos(2, 1, 2), Blocks.AIR);
+        helper.setBlock(new BlockPos(2, 2, 2), Blocks.AIR);
+    }
+
+    static net.scwunge.rotarycraft.blockentity.BlockFillerBlockEntity blockFiller(GameTestHelper helper, ItemStack stack) {
+        pit(helper);
+        WeaponGameTests.spinningFlywheel(helper, PIT.west(), 1, 2048, Direction.EAST);
+        helper.setBlock(PIT, DecorRegistry.BLOCK_FILLER.block().get().defaultBlockState().setValue(net.scwunge.rotarycraft.block.MachineBlock.FACING, Direction.EAST));
+        net.scwunge.rotarycraft.blockentity.BlockFillerBlockEntity filler = helper.getBlockEntity(PIT);
+        filler.items().setStackInSlot(0, stack);
+        return filler;
+    }
+
+    @GameTest(template = TEMPLATE, batch = "decor_blockfillerfills", timeoutTicks = 100)
+    public static void blockFillerFillsThePitLowestFirst(GameTestHelper helper) {
+        Runnable restore = enable("blockFiller");
+        net.scwunge.rotarycraft.blockentity.BlockFillerBlockEntity filler = blockFiller(helper, new ItemStack(Items.COBBLESTONE, 5));
+        helper.runAfterDelay(60, () -> {
+            restore.run();
+            helper.assertBlock(new BlockPos(2, 1, 2), b -> b == Blocks.COBBLESTONE, () -> "the bottom of the pit should be filled");
+            helper.assertBlock(new BlockPos(2, 2, 2), b -> b == Blocks.COBBLESTONE, () -> "then the next layer");
+            helper.assertTrue(filler.items().getStackInSlot(0).getCount() == 3, "using one block each: " + filler.items().getStackInSlot(0).getCount() + " left");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "decor_blockfilleroff", timeoutTicks = 100)
+    public static void blockFillerDoesNothingUnlessSwitchedOn(GameTestHelper helper) {
+        blockFiller(helper, new ItemStack(Items.COBBLESTONE, 5));
+        helper.runAfterDelay(60, () -> {
+            helper.assertBlock(new BlockPos(2, 1, 2), b -> b == Blocks.AIR, () -> "it should be switched off by default");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "decor_blockfillerclaim", timeoutTicks = 100)
+    public static void blockFillerRespectsClaims(GameTestHelper helper) {
+        Runnable restore = enable("blockFiller");
+        Runnable release = claim(new net.minecraft.world.phys.AABB(helper.absolutePos(new BlockPos(2, 1, 2))).inflate(1.1));
+        blockFiller(helper, new ItemStack(Items.COBBLESTONE, 5));
+        helper.runAfterDelay(60, () -> {
+            restore.run();
+            release.run();
+            helper.assertBlock(new BlockPos(2, 1, 2), b -> b == Blocks.AIR, () -> "a claimed space must not be filled");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "decor_blockfillerpower", timeoutTicks = 100)
+    public static void blockFillerNeedsMorePowerForStone(GameTestHelper helper) {
+        Runnable restore = enable("blockFiller");
+        pit(helper);
+        WeaponGameTests.spinningFlywheel(helper, PIT.west(), 1, 1500, Direction.EAST);
+        helper.setBlock(PIT, DecorRegistry.BLOCK_FILLER.block().get().defaultBlockState().setValue(net.scwunge.rotarycraft.block.MachineBlock.FACING, Direction.EAST));
+        net.scwunge.rotarycraft.blockentity.BlockFillerBlockEntity filler = helper.getBlockEntity(PIT);
+        filler.items().setStackInSlot(0, new ItemStack(Items.STONE, 2));
+        helper.runAfterDelay(60, () -> {
+            restore.run();
+            helper.assertBlock(new BlockPos(2, 1, 2), b -> b == Blocks.AIR, () -> "1500 W is not enough to place stone (2048 W)");
+            helper.assertTrue(!filler.items().isItemValid(0, new ItemStack(Items.DIAMOND)) && filler.items().isItemValid(0, new ItemStack(Items.STONE)), "only blocks go in");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "decor_spillerfills", timeoutTicks = 100)
+    public static void spillerPlacesSourceBlocksFromItsTank(GameTestHelper helper) {
+        Runnable restore = enable("spiller");
+        pit(helper);
+        WeaponGameTests.spinningFlywheel(helper, PIT.west(), 1, 1024, Direction.EAST);
+        helper.setBlock(PIT, DecorRegistry.SPILLER.block().get().defaultBlockState().setValue(net.scwunge.rotarycraft.block.MachineBlock.FACING, Direction.EAST));
+        net.scwunge.rotarycraft.blockentity.SpillerBlockEntity spiller = helper.getBlockEntity(PIT);
+        spiller.tank().fill(new FluidStack(Fluids.WATER, 2500), IFluidHandler.FluidAction.EXECUTE);
+        helper.runAfterDelay(80, () -> {
+            restore.run();
+            helper.assertBlock(new BlockPos(2, 1, 2), b -> b == Blocks.WATER, () -> "the pit bottom should be water");
+            helper.assertBlock(new BlockPos(2, 2, 2), b -> b == Blocks.WATER, () -> "and the next");
+            helper.assertTrue(spiller.tank().getFluidAmount() == 500, "a bucket each: " + spiller.tank().getFluidAmount() + " mB left");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, batch = "decor_spillersides", timeoutTicks = 40)
+    public static void spillerTakesFluidFromTheTopAndSidesNotTheBottom(GameTestHelper helper) {
+        helper.setBlock(PIT, DecorRegistry.SPILLER.block().get().defaultBlockState());
+        BlockPos abs = helper.absolutePos(PIT);
+        helper.assertTrue(helper.getLevel().getCapability(Capabilities.FluidHandler.BLOCK, abs, Direction.DOWN) == null, "the bottom takes nothing");
+        IFluidHandler top = helper.getLevel().getCapability(Capabilities.FluidHandler.BLOCK, abs, Direction.UP);
+        helper.assertTrue(top != null && top.fill(new FluidStack(Fluids.LAVA, 1000), IFluidHandler.FluidAction.EXECUTE) == 1000, "the top takes lava");
+        helper.succeed();
+    }
 }

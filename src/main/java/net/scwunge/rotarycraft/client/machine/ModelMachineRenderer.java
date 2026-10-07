@@ -48,28 +48,28 @@ public class ModelMachineRenderer<T extends BlockEntity> implements BlockEntityR
     protected void drawExtras(T machine, float partialTick, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
     }
 
-    /** A turn about the vertical to apply to the model, for machines that face one of the four sides (degrees). */
-    protected float yaw(T machine) {
-        return 0;
+    /** Turns the model, in model space (as the original's glRotatef after its translate and scale), for machines that face somewhere. */
+    protected void orient(T machine, PoseStack pose) {
     }
 
     @Override
     public void render(T machine, float partialTick, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
         pose.pushPose();
-        pose.translate(0.5, 0, 0.5);
-        pose.mulPose(com.mojang.math.Axis.YP.rotationDegrees(yaw(machine)));
-        pose.translate(-0.5, 0, -0.5);
         ReikaModel.enterModelSpace(pose);
+        orient(machine, pose);
         draw(machine, partialTick, pose, buffers.getBuffer(RenderType.entityCutoutNoCull(texture)), light, overlay);
         pose.popPose();
         drawExtras(machine, partialTick, pose, buffers, light, overlay);
     }
 
-    /** The degrees that turn a model made facing south to face {@code facing} (up and down are left as they are). */
-    public static float yawFor(Direction facing) {
+    /**
+     * The common orientation of the original's four-sided machines: the degrees (about the model's vertical axis, in model space) for a machine
+     * whose output side is {@code facing}: east 90, south 180, west 270, north 0.
+     */
+    public static float sideYaw(Direction facing) {
         return switch (facing) {
-            case NORTH -> 180;
             case EAST -> 90;
+            case SOUTH -> 180;
             case WEST -> 270;
             default -> 0;
         };

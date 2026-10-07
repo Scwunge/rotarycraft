@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sps",
+    "phP",
+    "sgs"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "p": {
+      "item": "rotarycraft:pipe"
+    },
+    "h": {
+      "item": "minecraft:hopper"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "g": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:block_filler",
+    "count": 1
+  }
+}

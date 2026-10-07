@@ -116,7 +116,10 @@
     "rotarycraft:spawner_controller",
     "rotarycraft:woodcutter"
 =======
-    "rotarycraft:obsidian_maker"
->>>>>>> 0eed8a5 (Add the Obsidian Maker and a shared layout framework for machine screens)
+    "rotarycraft:obsidian_maker",
+    "rotarycraft:line_builder",
+    "rotarycraft:block_filler",
+    "rotarycraft:spiller"
+>>>>>>> 95a9dd1 (Add the Line Builder, Block Filler and Spiller, with claim checks for placing blocks)
   ]
 }

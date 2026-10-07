@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sbs",
+    "sps",
+    "PgP"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "b": {
+      "item": "rotarycraft:bedrock_ingot"
+    },
+    "p": {
+      "item": "minecraft:piston"
+    },
+    "g": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:line_builder",
+    "count": 1
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/line_builder"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/line_builder"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/line_builder"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/line_builder"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/line_builder"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/line_builder"
+    }
+  }
+}

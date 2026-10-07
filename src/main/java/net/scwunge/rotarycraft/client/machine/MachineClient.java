@@ -17,6 +17,7 @@ import net.scwunge.rotarycraft.registry.DecorRegistry;
 @EventBusSubscriber(modid = RotaryCraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public final class MachineClient {
     private static final ObsidianMakerRenderer OBSIDIAN_MAKER = new ObsidianMakerRenderer();
+    private static final LineBuilderRenderer LINE_BUILDER = new LineBuilderRenderer();
 
     private MachineClient() {}
 
@@ -28,6 +29,7 @@ public final class MachineClient {
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(DecorRegistry.OBSIDIAN_MAKER.type().get(), c -> OBSIDIAN_MAKER);
+        event.registerBlockEntityRenderer(DecorRegistry.LINE_BUILDER.type().get(), c -> LINE_BUILDER);
     }
 
     private static IClientItemExtensions modelItem(ModelMachineRenderer<?> renderer) {
@@ -48,5 +50,6 @@ public final class MachineClient {
     @SubscribeEvent
     public static void items(RegisterClientExtensionsEvent event) {
         event.registerItem(modelItem(OBSIDIAN_MAKER), DecorRegistry.OBSIDIAN_MAKER.block().get().asItem());
+        event.registerItem(modelItem(LINE_BUILDER), DecorRegistry.LINE_BUILDER.block().get().asItem());
     }
 }

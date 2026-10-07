@@ -56,6 +56,11 @@ def sprite(sheet, index, name):
     w('%s/models/item/%s.json' % (A, name), {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/' + name}})
 
 
+def gui_copy(existing, name):
+    """A GUI picture this port already has, under another name (machines that share the original's picture)."""
+    shutil.copy('%s/gui/%s.png' % (T, existing), '%s/gui/%s.png' % (T, name))
+
+
 def loot(name):
     w('%s/loot_table/blocks/%s.json' % (D, name), {'type': 'minecraft:block', 'pools': [{
         'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'rotarycraft:' + name}], 'conditions': [{'condition': 'minecraft:survives_explosion'}]}]})
@@ -86,6 +91,19 @@ def cube_machine(name, textures, particle=None):
     w('%s/blockstates/%s.json' % (A, name), {'variants': {'facing=' + f: {'model': 'rotarycraft:block/' + name} for f in FACINGS}})
     w('%s/models/item/%s.json' % (A, name), {'parent': 'rotarycraft:block/' + name})
     loot(name)
+
+
+def drawn_machine(name, draw, face='down', base='machine_side'):
+    """A plain cube machine (the original's BlockMachine icons are not in the reference): the shared machine side with {@code draw(image)} on one face."""
+    from PIL import Image
+    os.makedirs(T + '/block', exist_ok=True)
+    side = Image.open('%s/block/%s.png' % (T, base)).convert('RGBA')
+    art = side.copy()
+    draw(art)
+    art.save('%s/block/%s_%s.png' % (T, name, face))
+    textures = {f: base for f in FACINGS}
+    textures[face] = '%s_%s' % (name, face)
+    cube_machine(name, textures)
 
 
 def item(i):
@@ -132,3 +150,16 @@ def finish():
     MACHINES.clear()
     MODELS.clear()
     LANG.clear()
+
+
+# The original's recipe shorthands (ItemStacks.java) as this port's items.
+BASEPANEL = item('base_panel')
+PIPE = item('pipe')
+GEAR2, GEAR4, GEAR8, GEAR16 = (item('steel_gear_unit_%d' % n) for n in (2, 4, 8, 16))
+SHAFT = item('shaft_steel')
+BEDROCK_INGOT = item('bedrock_ingot')
+TUNGSTEN = item('tungsten_ingot')
+LENS, BULB, MIRROR = item('lens'), item('bulb'), item('mirror')
+IMPELLER, COMPRESSOR, DIFFUSER, CONDENSER, GOLD_COIL = item('impeller'), item('compressor'), item('diffuser'), item('condenser'), item('gold_coil')
+DRILL, SCREEN, MIXER, BALL_BEARING = item('drill'), item('screen'), item('mixer'), item('ball_bearing')
+CIRCUIT = item('circuit_board')
