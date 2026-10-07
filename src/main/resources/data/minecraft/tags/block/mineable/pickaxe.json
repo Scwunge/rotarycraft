@@ -146,6 +146,7 @@
     "rotarycraft:block_cannon",
     "rotarycraft:music_box",
     "rotarycraft:worktable",
-    "rotarycraft:auto_crafter"
+    "rotarycraft:auto_crafter",
+    "rotarycraft:multi_clutch"
   ]
 }

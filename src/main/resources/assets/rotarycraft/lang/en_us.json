@@ -614,5 +614,6 @@
   "gui.rotarycraft.pattern_mode.blast_furnace": "Blast Furnace Crafting",
   "gui.rotarycraft.pattern_limit": "Input Limit",
   "gui.rotarycraft.crafter_mode.request": "Request: crafts one cycle per request",
-  "gui.rotarycraft.crafter_mode.continuous": "Continuous: crafts as long as there are ingredients"
+  "gui.rotarycraft.crafter_mode.continuous": "Continuous: crafts as long as there are ingredients",
+  "block.rotarycraft.multi_clutch": "Multi-Clutch"
 }
