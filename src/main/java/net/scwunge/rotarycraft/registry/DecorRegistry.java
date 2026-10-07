@@ -1,6 +1,16 @@
 package net.scwunge.rotarycraft.registry;
 
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
+import net.neoforged.neoforge.registries.DeferredItem;
+import net.scwunge.rotarycraft.decor.DecoTank;
+import net.scwunge.rotarycraft.decor.DecoTankBlock;
+import net.scwunge.rotarycraft.decor.DecoTankBlockEntity;
+import net.scwunge.rotarycraft.decor.DecoTankItem;
+import net.scwunge.rotarycraft.decor.DecoTankSettingsRecipe;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -96,10 +106,19 @@ public final class DecorRegistry {
     public static final Machines.Entry<AirGunBlockEntity, LayoutMachineBlock> AIR_GUN = Machines.register("air_gun", AirGunBlockEntity::new,
             type -> new LayoutMachineBlock(RotaryBlocks.machineProps().noOcclusion(), type::get, AirGunBlockEntity::new, true));
 
+    // ---- Decorative Tank ----
+    public static final DeferredBlock<DecoTankBlock> DECO_TANK_BLOCK = RotaryBlocks.BLOCKS.register("deco_tank", DecoTankBlock::new);
+    public static final DeferredItem<DecoTankItem> DECO_TANK = RotaryItems.add(RotaryItems.ITEMS.register("deco_tank", () -> new DecoTankItem(DECO_TANK_BLOCK.get(), new Item.Properties())));
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DecoTankBlockEntity>> DECO_TANK_BE = RotaryBlockEntities.TYPES.register("deco_tank",
+            () -> BlockEntityType.Builder.of(DecoTankBlockEntity::new, DECO_TANK_BLOCK.get()).build(null));
+    public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<DecoTankSettingsRecipe>> DECO_TANK_SETTINGS = RotaryRecipes.SERIALIZERS.register("deco_tank_settings",
+            DecoTankSettingsRecipe::serializer);
+
     private DecorRegistry() {}
 
     /** Loads the class, so its entries join the shared registers. */
     public static void init(IEventBus modBus) {
+        DecoTank.COMPONENTS.register(modBus);
     }
 
     @SubscribeEvent
@@ -114,6 +133,7 @@ public final class DecorRegistry {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FIREWORK_MACHINE.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ITEM_CANNON.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ARROW_GUN.type().get(), (be, side) -> be.automationItems());
+        event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> new FluidHandlerItemStack(DecoTank.FLUID, stack, DecoTank.FILL), DECO_TANK.get());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, SPILLER.type().get(), (be, side) -> be.fluidHandler(side));
     }
 }

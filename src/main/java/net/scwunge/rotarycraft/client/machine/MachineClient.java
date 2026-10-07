@@ -49,6 +49,7 @@ public final class MachineClient {
         event.registerBlockEntityRenderer(DecorRegistry.PILE_DRIVER.type().get(), c -> PILE_DRIVER);
         event.registerBlockEntityRenderer(DecorRegistry.BEAM_MIRROR.type().get(), c -> BEAM_MIRROR);
         event.registerBlockEntityRenderer(DecorRegistry.AIR_GUN.type().get(), c -> AIR_GUN);
+        event.registerBlockEntityRenderer(DecorRegistry.DECO_TANK_BE.get(), c -> new DecoTankRenderer());
         event.registerBlockEntityRenderer(DecorRegistry.ITEM_CANNON.type().get(), c -> ITEM_CANNON);
     }
 

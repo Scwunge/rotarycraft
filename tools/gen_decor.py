@@ -192,4 +192,44 @@ rendered_machine('air_gun', model='ModelAirGun', texture='airguntex.png')
 shaped('air_gun', ['sps', 'I S', 'sps'], {'I': IMPELLER, 'p': BASEPANEL, 's': STEEL, 'S': item('sonar_unit')})
 names({'block.rotarycraft.arrow_gun': 'Arrow Gun', 'block.rotarycraft.air_gun': 'Air Gun'})
 
+# ---- Decorative Tank: a framed glass cube; the settings are block state (clear glass, ignore colour, glowing, resistant) ----
+
+
+def tank_textures():
+    from PIL import Image, ImageDraw
+    for resistant in (False, True):
+        for clear in (False, True):
+            im = Image.new('RGBA', (16, 16), (0, 0, 0, 0))
+            g = ImageDraw.Draw(im)
+            frame = (60, 62, 72, 255) if resistant else (150, 154, 162, 255)
+            inner = (35, 36, 44, 255) if resistant else (200, 204, 212, 255)
+            if not clear:
+                g.rectangle([1, 1, 14, 14], fill=(190, 225, 235, 70) if not resistant else (120, 130, 160, 110))
+                g.line([(3, 3), (6, 3)], fill=(255, 255, 255, 140))
+                g.line([(3, 3), (3, 6)], fill=(255, 255, 255, 140))
+            g.rectangle([0, 0, 15, 15], outline=frame)
+            g.rectangle([1, 1, 14, 14], outline=inner)
+            im.save('%s/block/deco_tank%s%s.png' % (T, '_resistant' if resistant else '', '_clear' if clear else ''))
+
+
+tank_textures()
+for _resistant in (False, True):
+    for _clear in (False, True):
+        _name = 'deco_tank%s%s' % ('_resistant' if _resistant else '', '_clear' if _clear else '')
+        w('%s/models/block/%s.json' % (A, _name), {'parent': 'minecraft:block/cube_all', 'render_type': 'minecraft:translucent', 'textures': {'all': 'rotarycraft:block/' + _name}})
+_variants = {}
+for _c in (False, True):
+    for _n in (False, True):
+        for _l in (False, True):
+            for _r in (False, True):
+                _key = 'clear=%s,lighted=%s,nocolor=%s,resistant=%s' % tuple(str(v).lower() for v in (_c, _l, _n, _r))
+                _variants[_key] = {'model': 'rotarycraft:block/deco_tank%s%s' % ('_resistant' if _r else '', '_clear' if _c else '')}
+w('%s/blockstates/deco_tank.json' % A, {'variants': _variants})
+w('%s/models/item/deco_tank.json' % A, {'parent': 'rotarycraft:block/deco_tank'})
+
+shaped('deco_tank', ['SGS', 'GGG', 'SGS'], {'S': STEEL, 'G': vanilla('glass_pane')}, count=4)
+w('%s/recipe/deco_tank_settings.json' % D, {'type': 'rotarycraft:deco_tank_settings', 'category': 'misc'})
+names({'block.rotarycraft.deco_tank': 'Decorative Tank', 'item.rotarycraft.deco_tank': 'Decorative Tank',
+       'tooltip.rotarycraft.deco_tank.full': 'Full of %s', 'tooltip.rotarycraft.deco_tank.empty': 'Empty'})
+
 mg.finish()

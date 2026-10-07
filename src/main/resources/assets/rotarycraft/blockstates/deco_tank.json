@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "clear=false,lighted=false,nocolor=false,resistant=false": {
+      "model": "rotarycraft:block/deco_tank"
+    },
+    "clear=false,lighted=false,nocolor=false,resistant=true": {
+      "model": "rotarycraft:block/deco_tank_resistant"
+    },
+    "clear=false,lighted=true,nocolor=false,resistant=false": {
+      "model": "rotarycraft:block/deco_tank"
+    },
+    "clear=false,lighted=true,nocolor=false,resistant=true": {
+      "model": "rotarycraft:block/deco_tank_resistant"
+    },
+    "clear=false,lighted=false,nocolor=true,resistant=false": {
+      "model": "rotarycraft:block/deco_tank"
+    },
+    "clear=false,lighted=false,nocolor=true,resistant=true": {
+      "model": "rotarycraft:block/deco_tank_resistant"
+    },
+    "clear=false,lighted=true,nocolor=true,resistant=false": {
+      "model": "rotarycraft:block/deco_tank"
+    },
+    "clear=false,lighted=true,nocolor=true,resistant=true": {
+      "model": "rotarycraft:block/deco_tank_resistant"
+    },
+    "clear=true,lighted=false,nocolor=false,resistant=false": {
+      "model": "rotarycraft:block/deco_tank_clear"
+    },
+    "clear=true,lighted=false,nocolor=false,resistant=true": {
+      "model": "rotarycraft:block/deco_tank_resistant_clear"
+    },
+    "clear=true,lighted=true,nocolor=false,resistant=false": {
+      "model": "rotarycraft:block/deco_tank_clear"
+    },
+    "clear=true,lighted=true,nocolor=false,resistant=true": {
+      "model": "rotarycraft:block/deco_tank_resistant_clear"
+    },
+    "clear=true,lighted=false,nocolor=true,resistant=false": {
+      "model": "rotarycraft:block/deco_tank_clear"
+    },
+    "clear=true,lighted=false,nocolor=true,resistant=true": {
+      "model": "rotarycraft:block/deco_tank_resistant_clear"
+    },
+    "clear=true,lighted=true,nocolor=true,resistant=false": {
+      "model": "rotarycraft:block/deco_tank_clear"
+    },
+    "clear=true,lighted=true,nocolor=true,resistant=true": {
+      "model": "rotarycraft:block/deco_tank_resistant_clear"
+    }
+  }
+}
