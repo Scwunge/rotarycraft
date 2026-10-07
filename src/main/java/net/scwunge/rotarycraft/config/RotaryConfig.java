@@ -24,7 +24,7 @@ public class RotaryConfig {
     public static final ModConfigSpec.BooleanValue RAILGUN_BLOCK_DAMAGE;
     public static final ModConfigSpec.IntValue FORCE_FIELD_RANGE, HEAT_RAY_RANGE, SPAWNER_MOB_LIMIT;
     public static final ModConfigSpec.BooleanValue FRICTION_HEATER_XP, LOCK_BEDROCK_ENCHANTS, BEDROCK_PICK_SPAWNERS;
-    public static final ModConfigSpec.BooleanValue JETPACK_NEEDS_JET_FUEL, JETPACK_CONSERVATIVE, JETPACK_BYPASSES_FLY_CHECK, JETPACK_WINGS_ON_SNEAK;
+    public static final ModConfigSpec.BooleanValue JETPACK_NEEDS_JET_FUEL, JETPACK_CONSERVATIVE, JETPACK_BYPASSES_FLY_CHECK, JETPACK_WINGS_ON_SNEAK, SPAWN_WITH_HANDBOOK;
     public static final ModConfigSpec.IntValue CAVE_SCANNER_RANGE;
     public static final java.util.Map<String, ModConfigSpec.BooleanValue> WEAPONS = new java.util.LinkedHashMap<>();
     // ---- utility machines that load or change the world (off unless the server turns them on) ----
@@ -83,6 +83,7 @@ public class RotaryConfig {
         JETPACK_CONSERVATIVE = b.comment("A jetpack fires a moment after you start to jump from the ground, so an ordinary hop does not use fuel.").define("conservativeJetpack", true);
         JETPACK_BYPASSES_FLY_CHECK = b.comment("A burning jetpack stops the server kicking you for flying (allow-flight off).").define("jetpackBypassesFlyCheck", true);
         JETPACK_WINGS_ON_SNEAK = b.comment("Wings glide only while you sneak (off: they glide unless you sneak).").define("jetpackWingsOnSneak", false);
+        SPAWN_WITH_HANDBOOK = b.comment("A player gets a Handbook the first time they join.").define("spawnWithHandbook", false);
         FORCE_FIELD_RANGE = b.comment("The largest radius the Force Field and Containment can make (never under 64).").defineInRange("forceFieldRange", 128, 1, 512);
         for (String w : new String[] {"railgun", "freezeGun", "antiAir", "gatling", "laserGun", "flameTurret", "heatRay", "tntCannon",
                 "sonicWeapon", "emp", "landmine", "forceField", "containment"}) {

@@ -27,7 +27,7 @@ PENDING|SPAWNERLEAK|bedrock tools (item 6)|spawnersLeakMobs
 MAP|BLOCKDAMAGE|explosionsBreakBlocks
 NA|DIFFICULTY|the original's medium-difficulty numbers are used throughout
 MAP|BIOMEBLOCKS|terraformerEditsBlocks
-PENDING|DYNAMICHANDBOOK|the Handbook (not ported)|reloadHandbook
+NA|DYNAMICHANDBOOK|the handbook is read from the resource packs, so reloading them (F3 + T) picks up changes
 NA|TABLEMACHINES|machines are made at the ordinary crafting table; a data pack can change that
 PENDING|EMPLOAD|the EMP's charging speed|empChargeSpeed
 NA|ROTATEHOSE|a recipe-conflict workaround for old mods
@@ -40,7 +40,7 @@ MAP|TURRETPLAYERS|turretsTargetPlayers
 NA|HSLADICT|steel is the c:ingots/steel tag
 MAP|PREENCHANT|lockBedrockEnchants
 PENDING|SPRINKLER|a client option for the Sprinkler's particles|sprinklerParticles
-PENDING|HANDBOOK|the Handbook (not ported)|spawnWithHandbook
+MAP|HANDBOOK|spawnWithHandbook
 MAP|CONSERVEPACK|conservativeJetpack
 NA|ALLOWBAN|claim mods can stop any machine
 NA|LOGBLOCKS|claim and logging mods see the block events the machines fire

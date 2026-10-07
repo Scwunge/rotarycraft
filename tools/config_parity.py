@@ -7,6 +7,7 @@ import re
 SRC = open('reference/RotaryCraft/Registry/ConfigRegistry.java', encoding='latin-1').read()
 
 MAP = {
+    'HANDBOOK': 'spawnWithHandbook',
     'SNEAKWINGS': 'jetpackWingsOnSneak',
     'KICKFLYING': 'jetpackBypassesFlyCheck',
     'JETFUELPACK': 'jetpackNeedsJetFuel',
@@ -22,6 +23,7 @@ MAP = {
     'CHUNKLOADERSIZE': 'chunkLoaderMaxRadius', 'BORERPOW': 'borerPowerFactor',
 }
 NA = {
+    'DYNAMICHANDBOOK': 'the handbook is read from the resource packs, so reloading them (F3 + T) picks up changes',
     'ACHIEVEMENTS': 'no achievements; advancements can be added by a data pack', 'MODORES': 'ores are matched through c: tags',
     'DIFFICULTY': 'the original\'s medium-difficulty numbers are used throughout', 'TABLEMACHINES': 'machines are made at the ordinary crafting table; a data pack can change that',
     'ROTATEHOSE': 'a recipe-conflict workaround for old mods', 'HSLADICT': 'steel is the c:ingots/steel tag', 'TEGLASS': 'Thermal Expansion only',
@@ -36,10 +38,10 @@ NA = {
 PENDING = {
     'GPRORES': ('the GPR\'s ore display', 'gprShowsOres'), 'INSTACUT': ('the Woodcutter dropping its wood at once', 'woodcutterInstant'),
     'CRAFTABLEBEDROCK': ('the bedrock recipe', 'craftableBedrock'), 'LOCKMACHINES': ('owner-only use of machines', 'ownerOnlyMachines'),
-    'SPAWNERLEAK': ('bedrock tools (item 6)', 'spawnersLeakMobs'), 'DYNAMICHANDBOOK': ('the Handbook (not ported)', 'reloadHandbook'),
+    'SPAWNERLEAK': ('bedrock tools (item 6)', 'spawnersLeakMobs'),
     'EMPLOAD': ('the EMP\'s charging speed', 'empChargeSpeed'), 'CHESTGEN': ('chest loot (not ported)', 'chestLootTier'),
     'PROJECTORLINES': ('a client option for the Projector', 'projectorLines'), 'COLORBLIND': ('a client option', 'colorBlindMode'),
-    'SPRINKLER': ('a client option for the Sprinkler\'s particles', 'sprinklerParticles'), 'HANDBOOK': ('the Handbook (not ported)', 'spawnWithHandbook'),
+    'SPRINKLER': ('a client option for the Sprinkler\'s particles', 'sprinklerParticles'), 
     'FLOWSPEED': ('how fast fluid flows through pipes', 'fluidFlowSpeed'),
     'EXTRAIRON': ('extra iron ore in world generation', 'extraIron'),
     'CLEARCHAT': ('the chat-writing tools', 'toolsClearChat'), 'EXTRACTORMAINTAIN': ('the Extractor\'s drill wearing down', 'extractorWear'),

@@ -90,7 +90,7 @@ PENDING|GRAFTER|not ported yet
 MAP|GRAVELGUN|gravel_gun
 MAP|GRINDER|grinder
 MAP|GRINDSTONE|grindstone
-PENDING|HANDBOOK|not ported yet
+MAP|HANDBOOK|handbook
 MAP|HANDCRAFT|handheld_crafting
 MAP|HEATER|heater
 MAP|HEATRAY|heat_ray

@@ -65,6 +65,8 @@ public final class GadgetRegistry {
     public static final DeferredItem<BedrockJetpackItem> BEDROCK_JETPACK = RotaryItems.add(RotaryItems.ITEMS.register("bedrock_jetpack",
             () -> new BedrockJetpackItem((Holder<ArmorMaterial>) BEDROCK_PACK)));
 
+    public static final DeferredItem<net.scwunge.rotarycraft.item.HandbookItem> HANDBOOK = RotaryItems.add(RotaryItems.ITEMS.register("handbook",
+            () -> new net.scwunge.rotarycraft.item.HandbookItem(new Item.Properties())));
     public static final DeferredItem<FuelTankItem> FUEL_TANK = RotaryItems.add(RotaryItems.ITEMS.register("fuel_tank", () -> new FuelTankItem(new Item.Properties())));
     public static final DeferredItem<ExplosiveShellItem> EXPLOSIVE_SHELL = RotaryItems.add(RotaryItems.ITEMS.register("explosive_shell",
             () -> new ExplosiveShellItem(new Item.Properties())));

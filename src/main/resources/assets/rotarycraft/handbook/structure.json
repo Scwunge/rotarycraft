@@ -1,0 +1,893 @@
+{
+  "chapters": [
+    {
+      "id": "start",
+      "icon": "rotarycraft:handbook",
+      "pages": [
+        {
+          "id": "welcome",
+          "entries": [],
+          "paragraphs": 3
+        },
+        {
+          "id": "power",
+          "entries": [
+            {
+              "id": "transducer",
+              "item": "rotarycraft:angular_transducer"
+            },
+            {
+              "id": "dynamometer",
+              "item": "rotarycraft:dynamometer"
+            }
+          ],
+          "paragraphs": 3
+        },
+        {
+          "id": "lines",
+          "entries": [
+            {
+              "id": "screwdriver",
+              "item": "rotarycraft:screwdriver"
+            },
+            {
+              "id": "shafts",
+              "item": "rotarycraft:shaft_steel"
+            },
+            {
+              "id": "gearboxes",
+              "item": "rotarycraft:gearbox_steel_2x"
+            }
+          ],
+          "paragraphs": 3
+        },
+        {
+          "id": "parts",
+          "entries": [
+            {
+              "id": "steel",
+              "item": "rotarycraft:hsla_steel_ingot"
+            },
+            {
+              "id": "blast_furnace",
+              "item": "rotarycraft:blast_furnace"
+            }
+          ],
+          "paragraphs": 3
+        }
+      ]
+    },
+    {
+      "id": "engines",
+      "icon": "rotarycraft:dc_engine",
+      "pages": [
+        {
+          "id": "electric_engines",
+          "entries": [
+            {
+              "id": "dc_engine",
+              "item": "rotarycraft:dc_engine"
+            },
+            {
+              "id": "ac_engine",
+              "item": "rotarycraft:ac_engine"
+            },
+            {
+              "id": "magnetizer",
+              "item": "rotarycraft:magnetizer"
+            },
+            {
+              "id": "electric_motor",
+              "item": "rotarycraft:electric_motor"
+            },
+            {
+              "id": "generator",
+              "item": "rotarycraft:generator"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "fuel_engines",
+          "entries": [
+            {
+              "id": "gas_engine",
+              "item": "rotarycraft:gas_engine"
+            },
+            {
+              "id": "performance_engine",
+              "item": "rotarycraft:performance_engine"
+            },
+            {
+              "id": "microturbine",
+              "item": "rotarycraft:microturbine"
+            },
+            {
+              "id": "jet_engine",
+              "item": "rotarycraft:jet_engine"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "natural_engines",
+          "entries": [
+            {
+              "id": "wind_engine",
+              "item": "rotarycraft:wind_engine"
+            },
+            {
+              "id": "hydro_engine",
+              "item": "rotarycraft:hydro_engine"
+            },
+            {
+              "id": "steam_engine",
+              "item": "rotarycraft:steam_engine"
+            },
+            {
+              "id": "solar_tower",
+              "item": "rotarycraft:solar_tower"
+            },
+            {
+              "id": "solar_mirror",
+              "item": "rotarycraft:solar_mirror"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "converters",
+          "entries": [
+            {
+              "id": "boiler",
+              "item": "rotarycraft:boiler"
+            },
+            {
+              "id": "steam_turbine",
+              "item": "rotarycraft:steam_turbine"
+            },
+            {
+              "id": "air_compressor",
+              "item": "rotarycraft:air_compressor"
+            },
+            {
+              "id": "pneumatic_engine",
+              "item": "rotarycraft:pneumatic_engine"
+            },
+            {
+              "id": "magnetic_motor",
+              "item": "rotarycraft:magnetic_motor"
+            },
+            {
+              "id": "dynamo",
+              "item": "rotarycraft:dynamo"
+            }
+          ],
+          "paragraphs": 1
+        }
+      ]
+    },
+    {
+      "id": "transmission",
+      "icon": "rotarycraft:shaft_steel",
+      "pages": [
+        {
+          "id": "shafts_gears",
+          "entries": [
+            {
+              "id": "shafts",
+              "item": "rotarycraft:shaft_steel"
+            },
+            {
+              "id": "gearboxes",
+              "item": "rotarycraft:gearbox_steel_2x"
+            },
+            {
+              "id": "flywheels",
+              "item": "rotarycraft:flywheel_iron"
+            },
+            {
+              "id": "bevel_gear",
+              "item": "rotarycraft:bevel_gear"
+            },
+            {
+              "id": "splitter",
+              "item": "rotarycraft:splitter"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "clutches",
+          "entries": [
+            {
+              "id": "clutch",
+              "item": "rotarycraft:clutch"
+            },
+            {
+              "id": "multi_clutch",
+              "item": "rotarycraft:multi_clutch"
+            },
+            {
+              "id": "distribution_clutch",
+              "item": "rotarycraft:distribution_clutch"
+            },
+            {
+              "id": "engine_controller",
+              "item": "rotarycraft:engine_controller"
+            },
+            {
+              "id": "power_bus",
+              "item": "rotarycraft:power_bus"
+            },
+            {
+              "id": "bus_controller",
+              "item": "rotarycraft:bus_controller"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "belts",
+          "entries": [
+            {
+              "id": "belt_hub",
+              "item": "rotarycraft:belt_hub"
+            },
+            {
+              "id": "chain_drive",
+              "item": "rotarycraft:chain_drive"
+            },
+            {
+              "id": "split_belt",
+              "item": "rotarycraft:split_belt"
+            },
+            {
+              "id": "worm_drive",
+              "item": "rotarycraft:worm_drive"
+            },
+            {
+              "id": "cvt",
+              "item": "rotarycraft:cvt"
+            }
+          ],
+          "paragraphs": 1
+        },
+        {
+          "id": "storage",
+          "entries": [
+            {
+              "id": "winder",
+              "item": "rotarycraft:winder"
+            },
+            {
+              "id": "energy_coil",
+              "item": "rotarycraft:energy_coil"
+            },
+            {
+              "id": "bedrock_energy_coil",
+              "item": "rotarycraft:bedrock_energy_coil"
+            },
+            {
+              "id": "dynamometer",
+              "item": "rotarycraft:dynamometer"
+            }
+          ],
+          "paragraphs": 0
+        }
+      ]
+    },
+    {
+      "id": "processing",
+      "icon": "rotarycraft:grinder",
+      "pages": [
+        {
+          "id": "crushing",
+          "entries": [
+            {
+              "id": "grinder",
+              "item": "rotarycraft:grinder"
+            },
+            {
+              "id": "extractor",
+              "item": "rotarycraft:extractor"
+            },
+            {
+              "id": "centrifuge",
+              "item": "rotarycraft:centrifuge"
+            },
+            {
+              "id": "compactor",
+              "item": "rotarycraft:compactor"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "heat",
+          "entries": [
+            {
+              "id": "blast_furnace",
+              "item": "rotarycraft:blast_furnace"
+            },
+            {
+              "id": "friction_heater",
+              "item": "rotarycraft:friction_heater"
+            },
+            {
+              "id": "rock_melter",
+              "item": "rotarycraft:rock_melter"
+            },
+            {
+              "id": "big_furnace",
+              "item": "rotarycraft:big_furnace"
+            },
+            {
+              "id": "pulse_furnace",
+              "item": "rotarycraft:pulse_furnace"
+            },
+            {
+              "id": "cooling_fin",
+              "item": "rotarycraft:cooling_fin"
+            },
+            {
+              "id": "refrigerator",
+              "item": "rotarycraft:refrigerator"
+            },
+            {
+              "id": "crystallizer",
+              "item": "rotarycraft:crystallizer"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "chemistry",
+          "entries": [
+            {
+              "id": "fermenter",
+              "item": "rotarycraft:fermenter"
+            },
+            {
+              "id": "fractionator",
+              "item": "rotarycraft:fractionator"
+            },
+            {
+              "id": "distiller",
+              "item": "rotarycraft:distiller"
+            },
+            {
+              "id": "fuel_enhancer",
+              "item": "rotarycraft:fuel_enhancer"
+            },
+            {
+              "id": "dryer",
+              "item": "rotarycraft:dryer"
+            },
+            {
+              "id": "composter",
+              "item": "rotarycraft:composter"
+            },
+            {
+              "id": "canola",
+              "item": "rotarycraft:canola_seeds"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "crafting",
+          "entries": [
+            {
+              "id": "worktable",
+              "item": "rotarycraft:worktable"
+            },
+            {
+              "id": "auto_crafter",
+              "item": "rotarycraft:auto_crafter"
+            }
+          ],
+          "paragraphs": 0
+        }
+      ]
+    },
+    {
+      "id": "fluids",
+      "icon": "rotarycraft:pipe",
+      "pages": [
+        {
+          "id": "fluid_types",
+          "entries": [
+            {
+              "id": "fluids",
+              "item": "rotarycraft:ethanol_bucket"
+            },
+            {
+              "id": "fuel_tank",
+              "item": "rotarycraft:fuel_tank"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "pipework",
+          "entries": [
+            {
+              "id": "pipes",
+              "item": "rotarycraft:pipe"
+            },
+            {
+              "id": "fittings",
+              "item": "rotarycraft:valve"
+            },
+            {
+              "id": "hose",
+              "item": "rotarycraft:hose"
+            },
+            {
+              "id": "pump",
+              "item": "rotarycraft:pump"
+            },
+            {
+              "id": "pipe_pump",
+              "item": "rotarycraft:pipe_pump"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "tanks",
+          "entries": [
+            {
+              "id": "reservoir",
+              "item": "rotarycraft:reservoir"
+            },
+            {
+              "id": "gas_tank",
+              "item": "rotarycraft:gas_tank"
+            },
+            {
+              "id": "deco_tank",
+              "item": "rotarycraft:deco_tank"
+            },
+            {
+              "id": "filling_station",
+              "item": "rotarycraft:filling_station"
+            },
+            {
+              "id": "bucket_filler",
+              "item": "rotarycraft:bucket_filler"
+            }
+          ],
+          "paragraphs": 0
+        }
+      ]
+    },
+    {
+      "id": "world",
+      "icon": "rotarycraft:fan",
+      "pages": [
+        {
+          "id": "farming",
+          "entries": [
+            {
+              "id": "fan",
+              "item": "rotarycraft:fan"
+            },
+            {
+              "id": "sprinkler",
+              "item": "rotarycraft:sprinkler"
+            },
+            {
+              "id": "lawn_sprinkler",
+              "item": "rotarycraft:lawn_sprinkler"
+            },
+            {
+              "id": "ground_hydrator",
+              "item": "rotarycraft:ground_hydrator"
+            },
+            {
+              "id": "fertilizer",
+              "item": "rotarycraft:fertilizer"
+            },
+            {
+              "id": "defoliator",
+              "item": "rotarycraft:defoliator"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "livestock",
+          "entries": [
+            {
+              "id": "woodcutter",
+              "item": "rotarycraft:woodcutter"
+            },
+            {
+              "id": "blower",
+              "item": "rotarycraft:blower"
+            },
+            {
+              "id": "vacuum",
+              "item": "rotarycraft:vacuum"
+            },
+            {
+              "id": "auto_breeder",
+              "item": "rotarycraft:auto_breeder"
+            },
+            {
+              "id": "bait_box",
+              "item": "rotarycraft:bait_box"
+            },
+            {
+              "id": "mob_harvester",
+              "item": "rotarycraft:mob_harvester"
+            },
+            {
+              "id": "spawner_controller",
+              "item": "rotarycraft:spawner_controller"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "digging",
+          "entries": [
+            {
+              "id": "borer",
+              "item": "rotarycraft:borer"
+            },
+            {
+              "id": "bedrock_breaker",
+              "item": "rotarycraft:bedrock_breaker"
+            },
+            {
+              "id": "sonic_borer",
+              "item": "rotarycraft:sonic_borer"
+            },
+            {
+              "id": "terraformer",
+              "item": "rotarycraft:terraformer"
+            },
+            {
+              "id": "weather_controller",
+              "item": "rotarycraft:weather_controller"
+            },
+            {
+              "id": "chunk_loader",
+              "item": "rotarycraft:chunk_loader"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "building",
+          "entries": [
+            {
+              "id": "obsidian_maker",
+              "item": "rotarycraft:obsidian_maker"
+            },
+            {
+              "id": "line_builder",
+              "item": "rotarycraft:line_builder"
+            },
+            {
+              "id": "block_filler",
+              "item": "rotarycraft:block_filler"
+            },
+            {
+              "id": "spiller",
+              "item": "rotarycraft:spiller"
+            },
+            {
+              "id": "pile_driver",
+              "item": "rotarycraft:pile_driver"
+            },
+            {
+              "id": "self_destruct",
+              "item": "rotarycraft:self_destruct"
+            }
+          ],
+          "paragraphs": 1
+        },
+        {
+          "id": "show",
+          "entries": [
+            {
+              "id": "lamp",
+              "item": "rotarycraft:lamp"
+            },
+            {
+              "id": "floodlight",
+              "item": "rotarycraft:floodlight"
+            },
+            {
+              "id": "light_bridge",
+              "item": "rotarycraft:light_bridge"
+            },
+            {
+              "id": "beam_mirror",
+              "item": "rotarycraft:beam_mirror"
+            },
+            {
+              "id": "aerosolizer",
+              "item": "rotarycraft:aerosolizer"
+            },
+            {
+              "id": "firework_machine",
+              "item": "rotarycraft:firework_machine"
+            },
+            {
+              "id": "particle_emitter",
+              "item": "rotarycraft:particle_emitter"
+            },
+            {
+              "id": "music_box",
+              "item": "rotarycraft:music_box"
+            }
+          ],
+          "paragraphs": 0
+        }
+      ]
+    },
+    {
+      "id": "logistics",
+      "icon": "rotarycraft:sorting",
+      "pages": [
+        {
+          "id": "detectors",
+          "entries": [
+            {
+              "id": "player_detector",
+              "item": "rotarycraft:player_detector"
+            },
+            {
+              "id": "smoke_detector",
+              "item": "rotarycraft:smoke_detector"
+            },
+            {
+              "id": "heater",
+              "item": "rotarycraft:heater"
+            },
+            {
+              "id": "wetter",
+              "item": "rotarycraft:wetter"
+            },
+            {
+              "id": "aggregator",
+              "item": "rotarycraft:aggregator"
+            },
+            {
+              "id": "grindstone",
+              "item": "rotarycraft:grindstone"
+            },
+            {
+              "id": "purifier",
+              "item": "rotarycraft:purifier"
+            },
+            {
+              "id": "firestarter",
+              "item": "rotarycraft:firestarter"
+            },
+            {
+              "id": "refresher",
+              "item": "rotarycraft:refresher"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "sorting",
+          "entries": [
+            {
+              "id": "drop_processor",
+              "item": "rotarycraft:drop_processor"
+            },
+            {
+              "id": "item_filter",
+              "item": "rotarycraft:item_filter"
+            },
+            {
+              "id": "sorting",
+              "item": "rotarycraft:sorting"
+            },
+            {
+              "id": "scale_chest",
+              "item": "rotarycraft:scale_chest"
+            },
+            {
+              "id": "spillway",
+              "item": "rotarycraft:spillway"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "survey",
+          "entries": [
+            {
+              "id": "projector",
+              "item": "rotarycraft:projector"
+            },
+            {
+              "id": "display",
+              "item": "rotarycraft:display"
+            },
+            {
+              "id": "cctv",
+              "item": "rotarycraft:cctv"
+            },
+            {
+              "id": "spy_cam",
+              "item": "rotarycraft:spy_cam"
+            },
+            {
+              "id": "cave_scanner",
+              "item": "rotarycraft:cave_scanner"
+            },
+            {
+              "id": "mob_radar",
+              "item": "rotarycraft:mob_radar"
+            },
+            {
+              "id": "gpr",
+              "item": "rotarycraft:gpr"
+            }
+          ],
+          "paragraphs": 0
+        }
+      ]
+    },
+    {
+      "id": "weapons",
+      "icon": "rotarycraft:railgun",
+      "pages": [
+        {
+          "id": "turrets",
+          "entries": [
+            {
+              "id": "gatling",
+              "item": "rotarycraft:gatling"
+            },
+            {
+              "id": "railgun",
+              "item": "rotarycraft:railgun"
+            },
+            {
+              "id": "anti_air",
+              "item": "rotarycraft:anti_air"
+            },
+            {
+              "id": "laser_gun",
+              "item": "rotarycraft:laser_gun"
+            },
+            {
+              "id": "flame_turret",
+              "item": "rotarycraft:flame_turret"
+            },
+            {
+              "id": "heat_ray",
+              "item": "rotarycraft:heat_ray"
+            },
+            {
+              "id": "freeze_gun",
+              "item": "rotarycraft:freeze_gun"
+            }
+          ],
+          "paragraphs": 1
+        },
+        {
+          "id": "area_weapons",
+          "entries": [
+            {
+              "id": "sonic_weapon",
+              "item": "rotarycraft:sonic_weapon"
+            },
+            {
+              "id": "emp",
+              "item": "rotarycraft:emp"
+            },
+            {
+              "id": "landmine",
+              "item": "rotarycraft:landmine"
+            },
+            {
+              "id": "force_field",
+              "item": "rotarycraft:force_field"
+            },
+            {
+              "id": "containment",
+              "item": "rotarycraft:containment"
+            },
+            {
+              "id": "tnt_cannon",
+              "item": "rotarycraft:tnt_cannon"
+            },
+            {
+              "id": "van_de_graaff",
+              "item": "rotarycraft:van_de_graaff"
+            }
+          ],
+          "paragraphs": 0
+        },
+        {
+          "id": "cannons",
+          "entries": [
+            {
+              "id": "item_cannon",
+              "item": "rotarycraft:item_cannon"
+            },
+            {
+              "id": "arrow_gun",
+              "item": "rotarycraft:arrow_gun"
+            },
+            {
+              "id": "air_gun",
+              "item": "rotarycraft:air_gun"
+            },
+            {
+              "id": "block_cannon",
+              "item": "rotarycraft:block_cannon"
+            }
+          ],
+          "paragraphs": 0
+        }
+      ]
+    },
+    {
+      "id": "items",
+      "icon": "rotarycraft:jetpack",
+      "pages": [
+        {
+          "id": "charge",
+          "entries": [],
+          "paragraphs": 3
+        },
+        {
+          "id": "steel_tools",
+          "entries": [],
+          "paragraphs": 2
+        },
+        {
+          "id": "jetpack",
+          "entries": [
+            {
+              "id": "fuel_tank",
+              "item": "rotarycraft:fuel_tank"
+            }
+          ],
+          "paragraphs": 4
+        },
+        {
+          "id": "goggles",
+          "entries": [],
+          "paragraphs": 1
+        },
+        {
+          "id": "upgrades",
+          "entries": [],
+          "paragraphs": 2
+        },
+        {
+          "id": "vehicles",
+          "entries": [
+            {
+              "id": "fuel_tank",
+              "item": "rotarycraft:fuel_tank"
+            },
+            {
+              "id": "explosive_shell",
+              "item": "rotarycraft:explosive_shell"
+            },
+            {
+              "id": "ethanol_minecart",
+              "item": "rotarycraft:ethanol_minecart"
+            }
+          ],
+          "paragraphs": 0
+        }
+      ]
+    }
+  ]
+}
