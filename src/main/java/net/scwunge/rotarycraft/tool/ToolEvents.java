@@ -152,7 +152,7 @@ public final class ToolEvents {
     }
 
     /** Breaks each block, offering it to protection mods first, and drops what it would with this tool. */
-    private static void takeAll(ServerLevel level, ServerPlayer player, ItemStack tool, Set<BlockPos> positions) {
+    public static void takeAll(ServerLevel level, ServerPlayer player, ItemStack tool, Set<BlockPos> positions) {
         BUSY.set(true);
         try {
             for (BlockPos pos : positions) {

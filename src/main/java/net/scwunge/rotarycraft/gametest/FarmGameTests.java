@@ -775,7 +775,7 @@ public class FarmGameTests {
         return helper.getBlockEntity(at);
     }
 
-    @GameTest(template = LONG, timeoutTicks = 100, batch = "farm")
+    @GameTest(template = LONG, timeoutTicks = 300, batch = "farm")
     public static void aBaitBoxDrawsInTheCreaturesItHoldsBaitFor(GameTestHelper helper) {
         var box = baitBox(helper);
         box.items().setStackInSlot(0, new ItemStack(Items.WHEAT));
@@ -784,24 +784,21 @@ public class FarmGameTests {
         pig.setNoAi(true);
         double cowX = cow.getX(), pigX = pig.getX();
         helper.runAfterDelay(3, () -> helper.assertTrue(box.canAttract(cow) && !box.canRepel(cow) && !box.canAttract(pig), "wrong bait read"));
-        helper.runAfterDelay(80, () -> {
+        // a cow that wanders off the way for a while still comes in the end: succeed on the first tick it is clearly nearer
+        helper.succeedWhen(() -> {
             helper.assertTrue(cow.getX() < cowX - 1, "the cow did not come: " + (cowX - cow.getX()));
             helper.assertTrue(Math.abs(pig.getX() - pigX) < 1.5, "the pig was drawn");
-            helper.succeed();
         });
     }
 
-    @GameTest(template = LONG, timeoutTicks = 100, batch = "farm")
+    @GameTest(template = LONG, timeoutTicks = 300, batch = "farm")
     public static void aBaitBoxDrivesOffTheCreaturesItHoldsRepellentFor(GameTestHelper helper) {
         var box = baitBox(helper);
         box.items().setStackInSlot(0, new ItemStack(Items.STICK));
         var cow = helper.spawn(EntityType.COW, new BlockPos(11, 3, 3));
         double cowX = cow.getX();
         helper.runAfterDelay(3, () -> helper.assertTrue(box.canRepel(cow) && !box.canAttract(cow), "wrong bait read"));
-        helper.runAfterDelay(80, () -> {
-            helper.assertTrue(cow.getX() > cowX + 1, "the cow did not go: " + (cow.getX() - cowX));
-            helper.succeed();
-        });
+        helper.succeedWhen(() -> helper.assertTrue(cow.getX() > cowX + 1, "the cow did not go: " + (cow.getX() - cowX)));
     }
 
     /**

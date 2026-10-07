@@ -433,7 +433,61 @@ public class WorktableBlockEntity extends BlockEntity implements MenuProvider, n
         }
     }
 
+    /** Units of charge that move from a coil into a tool each time the table works on them (every four ticks). */
+    public static final int CHARGE_PER_STEP = 500;
+
+    /** A charged tool next to a charged coil in the grid is wound up from it; when the tool is full or the coil spent, both go to the outputs. */
+    private void chargeTools() {
+        int coil = -1;
+        int tool = -1;
+        for (int i = 0; i < MATRIX; i++) {
+            ItemStack stack = items.getStackInSlot(i);
+            if (coil < 0 && stack.getItem() instanceof net.scwunge.rotarycraft.item.CoilItem && net.scwunge.rotarycraft.item.CoilItem.charge(stack) > 0) {
+                coil = i;
+            } else if (tool < 0 && stack.getItem() instanceof net.scwunge.rotarycraft.charged.Rechargeable) {
+                tool = i;
+            }
+        }
+        if (coil < 0 || tool < 0) {
+            return;
+        }
+        ItemStack coilStack = items.getStackInSlot(coil);
+        ItemStack toolStack = items.getStackInSlot(tool);
+        int room = net.scwunge.rotarycraft.charged.Charge.FULL - net.scwunge.rotarycraft.charged.Charge.get(toolStack);
+        int move = Math.min(CHARGE_PER_STEP, Math.min(room, net.scwunge.rotarycraft.item.CoilItem.charge(coilStack)));
+        if (move > 0) {
+            net.scwunge.rotarycraft.charged.Charge.set(toolStack, net.scwunge.rotarycraft.charged.Charge.get(toolStack) + move);
+            net.scwunge.rotarycraft.item.CoilItem.setCharge(coilStack, net.scwunge.rotarycraft.item.CoilItem.charge(coilStack) - move);
+            setChanged();
+        }
+        boolean done = net.scwunge.rotarycraft.charged.Charge.get(toolStack) >= net.scwunge.rotarycraft.charged.Charge.FULL
+                || net.scwunge.rotarycraft.item.CoilItem.charge(coilStack) <= 0;
+        if (done) {
+            int first = -1;
+            int second = -1;
+            for (int i = FIRST_OUTPUT; i < PATTERN; i++) {
+                if (items.getStackInSlot(i).isEmpty()) {
+                    if (first < 0) {
+                        first = i;
+                    } else if (second < 0) {
+                        second = i;
+                    }
+                }
+            }
+            if (second >= 0) {
+                items.setStackInSlot(first, toolStack);
+                items.setStackInSlot(second, coilStack);
+                items.setStackInSlot(tool, ItemStack.EMPTY);
+                items.setStackInSlot(coil, ItemStack.EMPTY);
+                level.playSound(null, worldPosition, SoundEvents.UI_STONECUTTER_TAKE_RESULT, SoundSource.BLOCKS, 0.3F, 1.5F);
+            }
+        }
+    }
+
     public void serverTick() {
+        if (level.getGameTime() % 4 == 0 && !matrixEmpty()) {
+            chargeTools();
+        }
         if (hasUpgrade && level.getGameTime() % AUTO_INTERVAL == 0 && !level.hasNeighborSignal(worldPosition) && !matrixEmpty()) {
             work();
         }

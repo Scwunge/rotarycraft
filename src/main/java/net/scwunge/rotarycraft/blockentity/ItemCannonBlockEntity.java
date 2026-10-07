@@ -41,6 +41,10 @@ public class ItemCannonBlockEntity extends InventoryMachineBlockEntity {
     private int targetZ;
     private int targetDim;
     private boolean hasTarget;
+
+    public boolean hasTarget() {
+        return hasTarget;
+    }
     private int tickCount;
 
     public ItemCannonBlockEntity(BlockPos pos, BlockState state) {

@@ -23,6 +23,10 @@ public class RotaryComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<net.neoforged.neoforge.fluids.SimpleFluidContent>> ITEM_FLUID = COMPONENTS.register("item_fluid",
             () -> DataComponentType.<net.neoforged.neoforge.fluids.SimpleFluidContent>builder().persistent(net.neoforged.neoforge.fluids.SimpleFluidContent.CODEC)
                     .networkSynchronized(net.neoforged.neoforge.fluids.SimpleFluidContent.STREAM_CODEC).build());
+    /** What a charged tool or piece of armour has left, in kJ: used a unit at a time, and wound in from a coil on the Worktable. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> CHARGE = COMPONENTS.register("charge",
+            () -> DataComponentType.<Integer>builder().persistent(com.mojang.serialization.Codec.intRange(0, 1_000_000))
+                    .networkSynchronized(net.minecraft.network.codec.ByteBufCodecs.VAR_INT).build());
     /** A shaft core's magnetization in microtesla (Magnetizer charges it, the AC Engine uses it up). */
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAGNETIZATION = COMPONENTS.register("magnetization",
             () -> DataComponentType.<Integer>builder().persistent(com.mojang.serialization.Codec.intRange(1, Integer.MAX_VALUE))

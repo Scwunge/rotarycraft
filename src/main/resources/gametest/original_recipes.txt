@@ -91,7 +91,7 @@ PENDING|GRAVELGUN|not ported yet
 MAP|GRINDER|grinder
 MAP|GRINDSTONE|grindstone
 PENDING|HANDBOOK|not ported yet
-PENDING|HANDCRAFT|not ported yet
+MAP|HANDCRAFT|handheld_crafting
 MAP|HEATER|heater
 MAP|HEATRAY|heat_ray
 PENDING|HELDPISTON|not ported yet
@@ -117,10 +117,10 @@ MAP|METER|angular_transducer
 MAP|MIRROR|mirror
 MAP|MOBHARVESTER|mob_harvester
 MAP|MOBRADAR|mob_radar
-PENDING|MOTION|not ported yet
+MAP|MOTION|motion_tracker
 MAP|MULTICLUTCH|multi_clutch
 MAP|MUSICBOX|music_box
-PENDING|NVG|not ported yet
+MAP|NVG|night_vision_goggles
 PENDING|NVH|not ported yet
 MAP|OBSIDIAN|obsidian_maker
 MAP|PARTICLE|particle_emitter
@@ -135,7 +135,7 @@ PENDING|PULSEJET|not ported yet
 MAP|PUMP|pump
 MAP|PURIFIER|purifier
 MAP|RAILGUN|railgun
-PENDING|RANGEFINDER|not ported yet
+MAP|RANGEFINDER|range_finder
 MAP|REFRESHER|refresher
 MAP|REFRIGERATOR|refrigerator
 MAP|RESERVOIR|reservoir
@@ -171,13 +171,13 @@ MAP|STEELSHOVEL|steel_shovel
 MAP|STEELSICKLE|steel_sickle
 MAP|STEELSWORD|steel_sword
 MAP|STRONGCOIL|strong_coil
-PENDING|STUNGUN|not ported yet
+MAP|STUNGUN|stun_gun
 MAP|SUCTION|suction_pipe
-PENDING|TARGET|not ported yet
+MAP|TARGET|target
 MAP|TERRAFORMER|terraformer
 PENDING|TILESELECTOR|not ported yet
 MAP|TNTCANNON|tnt_cannon
-PENDING|ULTRASOUND|not ported yet
+MAP|ULTRASOUND|ultrasound
 MAP|UPGRADE|performance_upgrade,magnetostatic_upgrade_1,magnetostatic_upgrade_2,magnetostatic_upgrade_3,magnetostatic_upgrade_4,magnetostatic_upgrade_5,efficiency_upgrade,flux_upgrade,redstone_upgrade,afterburner_upgrade
 MAP|VACUUM|vacuum
 MAP|VALVE|valve

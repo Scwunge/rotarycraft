@@ -121,6 +121,8 @@ public class RotaryItems {
                     Item item = i.get();
                     if (item instanceof net.scwunge.rotarycraft.tool.Forced forced) {
                         output.accept(net.scwunge.rotarycraft.tool.Forced.stackOf(item, params.holders(), forced.needs()));
+                    } else if (item instanceof net.scwunge.rotarycraft.charged.Rechargeable) {
+                        output.accept(net.scwunge.rotarycraft.charged.Charge.full(new ItemStack(item)));
                     } else if (item instanceof net.scwunge.rotarycraft.item.GearUpgradeItem gear && gear.exponent() > 0) {
                         output.accept(item);
                         output.accept(net.scwunge.rotarycraft.item.GearUpgradeItem.stackFor(gear.ratio(), true, UpgradeRegistry.gearItems()));

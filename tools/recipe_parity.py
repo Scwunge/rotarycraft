@@ -21,6 +21,8 @@ ALIASES = {
     'BEDPICK': 'bedrock_pickaxe', 'BEDAXE': 'bedrock_axe', 'BEDSHOVEL': 'bedrock_shovel', 'BEDHOE': 'bedrock_hoe', 'BEDSWORD': 'bedrock_sword',
     'BEDSHEARS': 'bedrock_shears', 'BEDSICKLE': 'bedrock_sickle', 'BEDHELM': 'bedrock_helmet', 'BEDCHEST': 'bedrock_chestplate', 'BEDLEGS': 'bedrock_leggings',
     'BEDBOOTS': 'bedrock_boots',
+    'STUNGUN': 'stun_gun', 'RANGEFINDER': 'range_finder', 'ULTRASOUND': 'ultrasound', 'MOTION': 'motion_tracker', 'NVG': 'night_vision_goggles',
+    'HANDCRAFT': 'handheld_crafting', 'TARGET': 'target',
     'ENGINE': 'dc_engine,ac_engine,wind_engine,steam_engine,gas_engine,performance_engine,hydro_engine,jet_engine',
     'FLYWHEEL': 'flywheel_wood,flywheel_stone,flywheel_iron,flywheel_gold,flywheel_bedrock',
     'SHAFT': 'shaft_wood,shaft_stone,shaft_steel,shaft_diamond,shaft_bedrock',

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " g ",
+    "scs",
+    " g "
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "g": {
+      "item": "minecraft:gold_ingot"
+    },
+    "c": {
+      "item": "minecraft:crafting_table"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:handheld_crafting",
+    "count": 1
+  }
+}
