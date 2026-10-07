@@ -19,6 +19,8 @@ import net.scwunge.rotarycraft.power.ShaftMaterial;
 import net.scwunge.rotarycraft.registry.RotaryFluids;
 import net.scwunge.rotarycraft.registry.RotaryParts;
 import net.scwunge.rotarycraft.transmission.BusControllerBlockEntity;
+import net.minecraft.server.level.ServerLevel;
+import net.scwunge.rotarycraft.transmission.PortalShafts;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.phys.BlockHitResult;
@@ -601,6 +603,68 @@ public class TransmissionGameTests {
         BeltHubBlockEntity other = helper.getBlockEntity(DRIVER);
         other.loadWithComponents(saved, registries);
         helper.assertTrue(other.otherEnd() != null && other.otherEnd().equals(helper.absolutePos(RECEIVER)) && !other.isReceivingEnd(), "the belt was lost");
+        helper.succeed();
+    }
+
+    // ---- portal shafts ----
+
+    /** A shaft facing east against a nether portal, fed by a flywheel, with the portal and a shaft and a meter set up beyond it in the nether; returns the meter there. */
+    static DynamometerBlockEntity portalLink(GameTestHelper helper, Direction farFacing) {
+        BlockPos a = new BlockPos(5, 2, 3);
+        WeaponGameTests.spinningFlywheel(helper, a.west(), 64, 64, Direction.EAST);
+        helper.setBlock(a, RotaryBlocks.SHAFTS.get(ShaftMaterial.STEEL).get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        ServerLevel level = helper.getLevel();
+        ServerLevel nether = level.getServer().getLevel(net.minecraft.world.level.Level.NETHER);
+        BlockPos p0 = helper.absolutePos(a.east());
+        level.setBlock(p0, Blocks.NETHER_PORTAL.defaultBlockState().setValue(net.minecraft.world.level.block.NetherPortalBlock.AXIS, Direction.Axis.Z), 18);
+        BlockPos p1 = PortalShafts.across(p0, level, nether);
+        // the chunks round the far side are made first: the test runs far faster than the world is generated in play, where this takes a moment
+        for (int dx = -2; dx <= 2; dx++) {
+            for (int dz = -2; dz <= 2; dz++) {
+                nether.getChunk((p1.getX() >> 4) + dx, (p1.getZ() >> 4) + dz);
+            }
+        }
+        nether.setBlock(p1, Blocks.NETHER_PORTAL.defaultBlockState().setValue(net.minecraft.world.level.block.NetherPortalBlock.AXIS, Direction.Axis.Z), 18);
+        nether.setBlock(p1.east(), RotaryBlocks.SHAFTS.get(ShaftMaterial.STEEL).get().defaultBlockState().setValue(MachineBlock.FACING, farFacing), 3);
+        nether.setBlock(p1.east(2), RotaryBlocks.DYNAMOMETER.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST), 3);
+        return (DynamometerBlockEntity) nether.getBlockEntity(p1.east(2));
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 400)
+    public static void aShaftAtAPortalHandsItsPowerToTheShaftBeyondIt(GameTestHelper helper) {
+        DynamometerBlockEntity meter = portalLink(helper, Direction.EAST);
+        helper.succeedWhen(() -> helper.assertTrue(meter.getTorque() == 64 && meter.getOmega() == 64, "beyond the portal there is " + meter.getTorque() + " N*m " + meter.getOmega() + " rad/s"));
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 60)
+    public static void theShaftBeyondAPortalMustPointBackAtIt(GameTestHelper helper) {
+        DynamometerBlockEntity meter = portalLink(helper, Direction.WEST);
+        helper.runAfterDelay(30, () -> {
+            helper.assertTrue(meter.getTorque() == 0, "a shaft pointing the wrong way was fed: " + meter.getTorque());
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 60)
+    public static void withNoPortalInFrontNothingCrosses(GameTestHelper helper) {
+        DynamometerBlockEntity meter = portalLink(helper, Direction.EAST);
+        helper.setBlock(new BlockPos(6, 2, 3), Blocks.AIR);
+        helper.runAfterDelay(30, () -> {
+            helper.assertTrue(meter.getTorque() == 0, "power crossed with no portal: " + meter.getTorque());
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = ROOM, timeoutTicks = 20)
+    public static void aPortalLinkScalesTheNetherByEightAndKeepsTheHeight(GameTestHelper helper) {
+        ServerLevel level = helper.getLevel();
+        ServerLevel nether = level.getServer().getLevel(net.minecraft.world.level.Level.NETHER);
+        helper.assertTrue(PortalShafts.across(new BlockPos(80, 64, -17), level, nether).equals(new BlockPos(10, 64, -3)), "to the nether: " + PortalShafts.across(new BlockPos(80, 64, -17), level, nether));
+        helper.assertTrue(PortalShafts.across(new BlockPos(10, 64, -3), nether, level).equals(new BlockPos(80, 64, -24)), "back from the nether");
+        helper.assertTrue(PortalShafts.across(new BlockPos(0, -58, 0), level, nether).getY() == nether.getMinBuildHeight(), "the height is kept within the level");
+        helper.assertTrue(PortalShafts.otherSide(level, Blocks.NETHER_PORTAL.defaultBlockState()) == nether && PortalShafts.otherSide(nether, Blocks.NETHER_PORTAL.defaultBlockState()) == level, "nether portals join the overworld and the nether");
+        helper.assertTrue(PortalShafts.otherSide(level, Blocks.END_PORTAL.defaultBlockState()).dimension() == net.minecraft.world.level.Level.END, "end portals lead to the end");
+        helper.assertTrue(PortalShafts.otherSide(level, Blocks.STONE.defaultBlockState()) == null, "stone is no portal");
         helper.succeed();
     }
 }
