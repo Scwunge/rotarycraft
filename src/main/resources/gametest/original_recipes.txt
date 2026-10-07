@@ -1,0 +1,259 @@
+PENDING|ADVANCEDGEARS|not ported yet
+MAP|AEROSOLIZER|aerosolizer
+PENDING|AGGREGATOR|not ported yet
+MAP|AIRGUN|air_gun
+MAP|ANTIAIR|anti_air
+MAP|ARROWGUN|arrow_gun
+MAP|AUTOBREEDER|auto_breeder
+MAP|BAITBOX|bait_box
+MAP|BEAMMIRROR|beam_mirror
+PENDING|BEDAXE|bedrock tools and armour (items, section 6)
+PENDING|BEDBOOTS|bedrock tools and armour (items, section 6)
+PENDING|BEDCHEST|bedrock tools and armour (items, section 6)
+PENDING|BEDGRAFTER|bedrock tools and armour (items, section 6)
+PENDING|BEDHELM|bedrock tools and armour (items, section 6)
+PENDING|BEDHOE|bedrock tools and armour (items, section 6)
+PENDING|BEDKNIFE|bedrock tools and armour (items, section 6)
+PENDING|BEDLEGS|bedrock tools and armour (items, section 6)
+PENDING|BEDPICK|bedrock tools and armour (items, section 6)
+MAP|BEDPIPE|bedrock_pipe
+MAP|BEDROCKBREAKER|bedrock_breaker
+PENDING|BEDSAW|bedrock tools and armour (items, section 6)
+PENDING|BEDSHEARS|bedrock tools and armour (items, section 6)
+PENDING|BEDSHOVEL|bedrock tools and armour (items, section 6)
+PENDING|BEDSICKLE|bedrock tools and armour (items, section 6)
+PENDING|BEDSWORD|bedrock tools and armour (items, section 6)
+MAP|BELT|belt
+MAP|BEVELGEARS|bevel_gear
+MAP|BIGFURNACE|big_furnace
+PENDING|BLOCKCANNON|not ported yet
+MAP|BLOWER|blower
+MAP|BOILER|boiler
+MAP|BORER|borer
+PENDING|BUCKETFILLER|not ported yet
+PENDING|BUNDLEDBUS|not ported yet
+PENDING|BUSCONTROLLER|not ported yet
+MAP|BYPASS|bypass
+MAP|CAVESCANNER|cave_scanner
+MAP|CCTV|cctv
+MAP|CENTRIFUGE|centrifuge
+MAP|CHAIN|chain
+MAP|CHUNKLOADER|chunk_loader
+MAP|CLUTCH|clutch
+MAP|COMPACTOR|compactor
+MAP|COMPOSTER|composter
+MAP|COMPRESSOR|compressor
+MAP|CONTAINMENT|containment
+MAP|COOLINGFIN|cooling_fin
+MAP|CRAFTER|auto_crafter
+MAP|CRAFTPATTERN|craft_pattern
+MAP|CRYSTALLIZER|crystallizer
+MAP|DEFOLIATOR|defoliator
+PENDING|DISK|not ported yet
+MAP|DISPLAY|display
+MAP|DISTILLER|distiller
+PENDING|DISTRIBCLUTCH|not ported yet
+PENDING|DROPS|not ported yet
+MAP|DRYING|dryer
+MAP|DYNAMO|dynamo
+MAP|DYNAMOMETER|dynamometer
+PENDING|ECU|not ported yet
+MAP|ELECTRICMOTOR|electric_motor
+MAP|EMP|emp
+MAP|ENGINE|dc_engine,ac_engine,wind_engine,steam_engine,gas_engine,performance_engine,hydro_engine,jet_engine
+MAP|EXTRACTOR|extractor
+MAP|FAN|fan
+MAP|FERMENTER|fermenter
+MAP|FERTILIZER|fertilizer
+MAP|FILLER|block_filler
+PENDING|FILLINGSTATION|not ported yet
+PENDING|FIREBALL|not ported yet
+MAP|FIREWORK|firework_machine
+MAP|FLAMETURRET|flame_turret
+MAP|FLOODLIGHT|floodlight
+MAP|FLYWHEEL|flywheel_wood,flywheel_stone,flywheel_iron,flywheel_gold,flywheel_bedrock
+MAP|FORCEFIELD|force_field
+MAP|FRACTIONATOR|fractionator
+MAP|FREEZEGUN|freeze_gun
+MAP|FRICTION|friction_heater
+PENDING|FUEL|not ported yet
+MAP|FUELENGINE|gas_engine
+MAP|FUELENHANCER|fuel_enhancer
+MAP|FUELLINE|fuel_line
+MAP|GASTANK|gas_tank
+MAP|GATLING|gatling
+MAP|GEARBOX|gearbox_wood_2x,gearbox_wood_4x,gearbox_wood_8x,gearbox_wood_16x,gearbox_stone_2x,gearbox_stone_4x,gearbox_stone_8x,gearbox_stone_16x,gearbox_steel_2x,gearbox_steel_4x,gearbox_steel_8x,gearbox_steel_16x,gearbox_tungsten_2x,gearbox_tungsten_4x,gearbox_tungsten_8x,gearbox_tungsten_16x,gearbox_diamond_2x,gearbox_diamond_4x,gearbox_diamond_8x,gearbox_diamond_16x,gearbox_bedrock_2x,gearbox_bedrock_4x,gearbox_bedrock_8x,gearbox_bedrock_16x
+PENDING|GEARUPGRADE|not ported yet
+MAP|GENERATOR|generator
+MAP|GPR|gpr
+PENDING|GRAFTER|not ported yet
+PENDING|GRAVELGUN|not ported yet
+MAP|GRINDER|grinder
+PENDING|GRINDSTONE|not ported yet
+PENDING|HANDBOOK|not ported yet
+PENDING|HANDCRAFT|not ported yet
+PENDING|HEATER|not ported yet
+MAP|HEATRAY|heat_ray
+PENDING|HELDPISTON|not ported yet
+MAP|HOSE|hose
+MAP|HYDRATOR|ground_hydrator
+MAP|IGNITER|igniter
+PENDING|IOGOGGLES|not ported yet
+MAP|ITEMCANNON|item_cannon
+PENDING|ITEMFILTER|not ported yet
+PENDING|JETPACK|not ported yet
+PENDING|JUMP|not ported yet
+MAP|KEY|cannon_key
+MAP|LAMP|lamp
+MAP|LANDMINE|landmine
+MAP|LASERGUN|laser_gun
+MAP|LAVAMAKER|rock_melter
+MAP|LAWNSPRINKLER|lawn_sprinkler
+MAP|LIGHTBRIDGE|light_bridge
+MAP|LINEBUILDER|line_builder
+MAP|MAGNETIC|magnetic_motor
+MAP|MAGNETIZER|magnetizer
+MAP|METER|angular_transducer
+MAP|MIRROR|mirror
+MAP|MOBHARVESTER|mob_harvester
+MAP|MOBRADAR|mob_radar
+PENDING|MOTION|not ported yet
+PENDING|MULTICLUTCH|not ported yet
+PENDING|MUSICBOX|not ported yet
+PENDING|NVG|not ported yet
+PENDING|NVH|not ported yet
+MAP|OBSIDIAN|obsidian_maker
+MAP|PARTICLE|particle_emitter
+MAP|PILEDRIVER|pile_driver
+MAP|PIPE|pipe
+MAP|PIPEPUMP|pipe_pump
+PENDING|PLAYERDETECTOR|not ported yet
+MAP|PNEUENGINE|pneumatic_engine
+PENDING|POWERBUS|not ported yet
+MAP|PROJECTOR|projector
+PENDING|PULSEJET|not ported yet
+MAP|PUMP|pump
+PENDING|PURIFIER|not ported yet
+MAP|RAILGUN|railgun
+PENDING|RANGEFINDER|not ported yet
+PENDING|REFRESHER|not ported yet
+MAP|REFRIGERATOR|refrigerator
+MAP|RESERVOIR|reservoir
+PENDING|SCALECHEST|not ported yet
+MAP|SCREEN|screen
+MAP|SCREWDRIVER|screwdriver
+MAP|SELFDESTRUCT|self_destruct
+MAP|SEPARATION|separator
+MAP|SHAFT|shaft_wood,shaft_stone,shaft_steel,shaft_diamond,shaft_bedrock
+PENDING|SMOKEDETECTOR|not ported yet
+MAP|SOLARTOWER|solar_tower
+MAP|SONICBORER|sonic_borer
+MAP|SONICWEAPON|sonic_weapon
+PENDING|SORTING|not ported yet
+MAP|SPAWNERCONTROLLER|spawner_controller
+MAP|SPILLER|spiller
+PENDING|SPILLWAY|not ported yet
+PENDING|SPLITBELT|not ported yet
+MAP|SPLITTER|splitter
+MAP|SPRING|spring
+MAP|SPRINKLER|sprinkler
+MAP|SPYCAM|spy_cam
+MAP|STEAMTURBINE|steam_turbine
+PENDING|STEELAXE|steel tools and armour (items, section 6)
+PENDING|STEELBOOTS|steel tools and armour (items, section 6)
+PENDING|STEELCHEST|steel tools and armour (items, section 6)
+PENDING|STEELHELMET|steel tools and armour (items, section 6)
+PENDING|STEELHOE|steel tools and armour (items, section 6)
+PENDING|STEELLEGS|steel tools and armour (items, section 6)
+PENDING|STEELPICK|steel tools and armour (items, section 6)
+PENDING|STEELSHEARS|steel tools and armour (items, section 6)
+PENDING|STEELSHOVEL|steel tools and armour (items, section 6)
+PENDING|STEELSICKLE|steel tools and armour (items, section 6)
+PENDING|STEELSWORD|steel tools and armour (items, section 6)
+MAP|STRONGCOIL|strong_coil
+PENDING|STUNGUN|not ported yet
+MAP|SUCTION|suction_pipe
+PENDING|TARGET|not ported yet
+MAP|TERRAFORMER|terraformer
+PENDING|TILESELECTOR|not ported yet
+MAP|TNTCANNON|tnt_cannon
+PENDING|ULTRASOUND|not ported yet
+MAP|UPGRADE|afterburner_upgrade
+MAP|VACUUM|vacuum
+MAP|VALVE|valve
+MAP|VANDEGRAFF|van_de_graaff
+MAP|WEATHERCONTROLLER|weather_controller
+PENDING|WETTER|not ported yet
+MAP|WINDER|winder
+MAP|WOODCUTTER|woodcutter
+PENDING|canolaSeeds|not ported yet
+PENDING|denseCanolaSeeds|not ported yet
+MAP|aluminumcylinder|silumin_cylinder
+MAP|anthrablock|anthracite_block
+MAP|anthracite|anthracite
+MAP|ballbearing|ball_bearing
+MAP|barrel|barrel
+MAP|basepanel|base_panel
+MAP|bedingot|bedrock_ingot
+PENDING|bedingotblock|not ported yet
+PENDING|bedrockcoil|not ported yet
+MAP|bedrockshaft|bedrock_shaft_core
+MAP|belt|belt
+MAP|brake|brake
+MAP|bulb|bulb
+MAP|chain|chain
+MAP|coke|coke
+BY_TAG|cokeblock|no coke block; coke is crafted in the Blast Furnace
+MAP|combustor|combustor
+MAP|compoundcompress|compound_compressor
+MAP|compoundturb|compound_turbine
+MAP|compressor|compressor
+MAP|condenser|condenser
+MAP|cylinder|cylinder
+MAP|diamondgear|diamond_gear
+MAP|diamondshaft|diamond_shaft_core
+MAP|diffuser|diffuser
+MAP|drill|drill
+MAP|generator|generator
+MAP|goldcoil|gold_coil
+MAP|highcombustor|high_combustor
+MAP|hub|hub
+MAP|igniter|igniter
+MAP|impeller|impeller
+BY_TAG|ironscrap|scrap is made by the Grinder
+MAP|lens|lens
+MAP|lim|linear_induction_motor
+MAP|lonsblock|lonsdaleite_block
+MAP|lonsda|lonsdaleite
+MAP|mirror|mirror
+MAP|mixer|mixer
+MAP|mount|mount
+BY_TAG|nitrate|not an item of this port yet
+MAP|pcb|circuit_board
+MAP|power|power_module
+MAP|presshead|press_head
+MAP|prop|propeller
+MAP|radar|radar_unit
+MAP|radiator|radiator
+MAP|railaim|rail_aiming_unit
+MAP|railbase|rail_base
+MAP|railhead|rail_head
+MAP|redgolddust|red_gold_dust
+MAP|saw|saw
+MAP|screen|screen
+MAP|shaftitem|shaft_core
+PENDING|shieldblock|not ported yet
+MAP|silveriodide|silver_iodide
+MAP|sonar|sonar_unit
+BY_TAG|steelblock|c:storage_blocks/steel from other mods
+MAP|steelgear|steel_gear
+BY_TAG|steelingot|steel is the c:ingots/steel tag (made in the Blast Furnace)
+MAP|stonegear|stone_gear
+MAP|stonerod|stone_rod
+MAP|tenscoil|strong_coil
+MAP|tungstengear|tungsten_gear
+MAP|tungstenshaft|tungsten_shaft_core
+MAP|turbine|turbine
+MAP|waterplate|water_plate
+MAP|woodgear|wood_gear
+MAP|wormgear|worm_gear
