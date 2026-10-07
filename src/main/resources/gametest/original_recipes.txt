@@ -67,7 +67,7 @@ MAP|FERMENTER|fermenter
 MAP|FERTILIZER|fertilizer
 MAP|FILLER|block_filler
 MAP|FILLINGSTATION|filling_station
-PENDING|FIREBALL|not ported yet
+MAP|FIREBALL|fireball_launcher
 MAP|FIREWORK|firework_machine
 MAP|FLAMETURRET|flame_turret
 MAP|FLOODLIGHT|floodlight
@@ -94,7 +94,7 @@ PENDING|HANDBOOK|not ported yet
 MAP|HANDCRAFT|handheld_crafting
 MAP|HEATER|heater
 MAP|HEATRAY|heat_ray
-PENDING|HELDPISTON|not ported yet
+MAP|HELDPISTON|spring_piston
 MAP|HOSE|hose
 MAP|HYDRATOR|ground_hydrator
 MAP|IGNITER|igniter
