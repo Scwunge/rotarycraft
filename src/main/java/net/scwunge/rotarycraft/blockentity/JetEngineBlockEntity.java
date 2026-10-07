@@ -564,4 +564,19 @@ public class JetEngineBlockEntity extends FuelEngineBlockEntity {
         burnerActive = tag.getBoolean("burner");
         temperature = tag.contains("temperature") ? tag.getInt("temperature") : Integer.MIN_VALUE;
     }
+
+    @Override
+    protected int statusKey() {
+        return canAfterburn ? 1 : 0;
+    }
+
+    @Override
+    protected void writeStatus(CompoundTag tag) {
+        tag.putBoolean("afterburner", canAfterburn);
+    }
+
+    @Override
+    protected void readStatus(CompoundTag tag) {
+        canAfterburn = tag.getBoolean("afterburner");
+    }
 }

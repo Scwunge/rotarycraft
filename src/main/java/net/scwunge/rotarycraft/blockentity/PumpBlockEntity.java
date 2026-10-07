@@ -182,4 +182,25 @@ public class PumpBlockEntity extends ConsumerBlockEntity implements PipeBlockEnt
         tank.readFromNBT(registries, tag.getCompound("tank"));
         damage = tag.getInt("damage");
     }
+
+    private boolean brokenClient;
+
+    public boolean brokenClient() {
+        return brokenClient;
+    }
+
+    @Override
+    protected int statusKey() {
+        return isBroken() ? 1 : 0;
+    }
+
+    @Override
+    protected void writeStatus(CompoundTag tag) {
+        tag.putBoolean("broken", isBroken());
+    }
+
+    @Override
+    protected void readStatus(CompoundTag tag) {
+        brokenClient = tag.getBoolean("broken");
+    }
 }

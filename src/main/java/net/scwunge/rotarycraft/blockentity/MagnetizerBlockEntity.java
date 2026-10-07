@@ -112,4 +112,25 @@ public class MagnetizerBlockEntity extends ConsumerBlockEntity implements MenuPr
         items.deserializeNBT(registries, tag.getCompound("items"));
         progress = tag.getInt("progress");
     }
+
+    private boolean hasCoreClient;
+
+    public boolean hasCoreClient() {
+        return hasCoreClient;
+    }
+
+    @Override
+    protected int statusKey() {
+        return items.getStackInSlot(0).isEmpty() ? 0 : 1;
+    }
+
+    @Override
+    protected void writeStatus(CompoundTag tag) {
+        tag.putBoolean("core", !items.getStackInSlot(0).isEmpty());
+    }
+
+    @Override
+    protected void readStatus(CompoundTag tag) {
+        hasCoreClient = tag.getBoolean("core");
+    }
 }

@@ -75,11 +75,12 @@ public final class ModelMachinesClient {
     static final Look<GasEngineBlockEntity> GAS = engine("gas_engine", "engine_gas");
     static final Look<PerformanceEngineBlockEntity> PERFORMANCE = engine("performance_engine", "engine_performance");
     static final Look<SteamEngineBlockEntity> STEAM = engine("steam_engine", "engine_steam");
-    static final Look<HydroEngineBlockEntity> HYDRO = engine("hydro_engine", "engine_hydro");
+    static final Look<HydroEngineBlockEntity> HYDRO = ModelMachinesClient.<HydroEngineBlockEntity>engine("hydro_engine", "engine_hydro")
+            .textured(be -> be.isBedrock() ? "engine_hydro_bedrock" : "engine_hydro").withFlags(be -> new boolean[] {be.isFailed(), be.isBedrock()});
     static final Look<WindEngineBlockEntity> WIND = engine("wind_engine", "engine_wind");
     static final Look<MicroturbineBlockEntity> MICRO = engine("microturbine", "engine_micro");
     static final Look<JetEngineBlockEntity> JET = Look.<JetEngineBlockEntity>spinning("jet_engine", "engine_jet", MachineRenderer.ENGINE, be -> spin(be, 1.1), -1)
-            .turned(90);
+            .turned(90).textured(be -> be.canAfterburn() ? "engine_jet_afterburner" : "engine_jet");
 
     static final Look<ClutchBlockEntity> CLUTCH = Look.<ClutchBlockEntity>spinning("clutch", "clutch", MachineRenderer.ENGINE, be -> spin(be, 1.05), -1)
             .modelled(be -> be.facing().getAxis().isVertical() ? "vclutch" : "clutch");
@@ -89,15 +90,20 @@ public final class ModelMachinesClient {
             .modelled(be -> "gearbox_" + (be.getBlockState().getBlock() instanceof GearboxBlock g ? g.ratio() : 2))
             .textured(be -> "gearbox_" + (be.getBlockState().getBlock() instanceof GearboxBlock g ? g.material().id() : "wood"));
 
-    static final Look<PumpBlockEntity> PUMP_LOOK = Look.spinning("pump", "pump", PUMP, be -> spin(be, 1.05), -1);
-    static final Look<FrictionHeaterBlockEntity> FRICTION = Look.spinning("friction_heater", "friction_heater", MachineRenderer.BEAM, be -> spin(be, 1.05), -1);
+    static final Look<PumpBlockEntity> PUMP_LOOK = Look.<PumpBlockEntity>spinning("pump", "pump", PUMP, be -> spin(be, 1.05), -1)
+            .withFlags(be -> new boolean[] {false, true, be.brokenClient()});
+    static final Look<FrictionHeaterBlockEntity> FRICTION = Look.<FrictionHeaterBlockEntity>spinning("friction_heater", "friction_heater", MachineRenderer.BEAM, be -> spin(be, 1.05), -1)
+            .textured(be -> be.glowStageClient() == 0 ? "friction_heater" : "friction_heater_" + be.glowStageClient());
     static final Look<CrystallizerBlockEntity> CRYSTALLIZER = Look.spinning("crystallizer", "crystallizer", MachineRenderer.BEAM, be -> spin(be, 1.05), -1);
     static final Look<RefrigeratorBlockEntity> FRIDGE_LOOK = Look.spinning("refrigerator", "refrigerator", ModelMachinesClient.FRIDGE, be -> spin(be, 1.05), -1);
     static final Look<GrinderBlockEntity> GRINDER = Look.spinning("grinder", "grinder", MachineRenderer.BEAM, be -> spin(be, 1.05), -1);
-    static final Look<MagnetizerBlockEntity> MAGNETIZER = Look.spinning("magnetizer", "magnetizer", MachineRenderer.BEAM, be -> spin(be, 1.05), -1);
+    static final Look<MagnetizerBlockEntity> MAGNETIZER = Look.<MagnetizerBlockEntity>spinning("magnetizer", "magnetizer", MachineRenderer.BEAM, be -> spin(be, 1.05), -1)
+            .withFlags(be -> new boolean[] {be.hasCoreClient()});
     static final Look<FractionatorBlockEntity> FRACTIONATOR = Look.still("fractionator", "fractionator", null);
-    static final Look<PulseFurnaceBlockEntity> PULSE_FURNACE = Look.still("pulse_furnace", "pulse_furnace", PULSE);
-    static final Look<RockMelterBlockEntity> ROCK_MELTER = Look.spinning("rock_melter", "rock_melter", EXTRACTOR, be -> spin(be, 1.05), -1);
+    static final Look<PulseFurnaceBlockEntity> PULSE_FURNACE = Look.<PulseFurnaceBlockEntity>still("pulse_furnace", "pulse_furnace", PULSE)
+            .textured(be -> be.glowStageClient() == 0 ? "pulse_furnace" : "pulse_furnace_" + be.glowStageClient());
+    static final Look<RockMelterBlockEntity> ROCK_MELTER = Look.<RockMelterBlockEntity>spinning("rock_melter", "rock_melter", EXTRACTOR, be -> spin(be, 1.05), -1)
+            .withFlags(be -> new boolean[] {be.hasStoneClient()});
     static final Look<ExtractorBlockEntity> EXTRACTOR_LOOK = Look.still("extractor", "extractor", EXTRACTOR);
     static final Look<CompactorBlockEntity> COMPACTOR_LOOK = Look.spinning("compactor", "compactor", COMPACTOR, be -> spin(be, 1.05), 1);
     static final Look<CentrifugeBlockEntity> CENTRIFUGE = Look.spinning("centrifuge", "centrifuge", null, be -> spin(be, 1.05), 1);
@@ -137,7 +143,7 @@ public final class ModelMachinesClient {
     }
 
     private static <T extends PowerBlockEntity> void item(RegisterClientExtensionsEvent event, DeferredBlock<? extends Block> block, Look<T> look, String model,
-                                                          String texture) {
+                                                          String texture, boolean... flags) {
         event.registerItem(new IClientItemExtensions() {
             private BlockEntityWithoutLevelRenderer renderer;
 
@@ -145,7 +151,7 @@ public final class ModelMachinesClient {
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 if (renderer == null) {
                     Minecraft mc = Minecraft.getInstance();
-                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(look), model, texture);
+                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(look), model, texture, flags);
                 }
                 return renderer;
             }
@@ -166,7 +172,7 @@ public final class ModelMachinesClient {
         item(event, RotaryBlocks.CLUTCH, CLUTCH, "clutch", "clutch");
         RotaryBlocks.FLYWHEELS.forEach((type, block) -> item(event, block, FLYWHEEL_LOOK, "flywheel", "flywheel_" + type.id()));
         RotaryBlocks.GEARBOXES.forEach((material, byRatio) -> byRatio.forEach((ratio, block) -> item(event, block, GEARBOX, "gearbox_" + ratio, "gearbox_" + material.id())));
-        item(event, RotaryBlocks.PUMP, PUMP_LOOK, "pump", "pump");
+        item(event, RotaryBlocks.PUMP, PUMP_LOOK, "pump", "pump", false, true, false);
         item(event, RotaryBlocks.FRICTION_HEATER, FRICTION, "friction_heater", "friction_heater");
         item(event, RotaryBlocks.CRYSTALLIZER, CRYSTALLIZER, "crystallizer", "crystallizer");
         item(event, RotaryBlocks.REFRIGERATOR, FRIDGE_LOOK, "refrigerator", "refrigerator");

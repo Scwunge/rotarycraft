@@ -211,4 +211,31 @@ public class FrictionHeaterBlockEntity extends ConsumerBlockEntity {
         super.loadAdditional(tag, registries);
         temperature = tag.contains("temperature") ? tag.getInt("temperature") : 20;
     }
+
+    /** How hot it glows, 0 (not at all) to 5, by the original's steps of 400, 700, 1000, 1300 and 1600 C. */
+    public int glowStage() {
+        int t = temperature();
+        return t >= 1600 ? 5 : t >= 1300 ? 4 : t >= 1000 ? 3 : t >= 700 ? 2 : t >= 400 ? 1 : 0;
+    }
+
+    private int glowClient;
+
+    public int glowStageClient() {
+        return glowClient;
+    }
+
+    @Override
+    protected int statusKey() {
+        return glowStage();
+    }
+
+    @Override
+    protected void writeStatus(CompoundTag tag) {
+        tag.putInt("glow", glowStage());
+    }
+
+    @Override
+    protected void readStatus(CompoundTag tag) {
+        glowClient = tag.getInt("glow");
+    }
 }

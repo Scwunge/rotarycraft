@@ -24,10 +24,28 @@ public abstract class PowerBlockEntity extends BlockEntity implements IShaftPowe
     /** Whether the machine's start-up sound has played for this run (see MachineSounds). */
     public boolean soundStarted;
     private boolean powerDirty;
+    private int lastStatus;
+
+    /** A number that changes when something the client draws (and the server alone knows) changes: see {@link #writeStatus}. */
+    protected int statusKey() {
+        return 0;
+    }
+
+    /** What the machine tells clients besides its speed, for its model's looks. */
+    protected void writeStatus(CompoundTag tag) {
+    }
+
+    protected void readStatus(CompoundTag tag) {
+    }
     private long lastPowerSync;
 
     /** Tells the clients the machine's speed now and then while it changes, for the animations and sounds (at most every half second). */
     public final void flushPowerSync() {
+        int status = statusKey();
+        if (status != lastStatus) {
+            lastStatus = status;
+            powerDirty = true;
+        }
         if (powerDirty && level != null && !level.isClientSide && level.getGameTime() - lastPowerSync >= 10) {
             powerDirty = false;
             lastPowerSync = level.getGameTime();
@@ -40,6 +58,7 @@ public abstract class PowerBlockEntity extends BlockEntity implements IShaftPowe
         CompoundTag tag = new CompoundTag();
         tag.putInt("torque", torque);
         tag.putInt("omega", omega);
+        writeStatus(tag);
         return tag;
     }
 
@@ -47,6 +66,7 @@ public abstract class PowerBlockEntity extends BlockEntity implements IShaftPowe
     public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
         torque = tag.getInt("torque");
         omega = tag.getInt("omega");
+        readStatus(tag);
     }
 
     @Override

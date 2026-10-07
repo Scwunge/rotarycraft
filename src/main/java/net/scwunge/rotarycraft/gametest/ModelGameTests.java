@@ -99,4 +99,43 @@ public class ModelGameTests {
         }
         helper.succeed();
     }
+
+    /** What clients are told: the machine's speed, and the looks of the ones whose model changes with their state. */
+    @GameTest(template = RotaryGameTests.TEMPLATE, timeoutTicks = 40, batch = "models")
+    public static void clientsAreToldTheSpeedAndLooksOfMachines(GameTestHelper helper) {
+        net.minecraft.core.BlockPos at = new net.minecraft.core.BlockPos(2, 2, 2);
+        helper.setBlock(at, net.scwunge.rotarycraft.registry.RotaryBlocks.DC_ENGINE.get());
+        net.scwunge.rotarycraft.blockentity.DCEngineBlockEntity engine = helper.getBlockEntity(at);
+        net.minecraft.nbt.CompoundTag power = new net.minecraft.nbt.CompoundTag();
+        power.putInt("torque", 24);
+        power.putInt("omega", 777);
+        engine.loadCustomOnly(power, helper.getLevel().registryAccess());
+        net.minecraft.nbt.CompoundTag sent = engine.getUpdateTag(helper.getLevel().registryAccess());
+        helper.assertTrue(sent.getInt("torque") == 24 && sent.getInt("omega") == 777, "speed not sent: " + sent);
+
+        helper.setBlock(at, net.scwunge.rotarycraft.registry.RotaryBlocks.HYDRO_ENGINE.get());
+        net.scwunge.rotarycraft.blockentity.HydroEngineBlockEntity hydro = helper.getBlockEntity(at);
+        net.minecraft.nbt.CompoundTag state = new net.minecraft.nbt.CompoundTag();
+        state.putBoolean("failed", true);
+        state.putBoolean("bedrock", true);
+        hydro.loadCustomOnly(state, helper.getLevel().registryAccess());
+        net.minecraft.nbt.CompoundTag told = hydro.getUpdateTag(helper.getLevel().registryAccess());
+        helper.assertTrue(told.getBoolean("failed") && told.getBoolean("bedrock"), "hydro state not sent: " + told);
+
+        helper.setBlock(at, net.scwunge.rotarycraft.registry.RotaryBlocks.FRICTION_HEATER.get());
+        net.scwunge.rotarycraft.blockentity.FrictionHeaterBlockEntity heater = helper.getBlockEntity(at);
+        heater.setTemperature(1350);
+        helper.assertTrue(heater.glowStage() == 4, "glow " + heater.glowStage());
+        helper.assertTrue(heater.getUpdateTag(helper.getLevel().registryAccess()).getInt("glow") == 4, "glow not sent");
+        heater.setTemperature(300);
+        helper.assertTrue(heater.glowStage() == 0, "glow at 300");
+
+        helper.setBlock(at, net.scwunge.rotarycraft.registry.RotaryBlocks.PULSE_FURNACE.get());
+        net.scwunge.rotarycraft.blockentity.PulseFurnaceBlockEntity furnace = helper.getBlockEntity(at);
+        furnace.setTemperature(10);
+        helper.assertTrue(furnace.glowStage() == 0, "cold furnace glows");
+        furnace.setTemperature(990);
+        helper.assertTrue(furnace.glowStage() == 4, "hot furnace glow " + furnace.glowStage());
+        helper.succeed();
+    }
 }

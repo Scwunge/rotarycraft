@@ -56,6 +56,10 @@ for block, model, tex, name in [('dc_engine', 'ModelDC', 'Engine/dc.png', 'engin
     MODELS.append('%s:%s' % (model, block))
     rendered(block)
 texture('Engine/bedhydrotex.png', 'engine_hydro_bedrock')
+for k in range(1, 6):
+    texture('Friction/frictiontex-%d.png' % k, 'friction_heater_%d' % k)
+for k, name in enumerate(('hot-1', 'hot0', 'hot2', 'hot3'), 1):
+    texture('PulseJet/pulsetex%s.png' % name, 'pulse_furnace_%d' % k)
 texture('Engine/jettex_b.png', 'engine_jet_afterburner')
 
 # ---- Transmission ----

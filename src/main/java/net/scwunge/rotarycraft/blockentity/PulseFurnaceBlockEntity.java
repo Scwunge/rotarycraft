@@ -456,4 +456,31 @@ public class PulseFurnaceBlockEntity extends ConsumerBlockEntity implements Menu
         cookTime = tag.getInt("cookTime");
         smeltTick = tag.getInt("smeltTick");
     }
+
+    /** How hot it glows, 0 to 4, by the original's steps of a tenth, a fifth, a half and five sixths of its limit. */
+    public int glowStage() {
+        int t = getTemperature();
+        return t < MAX_TEMPERATURE / 10 ? 0 : t < MAX_TEMPERATURE / 5 ? 1 : t < MAX_TEMPERATURE / 2 ? 2 : t < MAX_TEMPERATURE / 1.2 ? 3 : 4;
+    }
+
+    private int glowClient;
+
+    public int glowStageClient() {
+        return glowClient;
+    }
+
+    @Override
+    protected int statusKey() {
+        return glowStage();
+    }
+
+    @Override
+    protected void writeStatus(CompoundTag tag) {
+        tag.putInt("glow", glowStage());
+    }
+
+    @Override
+    protected void readStatus(CompoundTag tag) {
+        glowClient = tag.getInt("glow");
+    }
 }

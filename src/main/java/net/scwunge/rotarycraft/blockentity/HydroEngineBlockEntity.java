@@ -247,4 +247,21 @@ public class HydroEngineBlockEntity extends EngineBlockEntity {
         failed = tag.getBoolean("failed");
         bedrock = tag.getBoolean("bedrock");
     }
+
+    @Override
+    protected int statusKey() {
+        return (failed ? 1 : 0) | (bedrock ? 2 : 0);
+    }
+
+    @Override
+    protected void writeStatus(CompoundTag tag) {
+        tag.putBoolean("failed", failed);
+        tag.putBoolean("bedrock", bedrock);
+    }
+
+    @Override
+    protected void readStatus(CompoundTag tag) {
+        failed = tag.getBoolean("failed");
+        bedrock = tag.getBoolean("bedrock");
+    }
 }

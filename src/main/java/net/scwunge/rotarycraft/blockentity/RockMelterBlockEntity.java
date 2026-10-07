@@ -330,4 +330,34 @@ public class RockMelterBlockEntity extends ConsumerBlockEntity implements MenuPr
     public boolean canBeCooledWithFins() {
         return true;
     }
+
+    private boolean hasStoneClient;
+
+    public boolean hasStoneClient() {
+        return hasStoneClient;
+    }
+
+    private boolean hasStone() {
+        for (int i = 0; i < SLOTS; i++) {
+            if (!items.getStackInSlot(i).isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected int statusKey() {
+        return hasStone() ? 1 : 0;
+    }
+
+    @Override
+    protected void writeStatus(CompoundTag tag) {
+        tag.putBoolean("stone", hasStone());
+    }
+
+    @Override
+    protected void readStatus(CompoundTag tag) {
+        hasStoneClient = tag.getBoolean("stone");
+    }
 }
