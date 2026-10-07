@@ -28,6 +28,11 @@ public interface MachineHost {
         return false;
     }
 
+    /** Whether the block drops what is in the machine when it is broken (a machine that keeps its contents in its item says no). */
+    default boolean dropsInventory() {
+        return true;
+    }
+
     /** The machine's own numbers for its progress bars (indexes as in the layout). */
     default int extra(int index) {
         return 0;

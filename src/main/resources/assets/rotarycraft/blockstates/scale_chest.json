@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/scale_chest"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/scale_chest"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/scale_chest"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/scale_chest"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/scale_chest"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/scale_chest"
+    }
+  }
+}

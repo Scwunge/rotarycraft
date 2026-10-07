@@ -69,6 +69,7 @@ public final class LogisticsClient {
         event.registerBlockEntityRenderer(LogisticsRegistry.AGGREGATOR.type().get(), c -> AGGREGATOR);
         event.registerBlockEntityRenderer(LogisticsRegistry.FILLING_STATION.type().get(), c -> FILLING_STATION);
         event.registerBlockEntityRenderer(LogisticsRegistry.SPILLWAY.type().get(), c -> SPILLWAY);
+        event.registerBlockEntityRenderer(LogisticsRegistry.SCALE_CHEST.type().get(), ScaleChestRenderer::new);
     }
 
     private static IClientItemExtensions modelItem(ModelMachineRenderer<?> renderer) {
@@ -87,6 +88,11 @@ public final class LogisticsClient {
     }
 
     @SubscribeEvent
+    public static void screens(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
+        event.register(LogisticsRegistry.SCALE_CHEST_MENU.get(), ScaleChestScreen::new);
+    }
+
+    @SubscribeEvent
     public static void items(RegisterClientExtensionsEvent event) {
         event.registerItem(modelItem(PLAYER_DETECTOR), LogisticsRegistry.PLAYER_DETECTOR.block().get().asItem());
         event.registerItem(modelItem(SMOKE_DETECTOR), LogisticsRegistry.SMOKE_DETECTOR.block().get().asItem());
@@ -94,6 +100,18 @@ public final class LogisticsClient {
         event.registerItem(modelItem(WETTER), LogisticsRegistry.WETTER.block().get().asItem());
         event.registerItem(modelItem(GRINDSTONE), LogisticsRegistry.GRINDSTONE.block().get().asItem());
         event.registerItem(modelItem(AGGREGATOR), LogisticsRegistry.AGGREGATOR.block().get().asItem());
+        event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer item;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (item == null) {
+                    Minecraft mc = Minecraft.getInstance();
+                    item = new ScaleChestRenderer.Item(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels());
+                }
+                return item;
+            }
+        }, LogisticsRegistry.SCALE_CHEST.block().get().asItem());
         event.registerItem(modelItem(SPILLWAY), LogisticsRegistry.SPILLWAY.block().get().asItem());
         event.registerItem(modelItem(FILLING_STATION), LogisticsRegistry.FILLING_STATION.block().get().asItem());
     }

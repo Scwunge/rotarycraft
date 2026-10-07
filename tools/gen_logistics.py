@@ -125,4 +125,12 @@ rendered_machine('spillway', model='ModelSpillway', texture='spillwaytex.png')
 shaped('spillway', ['S  ', 'PSP', 'PpP'], {'S': STEEL, 'P': BASEPANEL, 'p': PIPE})
 names({'block.rotarycraft.spillway': 'Spillway'})
 
+# ---- Scale-able Chest (the vanilla chest model in the original's texture) ----
+rendered_machine('scale_chest', texture='chest.png')
+shaped('scale_chest', ['sss', 'scs', 'sss'], {'s': STEEL, 'c': vanilla('chest')})
+w('%s/loot_table/blocks/scale_chest.json' % D, {'type': 'minecraft:block', 'pools': [{'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'rotarycraft:scale_chest'}],
+    'conditions': [{'condition': 'minecraft:survives_explosion'}],
+    'functions': [{'function': 'minecraft:copy_components', 'source': 'block_entity', 'include': ['rotarycraft:chest_contents']}]}]})
+names({'block.rotarycraft.scale_chest': 'Scale-able Chest', 'gui.rotarycraft.scale_chest.unpowered': 'The chest has no power'})
+
 mg.finish()

@@ -232,6 +232,8 @@ public class CannonGameTests {
         }
         // an ordinary pig, not a no-AI one, which ignores being thrown
         Pig pig = helper.spawn(EntityType.PIG, new BlockPos(6, 2, 2));
+        // so that it stays where it is until it is thrown, rather than wandering out of the line of fire
+        pig.addEffect(new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.MOVEMENT_SLOWDOWN, 1000, 10, false, false));
         double start = pig.getX();
         waitFor(helper, restore, 100, () -> pig.getX() > start + 4);
     }

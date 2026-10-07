@@ -617,6 +617,8 @@
   "gui.rotarycraft.bucket_filler.button0.1": "Emptying",
   "block.rotarycraft.filling_station": "Filling Station",
   "block.rotarycraft.spillway": "Spillway",
+  "block.rotarycraft.scale_chest": "Scale-able Chest",
+  "gui.rotarycraft.scale_chest.unpowered": "The chest has no power",
   "block.rotarycraft.worktable": "Worktable",
   "block.rotarycraft.auto_crafter": "Auto-Crafter",
   "item.rotarycraft.craft_pattern": "Craft Pattern",

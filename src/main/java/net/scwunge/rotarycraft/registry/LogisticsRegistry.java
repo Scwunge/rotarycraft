@@ -16,6 +16,11 @@ import net.scwunge.rotarycraft.logistics.FillingStationBlockEntity;
 import net.scwunge.rotarycraft.logistics.GrindstoneBlockEntity;
 import net.scwunge.rotarycraft.logistics.HeaterBlockEntity;
 import net.scwunge.rotarycraft.logistics.ItemRefresherBlockEntity;
+import net.minecraft.core.component.DataComponentType;
+import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
+import net.scwunge.rotarycraft.logistics.ChestContents;
+import net.scwunge.rotarycraft.logistics.ScaleChestBlockEntity;
+import net.scwunge.rotarycraft.logistics.ScaleChestMenu;
 import net.scwunge.rotarycraft.logistics.PurifierBlockEntity;
 import net.scwunge.rotarycraft.logistics.SpillwayBlockEntity;
 import net.scwunge.rotarycraft.logistics.WetterBlockEntity;
@@ -62,6 +67,12 @@ public final class LogisticsRegistry {
     public static final Machines.Entry<FillingStationBlockEntity, LayoutMachineBlock> FILLING_STATION = Machines.machine("filling_station", FillingStationBlockEntity::new);
     public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> FILLING_STATION_MENU = LayoutMenus.register(FillingStationBlockEntity.LAYOUT);
 
+    public static final Machines.Entry<ScaleChestBlockEntity, LayoutMachineBlock> SCALE_CHEST = Machines.machine("scale_chest", ScaleChestBlockEntity::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<ScaleChestMenu>> SCALE_CHEST_MENU = RotaryMenus.MENUS.register("scale_chest",
+            () -> IMenuTypeExtension.create((id, inventory, buf) -> ScaleChestMenu.client(LogisticsRegistry.SCALE_CHEST_MENU.get(), id, inventory, buf.readBlockPos())));
+    /** What a Scale-able Chest held when it was broken. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<ChestContents>> CHEST_CONTENTS = RotaryComponents.COMPONENTS.register("chest_contents",
+            () -> DataComponentType.<ChestContents>builder().persistent(ChestContents.CODEC).networkSynchronized(ChestContents.STREAM_CODEC).build());
     public static final Machines.Entry<SpillwayBlockEntity, LayoutMachineBlock> SPILLWAY = Machines.machine("spillway", SpillwayBlockEntity::new);
 
     // ---- recipes ----
@@ -79,6 +90,7 @@ public final class LogisticsRegistry {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SMOKE_DETECTOR.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, HEATER.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, IGNITER.type().get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SCALE_CHEST.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, SPILLWAY.type().get(), (be, side) -> be.fluidHandler(side));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, WETTER.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, WETTER.type().get(), (be, side) -> be.fluidHandler(side));

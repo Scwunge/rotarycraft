@@ -74,7 +74,7 @@ public class LayoutMachineBlock extends MachineBlock {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock())) {
-            if (level.getBlockEntity(pos) instanceof MachineHost host) {
+            if (level.getBlockEntity(pos) instanceof MachineHost host && host.dropsInventory()) {
                 for (int i = 0; i < host.items().getSlots(); i++) {
                     Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), host.items().getStackInSlot(i));
                 }

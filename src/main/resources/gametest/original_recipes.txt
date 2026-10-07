@@ -139,7 +139,7 @@ PENDING|RANGEFINDER|not ported yet
 MAP|REFRESHER|refresher
 MAP|REFRIGERATOR|refrigerator
 MAP|RESERVOIR|reservoir
-PENDING|SCALECHEST|not ported yet
+MAP|SCALECHEST|scale_chest
 MAP|SCREEN|screen
 MAP|SCREWDRIVER|screwdriver
 MAP|SELFDESTRUCT|self_destruct
