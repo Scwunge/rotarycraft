@@ -201,7 +201,7 @@ public class ToolGameTests {
 
     @GameTest(template = LONG, timeoutTicks = 160, batch = "tools")
     public static void aSickleHurtsTheCreaturesBesideTheOneItHits(GameTestHelper helper) {
-        // the batch before may still be discharging a Van de Graaff here for a tick or two; give it time
+        // a Van de Graaff test left standing used to shock mobs here (fixed in VanDeGraffGameTests); the judging below is by who did the damage, so it cannot be fooled
         helper.runAfterDelay(40, () -> {
             Cow first = helper.spawn(EntityType.COW, new BlockPos(8, 3, 3));
             Cow second = helper.spawn(EntityType.COW, new BlockPos(9, 3, 3));
@@ -213,7 +213,7 @@ public class ToolGameTests {
             ServerPlayer player = survivor(helper, tool);
             ((SickleItem) tool.getItem()).onLeftClickEntity(tool, player, first);
             helper.runAfterDelay(2, () -> {
-                // judged by who hurt them: something else in the test world has been seen striking cows with lightning
+                // judged by who hurt them
                 helper.assertTrue(second.getLastDamageSource() != null && second.getLastDamageSource().getEntity() == player, "the cow beside it was not hurt by the sickle");
                 helper.assertTrue(far.getLastDamageSource() == null || far.getLastDamageSource().getEntity() != player, "a far cow was hurt by the sickle");
                 helper.assertTrue(tool.getDamageValue() == 10, "wore " + tool.getDamageValue());

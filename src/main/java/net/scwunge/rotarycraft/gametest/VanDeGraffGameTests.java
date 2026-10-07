@@ -33,6 +33,16 @@ public class VanDeGraffGameTests {
         return at(helper);
     }
 
+    /**
+     * Takes the generator and its motor away at the end of a test. A generator left standing keeps building charge off its motor, and with it its range, which
+     * grows a block every four ticks; it shocks every creature that far out with lightning damage, and it outlasts its test, so it killed the mobs of whichever
+     * test next used that part of the world.
+     */
+    static void clear(GameTestHelper helper) {
+        helper.setBlock(AT, Blocks.AIR);
+        helper.setBlock(new BlockPos(2, 1, 2), Blocks.AIR);
+    }
+
     static VanDeGraffBlockEntity at(GameTestHelper helper) {
         return (VanDeGraffBlockEntity) helper.getBlockEntity(AT);
     }
@@ -42,6 +52,7 @@ public class VanDeGraffGameTests {
         generator(helper, true);
         helper.runAfterDelay(20, () -> {
             helper.assertTrue(at(helper).charge() >= 1000, "charge after a second: " + at(helper).charge());
+            clear(helper);
             helper.succeed();
         });
     }
@@ -51,6 +62,7 @@ public class VanDeGraffGameTests {
         generator(helper, false);
         helper.runAfterDelay(20, () -> {
             helper.assertTrue(at(helper).charge() == 0, "charge " + at(helper).charge());
+            clear(helper);
             helper.succeed();
         });
     }
@@ -61,6 +73,7 @@ public class VanDeGraffGameTests {
         Pig pig = helper.spawnWithNoFreeWill(EntityType.PIG, new BlockPos(2, 2, 4));
         helper.runAfterDelay(5, () -> {
             helper.assertTrue(pig.getHealth() < pig.getMaxHealth() || !pig.isAlive(), "the pig should be hurt");
+            clear(helper);
             helper.succeed();
         });
     }
@@ -72,6 +85,7 @@ public class VanDeGraffGameTests {
         helper.succeedWhen(() -> {
             helper.assertTrue(helper.getBlockState(new BlockPos(2, 2, 1)).isAir(), "the TNT should have been lit");
             helper.assertEntityPresent(EntityType.TNT, new BlockPos(2, 2, 1), 2.0);
+            clear(helper);
         });
     }
 
@@ -93,6 +107,8 @@ public class VanDeGraffGameTests {
         helper.assertTrue(g.range() == 5, "5k charge is 5 blocks: " + g.range());
         g.setCharge(1_000_000);
         helper.assertTrue(g.range() == VanDeGraffBlockEntity.MAX_RANGE, "range is capped at 16");
+        g.setCharge(0);
+        clear(helper);
         helper.succeed();
     }
 }
