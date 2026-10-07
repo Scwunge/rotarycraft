@@ -2,6 +2,7 @@ package net.scwunge.rotarycraft.transmission;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -14,12 +15,16 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.scwunge.rotarycraft.blockentity.PowerBlockEntity;
+import net.scwunge.rotarycraft.config.RotaryConfig;
+import net.scwunge.rotarycraft.menu.CoilMenu;
 import net.scwunge.rotarycraft.menu.CvtMenu;
 import net.scwunge.rotarycraft.power.IShaftPowerOutput;
+import net.scwunge.rotarycraft.registry.RotaryComponents;
 import net.scwunge.rotarycraft.registry.RotaryFluids;
 import net.scwunge.rotarycraft.registry.RotaryParts;
 import net.scwunge.rotarycraft.registry.TransmissionRegistry;
@@ -32,6 +37,9 @@ import org.jetbrains.annotations.Nullable;
  * <li>CVT: any ratio from 1 to 32 (as many as it has belts for, in powers of two) either way, trading speed for torque or torque for speed;
  * set by hand, by the redstone signal (a ratio for each of on and off), or automatically to keep a target torque. It needs lubricant and
  * a belt in its last slot.</li>
+ * <li>Energy coil: stores the shaft power that reaches it as energy, as much as it is asked for at a power and torque that rise with what it
+ * holds, and gives it out again as the torque and speed set in its screen while it has a redstone signal (at a torque that also rises with
+ * the energy held). It blows up if it is overcharged. The bedrock coil holds far more and gives out more. The energy goes with the item.</li>
  * </ul>
  */
 public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuProvider {
@@ -78,6 +86,12 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
     private final int[] stateIndex = new int[2];
     private int targetTorque = 1;
     private int torqueIn;
+
+    /** What a coil holds, in joules times twenty: a watt for a tick adds one. */
+    private long energy;
+    private int releaseTorque;
+    private int releaseOmega;
+    private boolean releasing;
 
     public AdvancedGearBlockEntity(BlockPos pos, BlockState state) {
         super(TransmissionRegistry.ADVANCED_GEAR_BE.get(), pos, state);
@@ -218,6 +232,170 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
         return -val;
     }
 
+    // ---- coil ----
+
+    public static final long CAPACITY = 720_000_000L;
+    public static final long CAPACITY_BEDROCK = 240_000_000_000_000L;
+    public static final int EMISSION_CAP = 1024;
+    public static final int EMISSION_CAP_BEDROCK = 4096;
+
+    public boolean isBedrockCoil() {
+        return kind() == AdvancedGearBlock.Kind.BEDROCK_COIL;
+    }
+
+    /** What the coil holds, in joules times twenty. */
+    public long energy() {
+        return energy;
+    }
+
+    public void setEnergy(long value) {
+        energy = Math.max(0, value);
+        setChanged();
+    }
+
+    /** The most it can hold, in joules. */
+    public long capacity() {
+        return isBedrockCoil() ? CAPACITY_BEDROCK : CAPACITY;
+    }
+
+    /** The most speed or torque it can be set to give out. */
+    public int maxEmission() {
+        return isBedrockCoil() ? EMISSION_CAP_BEDROCK : EMISSION_CAP;
+    }
+
+    public int releaseTorque() {
+        return releaseTorque;
+    }
+
+    public int releaseOmega() {
+        return releaseOmega;
+    }
+
+    public void setReleaseTorque(int value) {
+        releaseTorque = Math.max(0, Math.min(torqueCap(), Math.min(maxEmission(), value)));
+        setChanged();
+        flushPowerSync();
+    }
+
+    public void setReleaseOmega(int value) {
+        releaseOmega = Math.max(0, Math.min(maxEmission(), value));
+        setChanged();
+        flushPowerSync();
+    }
+
+    public boolean isReleasing() {
+        return releasing;
+    }
+
+    /** The smallest power of two that is at least {@code x} (one for anything less). */
+    static long ceilPow2(long x) {
+        return x <= 1 ? 1 : Long.highestOneBit(x - 1) << 1;
+    }
+
+    /** The smallest of 1, 2, 3, 4, 6, 8, 12, 16, 24... (a power of two, or three halves of one) that is at least {@code x}. */
+    public static int ceilPseudoPow2(int x) {
+        int p = (int) ceilPow2(x);
+        int threeQuarters = p / 4 * 3;
+        return p >= 4 && threeQuarters >= x ? threeQuarters : p;
+    }
+
+    private static int floorLog2(long x) {
+        return x <= 0 ? 0 : 63 - Long.numberOfLeadingZeros(x);
+    }
+
+    /** The power (W) the shaft must bring to charge it at all: it rises with what is held, so a fuller coil takes only harder power. */
+    public long chargingPower() {
+        if (energy < 20) {
+            return 1;
+        }
+        long l = floorLog2(energy / 20);
+        return ceilPow2(l * l * l * l);
+    }
+
+    /** The torque (N*m) the shaft must bring to charge it. */
+    public int chargingTorque() {
+        long l = floorLog2(energy / 20);
+        int base = energy >= 20 ? (int) (ceilPow2(l * l * l) / 2) : 1;
+        if (isBedrockCoil()) {
+            long l80 = floorLog2(energy / 80);
+            base = Math.max(base, energy >= 20 ? (int) Math.min(Integer.MAX_VALUE, 16 * (ceilPow2(l80 * l80 * l80) / 2)) : 16);
+            if (base <= 16) {
+                base = 16;
+            }
+        } else if (base <= 1) {
+            base = 1;
+        }
+        return base;
+    }
+
+    /** The most torque it can give out now: it rises with the square root of what it holds. */
+    public int torqueCap() {
+        return ceilPseudoPow2((int) Math.ceil(Math.sqrt(energy / 20D) / 4));
+    }
+
+    private void store(IShaftPowerOutput.Reading in) {
+        releasing = level.hasNeighborSignal(worldPosition);
+        if (energy / 20 >= capacity()) {
+            overcharge();
+            return;
+        }
+        if (!releasing) {
+            setPower(0, 0);
+            long power = in.power();
+            if (in.torque() >= chargingTorque() && power >= chargingPower()) {
+                long next = energy + power;
+                if (next < 0) {
+                    overcharge();
+                    return;
+                }
+                energy = next;
+                setChanged();
+            }
+        } else if (energy > 0 && releaseTorque > 0 && releaseOmega > 0) {
+            releaseTorque = Math.min(releaseTorque, torqueCap());
+            setPower(releaseTorque, releaseOmega);
+            if (level.getGameTime() % 26 == 0) {
+                level.playSound(null, worldPosition, net.scwunge.rotarycraft.registry.MachineSoundRegistry.get("coil").get(), SoundSource.BLOCKS, 0.5F, 1F);
+            }
+            energy = Math.max(0, energy - (long) releaseTorque * releaseOmega);
+            setChanged();
+        } else {
+            setPower(0, 0);
+        }
+    }
+
+    /** Charged past what it holds: it goes up, with a blast around it. */
+    private void overcharge() {
+        if (!(level instanceof ServerLevel server)) {
+            return;
+        }
+        boolean bedrock = isBedrockCoil();
+        BlockPos at = worldPosition;
+        server.removeBlock(at, false);
+        Level.ExplosionInteraction interaction = RotaryConfig.get(RotaryConfig.EXPLOSIONS_BREAK_BLOCKS) ? Level.ExplosionInteraction.BLOCK : Level.ExplosionInteraction.NONE;
+        int count = bedrock ? 24 : 3;
+        int range = bedrock ? 9 : 1;
+        for (int i = 0; i < count; i++) {
+            server.explode(null, at.getX() + (server.random.nextDouble() * 2 - 1) * range, at.getY() + (server.random.nextDouble() * 2 - 1) * range,
+                    at.getZ() + (server.random.nextDouble() * 2 - 1) * range, 8, interaction);
+        }
+        server.explode(null, at.getX() + 0.5, at.getY() + 0.5, at.getZ() + 0.5, bedrock ? 12 : 8, interaction);
+    }
+
+    @Override
+    protected void collectImplicitComponents(DataComponentMap.Builder builder) {
+        super.collectImplicitComponents(builder);
+        if (energy > 0) {
+            builder.set(RotaryComponents.COIL_ENERGY.get(), energy);
+        }
+    }
+
+    @Override
+    protected void applyImplicitComponents(DataComponentInput input) {
+        super.applyImplicitComponents(input);
+        energy = Math.max(0, input.getOrDefault(RotaryComponents.COIL_ENERGY.get(), 0L));
+    }
+
     // ---- shared ----
 
     /** Sparks and a clink when a gear is asked for more than the limit. */
@@ -281,6 +459,7 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
                 }
                 setPower(force, speed);
             }
+            case COIL, BEDROCK_COIL -> store(in);
             default -> setPower(0, 0);
         }
     }
@@ -299,7 +478,7 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
-        return kind() == AdvancedGearBlock.Kind.CVT ? new CvtMenu(id, inventory, this) : null;
+        return kind() == AdvancedGearBlock.Kind.CVT ? new CvtMenu(id, inventory, this) : kind().isCoil() ? new CoilMenu(id, inventory, this) : null;
     }
 
     @Override
@@ -311,7 +490,7 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
 
     @Override
     protected int statusKey() {
-        return ratio * 31 + mode.ordinal() * 1009 + stateIndex[0] * 7919 + stateIndex[1] * 104729 + targetTorque * 15485863 + torqueIn * 31 + lubricant.getFluidAmount() / 100;
+        return Long.hashCode(energy / 20000) * 7 + releaseTorque * 131 + releaseOmega * 17 + (releasing ? 1 : 0) + ratio * 31 + mode.ordinal() * 1009 + stateIndex[0] * 7919 + stateIndex[1] * 104729 + targetTorque * 15485863 + torqueIn * 31 + lubricant.getFluidAmount() / 100;
     }
 
     @Override
@@ -323,6 +502,10 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
         tag.putInt("target", targetTorque);
         tag.putInt("torqueIn", torqueIn);
         tag.putInt("lube", lubricant.getFluidAmount());
+        tag.putLong("energy", energy);
+        tag.putInt("releaseTorque", releaseTorque);
+        tag.putInt("releaseOmega", releaseOmega);
+        tag.putBoolean("releasing", releasing);
     }
 
     @Override
@@ -333,6 +516,10 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
         stateIndex[1] = Math.floorMod(tag.getInt("on"), STATES.length);
         targetTorque = tag.getInt("target");
         torqueIn = tag.getInt("torqueIn");
+        energy = tag.getLong("energy");
+        releaseTorque = tag.getInt("releaseTorque");
+        releaseOmega = tag.getInt("releaseOmega");
+        releasing = tag.getBoolean("releasing");
         int lube = tag.getInt("lube");
         lubricant.setFluid(lube > 0 ? new net.neoforged.neoforge.fluids.FluidStack(RotaryFluids.LUBRICANT.get(), lube) : net.neoforged.neoforge.fluids.FluidStack.EMPTY);
     }
@@ -349,6 +536,9 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
         tag.putInt("target", targetTorque);
         tag.put("belts", belts.serializeNBT(registries));
         tag.put("lubricant", lubricant.writeToNBT(registries, new CompoundTag()));
+        tag.putLong("energy", energy);
+        tag.putInt("releaseTorque", releaseTorque);
+        tag.putInt("releaseOmega", releaseOmega);
     }
 
     @Override
@@ -361,5 +551,8 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
         targetTorque = tag.contains("target") ? Math.max(1, tag.getInt("target")) : 1;
         belts.deserializeNBT(registries, tag.getCompound("belts"));
         lubricant.readFromNBT(registries, tag.getCompound("lubricant"));
+        energy = tag.getLong("energy");
+        releaseTorque = tag.getInt("releaseTorque");
+        releaseOmega = tag.getInt("releaseOmega");
     }
 }

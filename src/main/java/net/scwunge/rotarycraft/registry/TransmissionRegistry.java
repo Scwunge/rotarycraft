@@ -15,6 +15,7 @@ import net.scwunge.rotarycraft.RotaryCraft;
 import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.scwunge.rotarycraft.menu.CoilMenu;
 import net.scwunge.rotarycraft.menu.CvtMenu;
 import net.scwunge.rotarycraft.menu.DistributionClutchMenu;
 import net.scwunge.rotarycraft.menu.MultiClutchMenu;
@@ -78,6 +79,10 @@ public final class TransmissionRegistry {
     /** The advanced gears, one block for each kind (worm gear, CVT, energy coil, 256x gear). */
     public static final Map<AdvancedGearBlock.Kind, DeferredBlock<AdvancedGearBlock>> ADVANCED_GEARS = new EnumMap<>(AdvancedGearBlock.Kind.class);
     public static final DeferredBlock<AdvancedGearBlock> WORM_DRIVE = gear(AdvancedGearBlock.Kind.WORM, "worm_drive");
+    public static final DeferredBlock<AdvancedGearBlock> ENERGY_COIL = gear(AdvancedGearBlock.Kind.COIL, "energy_coil");
+    public static final DeferredBlock<AdvancedGearBlock> BEDROCK_ENERGY_COIL = gear(AdvancedGearBlock.Kind.BEDROCK_COIL, "bedrock_energy_coil");
+    public static final DeferredHolder<MenuType<?>, MenuType<CoilMenu>> COIL_MENU = RotaryMenus.MENUS.register("energy_coil",
+            () -> IMenuTypeExtension.create(CoilMenu::fromNetwork));
     public static final DeferredBlock<AdvancedGearBlock> CVT = gear(AdvancedGearBlock.Kind.CVT, "cvt");
     public static final DeferredHolder<MenuType<?>, MenuType<CvtMenu>> CVT_MENU = RotaryMenus.MENUS.register("cvt",
             () -> IMenuTypeExtension.create(CvtMenu::fromNetwork));

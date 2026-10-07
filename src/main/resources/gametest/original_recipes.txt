@@ -196,7 +196,7 @@ MAP|barrel|barrel
 MAP|basepanel|base_panel
 MAP|bedingot|bedrock_ingot
 PENDING|bedingotblock|not ported yet
-PENDING|bedrockcoil|not ported yet
+MAP|bedrockcoil|bedrock_coil
 MAP|bedrockshaft|bedrock_shaft_core
 MAP|belt|belt
 MAP|brake|brake

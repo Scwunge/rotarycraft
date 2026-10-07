@@ -839,4 +839,121 @@ public class TransmissionGameTests {
         helper.assertTrue(other.maxRatio() == 8 && other.hasRequiredBelt() && other.lubricant().getFluidAmount() == 1000, "belts or lubricant lost: " + other.maxRatio());
         helper.succeed();
     }
+
+    // ---- the energy coil ----
+
+    static AdvancedGearBlockEntity coil(GameTestHelper helper, DeferredBlock<AdvancedGearBlock> block, int torque, int omega) {
+        return advancedGear(helper, block, torque, omega);
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 20)
+    public static void aCoilsChargingAndReleaseLimitsRiseWithWhatItHolds(GameTestHelper helper) {
+        AdvancedGearBlockEntity coil = coil(helper, TransmissionRegistry.ENERGY_COIL, 0, 0);
+        helper.assertTrue(coil.chargingPower() == 1 && coil.chargingTorque() == 1, "an empty coil takes anything");
+        coil.setEnergy(20L * 1_000_000);
+        helper.assertTrue(coil.chargingPower() == 131072, "power to charge at a megajoule " + coil.chargingPower());
+        helper.assertTrue(coil.chargingTorque() == 4096, "torque to charge at a megajoule " + coil.chargingTorque());
+        helper.assertTrue(coil.torqueCap() == 256, "torque it can give at a megajoule " + coil.torqueCap());
+        AdvancedGearBlockEntity bedrock = coil(helper, TransmissionRegistry.BEDROCK_ENERGY_COIL, 0, 0);
+        bedrock.setEnergy(20L * 1_000_000);
+        helper.assertTrue(bedrock.chargingTorque() == 65536, "a bedrock coil asks more torque: " + bedrock.chargingTorque());
+        helper.assertTrue(bedrock.maxEmission() == 4096 && coil.maxEmission() == 1024, "emission limits");
+        helper.assertTrue(AdvancedGearBlockEntity.ceilPseudoPow2(5) == 6 && AdvancedGearBlockEntity.ceilPseudoPow2(7) == 8 && AdvancedGearBlockEntity.ceilPseudoPow2(9) == 12
+                && AdvancedGearBlockEntity.ceilPseudoPow2(3) == 3 && AdvancedGearBlockEntity.ceilPseudoPow2(1) == 1, "the in-between steps");
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void aCoilChargesFromTheShaftUntilItsOwnLimitsStopIt(GameTestHelper helper) {
+        AdvancedGearBlockEntity coil = coil(helper, TransmissionRegistry.ENERGY_COIL, 2, 8);
+        helper.runAfterDelay(40, () -> {
+            helper.assertTrue(coil.energy() > 0 && coil.energy() < 400, "energy " + coil.energy());
+            helper.assertTrue(coil.chargingTorque() > 2 || coil.chargingPower() > 16, "a fuller coil asks more than the 2 N*m and 16 W it gets: " + coil.chargingTorque() + ", " + coil.chargingPower());
+            long held = coil.energy();
+            helper.runAfterDelay(10, () -> {
+                helper.assertTrue(coil.energy() == held, "it went on charging against its own limit");
+                helper.succeed();
+            });
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void aCoilGivesBackWhatItHoldsAtTheSetSpeedAndTorqueWhileItHasASignal(GameTestHelper helper) {
+        AdvancedGearBlockEntity coil = coil(helper, TransmissionRegistry.ENERGY_COIL, 0, 0);
+        coil.setEnergy(20L * 1_000_000);
+        coil.setReleaseOmega(100);
+        coil.setReleaseTorque(50);
+        DynamometerBlockEntity meter = meter(helper, CLUTCH.east(), Direction.EAST);
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(meter.getTorque() == 0, "it gave power with no signal");
+            helper.setBlock(CLUTCH.above(), Blocks.REDSTONE_BLOCK);
+        });
+        helper.succeedWhen(() -> {
+            helper.assertTrue(meter.getTorque() == 50 && meter.getOmega() == 100, "the coil gave " + meter.getTorque() + " N*m " + meter.getOmega() + " rad/s");
+            helper.assertTrue(coil.energy() < 20L * 1_000_000, "its energy should be going down: " + coil.energy());
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void aCoilThatRunsOutStopsGivingPower(GameTestHelper helper) {
+        AdvancedGearBlockEntity coil = coil(helper, TransmissionRegistry.ENERGY_COIL, 0, 0);
+        coil.setEnergy(60);
+        coil.setReleaseOmega(10);
+        coil.setReleaseTorque(1);
+        helper.setBlock(CLUTCH.above(), Blocks.REDSTONE_BLOCK);
+        helper.succeedWhen(() -> helper.assertTrue(coil.energy() == 0 && coil.getTorque() == 0, "energy " + coil.energy() + ", giving " + coil.getTorque()));
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 20)
+    public static void theReleaseSettingsStayWithinWhatTheCoilCanGive(GameTestHelper helper) {
+        AdvancedGearBlockEntity coil = coil(helper, TransmissionRegistry.ENERGY_COIL, 0, 0);
+        coil.setEnergy(20L * 1_000_000);
+        coil.setReleaseOmega(5000);
+        coil.setReleaseTorque(5000);
+        helper.assertTrue(coil.releaseOmega() == 1024, "speed " + coil.releaseOmega());
+        helper.assertTrue(coil.releaseTorque() == 256, "torque is held to what the energy allows: " + coil.releaseTorque());
+        AdvancedGearBlockEntity bedrock = coil(helper, TransmissionRegistry.BEDROCK_ENERGY_COIL, 0, 0);
+        bedrock.setEnergy(20L * 1_000_000_000L);
+        bedrock.setReleaseOmega(100000);
+        helper.assertTrue(bedrock.releaseOmega() == 4096, "bedrock speed " + bedrock.releaseOmega());
+        helper.succeed();
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 60)
+    public static void anOverchargedCoilBlowsUp(GameTestHelper helper) {
+        var breaks = net.scwunge.rotarycraft.config.RotaryConfig.EXPLOSIONS_BREAK_BLOCKS;
+        net.scwunge.rotarycraft.config.RotaryConfig.override(breaks, false);
+        AdvancedGearBlockEntity coil = coil(helper, TransmissionRegistry.ENERGY_COIL, 0, 0);
+        coil.setEnergy(AdvancedGearBlockEntity.CAPACITY * 20);
+        helper.succeedWhen(() -> {
+            helper.assertBlockNotPresent(TransmissionRegistry.ENERGY_COIL.get(), CLUTCH);
+            net.scwunge.rotarycraft.config.RotaryConfig.clearOverride(breaks);
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 20)
+    public static void aCoilKeepsItsEnergyInItsItemAndWhenSaved(GameTestHelper helper) {
+        AdvancedGearBlockEntity coil = coil(helper, TransmissionRegistry.ENERGY_COIL, 0, 0);
+        coil.setEnergy(123456);
+        coil.setReleaseOmega(77);
+        var components = coil.collectComponents();
+        helper.assertTrue(components.getOrDefault(net.scwunge.rotarycraft.registry.RotaryComponents.COIL_ENERGY.get(), 0L) == 123456L, "the item should carry the energy");
+        ItemStack item = new ItemStack(TransmissionRegistry.ENERGY_COIL.get());
+        item.set(net.scwunge.rotarycraft.registry.RotaryComponents.COIL_ENERGY.get(), 999L);
+        helper.setBlock(CLUTCH, Blocks.AIR);
+        helper.setBlock(CLUTCH, TransmissionRegistry.ENERGY_COIL.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        AdvancedGearBlockEntity placed = helper.getBlockEntity(CLUTCH);
+        placed.applyComponentsFromItemStack(item);
+        helper.assertTrue(placed.energy() == 999, "a placed coil starts with its item's energy: " + placed.energy());
+        placed.setEnergy(555);
+        placed.setReleaseOmega(33);
+        var registries = helper.getLevel().registryAccess();
+        var saved = placed.saveWithFullMetadata(registries);
+        helper.setBlock(CLUTCH, Blocks.AIR);
+        helper.setBlock(CLUTCH, TransmissionRegistry.ENERGY_COIL.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        AdvancedGearBlockEntity other = helper.getBlockEntity(CLUTCH);
+        other.loadWithComponents(saved, registries);
+        helper.assertTrue(other.energy() == 555 && other.releaseOmega() == 33, "saved energy " + other.energy());
+        helper.succeed();
+    }
 }

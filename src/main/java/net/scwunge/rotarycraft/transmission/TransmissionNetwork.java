@@ -22,6 +22,7 @@ public final class TransmissionNetwork {
         var registrar = event.registrar("transmission-1").optional();
         registrar.playToServer(DistributionRequests.TYPE, DistributionRequests.CODEC, (p, ctx) -> ctx.enqueueWork(() -> DistributionRequests.handle(p, ctx)));
         registrar.playToServer(CvtValue.TYPE, CvtValue.CODEC, (p, ctx) -> ctx.enqueueWork(() -> CvtValue.handle(p, ctx)));
+        registrar.playToServer(CoilValue.TYPE, CoilValue.CODEC, (p, ctx) -> ctx.enqueueWork(() -> CoilValue.handle(p, ctx)));
     }
 
     /** The torques (N*m) a Distribution Clutch's screen asks each side (north, south, west, east) for. */
@@ -66,6 +67,31 @@ public final class TransmissionNetwork {
                     gear.setTargetTorque(p.value);
                 } else {
                     gear.setRatio(p.value);
+                }
+            }
+        }
+    }
+
+    /** An energy coil screen's number: the speed (or the torque) it gives out when released. */
+    public record CoilValue(BlockPos pos, int value, boolean torque) implements CustomPacketPayload {
+        public static final Type<CoilValue> TYPE = new Type<>(RotaryCraft.id("coil_value"));
+        public static final StreamCodec<ByteBuf, CoilValue> CODEC = StreamCodec.composite(BlockPos.STREAM_CODEC, CoilValue::pos,
+                ByteBufCodecs.INT, CoilValue::value, ByteBufCodecs.BOOL, CoilValue::torque, CoilValue::new);
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
+        }
+
+        /** Only someone standing at the coil can change it. */
+        static void handle(CoilValue p, IPayloadContext ctx) {
+            Player player = ctx.player();
+            if (player.distanceToSqr(p.pos.getCenter()) <= 64 && player.level().isLoaded(p.pos)
+                    && player.level().getBlockEntity(p.pos) instanceof AdvancedGearBlockEntity gear && gear.kind().isCoil()) {
+                if (p.torque) {
+                    gear.setReleaseTorque(p.value);
+                } else {
+                    gear.setReleaseOmega(p.value);
                 }
             }
         }

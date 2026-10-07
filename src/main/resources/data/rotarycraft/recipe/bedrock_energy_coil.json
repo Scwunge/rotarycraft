@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BCS",
+    " M "
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:brake"
+    },
+    "C": {
+      "item": "rotarycraft:bedrock_coil"
+    },
+    "S": {
+      "item": "rotarycraft:bedrock_shaft_core"
+    },
+    "M": {
+      "item": "rotarycraft:mount"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_energy_coil",
+    "count": 1
+  }
+}

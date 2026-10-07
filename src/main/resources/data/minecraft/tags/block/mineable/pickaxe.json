@@ -172,6 +172,8 @@
     "rotarycraft:chain_drive",
     "rotarycraft:split_belt",
     "rotarycraft:worm_drive",
-    "rotarycraft:cvt"
+    "rotarycraft:cvt",
+    "rotarycraft:energy_coil",
+    "rotarycraft:bedrock_energy_coil"
   ]
 }

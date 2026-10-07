@@ -15,7 +15,12 @@ public class AdvancedGearBlock extends MachineBlock {
         WORM,
         CVT,
         COIL,
+        BEDROCK_COIL,
         HIGH;
+
+        public boolean isCoil() {
+            return this == COIL || this == BEDROCK_COIL;
+        }
 
         public String id() {
             return name().toLowerCase(java.util.Locale.ROOT);

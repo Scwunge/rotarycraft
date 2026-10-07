@@ -43,4 +43,7 @@ public class RotaryComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<net.minecraft.core.GlobalPos>> BELT_END = COMPONENTS.register("belt_end",
             () -> DataComponentType.<net.minecraft.core.GlobalPos>builder().persistent(net.minecraft.core.GlobalPos.CODEC)
                     .networkSynchronized(net.minecraft.core.GlobalPos.STREAM_CODEC).build());
+    /** The energy an energy coil holds, in joules times twenty (one watt for one tick is one unit), kept in its item. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<Long>> COIL_ENERGY = COMPONENTS.register("coil_energy",
+            () -> DataComponentType.<Long>builder().persistent(com.mojang.serialization.Codec.LONG).networkSynchronized(net.minecraft.network.codec.ByteBufCodecs.VAR_LONG).build());
 }

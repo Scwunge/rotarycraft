@@ -53,7 +53,7 @@ public final class RotaryParts {
                 "base_panel", "mount", "ball_bearing", "worm_gear", "chain", "belt", "brake",
                 // engine parts (ENGINECRAFT)
                 "impeller", "compressor", "turbine", "diffuser", "combustor", "high_combustor", "cylinder", "silumin_cylinder",
-                "radiator", "condenser", "gold_coil", "igniter", "water_plate", "compound_turbine", "compound_compressor",
+                "radiator", "condenser", "gold_coil", "bedrock_coil", "igniter", "water_plate", "compound_turbine", "compound_compressor",
                 // misc parts (MISCCRAFT / BORECRAFT)
                 "propeller", "hub", "mirror", "generator_unit", "linear_induction_motor", "power_module",
                 "circuit_board", "screen", "drill", "saw", "mixer", "radar_unit", "sonar_unit", "press_head",

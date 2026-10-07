@@ -38,9 +38,12 @@ public final class TransmissionClient {
     static final Look<AdvancedGearBlockEntity> ADVANCED_GEAR = Look.<AdvancedGearBlockEntity>spinning("worm_gear", "clutch", GEAR_YAWS, TransmissionClient::spin, 1)
             .modelled(be -> switch (be.kind()) {
                 case CVT -> "cvt";
+                case COIL, BEDROCK_COIL -> "coil";
                 default -> "worm_gear";
             }).textured(be -> switch (be.kind()) {
                 case CVT -> "cvt";
+                case COIL -> "coil";
+                case BEDROCK_COIL -> "coil_bedrock";
                 default -> "clutch";
             });
 
@@ -57,6 +60,7 @@ public final class TransmissionClient {
         event.register(TransmissionRegistry.MULTI_CLUTCH_MENU.get(), MultiClutchScreen::new);
         event.register(TransmissionRegistry.POWER_BUS_MENU.get(), PowerBusScreen::new);
         event.register(TransmissionRegistry.CVT_MENU.get(), CvtScreen::new);
+        event.register(TransmissionRegistry.COIL_MENU.get(), CoilScreen::new);
         event.register(TransmissionRegistry.DISTRIBUTION_CLUTCH_MENU.get(), DistributionClutchScreen::new);
     }
 
@@ -81,7 +85,8 @@ public final class TransmissionClient {
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 if (renderer == null) {
                     Minecraft mc = Minecraft.getInstance();
-                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(ADVANCED_GEAR), kind == AdvancedGearBlock.Kind.CVT ? "cvt" : "worm_gear", kind == AdvancedGearBlock.Kind.CVT ? "cvt" : "clutch");
+                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(ADVANCED_GEAR), kind == AdvancedGearBlock.Kind.CVT ? "cvt" : kind.isCoil() ? "coil" : "worm_gear",
+                            kind == AdvancedGearBlock.Kind.CVT ? "cvt" : kind == AdvancedGearBlock.Kind.COIL ? "coil" : kind == AdvancedGearBlock.Kind.BEDROCK_COIL ? "coil_bedrock" : "clutch");
                 }
                 return renderer;
             }

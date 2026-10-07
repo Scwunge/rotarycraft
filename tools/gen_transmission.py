@@ -190,6 +190,32 @@ gui('cvtgui2.png', 'cvt_redstone')
 shaped('cvt', ['BSB', 'BSB', 'sMc'], {'B': item('diamond_bearing'), 'S': item('bedrock_shaft_core'), 's': item('circuit_board'), 'M': item('mount'), 'c': item('screen')})
 LANG.update({'block.rotarycraft.cvt': 'CVT'})
 
+# ---- the energy coil (and the bedrock one) ----
+texture('Transmission/coiltex.png', 'coil')
+texture('Transmission/coiltex_bed.png', 'coil_bedrock')
+MODELS.append('ModelCoil:coil')
+for coil in ('energy_coil', 'bedrock_energy_coil'):
+    rendered(coil)
+    w('%s/loot_table/blocks/%s.json' % (D, coil), {'type': 'minecraft:block', 'pools': [{
+        'rolls': 1, 'conditions': [{'condition': 'minecraft:survives_explosion'}],
+        'entries': [{'type': 'minecraft:item', 'name': 'rotarycraft:' + coil, 'functions': [
+            {'function': 'minecraft:copy_components', 'source': 'block_entity', 'include': ['rotarycraft:coil_energy']}]}]}]})
+gui('coilgui2.png', 'energy_coil')
+os.makedirs(T + '/item', exist_ok=True)
+im = Image.new('RGBA', (16, 16))
+g = ImageDraw.Draw(im)
+g.ellipse([2, 2, 13, 13], fill=(70, 70, 76, 255), outline=(30, 30, 34, 255))
+g.ellipse([5, 5, 10, 10], fill=(110, 110, 120, 255), outline=(30, 30, 34, 255))
+g.ellipse([7, 7, 8, 8], fill=(20, 20, 24, 255))
+im.save(T + '/item/bedrock_coil.png')
+w(A + '/models/item/bedrock_coil.json', {'parent': 'minecraft:item/generated', 'textures': {'layer0': 'rotarycraft:item/bedrock_coil'}})
+shaped('bedrock_coil', ['WWW', 'WSW', 'WWW'], {'W': item('strong_coil'), 'S': item('shaft_core')})
+shaped('energy_coil', ['BCS', ' M '], {'B': item('brake'), 'C': item('strong_coil'), 'S': item('shaft_core'), 'M': item('mount')})
+shaped('bedrock_energy_coil', ['BCS', ' M '], {'B': item('brake'), 'C': item('bedrock_coil'), 'S': item('bedrock_shaft_core'), 'M': item('mount')})
+LANG.update({'block.rotarycraft.energy_coil': 'Energy Coil', 'block.rotarycraft.bedrock_energy_coil': 'Bedrock Energy Coil', 'item.rotarycraft.bedrock_coil': 'Bedrock Coil',
+             'gui.rotarycraft.coil.speed': 'Output Speed', 'gui.rotarycraft.coil.torque': 'Output Torque', 'gui.rotarycraft.coil.max': '(Max %s)',
+             'gui.rotarycraft.coil.stored': 'Stored Energy: %s', 'gui.rotarycraft.coil.capacity': 'Max Energy: %s'})
+
 # ---- lang, tags, models ----
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

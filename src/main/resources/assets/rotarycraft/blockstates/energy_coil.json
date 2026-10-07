@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/energy_coil"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/energy_coil"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/energy_coil"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/energy_coil"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/energy_coil"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/energy_coil"
+    }
+  }
+}
