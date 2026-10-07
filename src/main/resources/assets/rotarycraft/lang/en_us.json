@@ -436,6 +436,7 @@
   "block.rotarycraft.magnetic_motor": "Magnetic Motor",
   "block.rotarycraft.dynamo": "Dynamo",
   "tooltip.rotarycraft.gas_contents": "Contents: %s B of %s",
+  "config.jade.plugin_rotarycraft.machine": "RotaryCraft machine information",
   "jade.rotarycraft.power": "Power: %s W (%s N*m at %s rad/s)",
   "jade.rotarycraft.idle": "Not turning",
   "jade.rotarycraft.boiler.water": "Water: %s / %s mB",
