@@ -15,11 +15,14 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.ItemStackHandler;
+import net.scwunge.rotarycraft.block.MachineBlock;
 import net.scwunge.rotarycraft.blockentity.PowerBlockEntity;
+import net.scwunge.rotarycraft.machine.MachineInteractions;
 import net.scwunge.rotarycraft.config.RotaryConfig;
 import net.scwunge.rotarycraft.menu.CoilMenu;
 import net.scwunge.rotarycraft.menu.CvtMenu;
@@ -40,9 +43,11 @@ import org.jetbrains.annotations.Nullable;
  * <li>Energy coil: stores the shaft power that reaches it as energy, as much as it is asked for at a power and torque that rise with what it
  * holds, and gives it out again as the torque and speed set in its screen while it has a redstone signal (at a torque that also rises with
  * the energy held). It blows up if it is overcharged. The bedrock coil holds far more and gives out more. The energy goes with the item.</li>
+ * <li>256x gear: 256 times the torque for a 256th of the speed (torque mode), or the other way (speed mode, set with the screwdriver
+ * while sneaking), at no loss but a steady use of lubricant, which it cannot run without.</li>
  * </ul>
  */
-public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuProvider {
+public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuProvider, MachineInteractions {
     /** The most torque or speed any gear passes on (the original's configured limit). */
     public static final int LIMIT = (Integer.MAX_VALUE - 1) / 2;
     public static final int WORM_RATIO = 64;
@@ -92,6 +97,8 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
     private int releaseTorque;
     private int releaseOmega;
     private boolean releasing;
+    /** The 256x gear: true trades speed for torque, false torque for speed. */
+    private boolean torqueMode = true;
 
     public AdvancedGearBlockEntity(BlockPos pos, BlockState state) {
         super(TransmissionRegistry.ADVANCED_GEAR_BE.get(), pos, state);
@@ -292,7 +299,11 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
         return x <= 1 ? 1 : Long.highestOneBit(x - 1) << 1;
     }
 
-    /** The smallest of 1, 2, 3, 4, 6, 8, 12, 16, 24... (a power of two, or three halves of one) that is at least {@code x}. */
+    /**
+     * The smallest of 1, 2, 3, 4, 6, 8, 12, 16... (a power of two, or three quarters of one) that is at least {@code x}. An assumption: the
+     * original's helper (ceilPseudo2Exp) is in DragonAPI, which the reference does not have, so this is read from its name and use; it only
+     * shapes the curve of the torque a coil can give.
+     */
     public static int ceilPseudoPow2(int x) {
         int p = (int) ceilPow2(x);
         int threeQuarters = p / 4 * 3;
@@ -396,6 +407,72 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
         energy = Math.max(0, input.getOrDefault(RotaryComponents.COIL_ENERGY.get(), 0L));
     }
 
+    // ---- 256x gear ----
+
+    public static final int HIGH_RATIO = 256;
+
+    public boolean isTorqueMode() {
+        return torqueMode;
+    }
+
+    public void setTorqueMode(boolean mode) {
+        torqueMode = mode;
+        setChanged();
+    }
+
+    /** The lubricant a 256x gear uses on a tick it is running: the log of the larger of its torque and speed, in mB. */
+    public int lubricantUse() {
+        return (int) (Math.log(Math.max(1, Math.max(omega, torque))) / Math.log(2));
+    }
+
+    private void highGear(IShaftPowerOutput.Reading in) {
+        if (lubricant.isEmpty()) {
+            setPower(0, 0);
+            return;
+        }
+        int force;
+        int speed;
+        if (torqueMode) {
+            if (in.torque() <= LIMIT / HIGH_RATIO) {
+                force = in.torque() * HIGH_RATIO;
+            } else {
+                force = LIMIT;
+                strain();
+            }
+            speed = in.omega() / HIGH_RATIO;
+        } else {
+            force = in.torque() / HIGH_RATIO;
+            if (in.omega() <= LIMIT / HIGH_RATIO) {
+                speed = in.omega() * HIGH_RATIO;
+            } else {
+                speed = LIMIT;
+                strain();
+            }
+        }
+        setPower(force, speed);
+        if (omega > 0 && (level.getGameTime() & 4) == 4) {
+            lubricant.drain(lubricantUse(), net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+        }
+    }
+
+    /**
+     * The screwdriver turns an advanced gear a quarter turn along the ground (they only work level); sneaking with it switches a 256x gear
+     * between trading speed for torque and torque for speed.
+     */
+    @Override
+    public boolean onScrewdriver(UseOnContext context) {
+        Player player = context.getPlayer();
+        if (player != null && player.isShiftKeyDown()) {
+            if (kind() == AdvancedGearBlock.Kind.HIGH) {
+                setTorqueMode(!torqueMode);
+                player.displayClientMessage(Component.translatable(torqueMode ? "message.rotarycraft.gear.torque_mode" : "message.rotarycraft.gear.speed_mode"), true);
+            }
+            return true;
+        }
+        level.setBlock(worldPosition, getBlockState().setValue(MachineBlock.FACING, facing().getClockWise()), 3);
+        return true;
+    }
+
     // ---- shared ----
 
     /** Sparks and a clink when a gear is asked for more than the limit. */
@@ -460,6 +537,7 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
                 setPower(force, speed);
             }
             case COIL, BEDROCK_COIL -> store(in);
+            case HIGH -> highGear(in);
             default -> setPower(0, 0);
         }
     }
@@ -539,6 +617,7 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
         tag.putLong("energy", energy);
         tag.putInt("releaseTorque", releaseTorque);
         tag.putInt("releaseOmega", releaseOmega);
+        tag.putBoolean("torqueMode", torqueMode);
     }
 
     @Override
@@ -554,5 +633,6 @@ public class AdvancedGearBlockEntity extends PowerBlockEntity implements MenuPro
         energy = tag.getLong("energy");
         releaseTorque = tag.getInt("releaseTorque");
         releaseOmega = tag.getInt("releaseOmega");
+        torqueMode = !tag.contains("torqueMode") || tag.getBoolean("torqueMode");
     }
 }

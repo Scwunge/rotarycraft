@@ -39,11 +39,13 @@ public final class TransmissionClient {
             .modelled(be -> switch (be.kind()) {
                 case CVT -> "cvt";
                 case COIL, BEDROCK_COIL -> "coil";
+                case HIGH -> "high_gear";
                 default -> "worm_gear";
             }).textured(be -> switch (be.kind()) {
                 case CVT -> "cvt";
                 case COIL -> "coil";
                 case BEDROCK_COIL -> "coil_bedrock";
+                case HIGH -> "high_gear";
                 default -> "clutch";
             });
 
@@ -85,8 +87,9 @@ public final class TransmissionClient {
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 if (renderer == null) {
                     Minecraft mc = Minecraft.getInstance();
-                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(ADVANCED_GEAR), kind == AdvancedGearBlock.Kind.CVT ? "cvt" : kind.isCoil() ? "coil" : "worm_gear",
-                            kind == AdvancedGearBlock.Kind.CVT ? "cvt" : kind == AdvancedGearBlock.Kind.COIL ? "coil" : kind == AdvancedGearBlock.Kind.BEDROCK_COIL ? "coil_bedrock" : "clutch");
+                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(ADVANCED_GEAR), kind == AdvancedGearBlock.Kind.CVT ? "cvt" : kind.isCoil() ? "coil" : kind == AdvancedGearBlock.Kind.HIGH ? "high_gear" : "worm_gear",
+                            kind == AdvancedGearBlock.Kind.CVT ? "cvt" : kind == AdvancedGearBlock.Kind.COIL ? "coil" : kind == AdvancedGearBlock.Kind.BEDROCK_COIL ? "coil_bedrock"
+                                    : kind == AdvancedGearBlock.Kind.HIGH ? "high_gear" : "clutch");
                 }
                 return renderer;
             }

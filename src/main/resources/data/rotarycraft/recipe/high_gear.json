@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SGS",
+    "SGS",
+    "BMB"
+  ],
+  "key": {
+    "S": {
+      "item": "rotarycraft:bedrock_shaft_core"
+    },
+    "B": {
+      "item": "rotarycraft:tungsten_bearing"
+    },
+    "M": {
+      "item": "rotarycraft:mount"
+    },
+    "G": {
+      "item": "rotarycraft:bedrock_gear_unit_16"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:high_gear",
+    "count": 1
+  }
+}

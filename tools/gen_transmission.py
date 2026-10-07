@@ -190,6 +190,15 @@ gui('cvtgui2.png', 'cvt_redstone')
 shaped('cvt', ['BSB', 'BSB', 'sMc'], {'B': item('diamond_bearing'), 'S': item('bedrock_shaft_core'), 's': item('circuit_board'), 'M': item('mount'), 'c': item('screen')})
 LANG.update({'block.rotarycraft.cvt': 'CVT'})
 
+# ---- the 256x gear ----
+texture('Transmission/highgeartex.png', 'high_gear')
+MODELS.append('ModelHighGear:high_gear')
+rendered('high_gear')
+shaped('high_gear', ['SGS', 'SGS', 'BMB'], {'S': item('bedrock_shaft_core'), 'B': item('tungsten_bearing'), 'M': item('mount'), 'G': item('bedrock_gear_unit_16')})
+LANG.update({'block.rotarycraft.high_gear': '256x Gear',
+             'message.rotarycraft.gear.torque_mode': '256x gear: trading speed for torque.',
+             'message.rotarycraft.gear.speed_mode': '256x gear: trading torque for speed.'})
+
 # ---- the energy coil (and the bedrock one) ----
 texture('Transmission/coiltex.png', 'coil')
 texture('Transmission/coiltex_bed.png', 'coil_bedrock')

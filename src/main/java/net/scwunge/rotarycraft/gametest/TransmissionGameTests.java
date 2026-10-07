@@ -956,4 +956,75 @@ public class TransmissionGameTests {
         helper.assertTrue(other.energy() == 555 && other.releaseOmega() == 33, "saved energy " + other.energy());
         helper.succeed();
     }
+
+    // ---- the 256x gear ----
+
+    static AdvancedGearBlockEntity highGear(GameTestHelper helper, int torque, int omega, boolean lubricated) {
+        AdvancedGearBlockEntity gear = advancedGear(helper, TransmissionRegistry.HIGH_GEAR, torque, omega);
+        if (lubricated) {
+            gear.lubricant().fill(new FluidStack(RotaryFluids.LUBRICANT.get(), 5000), IFluidHandler.FluidAction.EXECUTE);
+        }
+        return gear;
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void aHighGearTradesSpeedForTorqueByTwoHundredAndFiftySix(GameTestHelper helper) {
+        AdvancedGearBlockEntity gear = highGear(helper, 2, 1024, true);
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(gear.getTorque() == 512 && gear.getOmega() == 4, "torque mode gave " + gear.getTorque() + " N*m " + gear.getOmega() + " rad/s");
+            gear.setTorqueMode(false);
+            WeaponGameTests.spinningFlywheel(helper, SOURCE, 1024, 8, Direction.EAST);
+        });
+        helper.runAfterDelay(15, () -> {
+            helper.assertTrue(gear.getTorque() == 4 && gear.getOmega() == 2048, "speed mode gave " + gear.getTorque() + " N*m " + gear.getOmega() + " rad/s");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void aHighGearWithNoLubricantPassesNothingAndOneThatRunsUsesSome(GameTestHelper helper) {
+        AdvancedGearBlockEntity gear = highGear(helper, 2, 1024, false);
+        helper.runAfterDelay(10, () -> {
+            helper.assertTrue(gear.getTorque() == 0 && gear.getOmega() == 0, "a dry gear passed power");
+            gear.lubricant().fill(new FluidStack(RotaryFluids.LUBRICANT.get(), 5000), IFluidHandler.FluidAction.EXECUTE);
+        });
+        helper.succeedWhen(() -> {
+            helper.assertTrue(gear.getTorque() == 512, "it should run: " + gear.getTorque());
+            helper.assertTrue(gear.lubricant().getFluidAmount() < 5000, "it should be using lubricant: " + gear.lubricant().getFluidAmount());
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void aHighGearNeverGivesMoreThanTheLimit(GameTestHelper helper) {
+        AdvancedGearBlockEntity gear = highGear(helper, 40_000_000, 1024, true);
+        helper.succeedWhen(() -> helper.assertTrue(gear.getTorque() == AdvancedGearBlockEntity.LIMIT, "torque " + gear.getTorque()));
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void theScrewdriverTurnsAdvancedGearsLevelAndSneakingSwitchesTheHighGearsMode(GameTestHelper helper) {
+        AdvancedGearBlockEntity gear = highGear(helper, 2, 1024, true);
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        ItemStack tool = new ItemStack(RotaryItems.SCREWDRIVER.get());
+        player.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND, tool);
+        net.minecraft.world.item.context.UseOnContext use = new net.minecraft.world.item.context.UseOnContext(helper.getLevel(), player, net.minecraft.world.InteractionHand.MAIN_HAND, tool,
+                new net.minecraft.world.phys.BlockHitResult(helper.absolutePos(CLUTCH).getCenter(), Direction.UP, helper.absolutePos(CLUTCH), false));
+        RotaryItems.SCREWDRIVER.get().useOn(use);
+        helper.assertTrue(helper.getBlockState(CLUTCH).getValue(MachineBlock.FACING) == Direction.SOUTH, "it should turn a quarter: " + helper.getBlockState(CLUTCH).getValue(MachineBlock.FACING));
+        for (int i = 0; i < 3; i++) {
+            RotaryItems.SCREWDRIVER.get().useOn(use);
+        }
+        helper.assertTrue(helper.getBlockState(CLUTCH).getValue(MachineBlock.FACING) == Direction.EAST, "four turns make a full one");
+        player.setShiftKeyDown(true);
+        RotaryItems.SCREWDRIVER.get().useOn(use);
+        AdvancedGearBlockEntity after = helper.getBlockEntity(CLUTCH);
+        helper.assertFalse(after.isTorqueMode(), "sneaking should switch to speed mode");
+        var registries = helper.getLevel().registryAccess();
+        var saved = after.saveWithFullMetadata(registries);
+        helper.setBlock(CLUTCH, Blocks.AIR);
+        helper.setBlock(CLUTCH, TransmissionRegistry.HIGH_GEAR.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        AdvancedGearBlockEntity other = helper.getBlockEntity(CLUTCH);
+        other.loadWithComponents(saved, registries);
+        helper.assertFalse(other.isTorqueMode(), "the mode should be saved");
+        helper.succeed();
+    }
 }

@@ -1,4 +1,4 @@
-PENDING|ADVANCEDGEARS|not ported yet
+MAP|ADVANCEDGEARS|worm_drive,cvt,energy_coil,bedrock_energy_coil,high_gear
 MAP|AEROSOLIZER|aerosolizer
 MAP|AGGREGATOR|aggregator
 MAP|AIRGUN|air_gun

@@ -83,6 +83,7 @@ public final class TransmissionRegistry {
     public static final DeferredBlock<AdvancedGearBlock> BEDROCK_ENERGY_COIL = gear(AdvancedGearBlock.Kind.BEDROCK_COIL, "bedrock_energy_coil");
     public static final DeferredHolder<MenuType<?>, MenuType<CoilMenu>> COIL_MENU = RotaryMenus.MENUS.register("energy_coil",
             () -> IMenuTypeExtension.create(CoilMenu::fromNetwork));
+    public static final DeferredBlock<AdvancedGearBlock> HIGH_GEAR = gear(AdvancedGearBlock.Kind.HIGH, "high_gear");
     public static final DeferredBlock<AdvancedGearBlock> CVT = gear(AdvancedGearBlock.Kind.CVT, "cvt");
     public static final DeferredHolder<MenuType<?>, MenuType<CvtMenu>> CVT_MENU = RotaryMenus.MENUS.register("cvt",
             () -> IMenuTypeExtension.create(CvtMenu::fromNetwork));
@@ -118,7 +119,7 @@ public final class TransmissionRegistry {
     public static void capabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, POWER_BUS_BE.get(), (be, side) -> be.automation());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ADVANCED_GEAR_BE.get(), (be, side) -> be.kind() == AdvancedGearBlock.Kind.CVT ? be.belts() : null);
-        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ADVANCED_GEAR_BE.get(), (be, side) -> be.kind() == AdvancedGearBlock.Kind.CVT ? FluidAccess.fillOnly(be.lubricant()) : null);
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ADVANCED_GEAR_BE.get(), (be, side) -> be.kind() == AdvancedGearBlock.Kind.CVT || be.kind() == AdvancedGearBlock.Kind.HIGH ? FluidAccess.fillOnly(be.lubricant()) : null);
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ENGINE_CONTROLLER_BE.get(), (be, side) -> FluidAccess.fillOnly(be.tank()));
         // lubricant goes into a Bus Controller through its top or bottom only
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, BUS_CONTROLLER_BE.get(), (be, side) -> side == null || side.getAxis().isVertical() ? FluidAccess.fillOnly(be.tank()) : null);

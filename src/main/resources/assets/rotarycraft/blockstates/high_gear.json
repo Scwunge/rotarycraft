@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/high_gear"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/high_gear"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/high_gear"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/high_gear"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/high_gear"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/high_gear"
+    }
+  }
+}
