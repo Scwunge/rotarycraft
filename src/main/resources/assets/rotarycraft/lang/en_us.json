@@ -616,6 +616,7 @@
   "gui.rotarycraft.bucket_filler.button0.0": "Filling",
   "gui.rotarycraft.bucket_filler.button0.1": "Emptying",
   "block.rotarycraft.filling_station": "Filling Station",
+  "block.rotarycraft.spillway": "Spillway",
   "block.rotarycraft.worktable": "Worktable",
   "block.rotarycraft.auto_crafter": "Auto-Crafter",
   "item.rotarycraft.craft_pattern": "Craft Pattern",

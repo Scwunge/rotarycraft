@@ -152,7 +152,7 @@ MAP|SONICWEAPON|sonic_weapon
 PENDING|SORTING|not ported yet
 MAP|SPAWNERCONTROLLER|spawner_controller
 MAP|SPILLER|spiller
-PENDING|SPILLWAY|not ported yet
+MAP|SPILLWAY|spillway
 MAP|SPLITBELT|split_belt
 MAP|SPLITTER|splitter
 MAP|SPRING|spring

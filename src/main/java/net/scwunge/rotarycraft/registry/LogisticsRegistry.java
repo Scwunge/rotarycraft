@@ -17,6 +17,7 @@ import net.scwunge.rotarycraft.logistics.GrindstoneBlockEntity;
 import net.scwunge.rotarycraft.logistics.HeaterBlockEntity;
 import net.scwunge.rotarycraft.logistics.ItemRefresherBlockEntity;
 import net.scwunge.rotarycraft.logistics.PurifierBlockEntity;
+import net.scwunge.rotarycraft.logistics.SpillwayBlockEntity;
 import net.scwunge.rotarycraft.logistics.WetterBlockEntity;
 import net.scwunge.rotarycraft.recipe.WettingRecipe;
 import net.scwunge.rotarycraft.logistics.IgniterBlockEntity;
@@ -61,6 +62,8 @@ public final class LogisticsRegistry {
     public static final Machines.Entry<FillingStationBlockEntity, LayoutMachineBlock> FILLING_STATION = Machines.machine("filling_station", FillingStationBlockEntity::new);
     public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> FILLING_STATION_MENU = LayoutMenus.register(FillingStationBlockEntity.LAYOUT);
 
+    public static final Machines.Entry<SpillwayBlockEntity, LayoutMachineBlock> SPILLWAY = Machines.machine("spillway", SpillwayBlockEntity::new);
+
     // ---- recipes ----
     public static final DeferredHolder<RecipeType<?>, RecipeType<WettingRecipe>> WETTING = RotaryRecipes.TYPES.register("wetting", () -> RecipeType.simple(RotaryCraft.id("wetting")));
     public static final DeferredHolder<RecipeSerializer<?>, WettingRecipe.Serializer> WETTING_SERIALIZER = RotaryRecipes.SERIALIZERS.register("wetting", WettingRecipe.Serializer::new);
@@ -76,6 +79,7 @@ public final class LogisticsRegistry {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, SMOKE_DETECTOR.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, HEATER.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, IGNITER.type().get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, SPILLWAY.type().get(), (be, side) -> be.fluidHandler(side));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, WETTER.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, WETTER.type().get(), (be, side) -> be.fluidHandler(side));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, AGGREGATOR.type().get(), (be, side) -> be.fluidHandler(side));

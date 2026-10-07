@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/spillway"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/spillway"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/spillway"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/spillway"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/spillway"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/spillway"
+    }
+  }
+}

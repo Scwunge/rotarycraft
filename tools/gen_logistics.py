@@ -120,4 +120,9 @@ gui('fillingstationgui.png', 'filling_station')
 shaped('filling_station', ['ppS', ' iR', 'ppB'], {'p': PIPE, 'S': STEEL, 'i': IMPELLER, 'R': item('reservoir'), 'B': BASEPANEL})
 names({'block.rotarycraft.filling_station': 'Filling Station'})
 
+# ---- Spillway ----
+rendered_machine('spillway', model='ModelSpillway', texture='spillwaytex.png')
+shaped('spillway', ['S  ', 'PSP', 'PpP'], {'S': STEEL, 'P': BASEPANEL, 'p': PIPE})
+names({'block.rotarycraft.spillway': 'Spillway'})
+
 mg.finish()

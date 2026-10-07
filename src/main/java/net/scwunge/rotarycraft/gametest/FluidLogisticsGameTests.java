@@ -23,6 +23,7 @@ import net.scwunge.rotarycraft.logistics.FillingStationBlockEntity;
 import net.scwunge.rotarycraft.logistics.GrindstoneBlockEntity;
 import net.scwunge.rotarycraft.logistics.ItemRefresherBlockEntity;
 import net.scwunge.rotarycraft.logistics.PurifierBlockEntity;
+import net.scwunge.rotarycraft.logistics.SpillwayBlockEntity;
 import net.scwunge.rotarycraft.logistics.WetterBlockEntity;
 import net.scwunge.rotarycraft.registry.LogisticsRegistry;
 import net.scwunge.rotarycraft.registry.RotaryFluids;
@@ -351,6 +352,101 @@ public class FluidLogisticsGameTests {
         helper.runAfterDelay(40, () -> {
             restore.run();
             helper.assertFalse(item.isAlive(), "it kept an item twelve blocks away");
+            helper.succeed();
+        });
+    }
+
+    // ---- Spillway ----
+
+    static SpillwayBlockEntity spillway(GameTestHelper helper) {
+        helper.setBlock(AT, LogisticsRegistry.SPILLWAY.block().get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        return helper.getBlockEntity(AT);
+    }
+
+    /** A pool three blocks long and one wide (a wider one would fill itself again as the infinite water rule has it), walled in so that it does not run away. */
+    static void walledPool(GameTestHelper helper) {
+        for (int x = 3; x <= 5; x++) {
+            helper.setBlock(new BlockPos(x, 1, 2), Blocks.STONE);
+            helper.setBlock(new BlockPos(x, 2, 2), Blocks.WATER);
+            helper.setBlock(new BlockPos(x, 2, 1), Blocks.STONE);
+            helper.setBlock(new BlockPos(x, 2, 3), Blocks.STONE);
+        }
+        helper.setBlock(new BlockPos(6, 2, 2), Blocks.STONE);
+    }
+
+    @GameTest(template = WIDE, batch = "fluid_spillwaypool", timeoutTicks = 100)
+    public static void spillwayDrainsAPoolABucketAtATime(GameTestHelper helper) {
+        Runnable restore = DecorGameTests.enable("spillway");
+        SpillwayBlockEntity spillway = spillway(helper);
+        walledPool(helper);
+        helper.succeedWhen(() -> {
+            helper.assertTrue(spillway.tank().getFluidAmount() == 3000, "tank " + spillway.tank().getFluidAmount());
+            for (int x = 3; x <= 5; x++) {
+                helper.assertTrue(helper.getBlockState(new BlockPos(x, 2, 2)).isAir(), "water left at " + x);
+            }
+            helper.assertTrue(spillway.fluidHandler(Direction.DOWN).drain(1000, IFluidHandler.FluidAction.SIMULATE).getAmount() == 1000, "pipes cannot take it from below");
+            helper.assertTrue(spillway.fluidHandler(Direction.UP) == null, "it gives water from the top");
+            restore.run();
+        });
+    }
+
+    @GameTest(template = WIDE, batch = "fluid_spillwayoff", timeoutTicks = 100)
+    public static void aSwitchedOffSpillwayLeavesThePoolAlone(GameTestHelper helper) {
+        Runnable restore = DecorGameTests.disable("spillway");
+        SpillwayBlockEntity spillway = spillway(helper);
+        walledPool(helper);
+        helper.runAfterDelay(30, () -> {
+            restore.run();
+            helper.assertTrue(spillway.tank().isEmpty() && helper.getBlockState(new BlockPos(3, 2, 2)).is(Blocks.WATER), "it drained while switched off");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = WIDE, batch = "fluid_spillwayclaim", timeoutTicks = 100)
+    public static void spillwayLeavesWaterThatClaimsProtect(GameTestHelper helper) {
+        Runnable restore = DecorGameTests.enable("spillway");
+        net.minecraft.world.level.GameRules.BooleanValue rule = helper.getLevel().getGameRules().getRule(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING);
+        rule.set(false, helper.getLevel().getServer());
+        SpillwayBlockEntity spillway = spillway(helper);
+        walledPool(helper);
+        helper.runAfterDelay(30, () -> {
+            rule.set(true, helper.getLevel().getServer());
+            restore.run();
+            helper.assertTrue(spillway.tank().isEmpty() && helper.getBlockState(new BlockPos(3, 2, 2)).is(Blocks.WATER), "it drained where it may not change blocks (" + spillway.drainSide() + ", " + spillway.poolSize() + " in pool): " + spillway.tank().getFluidAmount() + " mB, " + helper.getBlockState(new BlockPos(3, 2, 2)));
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = WIDE, batch = "fluid_spillwaycolumn", timeoutTicks = 100)
+    public static void spillwayTakesWaterFromAColumnWithoutUsingItUp(GameTestHelper helper) {
+        Runnable restore = DecorGameTests.enable("spillway");
+        SpillwayBlockEntity spillway = spillway(helper);
+        helper.setBlock(new BlockPos(3, 1, 2), Blocks.STONE);
+        helper.setBlock(new BlockPos(3, 2, 2), Blocks.WATER);
+        helper.setBlock(new BlockPos(3, 3, 2), Blocks.WATER);
+        helper.setBlock(new BlockPos(4, 2, 2), Blocks.STONE);
+        helper.setBlock(new BlockPos(3, 2, 1), Blocks.STONE);
+        helper.setBlock(new BlockPos(3, 2, 3), Blocks.STONE);
+        helper.runAfterDelay(10, () -> {
+            restore.run();
+            helper.assertTrue(spillway.tank().getFluidAmount() >= SpillwayBlockEntity.COLUMN && helper.getBlockState(new BlockPos(3, 2, 2)).is(Blocks.WATER),
+                    "it made " + spillway.tank().getFluidAmount());
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = WIDE, batch = "fluid_spillwaystream", timeoutTicks = 100)
+    public static void spillwayTakesWaterFromAStream(GameTestHelper helper) {
+        Runnable restore = DecorGameTests.enable("spillway");
+        SpillwayBlockEntity spillway = spillway(helper);
+        helper.setBlock(new BlockPos(3, 1, 2), Blocks.STONE);
+        helper.setBlock(new BlockPos(3, 3, 2), Blocks.WATER);
+        helper.setBlock(new BlockPos(4, 2, 2), Blocks.STONE);
+        helper.setBlock(new BlockPos(3, 2, 1), Blocks.STONE);
+        helper.setBlock(new BlockPos(3, 2, 3), Blocks.STONE);
+        helper.runAfterDelay(10, () -> {
+            restore.run();
+            helper.assertTrue(spillway.tank().getFluidAmount() >= SpillwayBlockEntity.STREAM, "it made " + spillway.tank().getFluidAmount());
             helper.succeed();
         });
     }

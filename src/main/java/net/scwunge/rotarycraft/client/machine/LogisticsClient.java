@@ -14,6 +14,7 @@ import net.scwunge.rotarycraft.logistics.AggregatorBlockEntity;
 import net.scwunge.rotarycraft.logistics.FillingStationBlockEntity;
 import net.scwunge.rotarycraft.logistics.GrindstoneBlockEntity;
 import net.scwunge.rotarycraft.logistics.HeaterBlockEntity;
+import net.scwunge.rotarycraft.logistics.SpillwayBlockEntity;
 import net.scwunge.rotarycraft.logistics.WetterBlockEntity;
 import net.scwunge.rotarycraft.logistics.PlayerDetectorBlockEntity;
 import net.scwunge.rotarycraft.logistics.SmokeDetectorBlockEntity;
@@ -33,6 +34,7 @@ public final class LogisticsClient {
     private static final SpinningRenderer<AggregatorBlockEntity> AGGREGATOR = new SpinningRenderer<>("aggregator", "aggregator",
             new String[] {"Shape1", "Shape1a", "Shape1b", "Shape1c", "Shape1d", "Shape1e", "Shape1f", "Shape1g", "Shape2", "Shape2a", "Shape3", "Shape3a", "Shape3b", "Shape3c",
                     "Shape3d", "Shape3e", "Shape3f", "Shape3g"}, com.mojang.math.Axis.YP, 0, SpinningRenderer::noYaw);
+    private static final ModelMachineRenderer<SpillwayBlockEntity> SPILLWAY = new ModelMachineRenderer<>("spillway", "spillway");
     private static final ModelMachineRenderer<FillingStationBlockEntity> FILLING_STATION = new ModelMachineRenderer<>("filling_station", "filling_station");
 
     private LogisticsClient() {}
@@ -66,6 +68,7 @@ public final class LogisticsClient {
         event.registerBlockEntityRenderer(LogisticsRegistry.GRINDSTONE.type().get(), c -> GRINDSTONE);
         event.registerBlockEntityRenderer(LogisticsRegistry.AGGREGATOR.type().get(), c -> AGGREGATOR);
         event.registerBlockEntityRenderer(LogisticsRegistry.FILLING_STATION.type().get(), c -> FILLING_STATION);
+        event.registerBlockEntityRenderer(LogisticsRegistry.SPILLWAY.type().get(), c -> SPILLWAY);
     }
 
     private static IClientItemExtensions modelItem(ModelMachineRenderer<?> renderer) {
@@ -91,6 +94,7 @@ public final class LogisticsClient {
         event.registerItem(modelItem(WETTER), LogisticsRegistry.WETTER.block().get().asItem());
         event.registerItem(modelItem(GRINDSTONE), LogisticsRegistry.GRINDSTONE.block().get().asItem());
         event.registerItem(modelItem(AGGREGATOR), LogisticsRegistry.AGGREGATOR.block().get().asItem());
+        event.registerItem(modelItem(SPILLWAY), LogisticsRegistry.SPILLWAY.block().get().asItem());
         event.registerItem(modelItem(FILLING_STATION), LogisticsRegistry.FILLING_STATION.block().get().asItem());
     }
 }
