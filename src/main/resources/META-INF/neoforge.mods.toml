@@ -8,10 +8,12 @@ modId="${mod_id}"
 version="${mod_version}"
 displayName="${mod_name}"
 displayURL="https://github.com/Scwunge/rotarycraft"
+logoFile="logo.png"
 authors="${mod_authors}"
 credits="RotaryCraft, ReactorCraft and DragonAPI by Reika Kalseki. Ported to Minecraft 1.21.1 with permission."
 description='''
-Realistic mechanical power: engines produce torque and angular speed, shafts and gearboxes carry it, and machines use it. A port of Reika's RotaryCraft.
+Realistic mechanical power. Engines make torque and angular speed; shafts, gearboxes, flywheels, clutches and belts carry them; machines need a minimum of each. Power is
+torque times speed, and it is conserved. A port of Reika Kalseki's RotaryCraft to Minecraft 1.21.1, with the original author's permission.
 '''
 
 [[dependencies.${mod_id}]]

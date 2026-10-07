@@ -1,70 +1,61 @@
-# RotaryCraft (1.21.1 NeoForge)
+# RotaryCraft (1.21.1, NeoForge)
 
-A port of Reika Kalseki's RotaryCraft to Minecraft 1.21.1 on NeoForge: realistic mechanical power. Engines produce torque
-and angular speed, shafts and gearboxes carry and transform it, and machines use it. Power is torque x speed, in watts.
+Realistic mechanical power in Minecraft. Engines make **torque** and **angular speed**; shafts, gearboxes, flywheels, clutches and belts carry them; machines need
+a minimum of each. Power is torque times speed, in watts, and it is conserved: gear down for torque, up for speed, and nothing is free.
 
-## Status: phases 1-2 done, phase 3 (processing machines) in progress
+This is a port of Reika Kalseki's RotaryCraft to Minecraft 1.21.1 on NeoForge, made with Reika's permission. It stands on its own: it needs no other mod.
 
-| Block / item | What it does |
-|---|---|
-| DC Electric Engine | Runs on a redstone signal: 4 N*m at 256 rad/s (1 kW), out of its front |
-| Wind Engine | 8 N*m at up to 1024 rad/s. Needs the 3x3 around its blades (back side) clear; obstructions in a 32-block cone behind it slow it down |
-| Steam Engine | 32 N*m at 512 rad/s. Needs water (buckets or pipes) and fire below it; runs from 100 C. Lava below overheats it past 150 C and it bursts |
-| Gas Engine | 128 N*m at 512 rad/s (65.5 kW) on ethanol (`c:ethanol`): 10 mB every 12 ticks at speed, four times that while spinning up; a 240-bucket tank filled by buckets, pipes or ethanol crystals in its slot. Stops when drowned. Original GUI |
-| Performance Engine | 256 N*m at 1024 rad/s (262 kW) on ethanol plus additives (redstone 1, gunpowder 2, blaze powder 4; each 10 mB burned has a 1 in 30 chance to use one); without additives it gives Gas Engine power. Burns 10 mB every 6 ticks. Heats 1 C a second while running unless it has water (20 mB a second); above 240 C it explodes into scrap (nine scrap melt back into steel in the Blast Furnace). Original GUI |
-| Microturbine | 16 N*m at 131072 rad/s (2.1 MW) on jet fuel (`c:jet_fuel`, from the Fractionation Unit), 10 mB every 48 ticks; takes about 90 s to spin up. Needs air. Original GUI |
-| Jet Engine | 1024 N*m at 65536 rad/s (67 MW) on jet fuel, 10 mB every 2 ticks. Intake at the back, exhaust and shaft out the front. As in the original it pulls in creatures and items from a cone in front of the intake: items come out of the exhaust (armour and tools damaged; stone, cobblestone and gravel crushed, damaging the blades), creatures die and most of them damage it (FOD; each point halves the torque, 8 stops it). A damaged engine may start failing: it backfires and heats until it explodes. Repair fully with a Turbine, one point with a Compressor. A block over the intake chokes it (fences, walls and panes let some air through). The exhaust heats machines behind it to 1200 C and burns what stands there. The Afterburner Upgrade doubles the torque for 2.5x the fuel (switch in its GUI). Server option `jetHarmsPlayers` (on by default) controls whether it takes players; creative players are never taken |
-| Hydrokinetic Engine | Driven by falling liquid in the block to its left (looking along the shaft). Power grows with the height of the fall above it, as in the original: about 21 rad/s and 7 kN*m from 36 blocks, up to 32 rad/s and 16384 N*m from about 64. Engines in a row, each driving the next, add their torque; past 4x a single engine's maximum the blades break (16x with bedrock blades: right-click with a bedrock rod, which also mends them). Needs lubricant (shared along the row) and clear room for its blades. Lava sets it off |
-| AC Electric Engine | 512 N*m at 256 rad/s (131 kW). Needs an alternating redstone signal (a clock that changes at least every 3 ticks) and a magnetized shaft core, which loses 1 uT every 30 s of running (tungsten cores half as often) |
-| Magnetizer | Needs 2048 rad/s and 16 kW plus an alternating signal. Charges a shaft core by 1 uT a cycle (half the cycles for steel cores), up to speed / 2 uT |
-| Flywheels (wood, stone, iron, gold, bedrock) | Store rotation: spin up with torque / inertia, pass on up to their rated torque, coast down when the input stops. Need at least a quarter of their rating to turn; overspun ones burst |
-| Clutch | Passes power while powered by redstone (right-click to invert) |
-| Shaft Junction | Merge (back + branch into the front: matching speeds add torque) or split (front + branch, torque divided evenly or 1/2 ... 1/32). Right-click: ratio, sneak-right-click: mode |
-| Bevel Gears | Turn a power line through any angle (screwdriver: right-click turns the output, sneak-right-click the input) |
-| Shafts (wood, stone, steel, diamond, bedrock) | Carry power unchanged. Break when torque or speed exceeds the material's limit (bedrock never breaks) |
-| Gearboxes (wood, stone, steel, tungsten, diamond, bedrock; 2:1 to 16:1) | Reduction (slower, more torque) or acceleration (faster, less torque); right-click with an empty hand to switch and see wear and lubricant. Power is conserved, less 1% of torque per point of wear. Stone, steel and tungsten need lubricant (8, 24, 24 buckets; buckets or pipes); run dry they wear. Diamond holds a bucket it never uses; wood needs none but heats up and wears when hot (and can catch fire); bedrock never wears or breaks. Repair with a gear of the same material; fit a better bearing (up to two tiers up) to use less lubricant. Each breaks like a shaft of its material when overloaded. Wear and lubricant stay with the item when broken |
-| Dynamometer | Passes power through; comparators read it (logarithmic) |
-| Grinder | Needs 128 N*m and 4 kW. Grinds stone, gravel, glass, bricks, wood (into sawdust), wheat (flour), coal (coal dust), flowers (6 dye), bone, blaze rods and more; faster shafts grind faster (840 - 60 x log2(speed) ticks). Original GUI; hoppers fill the input and empty the output. Recipes are data-driven (`rotarycraft:grinding`) |
-| Extractor | The original's 4-stage ore processor: ore -> dust -> slurry -> solution -> flakes, each stage with its own power need (512 N*m/64 kW, 2048 rad/s/16 kW, 8192 rad/s/32 kW, 256 N*m/64 kW) and a 50% chance to double (80% nether, 90% rare ores), so one ore averages about 5 ingots. Stages 2-3 use water. Bonus items as in the original (iron -> tungsten, gold -> silver, copper -> gold, coal -> gunpowder, lead -> nickel). Flakes smelt in a furnace into whatever ingot the pack has for that metal (`c:ingots/...`). Ore types are data-driven (`rotarycraft:extraction`); 21 included, mod ores only when present |
-| Blast Furnace | Works by temperature, not shaft power: heats towards its surroundings (+600 C beside lava, +200 C beside fire, cooled by water and ice) at 1-2 C a second, or fast with a Friction Heater. Iron + coal/charcoal/coke additives -> HSLA steel at 600 C (gunpowder and sand used up only occasionally, as in the original); coal -> coke at 400 C; steel + coke + redstone -> spring steel at 1000 C. Original GUI with thermometer |
-| Friction Heater | Needs 32 N*m and 8 kW. Heats the machine in front to 30 + 12 x log2(speed) x log2(torque) C: steel temperature needs about 32 N*m at 1024 rad/s. Face it at a vanilla furnace and it keeps it lit from 300 C and smelts faster the hotter it gets (instantly at 2000 C, where the furnace may melt), and does the special smelts in it: tungsten flakes (1350 C) and silicon dust (800 C) by default. Data-driven (`rotarycraft:friction_heating`) |
-| Fermenter | Needs 32 rad/s and 1 kW, and water (50 mB a batch; it also draws from an adjacent water source). Sugar + dirt -> yeast; yeast + plant matter -> sludge (leaves and grass 2, tall flowers 4, most plants 1; tags `rotarycraft:mulch/1..8`). Fastest at 25 C (yeast) / 35 C (sludge), slow outside 20-40 C, yeast dies at 60 C. Original GUI |
-| Cooling Fin | Place it against a machine and it takes a degree off it every 20 ticks (40 or 80 on its half and quarter settings; right-click to change) for every degree it can warm up itself: it rises 1 C a step towards its surroundings (cooler beside water or ice, 2600 C beside lava) and falls 2. Only the machines the original allows can be cooled: steam engines, gearboxes, the Compactor, Fermenter and Rock Melter |
-| Compactor | Needs 4096 N*m and 262 kW. Squeezes four matching items once its pressure and temperature are high enough, as in the original: torque builds pressure (about 25600 x log2(torque) kPa can be held) and outside heat (lava, fire, a Friction Heater) warms it. Coal -> anthracite -> prismane -> lonsdaleite -> diamonds (2 each; charcoal gives 3 anthracite), each stage at 550 MPa and 800 C and slower than the last; blaze powder -> glowstone; ice -> packed ice. Past 600 MPa it blows; past 1000 C it melts into scrap. Anthracite burns 24 items in a furnace; anthracite and lonsdaleite have storage blocks. Data-driven (`rotarycraft:compacting`). Original GUI |
-| Centrifuge | Powered from below: needs 4096 rad/s and 16 kW (1200 - 60 x log2(speed) ticks a spin). Splits items into chanced outputs, with the original's recipes and chances: sludge -> clean sludge and compost (two a spin), dirt -> sand, clay, seeds; gravel -> flint and sand; magma cream -> slime and blaze powder; clay -> dirt, silicon dust, rare iron/gold flakes and water; sulfur (Mekanism's) from netherrack dust and blaze powder. 10-bucket tank for fluid outputs. Data-driven (`rotarycraft:centrifuge`) |
-| Fractionation Unit | Ethanol -> jet fuel. Powered from below (8192 rad/s, 64 kW); needs one each of blaze powder, coal dust, magma cream, pink dye, netherrack dust and tar, plus a ghast tear (never used up). Each batch takes 250 mB of ethanol and one or two ingredients. Yield depends on the pressure the input torque builds (slowly): about 460 N*m holds 720 kPa, where fuel out equals ethanol in, up to 2.5x at 1000 kPa. Jet fuel comes out of the top. Original GUI |
-| Rock Melter | Any shaft power from below heats it, settling about 64 x log2(power) C above its surroundings (up to 1800 C). Once hot enough for the first item in it, the power melts that item: clean sludge or ethanol crystals -> 1000 mB ethanol (180 C), stone -> lava (1000 C, 5.2 MJ), cobblestone, netherrack (600 C), stone bricks. 64-bucket tank, drained from the four sides. Melts snow and ice next to it. Data-driven (`rotarycraft:melting`) |
-| Canola | A crop for hydrated farmland: ten stages, needs light 9 to grow, can't be bonemealed. Seeds drop from grass (about 1 in 48); grown plants drop 2-26 seeds. Seeds grind into husks, and husks spin into 90 mB of lubricant in the Centrifuge |
-| Fluids | Ethanol, jet fuel, lubricant and liquid nitrogen, with the original's colours, densities and temperatures; placeable, with buckets and `c:` fluid tags |
-| Pipes (Lubricant Hose, Fluid Pipe, Fuel Line, Bedrock Pipe) | The original's pipes: each holds fluid at a level and evens it out with the pipes it joins, a quarter of the difference a tick. They trade with this mod's machines on any side the machine allows (engines and other consumers only take, producers only give, so fuel never flows back out of an engine); other mods' tanks feed pipes from above and below and are filled from beside. Hoses carry lubricant, fuel lines fuels (ethanol, jet fuel and other mods' fuels), fluid pipes any other liquid, bedrock pipes anything. Pressure is 101.3 kPa + 24 Pa per mB: past 2.4 MPa a pipe bursts and spills (bedrock never does); fluid hotter than 2500 C melts a pipe run. Pipes and bedrock pipes join each other; hoses and fuel lines only their own kind. The Angular Transducer reads a pipe's contents and pressure |
-| Valve, Separator, Bypass, Suction Pipe | The original's pipe fittings. A valve joins any pipe kind and, with a redstone signal, draws fluid out of the tank beside it. A separator takes fluid in from its sides and lets it out only downwards (upwards with a redstone signal). A bypass joins pipes but only joins another bypass it was placed against, so parallel lines stay apart. A suction pipe draws from tanks on any side and only pushes into pipes |
-| Pump | Needs 8 N*m and 1 kW. Maps the pool of liquid under it (16 blocks out) and takes a source block every 300 - 30 x log2(speed) ticks, furthest first, into a 24-bucket tank; water comes out doubled at 16x the minimum power and again at 64x, 256x, 1024x and 4096x. Gives fluid from its four sides; how full the pipes beside it get rises with torque. Creatures under it get hurt and slowly wear it out |
-| Reservoir | A 64-bucket open tank: fluid in from the sides and top, out of the bottom; neighbours share; an open one collects rain. Very hot fluid melts it, fuel explodes next to fire or lava, creatures stepping in are burnt or chilled. Craft it with a glass pane for a covered one. The fluid shows inside |
-| Generator | Shaft power -> Forge Energy (power / 20 W per FE per tick by default); pushes FE into neighbours |
-| Electric Motor | Forge Energy -> shaft power (16 N*m at 256 rad/s by default) |
-| Screwdriver | Rotates machines (sneak to face the clicked side) |
-| Angular Transducer | Shows torque, speed and power at a machine |
-| HSLA Steel Ingot | Structural steel (tagged `c:ingots/steel`, so any mod's steel works in recipes and packs with Almost Unified merge them); made in the Blast Furnace |
+![RotaryCraft](docs/logo.png)
 
-Crafting follows the original: machines are built from its components (base panels, mounts, gears, gear units, bearings and rods in six materials, shaft cores, impellers, compressors, turbines, igniters, cylinders, coils, circuit boards and the rest), and the alloys come from the Blast Furnace (silicon, silumin, spring tungsten, bedrock alloy), which also does the original's high-temperature 3x3 crafting (high-temperature combustor, diamond and bedrock gears, bedrock rods and bearings). Aluminium comes from the Extractor (a bonus from redstone and lapis ore) or any mod's aluminium. Until Blast Glass is ported, the Bedrock Pipe recipe uses tinted glass.
+## What is in it
 
-Engines spin up gradually and coast down when they stop, as in the original. Machines take power in at the back and pass it out of the front. When placed they face where you are looking.
-Shaft limits use the original's formulas from each material's shear and tensile strength and density.
+- **Engines**: DC, AC, wind, steam, gas, performance, hydrokinetic, jet, pneumatic and magnetic engines, the microturbine, an electric motor and generator, a dynamo.
+- **Transmission**: shafts and flywheels in five materials, gearboxes (2:1 to 16:1) in six, clutches, shaft junctions, bevel gears, power buses, belts and chains, portal shafts,
+  an engine control unit, a dynamometer and the angular transducer to read it all.
+- **Processing**: grinder, extractor, blast furnace, friction heater, compactor, centrifuge, fractionation unit, rock melter, pulse furnace, fermenter, crystallizer, dryer,
+  composter, refrigerator, boiler, steam turbine, distiller, fuel enhancer, wetter, purifier, grindstone, drop processor, and the worktable and auto-crafter.
+- **Fluids**: ethanol, jet fuel, lubricant and liquid nitrogen; pipes, valves, pumps, reservoirs, gas tanks, an aggregator and a spillway.
+- **Farming and automation**: sprinklers, fertilizer, ground hydrator, woodcutter, mob harvester, auto-breeder, bait box, fan, item vacuum, sorting machine, item filter,
+  scale-able chest, bucket filler and filling station.
+- **World and decoration**: flood lights, lamps, light bridge, beam mirror, aerosolizer, firework machine, music box, particle emitter, obsidian maker, pile driver, line builder,
+  block filler, self destruct, decorative tanks.
+- **Weapons and tools**: cannons, guns, turrets, and the tools and armour of steel and bedrock.
+- **Survey and signals**: mob radar, ground-penetrating radar, cave scanner, CCTV, player and smoke detectors, weather controller, terraformer.
 
-The remaining phases (processing machines, fluids, farming, tools and armour, weapons, ReactorCraft) are in progress.
-Block models are simple placeholders until the original machine renderers are ported.
+Every machine keeps the original's numbers and screens. [docs/MACHINES.md](docs/MACHINES.md) and [docs/MACHINES_WORLD.md](docs/MACHINES_WORLD.md) say what each does.
+Recipes use the original's components (base panels, gears, bearings, shaft cores, circuit boards and the rest), and the alloys come from the blast furnace.
+
+## Requirements
+
+- Minecraft 1.21.1, NeoForge 21.1.251 or later.
+- Optional: [JEI](https://www.curseforge.com/minecraft/mc-mods/jei) (recipe pages for the processing machines and a description of every machine) and
+  [Jade](https://www.curseforge.com/minecraft/mc-mods/jade) (torque, speed, power, tanks and progress on the machine you look at).
 
 ## Configuration
-`serverconfig/rotarycraft-server.toml` (per world, synced to clients): shaft failure on/off, explosions breaking blocks, whether jet engines take players, watts per FE, generator and motor buffers, motor output.
 
-## Building
+All settings are server settings, in the world's `serverconfig` folder (`config` is used on a dedicated server):
+
+- `rotarycraft-server.toml`: shaft failure, explosions breaking blocks, jet engines taking players, watts per Forge Energy, motor and generator buffers, and the ranges of the heat ray, fan,
+  vacuum, force field, sonic borer, breeder, bait box, line builder, cave scanner and others.
+- `rotarycraft-farm.toml`: the farming machines.
+- `rotarycraft-machines.toml`: a switch for each machine that changes blocks or burns things (the pile driver, line builder, block filler, spiller, spillway, self destruct, block cannon and
+  firestarter are **off** until you turn them on), and the ranges of lamps, flood lights, light bridges, the aerosolizer and the player detector.
+- `rotarycraft-sound.toml`: machine and engine volume.
+
+Block-changing machines ask claim and protection mods (anything that cancels a block break or place event) as their owner, and obey `mobGriefing`.
+
+## Building from source
+
 ```
-./gradlew build
-./gradlew runGameTestServer
+./gradlew build             # the mod jar, in build/libs
+./gradlew runGameTestServer # the GameTests, headless
+./gradlew runClient         # a development client
 ```
 
-## Credits
-RotaryCraft, ReactorCraft and DragonAPI by Reika Kalseki, ported with permission. 1.21.1 port by Scwunge.
+The art, models and sounds are the original's, converted by the scripts in `tools/` (run `python tools/gen_assets.py` from the repository root; it needs Python 3 and Pillow, and the
+original's resources in `reference/RotaryCraft`).
 
-## Licence
-MIT. See `LICENSE`.
+## Credits and licence
+
+RotaryCraft, ReactorCraft and DragonAPI are by Reika Kalseki. This port, for Minecraft 1.21.1, is by Scwunge, with the permission of the original author, and is free: it is not sold
+and has no paid or ad-gated releases. The original's copyright is kept in `LICENSE` (MIT).
