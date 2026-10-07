@@ -21,7 +21,7 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
      * A bar drawn from the picture's {@code (u, v)} size {@code w} by {@code h} at {@code (x, y)}, as full as extra value {@code value}
      * is of extra value {@code max}; horizontal bars grow rightwards, vertical bars upwards.
      */
-    public record Bar(int value, int max, int x, int y, int u, int v, int w, int h, boolean horizontal) {
+    public record Bar(int value, int max, int x, int y, int u, int v, int w, int h, boolean horizontal, boolean down) {
     }
 
     /**
@@ -126,7 +126,7 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
         }
 
         public Builder bar(int value, int max, int x, int y, int u, int v, int w, int h, boolean horizontal) {
-            bars.add(new Bar(value, max, x, y, u, v, w, h, horizontal));
+            bars.add(new Bar(value, max, x, y, u, v, w, h, horizontal, false));
             extras = Math.max(extras, Math.max(value, max) + 1);
             return this;
         }
@@ -149,6 +149,13 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
         public Builder button(int id, int x, int y, int width, int height, int state) {
             buttons.add(new Button(id, x, y, width, height, state));
             extras = Math.max(extras, state + 1);
+            return this;
+        }
+
+        /** A bar that is cut from the picture's {@code (u, v)} and grows downwards from its top edge, as full as extra {@code value} is of {@code max}. */
+        public Builder barDown(int value, int max, int x, int y, int u, int v, int w, int h) {
+            bars.add(new Bar(value, max, x, y, u, v, w, h, false, true));
+            extras = Math.max(extras, Math.max(value, max) + 1);
             return this;
         }
 

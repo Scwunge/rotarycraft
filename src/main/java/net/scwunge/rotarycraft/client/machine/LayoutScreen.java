@@ -121,7 +121,10 @@ public class LayoutScreen extends AbstractContainerScreen<LayoutMenu> {
             if (max <= 0 || value <= 0) {
                 continue;
             }
-            if (bar.horizontal()) {
+            if (bar.down()) {
+                int h = (int) ((long) bar.h() * value / max);
+                g.blit(texture, leftPos + bar.x(), topPos + bar.y(), bar.u(), bar.v(), bar.w(), h);
+            } else if (bar.horizontal()) {
                 int w = (int) ((long) bar.w() * value / max);
                 g.blit(texture, leftPos + bar.x(), topPos + bar.y(), bar.u(), bar.v(), w, bar.h());
             } else {

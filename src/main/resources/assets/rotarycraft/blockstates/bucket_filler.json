@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/bucket_filler"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/bucket_filler"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/bucket_filler"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/bucket_filler"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/bucket_filler"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/bucket_filler"
+    }
+  }
+}

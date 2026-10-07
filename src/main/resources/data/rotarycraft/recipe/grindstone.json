@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S S",
+    "sBs",
+    "ppp"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "s": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "B": {
+      "item": "minecraft:stone"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:grindstone",
+    "count": 1
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ppS",
+    " iR",
+    "ppB"
+  ],
+  "key": {
+    "p": {
+      "item": "rotarycraft:pipe"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "i": {
+      "item": "rotarycraft:impeller"
+    },
+    "R": {
+      "item": "rotarycraft:reservoir"
+    },
+    "B": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:filling_station",
+    "count": 1
+  }
+}

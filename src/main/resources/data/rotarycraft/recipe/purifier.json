@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sbs",
+    "prp",
+    "sps"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "b": {
+      "item": "minecraft:iron_bars"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:purifier",
+    "count": 1
+  }
+}

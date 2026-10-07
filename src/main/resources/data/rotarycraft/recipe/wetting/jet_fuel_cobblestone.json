@@ -1,0 +1,15 @@
+{
+  "type": "rotarycraft:wetting",
+  "ingredient": {
+    "item": "minecraft:cobblestone"
+  },
+  "fluid": {
+    "fluid": "rotarycraft:jet_fuel",
+    "amount": 20
+  },
+  "result": {
+    "id": "minecraft:netherrack",
+    "count": 1
+  },
+  "duration": 80
+}

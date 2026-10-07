@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ses",
+    "epe",
+    "ses"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "p": {
+      "item": "minecraft:ender_pearl"
+    },
+    "e": {
+      "item": "minecraft:lapis_lazuli"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:refresher",
+    "count": 1
+  }
+}

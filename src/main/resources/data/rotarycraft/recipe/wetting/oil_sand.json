@@ -1,0 +1,15 @@
+{
+  "type": "rotarycraft:wetting",
+  "ingredient": {
+    "item": "minecraft:sand"
+  },
+  "fluid": {
+    "tag": "c:crude_oil",
+    "amount": 125
+  },
+  "result": {
+    "id": "minecraft:soul_sand",
+    "count": 1
+  },
+  "duration": 50
+}

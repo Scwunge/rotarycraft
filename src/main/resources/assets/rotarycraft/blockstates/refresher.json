@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/refresher"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/refresher"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/refresher"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/refresher"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/refresher"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/refresher"
+    }
+  }
+}

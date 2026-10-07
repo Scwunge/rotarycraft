@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/grindstone"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/grindstone"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/grindstone"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/grindstone"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/grindstone"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/grindstone"
+    }
+  }
+}

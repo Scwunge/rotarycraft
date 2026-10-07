@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "S S",
+    "gmg",
+    "SPS"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "g": {
+      "item": "minecraft:glass_pane"
+    },
+    "m": {
+      "item": "rotarycraft:mixer"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:wetter",
+    "count": 1
+  }
+}

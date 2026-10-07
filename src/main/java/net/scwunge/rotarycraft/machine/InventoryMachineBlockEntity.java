@@ -59,6 +59,11 @@ public abstract class InventoryMachineBlockEntity extends ConsumerBlockEntity im
             public boolean isItemValid(int slot, ItemStack stack) {
                 return acceptsItem(slot, stack);
             }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return Math.min(super.getSlotLimit(slot), slotLimit(slot));
+            }
         };
         this.automation = new IItemHandler() {
             @Override
@@ -109,8 +114,18 @@ public abstract class InventoryMachineBlockEntity extends ConsumerBlockEntity im
         return false;
     }
 
+    /** Whether it takes shaft power at either end (its facing and the opposite side), whichever is stronger. */
+    protected boolean bothEnds() {
+        return false;
+    }
+
     @Override
     protected IShaftPowerOutput.Reading readInput() {
+        if (bothEnds() && level != null) {
+            IShaftPowerOutput.Reading a = IShaftPowerOutput.readInput(level, worldPosition, facing());
+            IShaftPowerOutput.Reading b = IShaftPowerOutput.readInput(level, worldPosition, facing().getOpposite());
+            return (long) a.torque() * a.omega() >= (long) b.torque() * b.omega() ? a : b;
+        }
         if (!omniSided() || level == null) {
             return super.readInput();
         }
@@ -125,6 +140,28 @@ public abstract class InventoryMachineBlockEntity extends ConsumerBlockEntity im
     }
 
     // ---- what the machine accepts ----
+
+    /** Puts a product in an output {@code slot} (which takes nothing from outside), as far as it fits; returns what did not. */
+    protected ItemStack putOutput(int slot, ItemStack stack) {
+        ItemStack there = items.getStackInSlot(slot);
+        if (there.isEmpty()) {
+            int put = Math.min(stack.getCount(), stack.getMaxStackSize());
+            items.setStackInSlot(slot, stack.copyWithCount(put));
+            return stack.copyWithCount(stack.getCount() - put);
+        }
+        if (!ItemStack.isSameItemSameComponents(there, stack)) {
+            return stack;
+        }
+        int put = Math.min(stack.getCount(), there.getMaxStackSize() - there.getCount());
+        there.grow(put);
+        items.setStackInSlot(slot, there);
+        return stack.copyWithCount(stack.getCount() - put);
+    }
+
+    /** The most that may be in {@code slot} (a machine with a single-item slot says 1). */
+    protected int slotLimit(int slot) {
+        return 64;
+    }
 
     /** Whether a player may put {@code stack} in {@code slot}. */
     protected boolean acceptsItem(int slot, ItemStack stack) {

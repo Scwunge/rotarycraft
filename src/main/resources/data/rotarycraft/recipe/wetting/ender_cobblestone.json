@@ -1,0 +1,15 @@
+{
+  "type": "rotarycraft:wetting",
+  "ingredient": {
+    "item": "minecraft:cobblestone"
+  },
+  "fluid": {
+    "tag": "c:ender",
+    "amount": 50
+  },
+  "result": {
+    "id": "minecraft:end_stone",
+    "count": 1
+  },
+  "duration": 80
+}
