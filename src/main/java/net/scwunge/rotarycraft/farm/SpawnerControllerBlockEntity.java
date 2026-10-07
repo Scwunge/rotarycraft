@@ -175,7 +175,7 @@ public class SpawnerControllerBlockEntity extends FarmBlockEntity {
             return;
         }
         int near = server.getEntitiesOfClass(Entity.class, new AABB(at).inflate(16, 24, 16), e -> e.getType() == type.get()).size();
-        if (near >= LIMIT) {
+        if (near >= net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.SPAWNER_MOB_LIMIT)) {
             return;
         }
         int count = data.contains("SpawnCount") ? data.getShort("SpawnCount") : 4;

@@ -166,7 +166,9 @@ public class FrictionHeaterBlockEntity extends ConsumerBlockEntity {
             if (smeltTime >= r.duration()) {
                 furnace.removeItem(0, 1);
                 furnace.setItem(2, out.isEmpty() ? r.result().copy() : out.copyWithCount(out.getCount() + r.result().getCount()));
-                award(furnace, 1);
+                if (RotaryConfig.get(RotaryConfig.FRICTION_HEATER_XP)) {
+                    award(furnace, 1);
+                }
                 smeltTime = 0;
             }
             furnace.setChanged();

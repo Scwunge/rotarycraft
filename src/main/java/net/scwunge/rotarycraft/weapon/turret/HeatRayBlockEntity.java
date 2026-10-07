@@ -70,7 +70,7 @@ public class HeatRayBlockEntity extends ConsumerBlockEntity implements Owned {
 
     public int range() {
         long power = getPower();
-        return (int) Math.min(MAX_RANGE, 8L + (power - MIN_POWER) / FALLOFF);
+        return (int) Math.min(net.scwunge.rotarycraft.config.RotaryConfig.get(net.scwunge.rotarycraft.config.RotaryConfig.HEAT_RAY_RANGE), 8L + (power - MIN_POWER) / FALLOFF);
     }
 
     /** Seconds of burning the beam gives a creature. */
