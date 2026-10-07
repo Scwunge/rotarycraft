@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/boiler"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/boiler"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/boiler"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/boiler"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/boiler"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/boiler"
+    }
+  }
+}

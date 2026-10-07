@@ -37,6 +37,9 @@ public class RotaryFluids {
     public static final Entry LIQUID_NITROGEN = register("liquid_nitrogen", 0xB37ECC, 808, 158, 77);
     /** The Pulse Furnace's accelerant. */
     public static final Entry OXYGEN = register("oxygen", 0xC8E6FF, 1141, 200, 90);
+    /** What the Boiler makes and the Steam Turbine uses, and what the Air Compressor makes and the Pneumatic Engine uses (gases). */
+    public static final Entry STEAM = register("steam", 0xE6E6E6, -10, 100, 400);
+    public static final Entry COMPRESSED_AIR = register("compressed_air", 0xCFE8F5, -20, 100, 293);
 
     public static final class Entry {
         public final String name;

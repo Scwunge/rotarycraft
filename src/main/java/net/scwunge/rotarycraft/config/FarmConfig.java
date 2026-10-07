@@ -15,6 +15,8 @@ public final class FarmConfig {
     public static final ModConfigSpec.IntValue FAN_RANGE;
     public static final ModConfigSpec.BooleanValue LAWN_SPRINKLER_HURTS;
     public static final ModConfigSpec.BooleanValue BLOWER_SPILLS;
+    public static final ModConfigSpec.IntValue CONVERTER_TIER, WATTS_PER_AIR;
+    public static final ModConfigSpec.DoubleValue CONVERTER_EFFICIENCY;
     public static final ModConfigSpec.IntValue VACUUM_RANGE, BREEDER_RANGE, BAIT_RANGE, BAIT_MOBS;
 
     /** The machines and whether they are on unless the server says otherwise. */
@@ -22,6 +24,7 @@ public final class FarmConfig {
             {"fan", true}, {"sprinkler", true}, {"lawnSprinkler", true}, {"fertilizer", true}, {"groundHydrator", true},
             {"defoliator", false}, {"blower", true}, {"vacuum", true}, {"autoBreeder", true}, {"baitBox", true}, {"mobHarvester", false},
             {"spawnerController", false}, {"woodcutter", false},
+            {"boiler", true}, {"steamTurbine", true}, {"airCompressor", true}, {"pneumaticEngine", true}, {"magneticMotor", true}, {"dynamo", true},
     };
 
     static {
@@ -40,6 +43,11 @@ public final class FarmConfig {
         BAIT_RANGE = b.comment("The longest reach of the Bait Box (never under 24).").defineInRange("baitBoxRange", 24, 8, 256);
         BAIT_MOBS = b.comment("Most creatures a Bait Box works on at once (never under 24).").defineInRange("baitBoxMobs", 256, 8, 4096);
         BLOWER_SPILLS = b.comment("An Item Pump with nothing but air in front of it sprays its items out.").define("itemPumpSpills", true);
+        CONVERTER_TIER = b.comment("The tier of the Magnetic Motor, Steam Turbine and Pneumatic Engine: 8 x 4^tier N*m at up to 2^(8 + tier) rad/s (there are no upgrade items yet).")
+                .defineInRange("converterTier", 1, 0, 5);
+        CONVERTER_EFFICIENCY = b.comment("Scales how much of its input each conversion machine (Boiler, Compressor, Dynamo, and the engines) gets out.")
+                .defineInRange("converterEfficiency", 1.0, 0.1, 1.0);
+        WATTS_PER_AIR = b.comment("The watts that a millibucket of compressed air a tick is worth.").defineInRange("wattsPerAir", 20, 1, 100_000);
         b.pop();
         SPEC = b.build();
     }

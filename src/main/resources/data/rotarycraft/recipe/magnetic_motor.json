@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "LCl",
+    "scs",
+    "PSP"
+  ],
+  "key": {
+    "L": {
+      "tag": "c:ingots/iron"
+    },
+    "l": {
+      "tag": "c:ingots/iron"
+    },
+    "C": {
+      "item": "rotarycraft:gold_coil"
+    },
+    "c": {
+      "tag": "c:ingots/copper"
+    },
+    "s": {
+      "tag": "c:ingots/silver"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "S": {
+      "item": "rotarycraft:diamond_shaft_core"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:magnetic_motor",
+    "count": 1
+  }
+}

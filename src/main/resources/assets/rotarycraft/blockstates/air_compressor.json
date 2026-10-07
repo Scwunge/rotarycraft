@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/air_compressor"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/air_compressor"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/air_compressor"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/air_compressor"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/air_compressor"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/air_compressor"
+    }
+  }
+}

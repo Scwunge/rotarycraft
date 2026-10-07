@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SPS",
+    "GTG",
+    "ScS"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "G": {
+      "tag": "c:glass_blocks"
+    },
+    "T": {
+      "item": "rotarycraft:turbine"
+    },
+    "c": {
+      "item": "rotarycraft:diamond_shaft_core"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:steam_turbine",
+    "count": 1
+  }
+}

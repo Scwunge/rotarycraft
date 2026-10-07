@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/pneumatic_engine"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/pneumatic_engine"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/pneumatic_engine"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/pneumatic_engine"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/pneumatic_engine"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/pneumatic_engine"
+    }
+  }
+}

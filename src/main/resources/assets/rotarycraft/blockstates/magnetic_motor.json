@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/magnetic_motor"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/magnetic_motor"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/magnetic_motor"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/magnetic_motor"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/magnetic_motor"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/magnetic_motor"
+    }
+  }
+}

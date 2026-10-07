@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SSS",
+    " G ",
+    "CPC"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "G": {
+      "tag": "c:glass_blocks"
+    },
+    "C": {
+      "item": "rotarycraft:compressor"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:air_compressor",
+    "count": 1
+  }
+}

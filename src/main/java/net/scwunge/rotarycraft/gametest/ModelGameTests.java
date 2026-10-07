@@ -30,10 +30,15 @@ public class ModelGameTests {
             {"lawn_sprinkler", "lawn_sprinkler"}, {"reservoir", "ground_hydrator"}, {"fertilizer", "fertilizer"}, {"defoliator", "defoliator"},
             {"woodcutter", "woodcutter"}, {"vacuum", "vacuum"}, {"auto_breeder", "auto_breeder"}, {"bait_box", "bait_box"}, {"mob_harvester", "mob_harvester"},
             {"spawner_controller", "spawner_controller"}, {"bevel_gear", "bevel_gear"}, {"splitter", "splitter"}, {"splitter2", "splitter_bedrock"},
-            {"electric_motor", "electric_motor"}, {"generator", "generator"}};
+            {"electric_motor", "electric_motor"}, {"generator", "generator"},
+            {"boiler", "boiler"}, {"steam_turbine", "steam_turbine"}, {"air_compressor", "air_compressor"}, {"pneumatic_engine", "pneumatic_engine"},
+            {"magnetic_motor", "magnetic_motor"}, {"dynamo", "dynamo"}};
     /** The ones that stand still (no moving parts in the original). */
     private static final Set<String> STILL = Set.of("fractionator", "pulse_furnace", "extractor", "refrigerator", "sprinkler", "reservoir", "vacuum", "auto_breeder",
             "bait_box", "mob_harvester", "spawner_controller", "generator", "bevel_gear", "splitter", "splitter2");
+
+    /** The ones that are simply a couple of boxes in the original. */
+    private static final Set<String> SIMPLE = Set.of("dynamo");
 
     private static JsonObject read(String model) throws IOException {
         try (var in = ModelGameTests.class.getResourceAsStream("/assets/rotarycraft/reika_models/" + model + ".json")) {
@@ -55,7 +60,7 @@ public class ModelGameTests {
                 return;
             }
             JsonObject parts = model.getAsJsonObject("parts");
-            helper.assertTrue(parts.size() > 3, pair[0] + " has only " + parts.size() + " parts");
+            helper.assertTrue(parts.size() > (SIMPLE.contains(pair[0]) ? 1 : 3), pair[0] + " has only " + parts.size() + " parts");
             for (var part : parts.entrySet()) {
                 helper.assertTrue(part.getValue().getAsJsonObject().getAsJsonArray("boxes").size() > 0, pair[0] + "/" + part.getKey() + " has no boxes");
             }
@@ -79,7 +84,7 @@ public class ModelGameTests {
                     }
                 }
                 helper.assertTrue(open == 0, pair[0] + " has unbalanced conditions");
-                helper.assertTrue(drawn > 3, pair[0] + " draws only " + drawn + " parts");
+                helper.assertTrue(drawn > (SIMPLE.contains(pair[0]) ? 1 : 3), pair[0] + " draws only " + drawn + " parts");
             }
         }
         helper.succeed();

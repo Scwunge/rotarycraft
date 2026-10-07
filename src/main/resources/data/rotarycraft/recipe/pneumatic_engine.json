@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ppS",
+    "sT ",
+    "PPP"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "p": {
+      "item": "rotarycraft:pipe"
+    },
+    "s": {
+      "item": "rotarycraft:shaft_core"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "T": {
+      "item": "rotarycraft:impeller"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:pneumatic_engine",
+    "count": 1
+  }
+}

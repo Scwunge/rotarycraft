@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SPS",
+    "G G",
+    "SIS"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "P": {
+      "item": "rotarycraft:pipe"
+    },
+    "G": {
+      "tag": "c:glass_blocks"
+    },
+    "I": {
+      "item": "rotarycraft:impeller"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:boiler",
+    "count": 1
+  }
+}

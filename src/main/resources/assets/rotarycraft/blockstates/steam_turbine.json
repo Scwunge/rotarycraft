@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/steam_turbine"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/steam_turbine"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/steam_turbine"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/steam_turbine"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/steam_turbine"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/steam_turbine"
+    }
+  }
+}

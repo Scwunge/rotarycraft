@@ -45,29 +45,38 @@ public class MachineRenderer<T extends PowerBlockEntity> implements BlockEntityR
      * @param flags   the booleans the original's renderer handed its model
      */
     public record Look<T extends PowerBlockEntity>(Function<T, String> model, Function<T, String> texture, float[] yaws, float offset, ToDoubleFunction<T> speed, int sign,
-                                                   Function<T, boolean[]> flags) {
+                                                   Function<T, boolean[]> flags, Orient orient) {
+        /** Turns the pose for a block facing this way, where a table of yaws is not enough. */
+        public interface Orient {
+            void apply(PoseStack pose, Direction facing);
+        }
+
         public static <T extends PowerBlockEntity> Look<T> still(String model, String texture, float[] yaws) {
-            return new Look<>(be -> model, be -> texture, yaws, 0, be -> 0, 1, be -> new boolean[0]);
+            return new Look<>(be -> model, be -> texture, yaws, 0, be -> 0, 1, be -> new boolean[0], null);
         }
 
         public static <T extends PowerBlockEntity> Look<T> spinning(String model, String texture, float[] yaws, ToDoubleFunction<T> speed, int sign) {
-            return new Look<>(be -> model, be -> texture, yaws, 0, speed, sign, be -> new boolean[0]);
+            return new Look<>(be -> model, be -> texture, yaws, 0, speed, sign, be -> new boolean[0], null);
         }
 
         public Look<T> turned(float degrees) {
-            return new Look<>(model, texture, yaws, degrees, speed, sign, flags);
+            return new Look<>(model, texture, yaws, degrees, speed, sign, flags, orient);
         }
 
         public Look<T> modelled(Function<T, String> model) {
-            return new Look<>(model, texture, yaws, offset, speed, sign, flags);
+            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient);
+        }
+
+        public Look<T> oriented(Orient orient) {
+            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient);
         }
 
         public Look<T> textured(Function<T, String> texture) {
-            return new Look<>(model, texture, yaws, offset, speed, sign, flags);
+            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient);
         }
 
         public Look<T> withFlags(Function<T, boolean[]> flags) {
-            return new Look<>(model, texture, yaws, offset, speed, sign, flags);
+            return new Look<>(model, texture, yaws, offset, speed, sign, flags, orient);
         }
     }
 
@@ -109,7 +118,9 @@ public class MachineRenderer<T extends PowerBlockEntity> implements BlockEntityR
         VertexConsumer vc = buffers.getBuffer(RenderType.entityCutoutNoCull(texture(texture)));
         pose.pushPose();
         ReikaModel.enterModelSpace(pose);
-        if (look.yaws() != null) {
+        if (look.orient() != null) {
+            look.orient().apply(pose, facing);
+        } else if (look.yaws() != null) {
             turn(pose, look.yaws(), look.offset(), facing);
         }
         model(model).renderAnimated(pose, vc, light, overlay, look.sign() * phi, 0, flags);

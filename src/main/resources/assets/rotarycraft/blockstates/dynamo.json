@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/dynamo"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/dynamo"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/dynamo"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/dynamo"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/dynamo"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/dynamo"
+    }
+  }
+}

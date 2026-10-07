@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " C ",
+    "GSG",
+    "SRS"
+  ],
+  "key": {
+    "C": {
+      "item": "rotarycraft:power_module"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:dynamo",
+    "count": 1
+  }
+}
