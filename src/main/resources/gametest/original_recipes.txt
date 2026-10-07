@@ -49,7 +49,7 @@ MAP|CRAFTER|auto_crafter
 MAP|CRAFTPATTERN|craft_pattern
 MAP|CRYSTALLIZER|crystallizer
 MAP|DEFOLIATOR|defoliator
-PENDING|DISK|not ported yet
+MAP|DISK|music_disc
 MAP|DISPLAY|display
 MAP|DISTILLER|distiller
 MAP|DISTRIBCLUTCH|distribution_clutch
@@ -131,7 +131,7 @@ MAP|PLAYERDETECTOR|player_detector
 MAP|PNEUENGINE|pneumatic_engine
 MAP|POWERBUS|power_bus
 MAP|PROJECTOR|projector
-PENDING|PULSEJET|not ported yet
+MAP|PULSEJET|pulse_furnace
 MAP|PUMP|pump
 MAP|PURIFIER|purifier
 MAP|RAILGUN|railgun

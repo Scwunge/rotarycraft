@@ -257,6 +257,7 @@ gui('musicgui.png', 'music_box')
 gui('musicbuttons.png', 'music_buttons')
 sprite(1, 3, 'music_disc')
 shaped('music_box', ['sns', 'ncn', 'sns'], {'n': vanilla('note_block'), 's': STEEL, 'c': CIRCUIT}, count=4)
+shaped('music_disc', ['wRw', 'RSR', 'wRw'], {'w': vanilla('black_wool'), 'R': vanilla('redstone'), 'S': STEEL}, count=4)
 names({'block.rotarycraft.music_box': 'Music Box', 'item.rotarycraft.music_disc': 'Music Box Disc', 'tooltip.rotarycraft.music_disc.stored': 'Contains stored music:',
        'tooltip.rotarycraft.music_disc.track': 'Track %s: %s entries', 'gui.rotarycraft.music_box.save': 'Save', 'gui.rotarycraft.music_box.load': 'Load',
        'gui.rotarycraft.music_box.demo': 'Load Demo', 'gui.rotarycraft.music_box.rest': 'Add Rest', 'gui.rotarycraft.music_box.backspace': 'Backspace',

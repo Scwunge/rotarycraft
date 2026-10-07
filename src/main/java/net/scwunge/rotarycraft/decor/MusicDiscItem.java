@@ -15,7 +15,7 @@ import java.util.List;
 /** The Music Box Disc (ItemDisk): holds a Music Box's music, put on it with the screen's Save button and read back with Load while it is in the hand. */
 public class MusicDiscItem extends Item {
     public MusicDiscItem(Properties properties) {
-        super(properties.stacksTo(1));
+        super(properties.stacksTo(64));
     }
 
     /** How many notes the disc holds in each channel. */
