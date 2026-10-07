@@ -4,7 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.player.Player;
@@ -47,6 +46,13 @@ public class LogisticsGameTests {
 
     // ---- Player Detector ----
 
+    /** A player standing in the level: one that has not logged in, since a login would run every mod's join handlers against a connection that is not there. */
+    static Player mockPlayer(GameTestHelper helper) {
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        helper.getLevel().addFreshEntity(player);
+        return player;
+    }
+
     static PlayerDetectorBlockEntity detector(GameTestHelper helper, int torque, int omega) {
         WeaponGameTests.spinningFlywheel(helper, AT.below(), torque, omega);
         helper.setBlock(AT, LogisticsRegistry.PLAYER_DETECTOR.block().get().defaultBlockState());
@@ -64,7 +70,7 @@ public class LogisticsGameTests {
         Runnable restore = DecorGameTests.enable("playerDetector");
         PlayerDetectorBlockEntity detector = detector(helper, 8, 3200);
         detector.setSetRange(10);
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        Player player = mockPlayer(helper);
         player.setPos(helper.absoluteVec(new Vec3(8.5, 2, 2.5)));
         helper.runAfterDelay(1, () -> helper.assertTrue(detector.reactionTime() == 1, "reaction time " + detector.reactionTime()));
         helper.runAfterDelay(12, () -> {
@@ -83,8 +89,8 @@ public class LogisticsGameTests {
         Runnable restore = DecorGameTests.enable("playerDetector");
         PlayerDetectorBlockEntity detector = detector(helper, 8, 3200);
         detector.setSetRange(12);
-        ServerPlayer one = helper.makeMockServerPlayerInLevel();
-        ServerPlayer two = helper.makeMockServerPlayerInLevel();
+        Player one = mockPlayer(helper);
+        Player two = mockPlayer(helper);
         one.setPos(helper.absoluteVec(new Vec3(6.5, 2, 2.5)));
         two.setPos(helper.absoluteVec(new Vec3(7.5, 2, 2.5)));
         BlockPos abs = helper.absolutePos(AT);
@@ -103,7 +109,7 @@ public class LogisticsGameTests {
         Runnable restore = DecorGameTests.enable("playerDetector");
         PlayerDetectorBlockEntity detector = detector(helper, 1, 1280);
         detector.setSetRange(100);
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        Player player = mockPlayer(helper);
         player.setPos(helper.absoluteVec(new Vec3(15.5, 2, 2.5)));
         helper.runAfterDelay(20, () -> {
             restore.run();
@@ -119,7 +125,7 @@ public class LogisticsGameTests {
         Runnable restore = DecorGameTests.disable("playerDetector");
         PlayerDetectorBlockEntity detector = detector(helper, 8, 3200);
         detector.setSetRange(10);
-        ServerPlayer player = helper.makeMockServerPlayerInLevel();
+        Player player = mockPlayer(helper);
         player.setPos(helper.absoluteVec(new Vec3(5.5, 2, 2.5)));
         helper.runAfterDelay(15, () -> {
             restore.run();
