@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BBB",
+    "BAB",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:iron_bars"
+    },
+    "A": {
+      "item": "rotarycraft:auto_breeder"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bait_box",
+    "count": 1
+  }
+}

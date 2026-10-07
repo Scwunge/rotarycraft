@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/bait_box"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/bait_box"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/bait_box"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/bait_box"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/bait_box"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/bait_box"
+    }
+  }
+}

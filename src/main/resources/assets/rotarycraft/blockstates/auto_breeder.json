@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/auto_breeder"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/auto_breeder"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/auto_breeder"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/auto_breeder"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/auto_breeder"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/auto_breeder"
+    }
+  }
+}

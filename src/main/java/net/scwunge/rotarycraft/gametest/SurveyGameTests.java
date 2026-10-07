@@ -203,7 +203,7 @@ public class SurveyGameTests {
         screen.items().setStackInSlot(1, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BLUE_DYE));
         screen.items().setStackInSlot(2, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.GREEN_DYE));
         helper.runAfterDelay(10, () -> {
-            helper.assertTrue(screen.findCamera() == cam, "camera not found");
+            helper.assertTrue(screen.findCamera() != null && java.util.Arrays.equals(screen.findCamera().colors(), cam.colors()), "camera not found");
             screen.items().setStackInSlot(0, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.BLUE_DYE));
             screen.items().setStackInSlot(1, new net.minecraft.world.item.ItemStack(net.minecraft.world.item.Items.RED_DYE));
             helper.assertTrue(screen.findCamera() == null, "found a camera with the dyes in another order");

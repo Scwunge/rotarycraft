@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/mob_harvester"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/mob_harvester"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/mob_harvester"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/mob_harvester"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/mob_harvester"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/mob_harvester"
+    }
+  }
+}

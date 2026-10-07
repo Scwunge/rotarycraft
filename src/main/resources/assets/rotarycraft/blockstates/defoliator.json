@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/defoliator"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/defoliator"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/defoliator"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/defoliator"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/defoliator"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/defoliator"
+    }
+  }
+}

@@ -11,6 +11,13 @@ import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.scwunge.rotarycraft.RotaryCraft;
+import net.scwunge.rotarycraft.farm.AutoBreederBlockEntity;
+import net.scwunge.rotarycraft.farm.BaitBoxBlockEntity;
+import net.scwunge.rotarycraft.farm.BlowerBlockEntity;
+import net.scwunge.rotarycraft.farm.DefoliatorBlockEntity;
+import net.scwunge.rotarycraft.farm.MobHarvesterBlockEntity;
+import net.scwunge.rotarycraft.farm.SpawnerControllerBlockEntity;
+import net.scwunge.rotarycraft.farm.VacuumBlockEntity;
 import net.scwunge.rotarycraft.farm.FanBlockEntity;
 import net.scwunge.rotarycraft.farm.FarmBlock;
 import net.scwunge.rotarycraft.farm.FarmBlockEntity;
@@ -50,6 +57,29 @@ public final class FarmRegistry {
     public static final Machine<GroundHydratorBlockEntity> GROUND_HYDRATOR_M = machine("ground_hydrator", GroundHydratorBlockEntity::new);
     public static final Machine<FertilizerBlockEntity> FERTILIZER_M = machine("fertilizer", FertilizerBlockEntity::new);
 
+    public static final Machine<DefoliatorBlockEntity> DEFOLIATOR_M = machine("defoliator", DefoliatorBlockEntity::new);
+    public static final Machine<BlowerBlockEntity> BLOWER_M = machine("blower", BlowerBlockEntity::new);
+    public static final Machine<VacuumBlockEntity> VACUUM_M = machine("vacuum", VacuumBlockEntity::new);
+    public static final Machine<AutoBreederBlockEntity> AUTO_BREEDER_M = machine("auto_breeder", AutoBreederBlockEntity::new);
+    public static final Machine<BaitBoxBlockEntity> BAIT_BOX_M = machine("bait_box", BaitBoxBlockEntity::new);
+    public static final Machine<MobHarvesterBlockEntity> MOB_HARVESTER_M = machine("mob_harvester", MobHarvesterBlockEntity::new);
+    public static final Machine<SpawnerControllerBlockEntity> SPAWNER_CONTROLLER_M = machine("spawner_controller", SpawnerControllerBlockEntity::new);
+
+    public static final DeferredBlock<FarmBlock> DEFOLIATOR = DEFOLIATOR_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DefoliatorBlockEntity>> DEFOLIATOR_BE = DEFOLIATOR_M.be();
+    public static final DeferredBlock<FarmBlock> BLOWER = BLOWER_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BlowerBlockEntity>> BLOWER_BE = BLOWER_M.be();
+    public static final DeferredBlock<FarmBlock> VACUUM = VACUUM_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<VacuumBlockEntity>> VACUUM_BE = VACUUM_M.be();
+    public static final DeferredBlock<FarmBlock> AUTO_BREEDER = AUTO_BREEDER_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AutoBreederBlockEntity>> AUTO_BREEDER_BE = AUTO_BREEDER_M.be();
+    public static final DeferredBlock<FarmBlock> BAIT_BOX = BAIT_BOX_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BaitBoxBlockEntity>> BAIT_BOX_BE = BAIT_BOX_M.be();
+    public static final DeferredBlock<FarmBlock> MOB_HARVESTER = MOB_HARVESTER_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<MobHarvesterBlockEntity>> MOB_HARVESTER_BE = MOB_HARVESTER_M.be();
+    public static final DeferredBlock<FarmBlock> SPAWNER_CONTROLLER = SPAWNER_CONTROLLER_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SpawnerControllerBlockEntity>> SPAWNER_CONTROLLER_BE = SPAWNER_CONTROLLER_M.be();
+
     public static final DeferredBlock<FarmBlock> FAN = FAN_M.block();
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<FanBlockEntity>> FAN_BE = FAN_M.be();
     public static final DeferredBlock<FarmBlock> SPRINKLER = SPRINKLER_M.block();
@@ -74,5 +104,9 @@ public final class FarmRegistry {
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, GROUND_HYDRATOR_BE.get(), (be, side) -> FluidAccess.fillOnly(be.tank()));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, FERTILIZER_BE.get(), (be, side) -> FluidAccess.fillOnly(be.tank()));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FERTILIZER_BE.get(), (be, side) -> Handlers.insertOnly(be.items()));
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, DEFOLIATOR_BE.get(), (be, side) -> Handlers.slots(be.items(), slot -> slot == 0, slot -> slot == 1));
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, VACUUM_BE.get(), (be, side) -> be.items());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, AUTO_BREEDER_BE.get(), (be, side) -> Handlers.insertOnly(be.items()));
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BAIT_BOX_BE.get(), (be, side) -> be.items());
     }
 }

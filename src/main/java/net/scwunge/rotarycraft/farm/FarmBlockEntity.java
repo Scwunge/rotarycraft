@@ -138,9 +138,30 @@ public abstract class FarmBlockEntity extends ConsumerBlockEntity implements Own
         return null;
     }
 
-    /** Rows of nine slots on its screen, or 0 if it has no screen. */
+    /** Rows of nine slots on its screen, or 0 if it has no screen or a screen of its own kind. */
     public int menuRows() {
         return 0;
+    }
+
+    /** Whether the items in its slots are things it holds (and hands back when broken), rather than patterns it matches against. */
+    protected boolean dropsItems() {
+        return true;
+    }
+
+    /** A button of its screen was pressed; whether the id was one of its buttons. */
+    public boolean menuButton(Player player, int id) {
+        return false;
+    }
+
+    /** The slot the screen shows for one of the machine's slots (machines whose slots are not for the player's use give their own). */
+    public net.minecraft.world.inventory.Slot slot(net.neoforged.neoforge.items.ItemStackHandler items, int index, int x, int y) {
+        return new net.neoforged.neoforge.items.SlotItemHandler(items, index, x, y);
+    }
+
+    /** The layout of its screen, or null if it has none. */
+    @Nullable
+    public FarmUi ui() {
+        return menuRows() > 0 ? FarmUi.storage(menuRows()) : null;
     }
 
     /** Up to six numbers the machine's screen shows: written after the torque and speed in the menu's data. */
@@ -181,13 +202,13 @@ public abstract class FarmBlockEntity extends ConsumerBlockEntity implements Own
     @Nullable
     @Override
     public net.minecraft.world.inventory.AbstractContainerMenu createMenu(int id, net.minecraft.world.entity.player.Inventory inventory, Player player) {
-        return menuRows() > 0 ? new net.scwunge.rotarycraft.menu.FarmMenu(id, inventory, this) : null;
+        return ui() != null ? new net.scwunge.rotarycraft.menu.FarmMenu(id, inventory, this) : null;
     }
 
     /** Drops what the machine holds, when its block is broken. */
     public void dropContents() {
         var items = items();
-        if (items != null) {
+        if (items != null && dropsItems()) {
             for (int i = 0; i < items.getSlots(); i++) {
                 net.minecraft.world.Containers.dropItemStack(level, worldPosition.getX(), worldPosition.getY(), worldPosition.getZ(), items.getStackInSlot(i));
             }

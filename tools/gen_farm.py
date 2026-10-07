@@ -109,12 +109,106 @@ rendered_machine('fertilizer')
 MODELS.append('ModelFertilizer:fertilizer')
 shaped('fertilizer', ['PIP', ' S ', 'BCB'], {'P': PIPE, 'S': SHAFT, 'I': IMPELLER, 'C': vanilla('chest'), 'B': PANEL})
 
+# ---- Defoliator ----
+model_texture('defoliatortex.png', 'defoliator')
+rendered_machine('defoliator')
+MODELS.append('ModelDefoliator:defoliator')
+os.makedirs(T + '/gui', exist_ok=True)
+shutil.copy(REF + '/Textures/GUI/defoliatorgui.png', T + '/gui/defoliator.png')
+shaped('defoliator', ['P P', 'SPS', 'BIB'], {'P': PIPE, 'S': STEEL, 'B': PANEL, 'I': IMPELLER})
+
+# ---- Item Pump (the original's Blower), a plain block with a front and a back ----
+from PIL import Image, ImageDraw
+
+BLOCK_TEX = T + '/block'
+side = Image.open(BLOCK_TEX + '/machine_side.png').convert('RGBA')
+
+
+def plain_machine(name, front):
+    front.save('%s/%s_front.png' % (BLOCK_TEX, name))
+    MACHINES.append(name)
+    w('%s/models/block/%s.json' % (A, name), {'parent': 'minecraft:block/cube', 'textures': {
+        'north': 'rotarycraft:block/%s_front' % name, 'south': 'rotarycraft:block/%s_back' % name, 'east': 'rotarycraft:block/machine_side',
+        'west': 'rotarycraft:block/machine_side', 'up': 'rotarycraft:block/machine_side', 'down': 'rotarycraft:block/machine_side',
+        'particle': 'rotarycraft:block/machine_side'}})
+    rot = {'north': {}, 'south': {'y': 180}, 'east': {'y': 90}, 'west': {'y': 270}, 'up': {'x': 270}, 'down': {'x': 90}}
+    w('%s/blockstates/%s.json' % (A, name), {'variants': {'facing=' + f: dict({'model': 'rotarycraft:block/' + name}, **r) for f, r in rot.items()}})
+    w('%s/models/item/%s.json' % (A, name), {'parent': 'rotarycraft:block/' + name})
+    w('%s/loot_table/blocks/%s.json' % (D, name), {'type': 'minecraft:block', 'pools': [{
+        'rolls': 1, 'entries': [{'type': 'minecraft:item', 'name': 'rotarycraft:' + name}], 'conditions': [{'condition': 'minecraft:survives_explosion'}]}]})
+
+
+front = side.copy()
+g = ImageDraw.Draw(front)
+g.rectangle([3, 3, 12, 12], fill=(30, 30, 34, 255), outline=(150, 154, 162, 255))
+g.polygon([(5, 8), (9, 4), (9, 7), (11, 7), (11, 9), (9, 9), (9, 12)], fill=(200, 205, 215, 255))
+back = side.copy()
+g = ImageDraw.Draw(back)
+g.rectangle([3, 3, 12, 12], fill=(70, 72, 78, 255), outline=(150, 154, 162, 255))
+g.polygon([(11, 8), (7, 4), (7, 7), (5, 7), (5, 9), (7, 9), (7, 12)], fill=(120, 124, 134, 255))
+back.save(BLOCK_TEX + '/blower_back.png')
+plain_machine('blower', front)
+shutil.copy(REF + '/Textures/GUI/blowergui.png', T + '/gui/blower.png')
+shaped('blower', ['BBB', 'PIP', 'BBB'], {'B': PANEL, 'I': IMPELLER, 'P': PIPE}, count=16)
+
+# ---- Item Vacuum ----
+model_texture('vactex.png', 'vacuum')
+rendered_machine('vacuum')
+MODELS.append('ModelVacuum:vacuum')
+shaped('vacuum', ['SwS', 'wIw', 'SCS'], {'C': vanilla('chest'), 'S': STEEL, 'I': IMPELLER, 'w': vanilla('black_wool')})
+
+# ---- Auto-Breeder ----
+model_texture('breedertex.png', 'auto_breeder')
+model_texture('emptybreedertex.png', 'auto_breeder_empty')
+rendered_machine('auto_breeder')
+MODELS.append('ModelBreeder:auto_breeder')
+shaped('auto_breeder', ['B B', 'BBB'], {'B': PANEL})
+
+# ---- Bait Box ----
+model_texture('baitboxtex.png', 'bait_box')
+rendered_machine('bait_box')
+MODELS.append('ModelBaitBox:bait_box')
+shaped('bait_box', ['BBB', 'BAB', 'BBB'], {'B': vanilla('iron_bars'), 'A': item('auto_breeder')})
+
+# ---- Mob Harvester ----
+model_texture('harvestertex.png', 'mob_harvester')
+rendered_machine('mob_harvester')
+MODELS.append('ModelHarvester:mob_harvester')
+shaped('mob_harvester', ['shs', 'sps'], {'h': item('igniter'), 'p': vanilla('ender_pearl'), 's': PANEL})
+
+# ---- Spawner Controller ----
+model_texture('spawnertex.png', 'spawner_controller')
+rendered_machine('spawner_controller')
+MODELS.append('ModelSpawner:spawner_controller')
+shutil.copy(REF + '/Textures/GUI/spawnercontrollergui.png', T + '/gui/spawner_controller.png')
+shaped('spawner_controller', ['PCP', 'OGO', 'g g'], {'O': vanilla('obsidian'), 'P': PANEL, 'G': tag('c:ingots/gold'), 'g': vanilla('glowstone'),
+                                                       'C': item('circuit_board')})
+
 lang.update({
     'block.rotarycraft.fan': 'Fan',
     'block.rotarycraft.sprinkler': 'Sprinkler',
     'block.rotarycraft.lawn_sprinkler': 'Lawn Sprinkler',
     'block.rotarycraft.ground_hydrator': 'Ground Hydrator',
     'block.rotarycraft.fertilizer': 'Fertilizer',
+    'block.rotarycraft.defoliator': 'Defoliator',
+    'block.rotarycraft.blower': 'Item Pump',
+    'block.rotarycraft.vacuum': 'Item Vacuum',
+    'block.rotarycraft.auto_breeder': 'Auto-Breeder',
+    'block.rotarycraft.bait_box': 'Bait Box',
+    'block.rotarycraft.mob_harvester': 'Mob Harvester',
+    'block.rotarycraft.spawner_controller': 'Spawner Controller',
+    'gui.rotarycraft.farm.poison': 'Poison: %s / %s mB',
+    'gui.rotarycraft.farm.spawner.disable': 'Disable/Enable',
+    'gui.rotarycraft.farm.spawner.delay': 'Spawn Delay:',
+    'gui.rotarycraft.farm.spawner.no_spawner': 'No spawner below',
+    'gui.rotarycraft.farm.whitelist': 'Whitelist',
+    'gui.rotarycraft.farm.blacklist': 'Blacklist',
+    'gui.rotarycraft.farm.metadata_on': 'Match damage',
+    'gui.rotarycraft.farm.metadata_off': 'Ignore damage',
+    'gui.rotarycraft.farm.nbt_on': 'Match data',
+    'gui.rotarycraft.farm.nbt_off': 'Ignore data',
+    'gui.rotarycraft.farm.exact': 'Match exactly',
+    'gui.rotarycraft.farm.tags': 'Match any shared tag',
     'gui.rotarycraft.farm.power': 'Power: %s N*m x %s rad/s = %s W',
     'gui.rotarycraft.farm.water': 'Water: %s / %s mB',
     'gui.rotarycraft.farm.range': 'Range: %s blocks',

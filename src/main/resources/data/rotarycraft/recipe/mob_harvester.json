@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "shs",
+    "sps"
+  ],
+  "key": {
+    "h": {
+      "item": "rotarycraft:igniter"
+    },
+    "p": {
+      "item": "minecraft:ender_pearl"
+    },
+    "s": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:mob_harvester",
+    "count": 1
+  }
+}

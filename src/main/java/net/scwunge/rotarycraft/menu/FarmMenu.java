@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
 import net.scwunge.rotarycraft.farm.FarmBlockEntity;
+import net.scwunge.rotarycraft.farm.FarmUi;
 import net.scwunge.rotarycraft.registry.FarmRegistry;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,30 +23,30 @@ import org.jetbrains.annotations.Nullable;
 public class FarmMenu extends AbstractContainerMenu {
     private final FarmBlockEntity machine;
     private final ContainerData data;
-    private final int rows;
+    private final FarmUi ui;
 
     public FarmMenu(int id, Inventory inventory, FarmBlockEntity machine) {
-        this(id, inventory, machine, machine.items(), machine.data(), machine.menuRows());
+        this(id, inventory, machine, machine.items(), machine.data(), machine.ui());
     }
 
-    private FarmMenu(int id, Inventory inventory, @Nullable FarmBlockEntity machine, ItemStackHandler items, ContainerData data, int rows) {
+    private FarmMenu(int id, Inventory inventory, @Nullable FarmBlockEntity machine, ItemStackHandler items, ContainerData data, FarmUi ui) {
         super(FarmRegistry.FARM_MENU.get(), id);
         this.machine = machine;
         this.data = data;
-        this.rows = rows;
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < 9; col++) {
-                addSlot(new SlotItemHandler(items, col + row * 9, 8 + col * 18, 18 + row * 18));
-            }
+        this.ui = ui;
+        for (int i = 0; i < ui.slotCount(); i++) {
+            addSlot(newSlot(machine, items, i, ui.slots()[2 * i], ui.slots()[2 * i + 1]));
         }
-        int top = 31 + rows * 18;
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 9; col++) {
-                addSlot(new Slot(inventory, col + row * 9 + 9, 8 + col * 18, top + row * 18));
+        int top = ui.inventoryY();
+        if (top >= 0) {
+            for (int row = 0; row < 3; row++) {
+                for (int col = 0; col < 9; col++) {
+                    addSlot(new Slot(inventory, col + row * 9 + 9, 8 + col * 18, top + row * 18));
+                }
             }
-        }
-        for (int col = 0; col < 9; col++) {
-            addSlot(new Slot(inventory, col, 8 + col * 18, top + 58));
+            for (int col = 0; col < 9; col++) {
+                addSlot(new Slot(inventory, col, 8 + col * 18, top + 58));
+            }
         }
         addDataSlots(data);
     }
@@ -53,12 +54,20 @@ public class FarmMenu extends AbstractContainerMenu {
     public static FarmMenu fromNetwork(int id, Inventory inventory, RegistryFriendlyByteBuf buf) {
         BlockPos pos = buf.readBlockPos();
         FarmBlockEntity be = inventory.player.level().getBlockEntity(pos) instanceof FarmBlockEntity m ? m : null;
-        int rows = be == null ? 1 : be.menuRows();
-        return new FarmMenu(id, inventory, be, new ItemStackHandler(rows * 9), new SimpleContainerData(FarmBlockEntity.DATA_COUNT), rows);
+        FarmUi ui = be == null || be.ui() == null ? FarmUi.storage(1) : be.ui();
+        return new FarmMenu(id, inventory, be, new ItemStackHandler(ui.slotCount()), new SimpleContainerData(FarmBlockEntity.DATA_COUNT), ui);
+    }
+
+    public FarmUi ui() {
+        return ui;
     }
 
     public int rows() {
-        return rows;
+        return ui.storageRows();
+    }
+
+    private static Slot newSlot(@Nullable FarmBlockEntity machine, ItemStackHandler items, int index, int x, int y) {
+        return machine == null ? new SlotItemHandler(items, index, x, y) : machine.slot(items, index, x, y);
     }
 
     @Nullable
@@ -84,15 +93,50 @@ public class FarmMenu extends AbstractContainerMenu {
         return data.get(2 + index);
     }
 
+    /** A pattern slot shows a copy of what is held over it instead of taking it. */
+    public static class GhostSlot extends SlotItemHandler {
+        public GhostSlot(ItemStackHandler handler, int index, int x, int y) {
+            super(handler, index, x, y);
+        }
+
+        @Override
+        public boolean mayPlace(ItemStack stack) {
+            return false;
+        }
+
+        @Override
+        public boolean mayPickup(Player player) {
+            return false;
+        }
+    }
+
+    @Override
+    public void clicked(int slotId, int button, net.minecraft.world.inventory.ClickType type, Player player) {
+        if (slotId >= 0 && slotId < slots.size() && slots.get(slotId) instanceof GhostSlot ghost) {
+            if (type == net.minecraft.world.inventory.ClickType.PICKUP || type == net.minecraft.world.inventory.ClickType.SWAP) {
+                ItemStack carried = getCarried();
+                ghost.getItemHandler();
+                ((ItemStackHandler) ghost.getItemHandler()).setStackInSlot(ghost.getSlotIndex(), carried.isEmpty() ? ItemStack.EMPTY : carried.copyWithCount(1));
+            }
+            return;
+        }
+        super.clicked(slotId, button, type, player);
+    }
+
+    @Override
+    public boolean clickMenuButton(Player player, int id) {
+        return machine != null && machine.menuButton(player, id);
+    }
+
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         Slot slot = slots.get(index);
-        if (!slot.hasItem()) {
+        if (slot instanceof GhostSlot || !slot.hasItem()) {
             return ItemStack.EMPTY;
         }
         ItemStack stack = slot.getItem();
         ItemStack copy = stack.copy();
-        int own = rows * 9;
+        int own = ui.slotCount();
         if (index < own ? !moveItemStackTo(stack, own, slots.size(), true) : !moveItemStackTo(stack, 0, own, false)) {
             return ItemStack.EMPTY;
         }

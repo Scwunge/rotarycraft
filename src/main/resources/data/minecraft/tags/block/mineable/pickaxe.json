@@ -105,6 +105,13 @@
     "rotarycraft:sprinkler",
     "rotarycraft:lawn_sprinkler",
     "rotarycraft:ground_hydrator",
-    "rotarycraft:fertilizer"
+    "rotarycraft:fertilizer",
+    "rotarycraft:defoliator",
+    "rotarycraft:blower",
+    "rotarycraft:vacuum",
+    "rotarycraft:auto_breeder",
+    "rotarycraft:bait_box",
+    "rotarycraft:mob_harvester",
+    "rotarycraft:spawner_controller"
   ]
 }

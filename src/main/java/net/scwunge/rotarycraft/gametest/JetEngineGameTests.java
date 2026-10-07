@@ -95,7 +95,7 @@ public class JetEngineGameTests {
         });
     }
 
-    @GameTest(template = TEMPLATE, timeoutTicks = 200)
+    @GameTest(template = TEMPLATE, timeoutTicks = 200, batch = "jet_swallow")
     public static void swallowsMobs(GameTestHelper helper) {
         jet(helper);
         // a no-AI mob ignores velocity, so use an ordinary one

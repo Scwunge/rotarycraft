@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SwS",
+    "wIw",
+    "SCS"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:chest"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "I": {
+      "item": "rotarycraft:impeller"
+    },
+    "w": {
+      "item": "minecraft:black_wool"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:vacuum",
+    "count": 1
+  }
+}

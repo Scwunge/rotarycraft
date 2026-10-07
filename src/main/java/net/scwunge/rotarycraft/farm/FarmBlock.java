@@ -40,7 +40,7 @@ public class FarmBlock extends OwnedMachineBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (level.getBlockEntity(pos) instanceof FarmBlockEntity machine) {
-            if (machine.menuRows() <= 0) {
+            if (machine.ui() == null) {
                 return InteractionResult.PASS;
             }
             if (player instanceof ServerPlayer sp) {

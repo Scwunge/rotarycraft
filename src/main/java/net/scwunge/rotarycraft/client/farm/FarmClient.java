@@ -12,6 +12,12 @@ import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.scwunge.rotarycraft.RotaryCraft;
+import net.scwunge.rotarycraft.farm.AutoBreederBlockEntity;
+import net.scwunge.rotarycraft.farm.BaitBoxBlockEntity;
+import net.scwunge.rotarycraft.farm.DefoliatorBlockEntity;
+import net.scwunge.rotarycraft.farm.MobHarvesterBlockEntity;
+import net.scwunge.rotarycraft.farm.SpawnerControllerBlockEntity;
+import net.scwunge.rotarycraft.farm.VacuumBlockEntity;
 import net.scwunge.rotarycraft.farm.FanBlockEntity;
 import net.scwunge.rotarycraft.farm.FarmBlock;
 import net.scwunge.rotarycraft.farm.FarmBlockEntity;
@@ -43,6 +49,15 @@ public final class FarmClient {
     static final FarmRenderer.Look<FertilizerBlockEntity> FERTILIZER = new FarmRenderer.Look<>("fertilizer", be -> "fertilizer", Set.of("Shape2", "Shape2a"),
             Axis.YP, 0, false, be -> be.getPower() < FertilizerBlockEntity.REQUIREMENT.minPower() ? 0 : spin(be.getOmega(), 1));
 
+    static final FarmRenderer.Look<DefoliatorBlockEntity> DEFOLIATOR = new FarmRenderer.Look<>("defoliator", be -> "defoliator", Set.of("Shape1"), Axis.YP, 0, false,
+            be -> be.getPower() < DefoliatorBlockEntity.REQUIREMENT.minPower() ? 0 : spin(be.getOmega(), 1));
+    static final FarmRenderer.Look<VacuumBlockEntity> VACUUM = FarmRenderer.Look.still("vacuum", "vacuum");
+    static final FarmRenderer.Look<AutoBreederBlockEntity> AUTO_BREEDER = new FarmRenderer.Look<>("auto_breeder", be -> be.hasFeedClient() ? "auto_breeder" : "auto_breeder_empty",
+            Set.of(), null, 0, false, be -> 0);
+    static final FarmRenderer.Look<BaitBoxBlockEntity> BAIT_BOX = FarmRenderer.Look.still("bait_box", "bait_box");
+    static final FarmRenderer.Look<MobHarvesterBlockEntity> MOB_HARVESTER = FarmRenderer.Look.still("mob_harvester", "mob_harvester");
+    static final FarmRenderer.Look<SpawnerControllerBlockEntity> SPAWNER_CONTROLLER = FarmRenderer.Look.still("spawner_controller", "spawner_controller");
+
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(FarmRegistry.FAN_BE.get(), c -> new FarmRenderer<>(FAN));
@@ -50,6 +65,12 @@ public final class FarmClient {
         event.registerBlockEntityRenderer(FarmRegistry.LAWN_SPRINKLER_BE.get(), c -> new FarmRenderer<>(LAWN_SPRINKLER));
         event.registerBlockEntityRenderer(FarmRegistry.GROUND_HYDRATOR_BE.get(), c -> new FarmRenderer<>(HYDRATOR));
         event.registerBlockEntityRenderer(FarmRegistry.FERTILIZER_BE.get(), c -> new FarmRenderer<>(FERTILIZER));
+        event.registerBlockEntityRenderer(FarmRegistry.DEFOLIATOR_BE.get(), c -> new FarmRenderer<>(DEFOLIATOR));
+        event.registerBlockEntityRenderer(FarmRegistry.VACUUM_BE.get(), c -> new FarmRenderer<>(VACUUM));
+        event.registerBlockEntityRenderer(FarmRegistry.AUTO_BREEDER_BE.get(), c -> new FarmRenderer<>(AUTO_BREEDER));
+        event.registerBlockEntityRenderer(FarmRegistry.BAIT_BOX_BE.get(), c -> new FarmRenderer<>(BAIT_BOX));
+        event.registerBlockEntityRenderer(FarmRegistry.MOB_HARVESTER_BE.get(), c -> new FarmRenderer<>(MOB_HARVESTER));
+        event.registerBlockEntityRenderer(FarmRegistry.SPAWNER_CONTROLLER_BE.get(), c -> new FarmRenderer<>(SPAWNER_CONTROLLER));
     }
 
     @SubscribeEvent
@@ -80,5 +101,11 @@ public final class FarmClient {
         item(event, FarmRegistry.LAWN_SPRINKLER, LAWN_SPRINKLER, "lawn_sprinkler");
         item(event, FarmRegistry.GROUND_HYDRATOR, HYDRATOR, "ground_hydrator");
         item(event, FarmRegistry.FERTILIZER, FERTILIZER, "fertilizer");
+        item(event, FarmRegistry.DEFOLIATOR, DEFOLIATOR, "defoliator");
+        item(event, FarmRegistry.VACUUM, VACUUM, "vacuum");
+        item(event, FarmRegistry.AUTO_BREEDER, AUTO_BREEDER, "auto_breeder");
+        item(event, FarmRegistry.BAIT_BOX, BAIT_BOX, "bait_box");
+        item(event, FarmRegistry.MOB_HARVESTER, MOB_HARVESTER, "mob_harvester");
+        item(event, FarmRegistry.SPAWNER_CONTROLLER, SPAWNER_CONTROLLER, "spawner_controller");
     }
 }

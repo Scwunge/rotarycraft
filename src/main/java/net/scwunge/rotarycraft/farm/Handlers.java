@@ -76,4 +76,39 @@ public final class Handlers {
             }
         };
     }
+
+    /** Only some slots take things in, and only some give them out. */
+    public static IItemHandler slots(IItemHandler h, java.util.function.IntPredicate canInsert, java.util.function.IntPredicate canExtract) {
+        return new IItemHandler() {
+            @Override
+            public int getSlots() {
+                return h.getSlots();
+            }
+
+            @Override
+            public ItemStack getStackInSlot(int slot) {
+                return h.getStackInSlot(slot);
+            }
+
+            @Override
+            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+                return canInsert.test(slot) ? h.insertItem(slot, stack, simulate) : stack;
+            }
+
+            @Override
+            public ItemStack extractItem(int slot, int amount, boolean simulate) {
+                return canExtract.test(slot) ? h.extractItem(slot, amount, simulate) : ItemStack.EMPTY;
+            }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return h.getSlotLimit(slot);
+            }
+
+            @Override
+            public boolean isItemValid(int slot, ItemStack stack) {
+                return canInsert.test(slot) && h.isItemValid(slot, stack);
+            }
+        };
+    }
 }

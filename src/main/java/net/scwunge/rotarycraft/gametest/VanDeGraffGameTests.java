@@ -75,7 +75,7 @@ public class VanDeGraffGameTests {
         });
     }
 
-    @GameTest(template = TEMPLATE, timeoutTicks = 100)
+    @GameTest(template = TEMPLATE, timeoutTicks = 100, batch = "vdg_explosion")
     public static void tooMuchChargeBlowsItUp(GameTestHelper helper) {
         generator(helper, false).setCharge(VanDeGraffBlockEntity.EXPLODE_CHARGE + 10);
         helper.runAfterDelay(10, () -> {
