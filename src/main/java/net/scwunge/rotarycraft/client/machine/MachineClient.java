@@ -18,18 +18,30 @@ import net.scwunge.rotarycraft.registry.DecorRegistry;
 public final class MachineClient {
     private static final ObsidianMakerRenderer OBSIDIAN_MAKER = new ObsidianMakerRenderer();
     private static final LineBuilderRenderer LINE_BUILDER = new LineBuilderRenderer();
+    private static final FloodlightRenderer FLOODLIGHT = new FloodlightRenderer();
+    private static final LightBridgeRenderer LIGHT_BRIDGE = new LightBridgeRenderer();
+    private static final AerosolizerRenderer AEROSOLIZER = new AerosolizerRenderer();
 
     private MachineClient() {}
 
     @SubscribeEvent
     public static void screens(RegisterMenuScreensEvent event) {
-        LayoutMenus.types().values().forEach(type -> event.register(type.get(), LayoutScreen::new));
+        LayoutMenus.types().forEach((name, type) -> {
+            if (!LayoutMenus.layout(name).customScreen()) {
+                event.register(type.get(), LayoutScreen::new);
+            }
+        });
+        event.register(DecorRegistry.PARTICLE_EMITTER_MENU.get(), ParticleScreen::new);
+        event.register(DecorRegistry.AEROSOLIZER_MENU.get(), AerosolizerScreen::new);
     }
 
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(DecorRegistry.OBSIDIAN_MAKER.type().get(), c -> OBSIDIAN_MAKER);
         event.registerBlockEntityRenderer(DecorRegistry.LINE_BUILDER.type().get(), c -> LINE_BUILDER);
+        event.registerBlockEntityRenderer(DecorRegistry.FLOODLIGHT.type().get(), c -> FLOODLIGHT);
+        event.registerBlockEntityRenderer(DecorRegistry.LIGHT_BRIDGE.type().get(), c -> LIGHT_BRIDGE);
+        event.registerBlockEntityRenderer(DecorRegistry.AEROSOLIZER.type().get(), c -> AEROSOLIZER);
     }
 
     private static IClientItemExtensions modelItem(ModelMachineRenderer<?> renderer) {
@@ -51,5 +63,8 @@ public final class MachineClient {
     public static void items(RegisterClientExtensionsEvent event) {
         event.registerItem(modelItem(OBSIDIAN_MAKER), DecorRegistry.OBSIDIAN_MAKER.block().get().asItem());
         event.registerItem(modelItem(LINE_BUILDER), DecorRegistry.LINE_BUILDER.block().get().asItem());
+        event.registerItem(modelItem(FLOODLIGHT), DecorRegistry.FLOODLIGHT.block().get().asItem());
+        event.registerItem(modelItem(LIGHT_BRIDGE), DecorRegistry.LIGHT_BRIDGE.block().get().asItem());
+        event.registerItem(modelItem(AEROSOLIZER), DecorRegistry.AEROSOLIZER.block().get().asItem());
     }
 }

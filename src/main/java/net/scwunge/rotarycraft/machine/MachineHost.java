@@ -18,6 +18,11 @@ public interface MachineHost {
 
     int hostOmega();
 
+    /** A button of the machine's screen was pressed on the server (the id the screen sent); true if it did something. */
+    default boolean menuButton(net.minecraft.world.entity.player.Player player, int id) {
+        return false;
+    }
+
     /** The machine's own numbers for its progress bars (indexes as in the layout). */
     default int extra(int index) {
         return 0;

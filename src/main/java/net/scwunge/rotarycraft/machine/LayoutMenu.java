@@ -69,6 +69,11 @@ public class LayoutMenu extends AbstractContainerMenu {
     }
 
     @Override
+    public boolean clickMenuButton(Player player, int id) {
+        return player.level().getBlockEntity(pos) instanceof MachineHost host && host.menuButton(player, id);
+    }
+
+    @Override
     public boolean stillValid(Player player) {
         return player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5) <= 64;
     }

@@ -23,6 +23,7 @@ import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.scwunge.rotarycraft.blockentity.ConsumerBlockEntity;
 import net.scwunge.rotarycraft.pipe.FluidAccess;
+import net.scwunge.rotarycraft.power.IShaftPowerOutput;
 import net.scwunge.rotarycraft.weapon.Owned;
 import net.scwunge.rotarycraft.weapon.WorldGuard;
 import org.jetbrains.annotations.Nullable;
@@ -101,6 +102,26 @@ public abstract class InventoryMachineBlockEntity extends ConsumerBlockEntity im
     @Nullable
     public WorldGuard.Owner owner() {
         return owner;
+    }
+
+    /** Whether it takes shaft power from any side, adding it up (the original's "summative sided power"), not just from its back. */
+    protected boolean omniSided() {
+        return false;
+    }
+
+    @Override
+    protected IShaftPowerOutput.Reading readInput() {
+        if (!omniSided() || level == null) {
+            return super.readInput();
+        }
+        long total = 0;
+        int fastest = 0;
+        for (Direction side : Direction.values()) {
+            IShaftPowerOutput.Reading in = IShaftPowerOutput.readInput(level, worldPosition, side);
+            total += (long) in.torque() * in.omega();
+            fastest = Math.max(fastest, in.omega());
+        }
+        return fastest == 0 ? IShaftPowerOutput.Reading.NONE : new IShaftPowerOutput.Reading((int) Math.min(Integer.MAX_VALUE, total / fastest), fastest);
     }
 
     // ---- what the machine accepts ----

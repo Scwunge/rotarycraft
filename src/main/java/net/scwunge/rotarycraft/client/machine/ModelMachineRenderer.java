@@ -39,6 +39,11 @@ public class ModelMachineRenderer<T extends BlockEntity> implements BlockEntityR
         this.texture = RotaryCraft.id("textures/machine/" + textureName + ".png");
     }
 
+    /** The texture to draw {@code machine} with (null for the item): machines with more than one model override this. */
+    protected ResourceLocation textureFor(T machine) {
+        return texture;
+    }
+
     /** Draws the model's parts, in model space. {@code machine} is null for the item. */
     protected void draw(T machine, float partialTick, PoseStack pose, VertexConsumer buffer, int light, int overlay) {
         model.renderAll(pose, buffer, light, overlay);
@@ -57,7 +62,7 @@ public class ModelMachineRenderer<T extends BlockEntity> implements BlockEntityR
         pose.pushPose();
         ReikaModel.enterModelSpace(pose);
         orient(machine, pose);
-        draw(machine, partialTick, pose, buffers.getBuffer(RenderType.entityCutoutNoCull(texture)), light, overlay);
+        draw(machine, partialTick, pose, buffers.getBuffer(RenderType.entityCutoutNoCull(textureFor(machine))), light, overlay);
         pose.popPose();
         drawExtras(machine, partialTick, pose, buffers, light, overlay);
     }
@@ -121,7 +126,7 @@ public class ModelMachineRenderer<T extends BlockEntity> implements BlockEntityR
             pose.translate(0, -0.25, 0);
             pose.scale(1.125f, 1.125f, 1.125f);
             ReikaModel.enterModelSpace(pose);
-            renderer.draw(null, 0, pose, buffers.getBuffer(RenderType.entityCutoutNoCull(renderer.texture)), light, overlay);
+            renderer.draw(null, 0, pose, buffers.getBuffer(RenderType.entityCutoutNoCull(renderer.textureFor(null))), light, overlay);
             pose.popPose();
         }
     }

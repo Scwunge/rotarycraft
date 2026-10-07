@@ -33,6 +33,10 @@ public class ScrewdriverItem extends Item {
         if (!(state.getBlock() instanceof MachineBlock)) {
             return InteractionResult.PASS;
         }
+        if (!level.isClientSide() && level.getBlockEntity(context.getClickedPos()) instanceof net.scwunge.rotarycraft.machine.MachineInteractions machine
+                && machine.onScrewdriver(context)) {
+            return InteractionResult.SUCCESS;
+        }
         if (level.getBlockEntity(context.getClickedPos()) instanceof net.scwunge.rotarycraft.survey.GprBlockEntity gpr) {
             // the radar has no facing: the screwdriver turns the plane it scans across
             if (!level.isClientSide()) {

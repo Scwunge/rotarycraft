@@ -6,9 +6,19 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.scwunge.rotarycraft.RotaryCraft;
+import net.scwunge.rotarycraft.block.BeamBlock;
+import net.scwunge.rotarycraft.block.BridgeBlock;
+import net.scwunge.rotarycraft.block.SelfDestructBlock;
+import net.scwunge.rotarycraft.blockentity.AerosolizerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.BlockFillerBlockEntity;
+import net.scwunge.rotarycraft.blockentity.FloodlightBlockEntity;
+import net.scwunge.rotarycraft.blockentity.LampBlockEntity;
+import net.scwunge.rotarycraft.blockentity.LightBridgeBlockEntity;
+import net.scwunge.rotarycraft.blockentity.ParticleEmitterBlockEntity;
+import net.scwunge.rotarycraft.blockentity.SelfDestructBlockEntity;
 import net.scwunge.rotarycraft.blockentity.SpillerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.LineBuilderBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ObsidianMakerBlockEntity;
@@ -36,6 +46,27 @@ public final class DecorRegistry {
     public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> BLOCK_FILLER_MENU = LayoutMenus.register(BlockFillerBlockEntity.LAYOUT);
     public static final Machines.Entry<SpillerBlockEntity, LayoutMachineBlock> SPILLER = Machines.machine("spiller", SpillerBlockEntity::new);
 
+    // ---- Particle Emitter and Lamp (run by a coil, not the shaft) ----
+    public static final Machines.Entry<ParticleEmitterBlockEntity, LayoutMachineBlock> PARTICLE_EMITTER = Machines.machine("particle_emitter", ParticleEmitterBlockEntity::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> PARTICLE_EMITTER_MENU = LayoutMenus.register(ParticleEmitterBlockEntity.LAYOUT);
+    public static final Machines.Entry<LampBlockEntity, LayoutMachineBlock> LAMP = Machines.machine("lamp", LampBlockEntity::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> LAMP_MENU = LayoutMenus.register(LampBlockEntity.LAYOUT);
+
+    // ---- Flood Light and Light Bridge, and the light they make ----
+    public static final DeferredBlock<BeamBlock> BEAM = RotaryBlocks.BLOCKS.register("beam", BeamBlock::new);
+    public static final DeferredBlock<BridgeBlock> BRIDGE = RotaryBlocks.BLOCKS.register("bridge", BridgeBlock::new);
+    public static final Machines.Entry<FloodlightBlockEntity, LayoutMachineBlock> FLOODLIGHT = Machines.machine("floodlight", FloodlightBlockEntity::new);
+    public static final Machines.Entry<LightBridgeBlockEntity, LayoutMachineBlock> LIGHT_BRIDGE = Machines.register("light_bridge", LightBridgeBlockEntity::new,
+            type -> new LayoutMachineBlock(RotaryBlocks.machineProps().noOcclusion(), type::get, LightBridgeBlockEntity::new, true));
+
+    // ---- Aerosolizer ----
+    public static final Machines.Entry<AerosolizerBlockEntity, LayoutMachineBlock> AEROSOLIZER = Machines.machine("aerosolizer", AerosolizerBlockEntity::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> AEROSOLIZER_MENU = LayoutMenus.register(AerosolizerBlockEntity.LAYOUT);
+
+    // ---- Self Destruct ----
+    public static final Machines.Entry<SelfDestructBlockEntity, LayoutMachineBlock> SELF_DESTRUCT = Machines.register("self_destruct", SelfDestructBlockEntity::new,
+            type -> new SelfDestructBlock(RotaryBlocks.machineProps().noOcclusion(), type::get, SelfDestructBlockEntity::new));
+
     private DecorRegistry() {}
 
     /** Loads the class, so its entries join the shared registers. */
@@ -48,6 +79,9 @@ public final class DecorRegistry {
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, OBSIDIAN_MAKER.type().get(), (be, side) -> be.fluidHandler(side));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, LINE_BUILDER.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BLOCK_FILLER.type().get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PARTICLE_EMITTER.type().get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, LAMP.type().get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, AEROSOLIZER.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, SPILLER.type().get(), (be, side) -> be.fluidHandler(side));
     }
 }

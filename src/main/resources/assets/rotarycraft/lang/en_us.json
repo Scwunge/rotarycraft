@@ -518,5 +518,13 @@
   "block.rotarycraft.obsidian_maker": "Obsidian Maker",
   "block.rotarycraft.line_builder": "Line Builder",
   "block.rotarycraft.block_filler": "Block Filler",
-  "block.rotarycraft.spiller": "Spiller"
+  "block.rotarycraft.spiller": "Spiller",
+  "block.rotarycraft.particle_emitter": "Particle Emitter",
+  "block.rotarycraft.lamp": "Lamp",
+  "block.rotarycraft.floodlight": "Flood Light",
+  "block.rotarycraft.light_bridge": "Light Bridge",
+  "block.rotarycraft.beam": "Light Beam",
+  "block.rotarycraft.bridge": "Light Bridge Beam",
+  "block.rotarycraft.aerosolizer": "Aerosolizer",
+  "block.rotarycraft.self_destruct": "Self Destruct"
 }

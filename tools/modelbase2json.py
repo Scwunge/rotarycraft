@@ -44,7 +44,7 @@ def convert(name, out_name=None):
     tw = int(re.search(r'textureWidth\s*=\s*(\d+)', src).group(1))
     th = int(re.search(r'textureHeight\s*=\s*(\d+)', src).group(1))
     parts = {}
-    for m in re.finditer(r'(\w+)\s*=\s*new\s+\w+\(\s*this\s*,\s*(\d+)\s*,\s*(\d+)\s*\)', src):
+    for m in re.finditer(r'(\w+)\s*=\s*new\s+\w+\(\s*this\s*,\s*(-?\d+)\s*,\s*(-?\d+)\s*\)', src):
         parts[m.group(1)] = {'uv': [int(m.group(2)), int(m.group(3))], 'mirror': False, 'boxes': [], 'pivot': [0, 0, 0], 'rotation': [0, 0, 0]}
     for m in re.finditer(r'(\w+)\.addBox\(\s*%s\s*,\s*%s\s*,\s*%s\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)' % (NUM, NUM, NUM), src):
         if m.group(1) not in parts:

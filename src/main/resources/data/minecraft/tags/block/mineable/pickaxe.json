@@ -101,7 +101,6 @@
     "rotarycraft:bedrock_breaker",
     "rotarycraft:sonic_borer",
     "rotarycraft:terraformer",
-<<<<<<< HEAD
     "rotarycraft:fan",
     "rotarycraft:sprinkler",
     "rotarycraft:lawn_sprinkler",
@@ -114,12 +113,16 @@
     "rotarycraft:bait_box",
     "rotarycraft:mob_harvester",
     "rotarycraft:spawner_controller",
-    "rotarycraft:woodcutter"
-=======
+    "rotarycraft:woodcutter",
     "rotarycraft:obsidian_maker",
     "rotarycraft:line_builder",
     "rotarycraft:block_filler",
-    "rotarycraft:spiller"
->>>>>>> 95a9dd1 (Add the Line Builder, Block Filler and Spiller, with claim checks for placing blocks)
+    "rotarycraft:spiller",
+    "rotarycraft:particle_emitter",
+    "rotarycraft:lamp",
+    "rotarycraft:floodlight",
+    "rotarycraft:light_bridge",
+    "rotarycraft:aerosolizer",
+    "rotarycraft:self_destruct"
   ]
 }

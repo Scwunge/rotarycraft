@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "rotarycraft:block/bridge"
+    },
+    "axis=z": {
+      "model": "rotarycraft:block/bridge",
+      "y": 90
+    }
+  }
+}

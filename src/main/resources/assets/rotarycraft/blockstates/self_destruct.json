@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/self_destruct"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/self_destruct"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/self_destruct"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/self_destruct"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/self_destruct"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/self_destruct"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/aerosolizer"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/aerosolizer"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/aerosolizer"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/aerosolizer"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/aerosolizer"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/aerosolizer"
+    }
+  }
+}

@@ -9,7 +9,7 @@ import java.util.List;
  * the menu's name and the picture's: {@code textures/gui/<name>.png}.
  */
 public record GuiLayout(String name, int width, int height, List<SlotPos> slots, List<Gauge> gauges, List<Bar> bars, int tankCount, int extraCount,
-                        int inventoryX, int inventoryY, int storageRows) {
+                        int inventoryX, int inventoryY, int storageRows, boolean customScreen) {
     public record SlotPos(int x, int y) {
     }
 
@@ -37,6 +37,7 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
         private int tanks;
         private int extras;
         private int storageRows;
+        private boolean customScreen;
         private final List<SlotPos> slots = new ArrayList<>();
         private final List<Gauge> gauges = new ArrayList<>();
         private final List<Bar> bars = new ArrayList<>();
@@ -67,6 +68,12 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
             storageRows = rows;
             size(176, 114 + rows * 18);
             return grid(8, 18, 9, rows);
+        }
+
+        /** The machine has a screen class of its own (it extends LayoutScreen), registered by the client setup instead of the shared one. */
+        public Builder customScreen() {
+            customScreen = true;
+            return this;
         }
 
         public Builder slot(int x, int y) {
@@ -107,7 +114,7 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
         }
 
         public GuiLayout build() {
-            return new GuiLayout(name, width, height, List.copyOf(slots), List.copyOf(gauges), List.copyOf(bars), tanks, extras, inventoryX, inventoryY, storageRows);
+            return new GuiLayout(name, width, height, List.copyOf(slots), List.copyOf(gauges), List.copyOf(bars), tanks, extras, inventoryX, inventoryY, storageRows, customScreen);
         }
     }
 

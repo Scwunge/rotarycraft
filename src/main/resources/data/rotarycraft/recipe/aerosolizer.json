@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BRB",
+    "RIR",
+    "BRB"
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:base_panel"
+    },
+    "R": {
+      "item": "rotarycraft:reservoir"
+    },
+    "I": {
+      "item": "rotarycraft:impeller"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:aerosolizer",
+    "count": 1
+  }
+}

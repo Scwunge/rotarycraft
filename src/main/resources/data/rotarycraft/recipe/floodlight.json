@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "ISO",
+    "Ggd",
+    "I#O"
+  ],
+  "key": {
+    "#": {
+      "item": "rotarycraft:base_panel"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "d": {
+      "item": "minecraft:gold_ingot"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "g": {
+      "item": "minecraft:glowstone"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:floodlight",
+    "count": 1
+  }
+}

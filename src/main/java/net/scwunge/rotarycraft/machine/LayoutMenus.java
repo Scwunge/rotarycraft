@@ -30,6 +30,10 @@ public final class LayoutMenus {
         return holder[0];
     }
 
+    public static GuiLayout layout(String name) {
+        return LAYOUTS.get(name);
+    }
+
     public static Map<String, DeferredHolder<MenuType<?>, MenuType<LayoutMenu>>> types() {
         return TYPES;
     }

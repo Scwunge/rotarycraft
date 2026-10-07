@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "STS",
+    "TCs",
+    "STS"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "T": {
+      "item": "minecraft:tnt"
+    },
+    "s": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "C": {
+      "item": "rotarycraft:circuit_board"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:self_destruct",
+    "count": 1
+  }
+}

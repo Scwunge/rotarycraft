@@ -18,6 +18,10 @@ public final class MachineConfig {
     public static final ModConfigSpec.IntValue LINE_BUILDER_LENGTH;
     public static final ModConfigSpec.IntValue BLOCK_FILLER_VOLUME;
     public static final ModConfigSpec.IntValue AREA_FILLER_RANGE;
+    public static final ModConfigSpec.IntValue FLOODLIGHT_RANGE;
+    public static final ModConfigSpec.IntValue BRIDGE_RANGE;
+    public static final ModConfigSpec.IntValue AEROSOLIZER_RANGE;
+    public static final ModConfigSpec.IntValue LAMP_RANGE;
 
     /** The original's machines in this group, with whether each is on by default (the ones that change blocks or burn things are not). */
     private static final Object[][] MACHINES = {
@@ -46,6 +50,11 @@ public final class MachineConfig {
         BLOCK_FILLER_VOLUME = b.comment("Most blocks a block filler places in one go.").defineInRange("blockFillerVolume", 4096, 1, 1_000_000);
         AREA_FILLER_RANGE = b.comment("How far out from itself a block filler or spiller looks for space to fill. 0 turns both off.")
                 .defineInRange("areaFillerRange", 16, 0, 64);
+        FLOODLIGHT_RANGE = b.comment("Longest beam of a flood light, in blocks (never under 64).").defineInRange("floodlightRange", 128, 64, 512);
+        BRIDGE_RANGE = b.comment("Longest span of a light bridge, in blocks (never under 64).").defineInRange("bridgeRange", 128, 64, 512);
+        AEROSOLIZER_RANGE = b.comment("Furthest an aerosolizer reaches along each axis, in blocks (never under 64).").defineInRange("aerosolizerRange", 128, 64, 512);
+        LAMP_RANGE = b.comment("How far a lamp lights along each axis, in blocks (the original's is 12); the diagonals reach four fifths as far.")
+                .defineInRange("lampRange", 12, 1, 24);
         b.pop();
         SPEC = b.build();
     }

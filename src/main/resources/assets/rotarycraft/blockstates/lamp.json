@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/lamp"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/lamp"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/lamp"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/lamp"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/lamp"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/lamp"
+    }
+  }
+}

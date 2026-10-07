@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "GgG",
+    "BgS",
+    "BBD"
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:base_panel"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "g": {
+      "item": "minecraft:glass"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:light_bridge",
+    "count": 1
+  }
+}

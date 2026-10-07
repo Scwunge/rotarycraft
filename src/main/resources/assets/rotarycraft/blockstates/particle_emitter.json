@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/particle_emitter"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/particle_emitter"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/particle_emitter"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/particle_emitter"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/particle_emitter"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/particle_emitter"
+    }
+  }
+}
