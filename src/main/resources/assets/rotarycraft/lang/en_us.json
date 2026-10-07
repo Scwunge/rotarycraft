@@ -658,5 +658,16 @@
   "message.rotarycraft.belt.short": "Not enough belt: it needs %s.",
   "message.rotarycraft.belt.invalid": "The pulleys cannot be joined like that.",
   "message.rotarycraft.belt.receiving": "This pulley now receives the belt.",
-  "message.rotarycraft.belt.driving": "This pulley now drives the belt."
+  "message.rotarycraft.belt.driving": "This pulley now drives the belt.",
+  "item.rotarycraft.steel_pickaxe": "HSLA Steel Pickaxe",
+  "item.rotarycraft.steel_axe": "HSLA Steel Axe",
+  "item.rotarycraft.steel_shovel": "HSLA Steel Shovel",
+  "item.rotarycraft.steel_hoe": "HSLA Steel Hoe",
+  "item.rotarycraft.steel_sword": "HSLA Steel Sword",
+  "item.rotarycraft.steel_shears": "HSLA Steel Shears",
+  "item.rotarycraft.steel_sickle": "HSLA Steel Sickle",
+  "item.rotarycraft.steel_helmet": "HSLA Steel Helmet",
+  "item.rotarycraft.steel_chestplate": "HSLA Steel Chestplate",
+  "item.rotarycraft.steel_leggings": "HSLA Steel Leggings",
+  "item.rotarycraft.steel_boots": "HSLA Steel Boots"
 }

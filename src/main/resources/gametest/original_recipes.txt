@@ -159,17 +159,17 @@ MAP|SPRING|spring
 MAP|SPRINKLER|sprinkler
 MAP|SPYCAM|spy_cam
 MAP|STEAMTURBINE|steam_turbine
-PENDING|STEELAXE|steel tools and armour (items, section 6)
-PENDING|STEELBOOTS|steel tools and armour (items, section 6)
-PENDING|STEELCHEST|steel tools and armour (items, section 6)
-PENDING|STEELHELMET|steel tools and armour (items, section 6)
-PENDING|STEELHOE|steel tools and armour (items, section 6)
-PENDING|STEELLEGS|steel tools and armour (items, section 6)
-PENDING|STEELPICK|steel tools and armour (items, section 6)
-PENDING|STEELSHEARS|steel tools and armour (items, section 6)
-PENDING|STEELSHOVEL|steel tools and armour (items, section 6)
-PENDING|STEELSICKLE|steel tools and armour (items, section 6)
-PENDING|STEELSWORD|steel tools and armour (items, section 6)
+MAP|STEELAXE|steel_axe
+MAP|STEELBOOTS|steel_boots
+MAP|STEELCHEST|steel_chestplate
+MAP|STEELHELMET|steel_helmet
+MAP|STEELHOE|steel_hoe
+MAP|STEELLEGS|steel_leggings
+MAP|STEELPICK|steel_pickaxe
+MAP|STEELSHEARS|steel_shears
+MAP|STEELSHOVEL|steel_shovel
+MAP|STEELSICKLE|steel_sickle
+MAP|STEELSWORD|steel_sword
 MAP|STRONGCOIL|strong_coil
 PENDING|STUNGUN|not ported yet
 MAP|SUCTION|suction_pipe
