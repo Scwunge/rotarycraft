@@ -7,22 +7,22 @@ MAP|ARROWGUN|arrow_gun
 MAP|AUTOBREEDER|auto_breeder
 MAP|BAITBOX|bait_box
 MAP|BEAMMIRROR|beam_mirror
-PENDING|BEDAXE|bedrock tools and armour (items, section 6)
-PENDING|BEDBOOTS|bedrock tools and armour (items, section 6)
-PENDING|BEDCHEST|bedrock tools and armour (items, section 6)
+MAP|BEDAXE|bedrock_axe
+MAP|BEDBOOTS|bedrock_boots
+MAP|BEDCHEST|bedrock_chestplate
 PENDING|BEDGRAFTER|bedrock tools and armour (items, section 6)
-PENDING|BEDHELM|bedrock tools and armour (items, section 6)
-PENDING|BEDHOE|bedrock tools and armour (items, section 6)
+MAP|BEDHELM|bedrock_helmet
+MAP|BEDHOE|bedrock_hoe
 PENDING|BEDKNIFE|bedrock tools and armour (items, section 6)
-PENDING|BEDLEGS|bedrock tools and armour (items, section 6)
-PENDING|BEDPICK|bedrock tools and armour (items, section 6)
+MAP|BEDLEGS|bedrock_leggings
+MAP|BEDPICK|bedrock_pickaxe
 MAP|BEDPIPE|bedrock_pipe
 MAP|BEDROCKBREAKER|bedrock_breaker
 PENDING|BEDSAW|bedrock tools and armour (items, section 6)
-PENDING|BEDSHEARS|bedrock tools and armour (items, section 6)
-PENDING|BEDSHOVEL|bedrock tools and armour (items, section 6)
-PENDING|BEDSICKLE|bedrock tools and armour (items, section 6)
-PENDING|BEDSWORD|bedrock tools and armour (items, section 6)
+MAP|BEDSHEARS|bedrock_shears
+MAP|BEDSHOVEL|bedrock_shovel
+MAP|BEDSICKLE|bedrock_sickle
+MAP|BEDSWORD|bedrock_sword
 MAP|BELT|belt_hub
 MAP|BEVELGEARS|bevel_gear
 MAP|BIGFURNACE|big_furnace

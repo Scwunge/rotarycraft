@@ -22,7 +22,7 @@ MAP|CAVEFINDERRANGE|caveScannerRange
 MAP|BANRAIN|weatherControllerBansRain
 NA|ACHIEVEMENTS|no achievements; advancements can be added by a data pack
 NA|MODORES|ores are matched through c: tags
-PENDING|BEDPICKSPAWNERS|bedrock tools (item 6)|bedrockPickHarvestsSpawners
+MAP|BEDPICKSPAWNERS|bedrockPickHarvestsSpawners
 PENDING|SPAWNERLEAK|bedrock tools (item 6)|spawnersLeakMobs
 MAP|BLOCKDAMAGE|explosionsBreakBlocks
 NA|DIFFICULTY|the original's medium-difficulty numbers are used throughout
@@ -38,7 +38,7 @@ PENDING|PROJECTORLINES|a client option for the Projector|projectorLines
 PENDING|COLORBLIND|a client option|colorBlindMode
 MAP|TURRETPLAYERS|turretsTargetPlayers
 NA|HSLADICT|steel is the c:ingots/steel tag
-PENDING|PREENCHANT|bedrock tools (item 6)|lockBedrockEnchants
+MAP|PREENCHANT|lockBedrockEnchants
 PENDING|SPRINKLER|a client option for the Sprinkler's particles|sprinklerParticles
 PENDING|HANDBOOK|the Handbook (not ported)|spawnWithHandbook
 PENDING|CONSERVEPACK|the Jetpack (item 6)|conservativeJetpack

@@ -1,0 +1,25 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "B B",
+    "B B"
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:bedrock_ingot"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_boots",
+    "count": 1,
+    "components": {
+      "minecraft:enchantments": {
+        "levels": {
+          "minecraft:feather_falling": 4
+        }
+      }
+    }
+  },
+  "temperature": 1200,
+  "speed": 4
+}

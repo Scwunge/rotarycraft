@@ -1,0 +1,22 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "B",
+    "S",
+    "S"
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:bedrock_ingot"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_core"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_shovel",
+    "count": 1
+  },
+  "temperature": 1000,
+  "speed": 4
+}

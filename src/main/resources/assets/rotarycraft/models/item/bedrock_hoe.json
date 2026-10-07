@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "rotarycraft:item/bedrock_hoe"
+  }
+}

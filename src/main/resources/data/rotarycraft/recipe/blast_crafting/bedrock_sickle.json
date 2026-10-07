@@ -1,0 +1,29 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    " B ",
+    "  B",
+    "SB "
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:bedrock_ingot"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_core"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_sickle",
+    "count": 1,
+    "components": {
+      "minecraft:enchantments": {
+        "levels": {
+          "minecraft:fortune": 5
+        }
+      }
+    }
+  },
+  "temperature": 1000,
+  "speed": 4
+}

@@ -1,0 +1,30 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "BBB",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:bedrock_ingot"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_core"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_pickaxe",
+    "count": 1,
+    "components": {
+      "minecraft:enchantments": {
+        "levels": {
+          "minecraft:silk_touch": 1,
+          "minecraft:fortune": 5
+        }
+      }
+    }
+  },
+  "temperature": 1000,
+  "speed": 4
+}

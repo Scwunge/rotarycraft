@@ -1,0 +1,30 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "B",
+    "B",
+    "S"
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:bedrock_ingot"
+    },
+    "S": {
+      "item": "rotarycraft:shaft_core"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_sword",
+    "count": 1,
+    "components": {
+      "minecraft:enchantments": {
+        "levels": {
+          "minecraft:sharpness": 5,
+          "minecraft:looting": 5
+        }
+      }
+    }
+  },
+  "temperature": 1000,
+  "speed": 4
+}

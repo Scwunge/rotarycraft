@@ -669,5 +669,17 @@
   "item.rotarycraft.steel_helmet": "HSLA Steel Helmet",
   "item.rotarycraft.steel_chestplate": "HSLA Steel Chestplate",
   "item.rotarycraft.steel_leggings": "HSLA Steel Leggings",
-  "item.rotarycraft.steel_boots": "HSLA Steel Boots"
+  "item.rotarycraft.steel_boots": "HSLA Steel Boots",
+  "item.rotarycraft.bedrock_pickaxe": "Bedrock Pickaxe",
+  "item.rotarycraft.bedrock_axe": "Bedrock Axe",
+  "item.rotarycraft.bedrock_shovel": "Bedrock Shovel",
+  "item.rotarycraft.bedrock_hoe": "Bedrock Hoe",
+  "item.rotarycraft.bedrock_sword": "Bedrock Sword",
+  "item.rotarycraft.bedrock_shears": "Bedrock Shears",
+  "item.rotarycraft.bedrock_sickle": "Bedrock Sickle",
+  "item.rotarycraft.bedrock_helmet": "Bedrock Helmet",
+  "item.rotarycraft.bedrock_chestplate": "Bedrock Chestplate",
+  "item.rotarycraft.bedrock_leggings": "Bedrock Leggings",
+  "item.rotarycraft.bedrock_boots": "Bedrock Boots",
+  "message.rotarycraft.bedrock_broke": "The dulled tool has broken."
 }

@@ -1,0 +1,18 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    " B",
+    "B "
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:bedrock_ingot"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_shears",
+    "count": 1
+  },
+  "temperature": 1000,
+  "speed": 4
+}

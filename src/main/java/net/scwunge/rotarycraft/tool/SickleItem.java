@@ -41,7 +41,7 @@ import java.util.List;
  * that differs for leaves, crops and other plants. Ripe crops are replanted, a block of cane keeps its base, and sneaking takes plants of every state at
  * once. Hitting a creature hurts the others of its kind beside it. The steel sickle wears out; the bedrock one does not, and shears what it cuts.
  */
-public class SickleItem extends Item {
+public class SickleItem extends Item implements Forced {
     public record Reach(int leaf, int crop, int plant) {
     }
 
@@ -50,12 +50,39 @@ public class SickleItem extends Item {
     private final Reach reach;
     private final boolean breakable;
     private final boolean shears;
+    private final List<Need> needs;
 
-    public SickleItem(Properties properties, double damage, Reach reach, boolean breakable, boolean shears) {
+    public SickleItem(Properties properties, double damage, Reach reach, boolean breakable, boolean shears, List<Need> needs) {
         super(withAttributes(properties, damage, breakable));
         this.reach = reach;
         this.breakable = breakable;
         this.shears = shears;
+        this.needs = needs;
+    }
+
+    @Override
+    public List<Need> needs() {
+        return needs;
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slot, boolean selected) {
+        if (!needs.isEmpty()) {
+            Forced.tick(stack, level, entity, needs);
+        }
+    }
+
+    @Override
+    public boolean onEntityItemUpdate(ItemStack stack, net.minecraft.world.entity.item.ItemEntity item) {
+        if (!needs.isEmpty() && !item.level().isClientSide() && !Forced.intact(stack, item.level().registryAccess(), needs)) {
+            item.discard();
+        }
+        return false;
+    }
+
+    @Override
+    public int getEnchantmentValue(ItemStack stack) {
+        return breakable ? 14 : BedrockTools.enchantability();
     }
 
     private static Properties withAttributes(Properties properties, double damage, boolean breakable) {

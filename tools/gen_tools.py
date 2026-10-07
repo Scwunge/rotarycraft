@@ -62,8 +62,51 @@ for name, index, title, pattern, parent in TOOLS:
                                        'result': {'id': 'rotarycraft:' + name, 'count': 1}})
     lang['item.rotarycraft.' + name] = title
 
+# the bedrock set, made in the blast furnace: blast_crafting recipes whose results come enchanted as they cannot be unenchanted
+BEDROCK = {'type': 'item', 'item': 'rotarycraft:bedrock_ingot'}
+SHAFT = {'item': 'rotarycraft:shaft_core'}
+INGOT = {'item': 'rotarycraft:bedrock_ingot'}
+ENCHANTED = {
+    'bedrock_pickaxe': {'minecraft:silk_touch': 1, 'minecraft:fortune': 5},
+    'bedrock_sword': {'minecraft:sharpness': 5, 'minecraft:looting': 5},
+    'bedrock_sickle': {'minecraft:fortune': 5},
+    'bedrock_helmet': {'minecraft:projectile_protection': 4, 'minecraft:respiration': 3},
+    'bedrock_chestplate': {'minecraft:blast_protection': 4},
+    'bedrock_leggings': {'minecraft:fire_protection': 4},
+    'bedrock_boots': {'minecraft:feather_falling': 4},
+}
+BEDROCK_TOOLS = [
+    ('bedrock_pickaxe', 101, 'Bedrock Pickaxe', ['BBB', ' S ', ' S '], 'handheld', 1000),
+    ('bedrock_axe', 100, 'Bedrock Axe', ['BB ', 'BS ', ' S '], 'handheld', 1000),
+    ('bedrock_shovel', 102, 'Bedrock Shovel', ['B', 'S', 'S'], 'handheld', 1000),
+    ('bedrock_hoe', 21, 'Bedrock Hoe', ['BB', ' S', ' S'], 'handheld', 1000),
+    ('bedrock_sword', 23, 'Bedrock Sword', ['B', 'B', 'S'], 'handheld', 1000),
+    ('bedrock_shears', 25, 'Bedrock Shears', [' B', 'B '], 'handheld', 1000),
+    ('bedrock_sickle', 36, 'Bedrock Sickle', [' B ', '  B', 'SB '], 'handheld', 1000),
+    ('bedrock_helmet', 7, 'Bedrock Helmet', ['BBB', 'B B'], 'generated', 1200),
+    ('bedrock_chestplate', 9, 'Bedrock Chestplate', ['B B', 'BBB', 'BBB'], 'generated', 1200),
+    ('bedrock_leggings', 10, 'Bedrock Leggings', ['BBB', 'B B', 'B B'], 'generated', 1200),
+    ('bedrock_boots', 8, 'Bedrock Boots', ['B B', 'B B'], 'generated', 1200),
+]
+for name, index, title, pattern, parent, temperature in BEDROCK_TOOLS:
+    sprite(index, name)
+    model(name, 'minecraft:item/' + parent)
+    key = {'B': INGOT}
+    if any('S' in row for row in pattern):
+        key['S'] = SHAFT
+    result = {'id': 'rotarycraft:' + name, 'count': 1}
+    if name in ENCHANTED:
+        result['components'] = {'minecraft:enchantments': {'levels': ENCHANTED[name]}}
+    w('%s/recipe/blast_crafting/%s.json' % (D, name), {'type': 'rotarycraft:blast_crafting', 'pattern': pattern, 'key': key, 'result': result,
+                                                       'temperature': temperature, 'speed': 4})
+    lang['item.rotarycraft.' + name] = title
+w(D + '/tags/block/incorrect_for_bedrock_tool.json', {'values': []})
+lang['message.rotarycraft.bedrock_broke'] = 'The dulled tool has broken.'
+
 # the armour's worn look: the original's two layers
 os.makedirs(A + '/textures/models/armor', exist_ok=True)
 shutil.copy(REF + '/Misc/steel_1.png', A + '/textures/models/armor/steel_layer_1.png')
 shutil.copy(REF + '/Misc/steel_2.png', A + '/textures/models/armor/steel_layer_2.png')
+shutil.copy(REF + '/Misc/bedrock_1.png', A + '/textures/models/armor/bedrock_layer_1.png')
+shutil.copy(REF + '/Misc/bedrock_2.png', A + '/textures/models/armor/bedrock_layer_2.png')
 w(A + '/lang/en_us.json', lang)

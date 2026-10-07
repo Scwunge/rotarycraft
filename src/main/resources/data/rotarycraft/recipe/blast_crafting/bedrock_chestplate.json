@@ -1,0 +1,26 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "B B",
+    "BBB",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "rotarycraft:bedrock_ingot"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:bedrock_chestplate",
+    "count": 1,
+    "components": {
+      "minecraft:enchantments": {
+        "levels": {
+          "minecraft:blast_protection": 4
+        }
+      }
+    }
+  },
+  "temperature": 1200,
+  "speed": 4
+}

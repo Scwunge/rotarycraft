@@ -117,7 +117,14 @@ public class RotaryItems {
             .title(Component.translatable("itemGroup.rotarycraft"))
             .icon(() -> new ItemStack(RotaryBlocks.DC_ENGINE.get()))
             .displayItems((params, output) -> {
-                TAB_ORDER.forEach(i -> output.accept(i.get()));
+                TAB_ORDER.forEach(i -> {
+                    Item item = i.get();
+                    if (item instanceof net.scwunge.rotarycraft.tool.Forced forced) {
+                        output.accept(net.scwunge.rotarycraft.tool.Forced.stackOf(item, params.holders(), forced.needs()));
+                    } else {
+                        output.accept(item);
+                    }
+                });
                 RotaryFluids.ALL.forEach(f -> output.accept(f.bucket.get()));
             })
             .build());

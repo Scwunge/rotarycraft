@@ -23,7 +23,7 @@ public class RotaryConfig {
     public static final ModConfigSpec.BooleanValue WEAPON_BLOCK_DAMAGE;
     public static final ModConfigSpec.BooleanValue RAILGUN_BLOCK_DAMAGE;
     public static final ModConfigSpec.IntValue FORCE_FIELD_RANGE, HEAT_RAY_RANGE, SPAWNER_MOB_LIMIT;
-    public static final ModConfigSpec.BooleanValue FRICTION_HEATER_XP;
+    public static final ModConfigSpec.BooleanValue FRICTION_HEATER_XP, LOCK_BEDROCK_ENCHANTS, BEDROCK_PICK_SPAWNERS;
     public static final ModConfigSpec.IntValue CAVE_SCANNER_RANGE;
     public static final java.util.Map<String, ModConfigSpec.BooleanValue> WEAPONS = new java.util.LinkedHashMap<>();
     // ---- utility machines that load or change the world (off unless the server turns them on) ----
@@ -76,6 +76,8 @@ public class RotaryConfig {
         HEAT_RAY_RANGE = b.comment("The longest beam of a Heat Ray, in blocks.").defineInRange("heatRayRange", 128, 8, 512);
         SPAWNER_MOB_LIMIT = b.comment("The number of creatures near a spawner past which the Spawner Controller stops it.").defineInRange("spawnerMobLimit", 128, 1, 1024);
         FRICTION_HEATER_XP = b.comment("The Friction Heater gives experience for what it smelts that a furnace would not.").define("frictionHeaterXp", true);
+        LOCK_BEDROCK_ENCHANTS = b.comment("Bedrock tools and armour take no further enchantments (they come with theirs, which cannot be removed).").define("lockBedrockEnchants", true);
+        BEDROCK_PICK_SPAWNERS = b.comment("The bedrock pickaxe picks up mob spawners whole.").define("bedrockPickHarvestsSpawners", true);
         FORCE_FIELD_RANGE = b.comment("The largest radius the Force Field and Containment can make (never under 64).").defineInRange("forceFieldRange", 128, 1, 512);
         for (String w : new String[] {"railgun", "freezeGun", "antiAir", "gatling", "laserGun", "flameTurret", "heatRay", "tntCannon",
                 "sonicWeapon", "emp", "landmine", "forceField", "containment"}) {

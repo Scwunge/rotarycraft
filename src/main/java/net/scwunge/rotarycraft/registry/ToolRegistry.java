@@ -25,6 +25,15 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.scwunge.rotarycraft.RotaryCraft;
+import net.scwunge.rotarycraft.tool.BedrockArmorItem;
+import net.scwunge.rotarycraft.tool.BedrockAxeItem;
+import net.scwunge.rotarycraft.tool.BedrockHoeItem;
+import net.scwunge.rotarycraft.tool.BedrockPickaxeItem;
+import net.scwunge.rotarycraft.tool.BedrockShearsItem;
+import net.scwunge.rotarycraft.tool.BedrockShovelItem;
+import net.scwunge.rotarycraft.tool.BedrockSwordItem;
+import net.scwunge.rotarycraft.tool.BedrockTools;
+import net.scwunge.rotarycraft.tool.Forced;
 import net.scwunge.rotarycraft.tool.SickleItem;
 import net.scwunge.rotarycraft.tool.SteelPickaxeItem;
 
@@ -57,6 +66,17 @@ public final class ToolRegistry {
                 List.of(new ArmorMaterial.Layer(RotaryCraft.id("steel"))), 0F, 0F);
     });
 
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> BEDROCK_ARMOR = ARMOR_MATERIALS.register("bedrock", () -> {
+        Map<ArmorItem.Type, Integer> defense = new EnumMap<>(ArmorItem.Type.class);
+        defense.put(ArmorItem.Type.HELMET, 6);
+        defense.put(ArmorItem.Type.CHESTPLATE, 12);
+        defense.put(ArmorItem.Type.LEGGINGS, 10);
+        defense.put(ArmorItem.Type.BOOTS, 5);
+        defense.put(ArmorItem.Type.BODY, 12);
+        return new ArmorMaterial(defense, 18, SoundEvents.ARMOR_EQUIP_DIAMOND, () -> Ingredient.EMPTY,
+                List.of(new ArmorMaterial.Layer(RotaryCraft.id("bedrock"))), 0F, 0.25F);
+    });
+
     /** Armour lasts the vanilla base for its slot times this. */
     public static final int STEEL_ARMOR_DURABILITY = 24;
 
@@ -73,12 +93,30 @@ public final class ToolRegistry {
     public static final DeferredItem<ShearsItem> STEEL_SHEARS = RotaryItems.add(RotaryItems.ITEMS.register("steel_shears",
             () -> new ShearsItem(new Item.Properties().durability(600).component(DataComponents.TOOL, ShearsItem.createToolProperties()))));
     public static final DeferredItem<SickleItem> STEEL_SICKLE = RotaryItems.add(RotaryItems.ITEMS.register("steel_sickle",
-            () -> new SickleItem(new Item.Properties().durability(600), 4, new SickleItem.Reach(4, 4, 4), true, false)));
+            () -> new SickleItem(new Item.Properties().durability(600), 4, new SickleItem.Reach(4, 4, 4), true, false, List.of())));
 
     public static final DeferredItem<ArmorItem> STEEL_HELMET = armor("steel_helmet", ArmorItem.Type.HELMET);
     public static final DeferredItem<ArmorItem> STEEL_CHESTPLATE = armor("steel_chestplate", ArmorItem.Type.CHESTPLATE);
     public static final DeferredItem<ArmorItem> STEEL_LEGGINGS = armor("steel_leggings", ArmorItem.Type.LEGGINGS);
     public static final DeferredItem<ArmorItem> STEEL_BOOTS = armor("steel_boots", ArmorItem.Type.BOOTS);
+
+    public static final DeferredItem<BedrockPickaxeItem> BEDROCK_PICKAXE = RotaryItems.add(RotaryItems.ITEMS.register("bedrock_pickaxe", BedrockPickaxeItem::new));
+    public static final DeferredItem<BedrockAxeItem> BEDROCK_AXE = RotaryItems.add(RotaryItems.ITEMS.register("bedrock_axe", BedrockAxeItem::new));
+    public static final DeferredItem<BedrockShovelItem> BEDROCK_SHOVEL = RotaryItems.add(RotaryItems.ITEMS.register("bedrock_shovel", BedrockShovelItem::new));
+    public static final DeferredItem<BedrockHoeItem> BEDROCK_HOE = RotaryItems.add(RotaryItems.ITEMS.register("bedrock_hoe", BedrockHoeItem::new));
+    public static final DeferredItem<BedrockSwordItem> BEDROCK_SWORD = RotaryItems.add(RotaryItems.ITEMS.register("bedrock_sword", BedrockSwordItem::new));
+    public static final DeferredItem<BedrockShearsItem> BEDROCK_SHEARS = RotaryItems.add(RotaryItems.ITEMS.register("bedrock_shears", BedrockShearsItem::new));
+    public static final DeferredItem<SickleItem> BEDROCK_SICKLE = RotaryItems.add(RotaryItems.ITEMS.register("bedrock_sickle",
+            () -> new SickleItem(new Item.Properties(), 6, new SickleItem.Reach(6, 8, 7), false, true, BedrockTools.SICKLE)));
+
+    public static final DeferredItem<BedrockArmorItem> BEDROCK_HELMET = bedrockArmor("bedrock_helmet", ArmorItem.Type.HELMET, BedrockTools.HELMET);
+    public static final DeferredItem<BedrockArmorItem> BEDROCK_CHESTPLATE = bedrockArmor("bedrock_chestplate", ArmorItem.Type.CHESTPLATE, BedrockTools.CHESTPLATE);
+    public static final DeferredItem<BedrockArmorItem> BEDROCK_LEGGINGS = bedrockArmor("bedrock_leggings", ArmorItem.Type.LEGGINGS, BedrockTools.LEGGINGS);
+    public static final DeferredItem<BedrockArmorItem> BEDROCK_BOOTS = bedrockArmor("bedrock_boots", ArmorItem.Type.BOOTS, BedrockTools.BOOTS);
+
+    private static DeferredItem<BedrockArmorItem> bedrockArmor(String name, ArmorItem.Type type, List<Forced.Need> needs) {
+        return RotaryItems.add(RotaryItems.ITEMS.register(name, () -> new BedrockArmorItem((Holder<ArmorMaterial>) BEDROCK_ARMOR, type, needs)));
+    }
 
     private static DeferredItem<ArmorItem> armor(String name, ArmorItem.Type type) {
         return RotaryItems.add(RotaryItems.ITEMS.register(name, () -> new ArmorItem((Holder<ArmorMaterial>) STEEL_ARMOR, type,
