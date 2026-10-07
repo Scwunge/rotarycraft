@@ -1,0 +1,53 @@
+{
+  "parent": "rotarycraft:item/fireball_launcher_0",
+  "overrides": [
+    {
+      "predicate": {
+        "rotarycraft:blast": 0.125
+      },
+      "model": "rotarycraft:item/fireball_launcher_1"
+    },
+    {
+      "predicate": {
+        "rotarycraft:blast": 0.25
+      },
+      "model": "rotarycraft:item/fireball_launcher_2"
+    },
+    {
+      "predicate": {
+        "rotarycraft:blast": 0.375
+      },
+      "model": "rotarycraft:item/fireball_launcher_3"
+    },
+    {
+      "predicate": {
+        "rotarycraft:blast": 0.5
+      },
+      "model": "rotarycraft:item/fireball_launcher_4"
+    },
+    {
+      "predicate": {
+        "rotarycraft:blast": 0.625
+      },
+      "model": "rotarycraft:item/fireball_launcher_5"
+    },
+    {
+      "predicate": {
+        "rotarycraft:blast": 0.75
+      },
+      "model": "rotarycraft:item/fireball_launcher_6"
+    },
+    {
+      "predicate": {
+        "rotarycraft:blast": 0.875
+      },
+      "model": "rotarycraft:item/fireball_launcher_7"
+    },
+    {
+      "predicate": {
+        "rotarycraft:blast": 1.0
+      },
+      "model": "rotarycraft:item/fireball_launcher_8"
+    }
+  ]
+}

@@ -181,7 +181,7 @@ public class SpillwayBlockEntity extends InventoryMachineBlockEntity {
             }
         } else if (isWater(at) && isWater(above)) {
             pool.clear();
-            int column = (int) (COLUMN * MachineConfig.FREE_WATER_FACTOR.get());
+            int column = (int) (COLUMN * MachineConfig.get(MachineConfig.FREE_WATER_FACTOR));
             if (tank.getSpace() >= column && add(column) > 0) {
                 markActive();
             }

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    " sP",
+    "sIs",
+    "sRs"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "P": {
+      "item": "rotarycraft:pipe"
+    },
+    "I": {
+      "item": "rotarycraft:impeller"
+    },
+    "R": {
+      "item": "rotarycraft:reservoir"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:hand_pump",
+    "count": 1
+  }
+}

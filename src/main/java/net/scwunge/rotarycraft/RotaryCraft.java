@@ -45,6 +45,7 @@ public class RotaryCraft {
         net.scwunge.rotarycraft.registry.ToolRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.UpgradeRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.GadgetRegistry.init(modBus);
+        net.scwunge.rotarycraft.registry.HandheldRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.SolarRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.CraftingRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.TransmissionRegistry.init(modBus);

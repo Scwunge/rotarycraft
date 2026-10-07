@@ -32,7 +32,7 @@ NA|TABLEMACHINES|machines are made at the ordinary crafting table; a data pack c
 PENDING|EMPLOAD|the EMP's charging speed|empChargeSpeed
 NA|ROTATEHOSE|a recipe-conflict workaround for old mods
 MAP|RAILGUNDAMAGE|railgunBlockDamage
-PENDING|GRAVELPLAYER|the Gravel Gun (item 6)|gravelGunPvp
+MAP|GRAVELPLAYER|gravelGunPvp
 PENDING|CHESTGEN|chest loot (not ported)|chestLootTier
 PENDING|PROJECTORLINES|a client option for the Projector|projectorLines
 PENDING|COLORBLIND|a client option|colorBlindMode
@@ -56,7 +56,7 @@ PENDING|CLEARCHAT|the chat-writing tools|toolsClearChat
 PENDING|KICKFLYING|the Jetpack (item 6)|jetpackBypassesFlyCheck
 MAP|BLOWERSPILL|itemPumpSpills
 PENDING|EXTRACTORMAINTAIN|the Extractor's drill wearing down|extractorWear
-PENDING|HARDGRAVELGUN|the Gravel Gun (item 6)|hardGravelGun
+MAP|HARDGRAVELGUN|hardGravelGun
 MAP|BORERMAINTAIN|borerRequiresMaintenance
 NA|NOMINERS|switch the Borer, Bedrock Breaker and Sonic Borer off in their own settings
 NA|HARDEU|IC2/GregTech EU compatibility only

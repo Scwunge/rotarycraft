@@ -194,4 +194,17 @@ public class ScaleChestGameTests {
             helper.succeed();
         });
     }
+
+    @GameTest(template = WIDE, batch = "chest_codec", timeoutTicks = 20)
+    public static void chestItemContentsSurviveSavingTheItem(GameTestHelper helper) {
+        ItemStack stack = new ItemStack(LogisticsRegistry.SCALE_CHEST.block().get().asItem());
+        stack.set(LogisticsRegistry.CHEST_CONTENTS.get(), new ChestContents(java.util.List.of(new ChestContents.Entry(5, new ItemStack(Items.EMERALD, 4)),
+                new ChestContents.Entry(800, new ItemStack(Items.BREAD, 9)))));
+        var ops = net.minecraft.resources.RegistryOps.create(net.minecraft.nbt.NbtOps.INSTANCE, helper.getLevel().registryAccess());
+        net.minecraft.nbt.Tag tag = ItemStack.CODEC.encodeStart(ops, stack).getOrThrow();
+        ItemStack back = ItemStack.CODEC.parse(ops, tag).getOrThrow();
+        ChestContents held = back.get(LogisticsRegistry.CHEST_CONTENTS.get());
+        helper.assertTrue(held != null && held.entries().size() == 2 && held.entries().get(0).stack().is(Items.EMERALD) && held.entries().get(1).slot() == 800, "contents " + held);
+        helper.succeed();
+    }
 }

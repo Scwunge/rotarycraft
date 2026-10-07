@@ -24,6 +24,8 @@ public final class MachineConfig {
     public static final ModConfigSpec.IntValue LAMP_RANGE;
     public static final ModConfigSpec.IntValue DETECTOR_RANGE;
     public static final ModConfigSpec.DoubleValue FREE_WATER_FACTOR;
+    public static final ModConfigSpec.BooleanValue GRAVEL_GUN_PVP;
+    public static final ModConfigSpec.BooleanValue HARD_GRAVEL_GUN;
 
     /** The original's machines in this group, with whether each is on by default (the ones that change blocks or burn things are not). */
     private static final Object[][] MACHINES = {
@@ -61,6 +63,8 @@ public final class MachineConfig {
                 .defineInRange("detectorRange", 128, 64, 512);
         FREE_WATER_FACTOR = b.comment("How much free water the Spillway makes from a column of water above its intake (the original's free water production factor).")
                 .defineInRange("freeWaterFactor", 1.0, 0.1, 2.0);
+        GRAVEL_GUN_PVP = b.comment("Whether the gravel gun may be fired at players.").define("gravelGunPvp", true);
+        HARD_GRAVEL_GUN = b.comment("Hard mode for the gravel gun: its damage grows more slowly with charge and is capped lower.").define("hardGravelGun", false);
         b.pop();
         SPEC = b.build();
     }

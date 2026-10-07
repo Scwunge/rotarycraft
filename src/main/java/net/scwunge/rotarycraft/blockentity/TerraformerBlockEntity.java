@@ -54,7 +54,7 @@ import java.util.List;
  * One difference from the original: 1.21 keeps biomes in 4 by 4 columns, so each step changes one such 4 by 4 patch (the original did a single
  * block column), whatever the cost listed for the step.
  */
-public class TerraformerBlockEntity extends OmniConsumerBlockEntity implements MenuProvider, Owned {
+public class TerraformerBlockEntity extends OmniConsumerBlockEntity implements MenuProvider, Owned, net.scwunge.rotarycraft.handheld.SelectableTiles {
     public static final int SLOTS = 54;
     public static final int TANK = 24000;
     public static final PowerRequirement REQUIREMENT = new PowerRequirement(1, 1, 1024);
@@ -77,6 +77,8 @@ public class TerraformerBlockEntity extends OmniConsumerBlockEntity implements M
     private int radius = DEFAULT_RADIUS;
     /** The 4 by 4 patches of land left to do, as packed (x, z) biome-cell coordinates. */
     private final LongArrayList cells = new LongArrayList();
+    /** The patches picked out with a Tile Selector; when there are any they are done instead of the radius. */
+    private final LongArrayList selected = new LongArrayList();
     private boolean built;
     private int tickCount;
     @Nullable
@@ -160,7 +162,32 @@ public class TerraformerBlockEntity extends OmniConsumerBlockEntity implements M
         setChanged();
     }
 
+    @Override
+    public boolean addTile(BlockPos pos) {
+        if (level == null || level.hasNeighborSignal(worldPosition)) {
+            return false;
+        }
+        long cell = pack(pos.getX() >> 2, pos.getZ() >> 2);
+        if (!selected.contains(cell)) {
+            selected.add(cell);
+            built = false;
+            setChanged();
+        }
+        return true;
+    }
+
+    @Override
+    public String selectionName() {
+        return "the Terraformer at " + worldPosition.getX() + ", " + worldPosition.getY() + ", " + worldPosition.getZ();
+    }
+
+    /** How many patches the Tile Selector has picked. */
+    public int selectedCount() {
+        return selected.size();
+    }
+
     public void setRadius(int r) {
+        selected.clear();
         radius = Math.max(1, Math.min(r, RotaryConfig.get(RotaryConfig.TERRAFORMER_MAX_RADIUS)));
         built = false;
         setChanged();
@@ -177,6 +204,11 @@ public class TerraformerBlockEntity extends OmniConsumerBlockEntity implements M
 
     private void rebuild() {
         cells.clear();
+        if (!selected.isEmpty()) {
+            cells.addAll(selected);
+            built = true;
+            return;
+        }
         int minX = (worldPosition.getX() - radius) >> 2;
         int maxX = (worldPosition.getX() + radius) >> 2;
         int minZ = (worldPosition.getZ() - radius) >> 2;
@@ -395,6 +427,7 @@ public class TerraformerBlockEntity extends OmniConsumerBlockEntity implements M
         tag.put("items", items.serializeNBT(registries));
         tag.put("tank", tank.writeToNBT(registries, new CompoundTag()));
         tag.putInt("radius", radius);
+        tag.putLongArray("selected", selected.toLongArray());
         if (target != null) {
             tag.putString("target", target.location().toString());
         }
@@ -410,6 +443,10 @@ public class TerraformerBlockEntity extends OmniConsumerBlockEntity implements M
         items.deserializeNBT(registries, tag.getCompound("items"));
         tank.readFromNBT(registries, tag.getCompound("tank"));
         radius = tag.contains("radius") ? tag.getInt("radius") : DEFAULT_RADIUS;
+        selected.clear();
+        for (long cell : tag.getLongArray("selected")) {
+            selected.add(cell);
+        }
         ResourceLocation id = tag.contains("target") ? ResourceLocation.tryParse(tag.getString("target")) : null;
         target = id == null ? null : ResourceKey.create(Registries.BIOME, id);
         built = false;

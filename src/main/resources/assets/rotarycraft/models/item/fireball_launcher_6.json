@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "rotarycraft:item/fireball_launcher_6"
+  }
+}

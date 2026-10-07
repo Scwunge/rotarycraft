@@ -87,7 +87,7 @@ MAP|GEARUPGRADE|gear_upgrade_frame,gear_upgrade_2x,gear_upgrade_4x,gear_upgrade_
 MAP|GENERATOR|generator
 MAP|GPR|gpr
 PENDING|GRAFTER|not ported yet
-PENDING|GRAVELGUN|not ported yet
+MAP|GRAVELGUN|gravel_gun
 MAP|GRINDER|grinder
 MAP|GRINDSTONE|grindstone
 PENDING|HANDBOOK|not ported yet
@@ -175,7 +175,7 @@ MAP|STUNGUN|stun_gun
 MAP|SUCTION|suction_pipe
 MAP|TARGET|target
 MAP|TERRAFORMER|terraformer
-PENDING|TILESELECTOR|not ported yet
+MAP|TILESELECTOR|tile_selector
 MAP|TNTCANNON|tnt_cannon
 MAP|ULTRASOUND|ultrasound
 MAP|UPGRADE|performance_upgrade,magnetostatic_upgrade_1,magnetostatic_upgrade_2,magnetostatic_upgrade_3,magnetostatic_upgrade_4,magnetostatic_upgrade_5,efficiency_upgrade,flux_upgrade,redstone_upgrade,afterburner_upgrade

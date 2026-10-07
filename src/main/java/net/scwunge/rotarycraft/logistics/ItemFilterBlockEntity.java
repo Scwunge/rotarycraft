@@ -93,6 +93,10 @@ public class ItemFilterBlockEntity extends InventoryMachineBlockEntity {
     /** The template slot changed: the data is the new item's, keeping the settings chosen for the old one. */
     private void reloadData() {
         ItemStack template = items.getStackInSlot(TEMPLATE);
+        if (template.getItem() instanceof net.scwunge.rotarycraft.handheld.MatchFilterItem) {
+            // a match filter stands for the item it holds
+            template = net.scwunge.rotarycraft.handheld.MatchFilterItem.template(template);
+        }
         if (level == null) {
             return;
         }
