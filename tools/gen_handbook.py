@@ -183,6 +183,10 @@ manual('worm_drive', 'worm_drive', 'Worm Gear', '64 times the torque for 1/64 th
 manual('cvt', 'cvt', 'CVT', 'Any ratio from 1 to 32, either way (speed for torque, or torque for speed): set by hand, by the redstone signal (a ratio for on and one for off), or automatically to hold a target torque. Needs lubricant and a belt for each step in its last slot.')
 manual('energy_coil', 'energy_coil', 'Energy Coil', 'Stores the shaft power that reaches it as energy, as much as it is asked for, and gives it out again as the torque and speed set in its screen while it has a redstone signal. It blows up if it is overcharged. The energy goes with the item.')
 manual('bedrock_energy_coil', 'bedrock_energy_coil', 'Bedrock Energy Coil', 'An Energy Coil that holds far more and gives out more; it too blows up if it is overcharged.')
+manual('high_gear', 'high_gear', '256x Gear', 'A lubricated 256 to 1 gear, either way: more torque for less speed, or the other way, switched by using the screwdriver while sneaking. Power comes in at the back and out of the front; it works along the ground only.')
+manual('anthracite_block', 'anthracite_block', 'Block of Anthracite', 'Nine anthracite; craft it alone to get them back.')
+manual('lonsdaleite_block', 'lonsdaleite_block', 'Block of Lonsdaleite', 'Nine lonsdaleite; craft it alone to get them back.')
+manual('blast_glass', 'blast_glass', 'Blast Glass', 'Glass that survives explosions. The Pulse Furnace makes it from obsidian.')
 manual('hose', 'hose', 'Lubricant Hose', 'Carries lubricant and liquid nitrogen between machines.')
 
 # ---- chapters and pages ----
@@ -222,12 +226,12 @@ CHAPTERS = [
         ('clutches', 'Clutches and Control', [], ['clutch', 'multi_clutch', 'distribution_clutch', 'engine_controller', 'power_bus', 'bus_controller']),
         ('belts', 'Belts, Chains and Gears', [
             'Belts and chains join two pulleys on parallel shafts. Use the belt item on one pulley and then the other; it uses one belt for every block between them.',
-        ], ['belt_hub', 'chain_drive', 'split_belt', 'worm_drive', 'cvt']),
+        ], ['belt_hub', 'chain_drive', 'split_belt', 'worm_drive', 'cvt', 'high_gear']),
         ('storage', 'Storing Power', [], ['winder', 'energy_coil', 'bedrock_energy_coil', 'dynamometer']),
     ]),
     ('processing', 'Processing', 'grinder', [
-        ('crushing', 'Grinding and Extracting', [], ['grinder', 'extractor', 'centrifuge', 'compactor']),
-        ('heat', 'Heat', [], ['blast_furnace', 'friction_heater', 'rock_melter', 'big_furnace', 'pulse_furnace', 'cooling_fin', 'refrigerator', 'crystallizer']),
+        ('crushing', 'Grinding and Extracting', [], ['grinder', 'extractor', 'centrifuge', 'compactor', 'anthracite_block', 'lonsdaleite_block']),
+        ('heat', 'Heat', [], ['blast_furnace', 'friction_heater', 'rock_melter', 'big_furnace', 'pulse_furnace', 'cooling_fin', 'refrigerator', 'crystallizer', 'blast_glass']),
         ('chemistry', 'Fuel and Chemistry', [], ['fermenter', 'fractionator', 'distiller', 'fuel_enhancer', 'dryer', 'composter', 'canola']),
         ('crafting', 'Crafting', [], ['worktable', 'auto_crafter']),
     ]),

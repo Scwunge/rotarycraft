@@ -249,6 +249,10 @@
             {
               "id": "cvt",
               "item": "rotarycraft:cvt"
+            },
+            {
+              "id": "high_gear",
+              "item": "rotarycraft:high_gear"
             }
           ],
           "paragraphs": 1
@@ -299,6 +303,14 @@
             {
               "id": "compactor",
               "item": "rotarycraft:compactor"
+            },
+            {
+              "id": "anthracite_block",
+              "item": "rotarycraft:anthracite_block"
+            },
+            {
+              "id": "lonsdaleite_block",
+              "item": "rotarycraft:lonsdaleite_block"
             }
           ],
           "paragraphs": 0
@@ -337,6 +349,10 @@
             {
               "id": "crystallizer",
               "item": "rotarycraft:crystallizer"
+            },
+            {
+              "id": "blast_glass",
+              "item": "rotarycraft:blast_glass"
             }
           ],
           "paragraphs": 0
