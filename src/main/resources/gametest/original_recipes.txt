@@ -100,7 +100,7 @@ MAP|HYDRATOR|ground_hydrator
 MAP|IGNITER|igniter
 PENDING|IOGOGGLES|not ported yet
 MAP|ITEMCANNON|item_cannon
-PENDING|ITEMFILTER|not ported yet
+MAP|ITEMFILTER|item_filter
 PENDING|JETPACK|not ported yet
 PENDING|JUMP|not ported yet
 MAP|KEY|cannon_key

@@ -90,6 +90,7 @@ public final class LogisticsClient {
     @SubscribeEvent
     public static void screens(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
         event.register(LogisticsRegistry.SCALE_CHEST_MENU.get(), ScaleChestScreen::new);
+        event.register(LogisticsRegistry.ITEM_FILTER_MENU.get(), ItemFilterScreen::new);
     }
 
     @SubscribeEvent

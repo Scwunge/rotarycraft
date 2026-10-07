@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/item_filter"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/item_filter"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/item_filter"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/item_filter"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/item_filter"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/item_filter"
+    }
+  }
+}

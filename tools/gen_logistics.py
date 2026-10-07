@@ -151,4 +151,19 @@ gui('sortergui.png', 'sorting')
 shaped('sorting', ['SHS', ' C ', 'P P'], {'S': STEEL, 'H': vanilla('hopper'), 'C': CIRCUIT, 'P': BASEPANEL})
 names({'block.rotarycraft.sorting': 'Sorting Machine'})
 
+# ---- Item Filter (a plain cube) ----
+
+
+def filter_mark(im):
+    from PIL import ImageDraw
+    g = ImageDraw.Draw(im)
+    g.rectangle([3, 3, 12, 12], fill=(54, 60, 74, 255), outline=(150, 154, 162, 255))
+    g.polygon([(4, 5), (11, 5), (9, 8), (9, 11), (6, 11), (6, 8)], fill=(120, 200, 230, 255))
+
+
+drawn_machine('item_filter', filter_mark, face='up')
+gui('filtergui2.png', 'item_filter')
+shaped('item_filter', ['sSs', 'CCC', 'PRP'], {'s': STEEL, 'S': item('screen'), 'C': CIRCUIT, 'R': vanilla('redstone'), 'P': BASEPANEL})
+names({'block.rotarycraft.item_filter': 'Item Filter'})
+
 mg.finish()

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sSs",
+    "CCC",
+    "PRP"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "S": {
+      "item": "rotarycraft:screen"
+    },
+    "C": {
+      "item": "rotarycraft:circuit_board"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:item_filter",
+    "count": 1
+  }
+}
