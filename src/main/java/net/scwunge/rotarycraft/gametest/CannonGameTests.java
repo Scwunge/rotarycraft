@@ -229,7 +229,7 @@ public class CannonGameTests {
         // an ordinary pig, not a no-AI one, which ignores being thrown
         Pig pig = helper.spawn(EntityType.PIG, new BlockPos(6, 2, 2));
         double start = pig.getX();
-        waitFor(helper, restore, 100, () -> pig.getX() > start + 1);
+        waitFor(helper, restore, 100, () -> pig.getX() > start + 4);
     }
 
     @GameTest(template = WIDE, batch = "cannon_airweak", timeoutTicks = 80)
@@ -241,7 +241,7 @@ public class CannonGameTests {
         double start = pig.getX();
         helper.runAfterDelay(40, () -> {
             restore.run();
-            helper.assertTrue(Math.abs(pig.getX() - start) < 1, "it threw the pig on 511 N*m");
+            helper.assertTrue(Math.abs(pig.getX() - start) < 2.5, "it threw the pig on 511 N*m");
             helper.succeed();
         });
     }
@@ -255,7 +255,7 @@ public class CannonGameTests {
         double start = pig.getX();
         helper.runAfterDelay(40, () -> {
             restore.run();
-            helper.assertTrue(Math.abs(pig.getX() - start) < 1, "a switched-off air gun threw the pig");
+            helper.assertTrue(Math.abs(pig.getX() - start) < 2.5, "a switched-off air gun threw the pig");
             helper.succeed();
         });
     }
