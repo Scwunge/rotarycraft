@@ -804,7 +804,11 @@ public class FarmGameTests {
         });
     }
 
-    @GameTest(template = LONG, timeoutTicks = 100, batch = "farm")
+    /**
+     * An egg only hatches on the one tick in twenty it is looked at, so a hundred ticks missed it now and then (about one run in 170): give it
+     * four hundred (one in a billion), and keep it from sharing its batch with the sprinklers, whose spray puts fires out.
+     */
+    @GameTest(template = LONG, timeoutTicks = 400, batch = "farm_bait_egg")
     public static void aBaitBoxHatchesEggsBesideFire(GameTestHelper helper) {
         var box = baitBox(helper);
         box.items().setStackInSlot(0, new ItemStack(Items.EGG, 2));

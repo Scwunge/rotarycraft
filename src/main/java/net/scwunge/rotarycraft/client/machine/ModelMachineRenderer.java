@@ -87,7 +87,9 @@ public class ModelMachineRenderer<T extends BlockEntity> implements BlockEntityR
         }
         FluidStack stack = new FluidStack(fluid, 1000);
         IClientFluidTypeExtensions ext = IClientFluidTypeExtensions.of(fluid);
-        surface(pose, buffers, ext.getStillTexture(stack), ext.getTintColor(stack), h, inset, fluid.getFluidType().getLightLevel() > 8 ? 0xF000F0 : light);
+        // vanilla water takes its colour from the biome, so asking the fluid for a tint gives white
+        int tint = fluid == Fluids.WATER || fluid == Fluids.FLOWING_WATER ? 0xFF3F76E4 : ext.getTintColor(stack);
+        surface(pose, buffers, ext.getStillTexture(stack), tint, h, inset, fluid.getFluidType().getLightLevel() > 8 ? 0xF000F0 : light);
     }
 
     /** A flat sheet textured with a block-atlas sprite and a tint (ARGB), at height {@code h}. */

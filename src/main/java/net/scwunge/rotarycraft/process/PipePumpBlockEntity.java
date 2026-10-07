@@ -38,6 +38,11 @@ public class PipePumpBlockEntity extends FarmBlockEntity {
     }
 
     @Override
+    protected int[] status() {
+        return new int[] {rate()};
+    }
+
+    @Override
     protected void machineTick(boolean powered) {
         if (!powered) {
             return;

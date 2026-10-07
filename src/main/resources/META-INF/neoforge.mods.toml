@@ -27,3 +27,17 @@ type="required"
 versionRange="[1.21.1,1.22)"
 ordering="NONE"
 side="BOTH"
+
+[[dependencies.${mod_id}]]
+modId="jei"
+type="optional"
+versionRange="[19,)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.${mod_id}]]
+modId="jade"
+type="optional"
+versionRange="[15,)"
+ordering="NONE"
+side="BOTH"
