@@ -42,18 +42,22 @@ public class MachineRenderer<T extends PowerBlockEntity> implements BlockEntityR
      * @param sign    1 or -1: the way they turn
      * @param flags   the booleans the original's renderer handed its model
      */
-    public record Look<T extends PowerBlockEntity>(String model, Function<T, String> texture, float[] yaws, float offset, ToDoubleFunction<T> speed, int sign,
+    public record Look<T extends PowerBlockEntity>(Function<T, String> model, Function<T, String> texture, float[] yaws, float offset, ToDoubleFunction<T> speed, int sign,
                                                    Function<T, boolean[]> flags) {
         public static <T extends PowerBlockEntity> Look<T> still(String model, String texture, float[] yaws) {
-            return new Look<>(model, be -> texture, yaws, 0, be -> 0, 1, be -> new boolean[0]);
+            return new Look<>(be -> model, be -> texture, yaws, 0, be -> 0, 1, be -> new boolean[0]);
         }
 
         public static <T extends PowerBlockEntity> Look<T> spinning(String model, String texture, float[] yaws, ToDoubleFunction<T> speed, int sign) {
-            return new Look<>(model, be -> texture, yaws, 0, speed, sign, be -> new boolean[0]);
+            return new Look<>(be -> model, be -> texture, yaws, 0, speed, sign, be -> new boolean[0]);
         }
 
         public Look<T> turned(float degrees) {
             return new Look<>(model, texture, yaws, degrees, speed, sign, flags);
+        }
+
+        public Look<T> modelled(Function<T, String> model) {
+            return new Look<>(model, texture, yaws, offset, speed, sign, flags);
         }
 
         public Look<T> textured(Function<T, String> texture) {
@@ -66,11 +70,14 @@ public class MachineRenderer<T extends PowerBlockEntity> implements BlockEntityR
     }
 
     private final Look<T> look;
-    private final ReikaModel model;
+    private final java.util.Map<String, ReikaModel> models = new java.util.HashMap<>();
 
     public MachineRenderer(Look<T> look) {
         this.look = look;
-        this.model = new ReikaModel(look.model());
+    }
+
+    private ReikaModel model(String name) {
+        return models.computeIfAbsent(name, ReikaModel::new);
     }
 
     private static ResourceLocation texture(String name) {
@@ -96,14 +103,14 @@ public class MachineRenderer<T extends PowerBlockEntity> implements BlockEntityR
         }
     }
 
-    private void draw(PoseStack pose, MultiBufferSource buffers, int light, int overlay, String texture, Direction facing, double phi, boolean[] flags) {
+    private void draw(PoseStack pose, MultiBufferSource buffers, int light, int overlay, String model, String texture, Direction facing, double phi, boolean[] flags) {
         VertexConsumer vc = buffers.getBuffer(RenderType.entityCutoutNoCull(texture(texture)));
         pose.pushPose();
         ReikaModel.enterModelSpace(pose);
         if (look.yaws() != null) {
             turn(pose, look.yaws(), look.offset(), facing);
         }
-        model.renderAnimated(pose, vc, light, overlay, look.sign() * phi, 0, flags);
+        model(model).renderAnimated(pose, vc, light, overlay, look.sign() * phi, 0, flags);
         pose.popPose();
     }
 
@@ -119,7 +126,7 @@ public class MachineRenderer<T extends PowerBlockEntity> implements BlockEntityR
                 be.phiTime = now;
             }
         }
-        draw(pose, buffers, light, overlay, look.texture().apply(be), be.facing(), be.phi + speed * partialTick, look.flags().apply(be));
+        draw(pose, buffers, light, overlay, look.model().apply(be), look.texture().apply(be), be.facing(), be.phi + speed * partialTick, look.flags().apply(be));
     }
 
     @Override
@@ -130,19 +137,21 @@ public class MachineRenderer<T extends PowerBlockEntity> implements BlockEntityR
     /** The item form: the model standing still, as the original drew its items. */
     public static class Item<T extends PowerBlockEntity> extends BlockEntityWithoutLevelRenderer {
         private final MachineRenderer<T> renderer;
+        private final String model;
         private final String texture;
         private final boolean[] flags;
 
-        public Item(BlockEntityRenderDispatcher dispatcher, EntityModelSet models, MachineRenderer<T> renderer, String texture, boolean... flags) {
+        public Item(BlockEntityRenderDispatcher dispatcher, EntityModelSet models, MachineRenderer<T> renderer, String model, String texture, boolean... flags) {
             super(dispatcher, models);
             this.renderer = renderer;
+            this.model = model;
             this.texture = texture;
             this.flags = flags;
         }
 
         @Override
         public void renderByItem(ItemStack stack, ItemDisplayContext context, PoseStack pose, MultiBufferSource buffers, int light, int overlay) {
-            renderer.draw(pose, buffers, light, overlay, texture, Direction.SOUTH, 0, flags);
+            renderer.draw(pose, buffers, light, overlay, model, texture, Direction.SOUTH, 0, flags);
         }
     }
 }

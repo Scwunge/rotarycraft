@@ -1,27 +1,22 @@
 {
   "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/friction_heater"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/friction_heater"
+    },
     "facing=north": {
       "model": "rotarycraft:block/friction_heater"
     },
     "facing=south": {
-      "model": "rotarycraft:block/friction_heater",
-      "y": 180
+      "model": "rotarycraft:block/friction_heater"
     },
     "facing=east": {
-      "model": "rotarycraft:block/friction_heater",
-      "y": 90
+      "model": "rotarycraft:block/friction_heater"
     },
     "facing=west": {
-      "model": "rotarycraft:block/friction_heater",
-      "y": 270
-    },
-    "facing=up": {
-      "model": "rotarycraft:block/friction_heater",
-      "x": 270
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/friction_heater",
-      "x": 90
+      "model": "rotarycraft:block/friction_heater"
     }
   }
 }

@@ -1,27 +1,22 @@
 {
   "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/refrigerator"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/refrigerator"
+    },
     "facing=north": {
       "model": "rotarycraft:block/refrigerator"
     },
     "facing=south": {
-      "model": "rotarycraft:block/refrigerator",
-      "y": 180
+      "model": "rotarycraft:block/refrigerator"
     },
     "facing=east": {
-      "model": "rotarycraft:block/refrigerator",
-      "y": 90
+      "model": "rotarycraft:block/refrigerator"
     },
     "facing=west": {
-      "model": "rotarycraft:block/refrigerator",
-      "y": 270
-    },
-    "facing=up": {
-      "model": "rotarycraft:block/refrigerator",
-      "x": 270
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/refrigerator",
-      "x": 90
+      "model": "rotarycraft:block/refrigerator"
     }
   }
 }

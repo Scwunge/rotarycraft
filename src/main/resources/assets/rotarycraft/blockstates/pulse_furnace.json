@@ -1,27 +1,22 @@
 {
   "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/pulse_furnace"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/pulse_furnace"
+    },
     "facing=north": {
       "model": "rotarycraft:block/pulse_furnace"
     },
     "facing=south": {
-      "model": "rotarycraft:block/pulse_furnace",
-      "y": 180
+      "model": "rotarycraft:block/pulse_furnace"
     },
     "facing=east": {
-      "model": "rotarycraft:block/pulse_furnace",
-      "y": 90
+      "model": "rotarycraft:block/pulse_furnace"
     },
     "facing=west": {
-      "model": "rotarycraft:block/pulse_furnace",
-      "y": 270
-    },
-    "facing=up": {
-      "model": "rotarycraft:block/pulse_furnace",
-      "x": 270
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/pulse_furnace",
-      "x": 90
+      "model": "rotarycraft:block/pulse_furnace"
     }
   }
 }

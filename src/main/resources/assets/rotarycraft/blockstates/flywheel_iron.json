@@ -1,27 +1,22 @@
 {
   "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/flywheel_iron"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/flywheel_iron"
+    },
     "facing=north": {
       "model": "rotarycraft:block/flywheel_iron"
     },
     "facing=south": {
-      "model": "rotarycraft:block/flywheel_iron",
-      "y": 180
+      "model": "rotarycraft:block/flywheel_iron"
     },
     "facing=east": {
-      "model": "rotarycraft:block/flywheel_iron",
-      "y": 90
+      "model": "rotarycraft:block/flywheel_iron"
     },
     "facing=west": {
-      "model": "rotarycraft:block/flywheel_iron",
-      "y": 270
-    },
-    "facing=up": {
-      "model": "rotarycraft:block/flywheel_iron",
-      "x": 270
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/flywheel_iron",
-      "x": 90
+      "model": "rotarycraft:block/flywheel_iron"
     }
   }
 }

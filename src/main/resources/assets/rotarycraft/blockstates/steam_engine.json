@@ -1,27 +1,22 @@
 {
   "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/steam_engine"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/steam_engine"
+    },
     "facing=north": {
       "model": "rotarycraft:block/steam_engine"
     },
     "facing=south": {
-      "model": "rotarycraft:block/steam_engine",
-      "y": 180
+      "model": "rotarycraft:block/steam_engine"
     },
     "facing=east": {
-      "model": "rotarycraft:block/steam_engine",
-      "y": 90
+      "model": "rotarycraft:block/steam_engine"
     },
     "facing=west": {
-      "model": "rotarycraft:block/steam_engine",
-      "y": 270
-    },
-    "facing=up": {
-      "model": "rotarycraft:block/steam_engine",
-      "x": 270
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/steam_engine",
-      "x": 90
+      "model": "rotarycraft:block/steam_engine"
     }
   }
 }

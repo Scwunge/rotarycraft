@@ -81,8 +81,8 @@ public final class FarmClient {
     }
 
     /** Registers the item form of a machine drawn by a {@link MachineRenderer}. */
-    public static <T extends PowerBlockEntity> void item(RegisterClientExtensionsEvent event, DeferredBlock<? extends Block> block, Look<T> look, String texture,
-                                                         boolean... flags) {
+    public static <T extends PowerBlockEntity> void item(RegisterClientExtensionsEvent event, DeferredBlock<? extends Block> block, Look<T> look, String model,
+                                                         String texture, boolean... flags) {
         event.registerItem(new IClientItemExtensions() {
             private BlockEntityWithoutLevelRenderer renderer;
 
@@ -90,7 +90,7 @@ public final class FarmClient {
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 if (renderer == null) {
                     Minecraft mc = Minecraft.getInstance();
-                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(look), texture, flags);
+                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(look), model, texture, flags);
                 }
                 return renderer;
             }
@@ -99,17 +99,17 @@ public final class FarmClient {
 
     @SubscribeEvent
     public static void items(RegisterClientExtensionsEvent event) {
-        item(event, FarmRegistry.FAN, FAN, "fan");
-        item(event, FarmRegistry.SPRINKLER, SPRINKLER, "sprinkler");
-        item(event, FarmRegistry.LAWN_SPRINKLER, LAWN_SPRINKLER, "lawn_sprinkler");
-        item(event, FarmRegistry.GROUND_HYDRATOR, HYDRATOR, "ground_hydrator");
-        item(event, FarmRegistry.FERTILIZER, FERTILIZER, "fertilizer");
-        item(event, FarmRegistry.DEFOLIATOR, DEFOLIATOR, "defoliator");
-        item(event, FarmRegistry.WOODCUTTER, WOODCUTTER, "woodcutter");
-        item(event, FarmRegistry.VACUUM, VACUUM, "vacuum");
-        item(event, FarmRegistry.AUTO_BREEDER, AUTO_BREEDER, "auto_breeder_empty", true, true, true, true, true);
-        item(event, FarmRegistry.BAIT_BOX, BAIT_BOX, "bait_box");
-        item(event, FarmRegistry.MOB_HARVESTER, MOB_HARVESTER, "mob_harvester");
-        item(event, FarmRegistry.SPAWNER_CONTROLLER, SPAWNER_CONTROLLER, "spawner_controller", true);
+        item(event, FarmRegistry.FAN, FAN, "fan", "fan");
+        item(event, FarmRegistry.SPRINKLER, SPRINKLER, "sprinkler", "sprinkler");
+        item(event, FarmRegistry.LAWN_SPRINKLER, LAWN_SPRINKLER, "lawn_sprinkler", "lawn_sprinkler");
+        item(event, FarmRegistry.GROUND_HYDRATOR, HYDRATOR, "reservoir", "ground_hydrator");
+        item(event, FarmRegistry.FERTILIZER, FERTILIZER, "fertilizer", "fertilizer");
+        item(event, FarmRegistry.DEFOLIATOR, DEFOLIATOR, "defoliator", "defoliator");
+        item(event, FarmRegistry.WOODCUTTER, WOODCUTTER, "woodcutter", "woodcutter");
+        item(event, FarmRegistry.VACUUM, VACUUM, "vacuum", "vacuum");
+        item(event, FarmRegistry.AUTO_BREEDER, AUTO_BREEDER, "auto_breeder", "auto_breeder_empty", true, true, true, true, true);
+        item(event, FarmRegistry.BAIT_BOX, BAIT_BOX, "bait_box", "bait_box");
+        item(event, FarmRegistry.MOB_HARVESTER, MOB_HARVESTER, "mob_harvester", "mob_harvester");
+        item(event, FarmRegistry.SPAWNER_CONTROLLER, SPAWNER_CONTROLLER, "spawner_controller", "spawner_controller", true);
     }
 }

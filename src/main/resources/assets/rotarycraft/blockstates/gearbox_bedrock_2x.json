@@ -1,27 +1,22 @@
 {
   "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/gearbox_bedrock_2x"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/gearbox_bedrock_2x"
+    },
     "facing=north": {
       "model": "rotarycraft:block/gearbox_bedrock_2x"
     },
     "facing=south": {
-      "model": "rotarycraft:block/gearbox_bedrock_2x",
-      "y": 180
+      "model": "rotarycraft:block/gearbox_bedrock_2x"
     },
     "facing=east": {
-      "model": "rotarycraft:block/gearbox_bedrock_2x",
-      "y": 90
+      "model": "rotarycraft:block/gearbox_bedrock_2x"
     },
     "facing=west": {
-      "model": "rotarycraft:block/gearbox_bedrock_2x",
-      "y": 270
-    },
-    "facing=up": {
-      "model": "rotarycraft:block/gearbox_bedrock_2x",
-      "x": 270
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/gearbox_bedrock_2x",
-      "x": 90
+      "model": "rotarycraft:block/gearbox_bedrock_2x"
     }
   }
 }

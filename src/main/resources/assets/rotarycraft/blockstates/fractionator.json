@@ -1,27 +1,22 @@
 {
   "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/fractionator"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/fractionator"
+    },
     "facing=north": {
       "model": "rotarycraft:block/fractionator"
     },
     "facing=south": {
-      "model": "rotarycraft:block/fractionator",
-      "y": 180
+      "model": "rotarycraft:block/fractionator"
     },
     "facing=east": {
-      "model": "rotarycraft:block/fractionator",
-      "y": 90
+      "model": "rotarycraft:block/fractionator"
     },
     "facing=west": {
-      "model": "rotarycraft:block/fractionator",
-      "y": 270
-    },
-    "facing=up": {
-      "model": "rotarycraft:block/fractionator",
-      "x": 270
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/fractionator",
-      "x": 90
+      "model": "rotarycraft:block/fractionator"
     }
   }
 }

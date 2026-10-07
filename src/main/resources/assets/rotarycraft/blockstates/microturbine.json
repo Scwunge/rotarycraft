@@ -1,27 +1,22 @@
 {
   "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/microturbine"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/microturbine"
+    },
     "facing=north": {
       "model": "rotarycraft:block/microturbine"
     },
     "facing=south": {
-      "model": "rotarycraft:block/microturbine",
-      "y": 180
+      "model": "rotarycraft:block/microturbine"
     },
     "facing=east": {
-      "model": "rotarycraft:block/microturbine",
-      "y": 90
+      "model": "rotarycraft:block/microturbine"
     },
     "facing=west": {
-      "model": "rotarycraft:block/microturbine",
-      "y": 270
-    },
-    "facing=up": {
-      "model": "rotarycraft:block/microturbine",
-      "x": 270
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/microturbine",
-      "x": 90
+      "model": "rotarycraft:block/microturbine"
     }
   }
 }

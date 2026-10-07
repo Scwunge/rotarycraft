@@ -1,27 +1,22 @@
 {
   "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/gearbox_wood_4x"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/gearbox_wood_4x"
+    },
     "facing=north": {
       "model": "rotarycraft:block/gearbox_wood_4x"
     },
     "facing=south": {
-      "model": "rotarycraft:block/gearbox_wood_4x",
-      "y": 180
+      "model": "rotarycraft:block/gearbox_wood_4x"
     },
     "facing=east": {
-      "model": "rotarycraft:block/gearbox_wood_4x",
-      "y": 90
+      "model": "rotarycraft:block/gearbox_wood_4x"
     },
     "facing=west": {
-      "model": "rotarycraft:block/gearbox_wood_4x",
-      "y": 270
-    },
-    "facing=up": {
-      "model": "rotarycraft:block/gearbox_wood_4x",
-      "x": 270
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/gearbox_wood_4x",
-      "x": 90
+      "model": "rotarycraft:block/gearbox_wood_4x"
     }
   }
 }

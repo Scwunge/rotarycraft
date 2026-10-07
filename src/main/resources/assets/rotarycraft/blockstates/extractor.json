@@ -1,27 +1,22 @@
 {
   "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/extractor"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/extractor"
+    },
     "facing=north": {
       "model": "rotarycraft:block/extractor"
     },
     "facing=south": {
-      "model": "rotarycraft:block/extractor",
-      "y": 180
+      "model": "rotarycraft:block/extractor"
     },
     "facing=east": {
-      "model": "rotarycraft:block/extractor",
-      "y": 90
+      "model": "rotarycraft:block/extractor"
     },
     "facing=west": {
-      "model": "rotarycraft:block/extractor",
-      "y": 270
-    },
-    "facing=up": {
-      "model": "rotarycraft:block/extractor",
-      "x": 270
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/extractor",
-      "x": 90
+      "model": "rotarycraft:block/extractor"
     }
   }
 }
