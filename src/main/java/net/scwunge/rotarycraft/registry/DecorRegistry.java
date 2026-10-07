@@ -11,13 +11,17 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.scwunge.rotarycraft.RotaryCraft;
 import net.scwunge.rotarycraft.block.BeamBlock;
 import net.scwunge.rotarycraft.block.BridgeBlock;
+import net.scwunge.rotarycraft.block.PilePipeBlock;
 import net.scwunge.rotarycraft.block.SelfDestructBlock;
 import net.scwunge.rotarycraft.blockentity.AerosolizerBlockEntity;
+import net.scwunge.rotarycraft.blockentity.BeamMirrorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.BlockFillerBlockEntity;
+import net.scwunge.rotarycraft.blockentity.FireworkMachineBlockEntity;
 import net.scwunge.rotarycraft.blockentity.FloodlightBlockEntity;
 import net.scwunge.rotarycraft.blockentity.LampBlockEntity;
 import net.scwunge.rotarycraft.blockentity.LightBridgeBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ParticleEmitterBlockEntity;
+import net.scwunge.rotarycraft.blockentity.PileDriverBlockEntity;
 import net.scwunge.rotarycraft.blockentity.SelfDestructBlockEntity;
 import net.scwunge.rotarycraft.blockentity.SpillerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.LineBuilderBlockEntity;
@@ -67,6 +71,17 @@ public final class DecorRegistry {
     public static final Machines.Entry<SelfDestructBlockEntity, LayoutMachineBlock> SELF_DESTRUCT = Machines.register("self_destruct", SelfDestructBlockEntity::new,
             type -> new SelfDestructBlock(RotaryBlocks.machineProps().noOcclusion(), type::get, SelfDestructBlockEntity::new));
 
+    // ---- Pile Driver, and the pile it lays ----
+    public static final DeferredBlock<PilePipeBlock> PILE_PIPE = RotaryBlocks.BLOCKS.register("pile_pipe", PilePipeBlock::new);
+    public static final Machines.Entry<PileDriverBlockEntity, LayoutMachineBlock> PILE_DRIVER = Machines.register("pile_driver", PileDriverBlockEntity::new,
+            type -> new LayoutMachineBlock(RotaryBlocks.machineProps().noOcclusion(), type::get, PileDriverBlockEntity::new, true));
+
+    // ---- Beam Mirror and Firework Machine ----
+    public static final Machines.Entry<BeamMirrorBlockEntity, LayoutMachineBlock> BEAM_MIRROR = Machines.register("beam_mirror", BeamMirrorBlockEntity::new,
+            type -> new LayoutMachineBlock(RotaryBlocks.machineProps().noOcclusion(), type::get, BeamMirrorBlockEntity::new, true));
+    public static final Machines.Entry<FireworkMachineBlockEntity, LayoutMachineBlock> FIREWORK_MACHINE = Machines.machine("firework_machine", FireworkMachineBlockEntity::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> FIREWORK_MACHINE_MENU = LayoutMenus.register(FireworkMachineBlockEntity.LAYOUT);
+
     private DecorRegistry() {}
 
     /** Loads the class, so its entries join the shared registers. */
@@ -82,6 +97,7 @@ public final class DecorRegistry {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PARTICLE_EMITTER.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, LAMP.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, AEROSOLIZER.type().get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FIREWORK_MACHINE.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, SPILLER.type().get(), (be, side) -> be.fluidHandler(side));
     }
 }

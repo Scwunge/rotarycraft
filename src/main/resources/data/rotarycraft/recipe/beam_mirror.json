@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " m ",
+    " s ",
+    " p "
+  ],
+  "key": {
+    "p": {
+      "item": "rotarycraft:base_panel"
+    },
+    "m": {
+      "item": "rotarycraft:mirror"
+    },
+    "s": {
+      "tag": "c:ingots/steel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:beam_mirror",
+    "count": 1
+  }
+}

@@ -134,4 +134,37 @@ drawn_machine('self_destruct', bomb_mark, face='up')
 shaped('self_destruct', ['STS', 'TCs', 'STS'], {'S': STEEL, 'T': vanilla('tnt'), 's': SHAFT, 'C': CIRCUIT})
 names({'block.rotarycraft.self_destruct': 'Self Destruct'})
 
+# ---- Pile Driver, and the pile it drives ----
+rendered_machine('pile_driver', model='ModelPileDriver', texture='piletex.png')
+shaped('pile_driver', ['PGP', 'gFg', 'PDP'], {'P': BASEPANEL, 'G': GEAR8, 'g': SHAFT, 'F': item('bedrock_flywheel_core'), 'D': DRILL})
+names({'block.rotarycraft.pile_driver': 'Pile Driver', 'block.rotarycraft.pile_pipe': 'Pile'})
+_sides = {f: {'texture': '#pipe', 'uv': [5, 0, 11, 16]} for f in ('north', 'south', 'east', 'west')}
+_ends = {f: {'texture': '#pipe', 'uv': [5, 5, 11, 11]} for f in ('up', 'down')}
+w('%s/models/block/pile_pipe.json' % A, {'textures': {'pipe': 'rotarycraft:block/mining_pipe', 'particle': 'rotarycraft:block/mining_pipe'}, 'elements': [{
+    'from': [5.28, 0, 5.28], 'to': [10.72, 16, 10.72], 'faces': dict(_sides, **_ends)}]})
+w('%s/blockstates/pile_pipe.json' % A, {'variants': {'': {'model': 'rotarycraft:block/pile_pipe'}}})
+
+# ---- Beam Mirror ----
+rendered_machine('beam_mirror', model='ModelBeamMirror', texture='beammirrortex.png')
+shaped('beam_mirror', [' m ', ' s ', ' p '], {'p': BASEPANEL, 'm': MIRROR, 's': STEEL})
+names({'block.rotarycraft.beam_mirror': 'Beam Mirror'})
+
+# ---- Firework Machine (a plain cube) ----
+
+
+def firework_mark(im):
+    from PIL import ImageDraw
+    g = ImageDraw.Draw(im)
+    g.rectangle([3, 3, 12, 12], fill=(40, 30, 60, 255), outline=(150, 154, 162, 255))
+    for x, y, c in ((8, 4, (255, 90, 90, 255)), (5, 7, (255, 220, 80, 255)), (11, 7, (90, 200, 255, 255)), (8, 10, (120, 255, 140, 255))):
+        g.point((x, y), fill=c)
+        g.point((x + 1, y), fill=c)
+        g.point((x, y + 1), fill=c)
+
+
+drawn_machine('firework_machine', firework_mark, face='up')
+gui('basicstorage.png', 'firework_machine')
+shaped('firework_machine', ['BEB', 'BDB', 'BRB'], {'B': BASEPANEL, 'E': vanilla('ender_eye'), 'D': vanilla('dispenser'), 'R': vanilla('redstone')})
+names({'block.rotarycraft.firework_machine': 'Firework Machine'})
+
 mg.finish()

@@ -526,5 +526,9 @@
   "block.rotarycraft.beam": "Light Beam",
   "block.rotarycraft.bridge": "Light Bridge Beam",
   "block.rotarycraft.aerosolizer": "Aerosolizer",
-  "block.rotarycraft.self_destruct": "Self Destruct"
+  "block.rotarycraft.self_destruct": "Self Destruct",
+  "block.rotarycraft.pile_driver": "Pile Driver",
+  "block.rotarycraft.pile_pipe": "Pile",
+  "block.rotarycraft.beam_mirror": "Beam Mirror",
+  "block.rotarycraft.firework_machine": "Firework Machine"
 }

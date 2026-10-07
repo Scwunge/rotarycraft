@@ -123,6 +123,9 @@
     "rotarycraft:floodlight",
     "rotarycraft:light_bridge",
     "rotarycraft:aerosolizer",
-    "rotarycraft:self_destruct"
+    "rotarycraft:self_destruct",
+    "rotarycraft:pile_driver",
+    "rotarycraft:beam_mirror",
+    "rotarycraft:firework_machine"
   ]
 }

@@ -5,7 +5,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -149,7 +148,7 @@ public class LineBuilderBlockEntity extends InventoryMachineBlockEntity {
         BlockPos first = worldPosition.relative(dir);
         server.setBlock(first, item.getBlock().defaultBlockState(), 3);
         items.extractItem(slot, 1, false);
-        server.playSound(null, first, SoundEvents.PISTON_EXTEND, SoundSource.BLOCKS, 0.5F, 1F);
+        server.playSound(null, first, net.scwunge.rotarycraft.registry.MachineSoundRegistry.get("linebuild").get(), SoundSource.BLOCKS, 1F, 1F);
         return true;
     }
 

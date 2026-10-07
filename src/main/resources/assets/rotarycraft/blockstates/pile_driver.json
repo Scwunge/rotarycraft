@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/pile_driver"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/pile_driver"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/pile_driver"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/pile_driver"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/pile_driver"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/pile_driver"
+    }
+  }
+}

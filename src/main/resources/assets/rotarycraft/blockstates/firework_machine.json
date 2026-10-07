@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/firework_machine"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/firework_machine"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/firework_machine"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/firework_machine"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/firework_machine"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/firework_machine"
+    }
+  }
+}

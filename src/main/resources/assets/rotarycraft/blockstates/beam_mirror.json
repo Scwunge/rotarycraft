@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/beam_mirror"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/beam_mirror"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/beam_mirror"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/beam_mirror"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/beam_mirror"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/beam_mirror"
+    }
+  }
+}

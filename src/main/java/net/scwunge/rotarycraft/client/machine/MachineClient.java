@@ -21,6 +21,8 @@ public final class MachineClient {
     private static final FloodlightRenderer FLOODLIGHT = new FloodlightRenderer();
     private static final LightBridgeRenderer LIGHT_BRIDGE = new LightBridgeRenderer();
     private static final AerosolizerRenderer AEROSOLIZER = new AerosolizerRenderer();
+    private static final PileDriverRenderer PILE_DRIVER = new PileDriverRenderer();
+    private static final BeamMirrorRenderer BEAM_MIRROR = new BeamMirrorRenderer();
 
     private MachineClient() {}
 
@@ -42,6 +44,8 @@ public final class MachineClient {
         event.registerBlockEntityRenderer(DecorRegistry.FLOODLIGHT.type().get(), c -> FLOODLIGHT);
         event.registerBlockEntityRenderer(DecorRegistry.LIGHT_BRIDGE.type().get(), c -> LIGHT_BRIDGE);
         event.registerBlockEntityRenderer(DecorRegistry.AEROSOLIZER.type().get(), c -> AEROSOLIZER);
+        event.registerBlockEntityRenderer(DecorRegistry.PILE_DRIVER.type().get(), c -> PILE_DRIVER);
+        event.registerBlockEntityRenderer(DecorRegistry.BEAM_MIRROR.type().get(), c -> BEAM_MIRROR);
     }
 
     private static IClientItemExtensions modelItem(ModelMachineRenderer<?> renderer) {
@@ -66,5 +70,7 @@ public final class MachineClient {
         event.registerItem(modelItem(FLOODLIGHT), DecorRegistry.FLOODLIGHT.block().get().asItem());
         event.registerItem(modelItem(LIGHT_BRIDGE), DecorRegistry.LIGHT_BRIDGE.block().get().asItem());
         event.registerItem(modelItem(AEROSOLIZER), DecorRegistry.AEROSOLIZER.block().get().asItem());
+        event.registerItem(modelItem(PILE_DRIVER), DecorRegistry.PILE_DRIVER.block().get().asItem());
+        event.registerItem(modelItem(BEAM_MIRROR), DecorRegistry.BEAM_MIRROR.block().get().asItem());
     }
 }

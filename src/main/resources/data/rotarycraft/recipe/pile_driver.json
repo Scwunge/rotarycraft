@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "PGP",
+    "gFg",
+    "PDP"
+  ],
+  "key": {
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear_unit_8"
+    },
+    "g": {
+      "item": "rotarycraft:shaft_steel"
+    },
+    "F": {
+      "item": "rotarycraft:bedrock_flywheel_core"
+    },
+    "D": {
+      "item": "rotarycraft:drill"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:pile_driver",
+    "count": 1
+  }
+}
