@@ -83,7 +83,8 @@ for block, model, tex in [('pump', 'ModelPump', 'pumptex.png'), ('friction_heate
                           ('grinder', 'ModelGrinder', 'grindertex.png'), ('magnetizer', 'ModelMagnetizer', 'magnettex.png'),
                           ('fractionator', 'ModelFraction', 'fractex.png'), ('pulse_furnace', 'ModelPulseFurnace', 'PulseJet/pulsetex.png'),
                           ('rock_melter', 'ModelLavaMaker', 'lavamakertex.png'), ('extractor', 'ModelExtractor', 'extractortex.png'),
-                          ('compactor', 'ModelCompactor', 'compactortex.png'), ('centrifuge', 'ModelCentrifuge', 'centrifugetex.png')]:
+                          ('compactor', 'ModelCompactor', 'compactortex.png'), ('centrifuge', 'ModelCentrifuge', 'centrifugetex.png'),
+                          ('electric_motor', 'ModelElecMotor', 'Converter/elecmotortex.png'), ('generator', 'ModelGenerator', 'Converter/generatortex.png')]:
     texture(tex, block)
     MODELS.append('%s:%s' % (model, block))
     rendered(block)

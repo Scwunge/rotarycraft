@@ -27,7 +27,7 @@ def num(s):
 
 
 def convert(name, out_name=None):
-    paths = glob.glob('reference/RotaryCraft/Models/**/%s.java' % name, recursive=True)
+    paths = glob.glob('reference/RotaryCraft/**/%s.java' % name, recursive=True)
     if not paths:
         raise SystemExit('no model ' + name)
     src = open(paths[0], encoding='utf-8', errors='replace').read()

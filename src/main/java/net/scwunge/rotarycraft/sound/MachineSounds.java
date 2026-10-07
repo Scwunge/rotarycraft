@@ -119,6 +119,14 @@ public final class MachineSounds {
         return muffled ? volume * 0.25F : volume;
     }
 
+    /** A one-off sound from a machine at the machine volume (the borer's rumble as it digs, for one). */
+    public static void playOnce(ServerLevel server, BlockPos pos, String sound, float volume, float pitch) {
+        float scaled = volume * SoundConfig.machineVolume() * (isMuffled(server, pos) ? 0.25F : 1F);
+        if (scaled > 0) {
+            server.playSound(null, pos, MachineSoundRegistry.get(sound).get(), SoundSource.BLOCKS, scaled, pitch);
+        }
+    }
+
     /** Called once a tick for each machine on the server: plays its sound if it is time for the next. */
     public static void tick(PowerBlockEntity be) {
         if (!(be.getLevel() instanceof ServerLevel server)) {

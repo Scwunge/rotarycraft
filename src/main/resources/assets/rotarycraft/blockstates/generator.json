@@ -1,27 +1,22 @@
 {
   "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/generator"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/generator"
+    },
     "facing=north": {
       "model": "rotarycraft:block/generator"
     },
     "facing=south": {
-      "model": "rotarycraft:block/generator",
-      "y": 180
+      "model": "rotarycraft:block/generator"
     },
     "facing=east": {
-      "model": "rotarycraft:block/generator",
-      "y": 90
+      "model": "rotarycraft:block/generator"
     },
     "facing=west": {
-      "model": "rotarycraft:block/generator",
-      "y": 270
-    },
-    "facing=up": {
-      "model": "rotarycraft:block/generator",
-      "x": 270
-    },
-    "facing=down": {
-      "model": "rotarycraft:block/generator",
-      "x": 90
+      "model": "rotarycraft:block/generator"
     }
   }
 }

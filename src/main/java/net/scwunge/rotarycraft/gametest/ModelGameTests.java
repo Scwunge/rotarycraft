@@ -29,10 +29,11 @@ public class ModelGameTests {
             {"extractor", "extractor"}, {"compactor", "compactor"}, {"centrifuge", "centrifuge"}, {"fan", "fan"}, {"sprinkler", "sprinkler"},
             {"lawn_sprinkler", "lawn_sprinkler"}, {"reservoir", "ground_hydrator"}, {"fertilizer", "fertilizer"}, {"defoliator", "defoliator"},
             {"woodcutter", "woodcutter"}, {"vacuum", "vacuum"}, {"auto_breeder", "auto_breeder"}, {"bait_box", "bait_box"}, {"mob_harvester", "mob_harvester"},
-            {"spawner_controller", "spawner_controller"}, {"bevel_gear", "bevel_gear"}, {"splitter", "splitter"}, {"splitter2", "splitter_bedrock"}};
+            {"spawner_controller", "spawner_controller"}, {"bevel_gear", "bevel_gear"}, {"splitter", "splitter"}, {"splitter2", "splitter_bedrock"},
+            {"electric_motor", "electric_motor"}, {"generator", "generator"}};
     /** The ones that stand still (no moving parts in the original). */
     private static final Set<String> STILL = Set.of("fractionator", "pulse_furnace", "extractor", "refrigerator", "sprinkler", "reservoir", "vacuum", "auto_breeder",
-            "bait_box", "mob_harvester", "spawner_controller", "bevel_gear", "splitter", "splitter2");
+            "bait_box", "mob_harvester", "spawner_controller", "generator", "bevel_gear", "splitter", "splitter2");
 
     private static JsonObject read(String model) throws IOException {
         try (var in = ModelGameTests.class.getResourceAsStream("/assets/rotarycraft/reika_models/" + model + ".json")) {

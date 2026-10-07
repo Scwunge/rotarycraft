@@ -26,6 +26,8 @@ import net.scwunge.rotarycraft.blockentity.FractionatorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.FrictionHeaterBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GasEngineBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GearboxBlockEntity;
+import net.scwunge.rotarycraft.blockentity.GeneratorBlockEntity;
+import net.scwunge.rotarycraft.blockentity.MotorBlockEntity;
 import net.scwunge.rotarycraft.blockentity.GrinderBlockEntity;
 import net.scwunge.rotarycraft.blockentity.HydroEngineBlockEntity;
 import net.scwunge.rotarycraft.blockentity.JetEngineBlockEntity;
@@ -60,6 +62,8 @@ public final class ModelMachinesClient {
     static final float[] FRIDGE = {270, 90, 0, 180};
     static final float[] EXTRACTOR = {90, 270, 0, 180};
     static final float[] PUMP = {90, 90, 0, 0};
+    static final float[] MOTOR = {180, 90, 0, 270};
+    static final float[] GENERATOR = {0, 270, 180, 90};
 
     /** The turn of the parts each tick, in degrees, while the machine's shaft turns. */
     static double spin(PowerBlockEntity be, double power) {
@@ -106,6 +110,8 @@ public final class ModelMachinesClient {
             .withFlags(be -> new boolean[] {be.hasStoneClient()});
     static final Look<ExtractorBlockEntity> EXTRACTOR_LOOK = Look.still("extractor", "extractor", EXTRACTOR);
     static final Look<CompactorBlockEntity> COMPACTOR_LOOK = Look.spinning("compactor", "compactor", COMPACTOR, be -> spin(be, 1.05), 1);
+    static final Look<MotorBlockEntity> MOTOR_LOOK = Look.spinning("electric_motor", "electric_motor", MOTOR, be -> spin(be, 1.05), 1);
+    static final Look<GeneratorBlockEntity> GENERATOR_LOOK = Look.still("generator", "generator", GENERATOR);
     static final Look<CentrifugeBlockEntity> CENTRIFUGE = Look.spinning("centrifuge", "centrifuge", null, be -> spin(be, 1.05), 1);
 
     private static <T extends PowerBlockEntity> void renderer(EntityRenderersEvent.RegisterRenderers event, Supplier<BlockEntityType<T>> type, Look<T> look) {
@@ -138,6 +144,8 @@ public final class ModelMachinesClient {
         renderer(event, RotaryBlockEntities.EXTRACTOR::get, EXTRACTOR_LOOK);
         renderer(event, RotaryBlockEntities.COMPACTOR::get, COMPACTOR_LOOK);
         renderer(event, RotaryBlockEntities.CENTRIFUGE::get, CENTRIFUGE);
+        renderer(event, RotaryBlockEntities.ELECTRIC_MOTOR::get, MOTOR_LOOK);
+        renderer(event, RotaryBlockEntities.GENERATOR::get, GENERATOR_LOOK);
         event.registerBlockEntityRenderer(RotaryBlockEntities.BEVEL_GEAR.get(), c -> new JunctionRenderers.Bevel());
         event.registerBlockEntityRenderer(RotaryBlockEntities.SPLITTER.get(), c -> new JunctionRenderers.Splitter());
     }
@@ -184,6 +192,8 @@ public final class ModelMachinesClient {
         item(event, RotaryBlocks.EXTRACTOR, EXTRACTOR_LOOK, "extractor", "extractor");
         item(event, RotaryBlocks.COMPACTOR, COMPACTOR_LOOK, "compactor", "compactor");
         item(event, RotaryBlocks.CENTRIFUGE, CENTRIFUGE, "centrifuge", "centrifuge");
+        item(event, RotaryBlocks.ELECTRIC_MOTOR, MOTOR_LOOK, "electric_motor", "electric_motor");
+        item(event, RotaryBlocks.GENERATOR, GENERATOR_LOOK, "generator", "generator");
         event.registerItem(new IClientItemExtensions() {
             private BlockEntityWithoutLevelRenderer renderer;
 
