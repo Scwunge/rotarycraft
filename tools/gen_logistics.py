@@ -133,4 +133,22 @@ w('%s/loot_table/blocks/scale_chest.json' % D, {'type': 'minecraft:block', 'pool
     'functions': [{'function': 'minecraft:copy_components', 'source': 'block_entity', 'include': ['rotarycraft:chest_contents']}]}]})
 names({'block.rotarycraft.scale_chest': 'Scale-able Chest', 'gui.rotarycraft.scale_chest.unpowered': 'The chest has no power'})
 
+# ---- Sorting Machine (a plain cube) ----
+
+
+def sorting_mark(im):
+    from PIL import ImageDraw
+    g = ImageDraw.Draw(im)
+    g.rectangle([3, 3, 12, 12], fill=(60, 64, 76, 255), outline=(150, 154, 162, 255))
+    g.line([(8, 4), (8, 8)], fill=(230, 230, 235, 255))
+    g.line([(8, 8), (4, 11)], fill=(230, 160, 60, 255))
+    g.line([(8, 8), (12, 11)], fill=(90, 190, 90, 255))
+    g.line([(8, 8), (8, 11)], fill=(90, 130, 220, 255))
+
+
+drawn_machine('sorting', sorting_mark, face='up')
+gui('sortergui.png', 'sorting')
+shaped('sorting', ['SHS', ' C ', 'P P'], {'S': STEEL, 'H': vanilla('hopper'), 'C': CIRCUIT, 'P': BASEPANEL})
+names({'block.rotarycraft.sorting': 'Sorting Machine'})
+
 mg.finish()

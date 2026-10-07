@@ -9,7 +9,7 @@ import java.util.List;
  * the menu's name and the picture's: {@code textures/gui/<name>.png}.
  */
 public record GuiLayout(String name, int width, int height, List<SlotPos> slots, List<Gauge> gauges, List<Bar> bars, int tankCount, int extraCount,
-                        int inventoryX, int inventoryY, int storageRows, boolean customScreen, List<Field> fields, List<Button> buttons) {
+                        int inventoryX, int inventoryY, int storageRows, boolean customScreen, List<Field> fields, List<Button> buttons, int ghostFrom) {
     public record SlotPos(int x, int y) {
     }
 
@@ -53,6 +53,7 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
         private int extras;
         private int storageRows;
         private boolean customScreen;
+        private int ghostFrom = -1;
         private final List<SlotPos> slots = new ArrayList<>();
         private final List<Gauge> gauges = new ArrayList<>();
         private final List<Bar> bars = new ArrayList<>();
@@ -91,6 +92,12 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
         /** The screen has no room for the player's inventory (a machine that is all controls). */
         public Builder noInventory() {
             inventoryX = -1;
+            return this;
+        }
+
+        /** The slots added from here on are pattern slots: clicking one with an item held puts a copy of it there (if the machine will have it) and with nothing held clears it. */
+        public Builder ghostSlots() {
+            ghostFrom = slots.size();
             return this;
         }
 
@@ -165,7 +172,7 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
         }
 
         public GuiLayout build() {
-            return new GuiLayout(name, width, height, List.copyOf(slots), List.copyOf(gauges), List.copyOf(bars), tanks, extras, inventoryX, inventoryY, storageRows, customScreen, List.copyOf(fields), List.copyOf(buttons));
+            return new GuiLayout(name, width, height, List.copyOf(slots), List.copyOf(gauges), List.copyOf(bars), tanks, extras, inventoryX, inventoryY, storageRows, customScreen, List.copyOf(fields), List.copyOf(buttons), ghostFrom);
         }
     }
 

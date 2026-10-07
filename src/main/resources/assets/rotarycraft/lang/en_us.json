@@ -619,6 +619,7 @@
   "block.rotarycraft.spillway": "Spillway",
   "block.rotarycraft.scale_chest": "Scale-able Chest",
   "gui.rotarycraft.scale_chest.unpowered": "The chest has no power",
+  "block.rotarycraft.sorting": "Sorting Machine",
   "block.rotarycraft.worktable": "Worktable",
   "block.rotarycraft.auto_crafter": "Auto-Crafter",
   "item.rotarycraft.craft_pattern": "Craft Pattern",

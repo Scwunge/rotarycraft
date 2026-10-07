@@ -149,7 +149,7 @@ MAP|SMOKEDETECTOR|smoke_detector
 MAP|SOLARTOWER|solar_tower
 MAP|SONICBORER|sonic_borer
 MAP|SONICWEAPON|sonic_weapon
-PENDING|SORTING|not ported yet
+MAP|SORTING|sorting
 MAP|SPAWNERCONTROLLER|spawner_controller
 MAP|SPILLER|spiller
 MAP|SPILLWAY|spillway

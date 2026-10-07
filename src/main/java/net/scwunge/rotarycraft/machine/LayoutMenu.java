@@ -26,7 +26,7 @@ public class LayoutMenu extends AbstractContainerMenu {
         this.data = data;
         for (int i = 0; i < layout.slots().size(); i++) {
             GuiLayout.SlotPos p = layout.slots().get(i);
-            addSlot(new SlotItemHandler(items, i, p.x(), p.y()));
+            addSlot(layout.ghostFrom() >= 0 && i >= layout.ghostFrom() ? new GhostSlot(items, i, p.x(), p.y()) : new SlotItemHandler(items, i, p.x(), p.y()));
         }
         for (int row = 0; row < 3 && layout.inventoryX() >= 0; row++) {
             for (int col = 0; col < 9; col++) {
@@ -37,6 +37,43 @@ public class LayoutMenu extends AbstractContainerMenu {
             addSlot(new Slot(inventory, col, layout.inventoryX() + col * 18, layout.inventoryY() + 58));
         }
         addDataSlots(data);
+    }
+
+    /** A pattern slot: it holds a copy of an item to match against, never the item itself. */
+    public static class GhostSlot extends SlotItemHandler {
+        public GhostSlot(ItemStackHandler handler, int index, int x, int y) {
+            super(handler, index, x, y);
+        }
+
+        @Override
+        public boolean mayPlace(ItemStack stack) {
+            return false;
+        }
+
+        @Override
+        public boolean mayPickup(Player player) {
+            return false;
+        }
+    }
+
+    @Override
+    public void clicked(int slotId, int button, net.minecraft.world.inventory.ClickType type, Player player) {
+        if (slotId >= 0 && slotId < slots.size() && slots.get(slotId) instanceof GhostSlot ghost) {
+            if (type == net.minecraft.world.inventory.ClickType.PICKUP || type == net.minecraft.world.inventory.ClickType.SWAP) {
+                ItemStack carried = getCarried();
+                ItemStackHandler handler = (ItemStackHandler) ghost.getItemHandler();
+                if (carried.isEmpty()) {
+                    handler.setStackInSlot(ghost.getSlotIndex(), ItemStack.EMPTY);
+                } else if (handler.isItemValid(ghost.getSlotIndex(), carried)) {
+                    handler.setStackInSlot(ghost.getSlotIndex(), carried.copyWithCount(1));
+                }
+                if (!player.level().isClientSide()) {
+                    sendAllDataToRemote();
+                }
+            }
+            return;
+        }
+        super.clicked(slotId, button, type, player);
     }
 
     public GuiLayout layout() {
@@ -81,7 +118,7 @@ public class LayoutMenu extends AbstractContainerMenu {
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         Slot slot = slots.get(index);
-        if (!slot.hasItem()) {
+        if (slot instanceof GhostSlot || !slot.hasItem()) {
             return ItemStack.EMPTY;
         }
         int machineSlots = layout.slots().size();

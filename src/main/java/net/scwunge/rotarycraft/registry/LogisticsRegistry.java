@@ -22,6 +22,7 @@ import net.scwunge.rotarycraft.logistics.ChestContents;
 import net.scwunge.rotarycraft.logistics.ScaleChestBlockEntity;
 import net.scwunge.rotarycraft.logistics.ScaleChestMenu;
 import net.scwunge.rotarycraft.logistics.PurifierBlockEntity;
+import net.scwunge.rotarycraft.logistics.SortingBlockEntity;
 import net.scwunge.rotarycraft.logistics.SpillwayBlockEntity;
 import net.scwunge.rotarycraft.logistics.WetterBlockEntity;
 import net.scwunge.rotarycraft.recipe.WettingRecipe;
@@ -67,6 +68,9 @@ public final class LogisticsRegistry {
     public static final Machines.Entry<FillingStationBlockEntity, LayoutMachineBlock> FILLING_STATION = Machines.machine("filling_station", FillingStationBlockEntity::new);
     public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> FILLING_STATION_MENU = LayoutMenus.register(FillingStationBlockEntity.LAYOUT);
 
+    public static final Machines.Entry<SortingBlockEntity, LayoutMachineBlock> SORTING = Machines.register("sorting", SortingBlockEntity::new,
+            type -> new LayoutMachineBlock(RotaryBlocks.machineProps().noOcclusion(), type::get, SortingBlockEntity::new, true));
+    public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> SORTING_MENU = LayoutMenus.register(SortingBlockEntity.LAYOUT);
     public static final Machines.Entry<ScaleChestBlockEntity, LayoutMachineBlock> SCALE_CHEST = Machines.machine("scale_chest", ScaleChestBlockEntity::new);
     public static final DeferredHolder<MenuType<?>, MenuType<ScaleChestMenu>> SCALE_CHEST_MENU = RotaryMenus.MENUS.register("scale_chest",
             () -> IMenuTypeExtension.create((id, inventory, buf) -> ScaleChestMenu.client(LogisticsRegistry.SCALE_CHEST_MENU.get(), id, inventory, buf.readBlockPos())));
