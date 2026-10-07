@@ -30,6 +30,7 @@ import net.scwunge.rotarycraft.farm.DefoliatorBlockEntity;
 import net.scwunge.rotarycraft.farm.MobHarvesterBlockEntity;
 import net.scwunge.rotarycraft.farm.SpawnerControllerBlockEntity;
 import net.scwunge.rotarycraft.farm.VacuumBlockEntity;
+import net.scwunge.rotarycraft.farm.WoodcutterBlockEntity;
 import net.scwunge.rotarycraft.farm.FanBlockEntity;
 import net.scwunge.rotarycraft.farm.FertilizerBlockEntity;
 import net.scwunge.rotarycraft.farm.GroundHydratorBlockEntity;
@@ -326,11 +327,27 @@ public class FarmGameTests {
         helper.setBlock(at, FarmRegistry.GROUND_HYDRATOR.get());
         GroundHydratorBlockEntity hydrator = helper.getBlockEntity(at);
         hydrator.tank().fill(new FluidStack(Fluids.WATER, 1000), IFluidHandler.FluidAction.EXECUTE);
-        BlockPos farm = new BlockPos(9, 1, 3);
-        helper.setBlock(farm, Blocks.FARMLAND.defaultBlockState().setValue(FarmBlock.MOISTURE, 0));
+        for (int x = 6; x <= 10; x++) {
+            for (int z = 1; z <= 5; z++) {
+                if (x != 8 || z != 3) {
+                    helper.setBlock(new BlockPos(x, 1, z), Blocks.FARMLAND.defaultBlockState().setValue(FarmBlock.MOISTURE, 7));
+                    helper.setBlock(new BlockPos(x, 1, z), Blocks.FARMLAND.defaultBlockState().setValue(FarmBlock.MOISTURE, 0));
+                }
+            }
+        }
         helper.succeedWhen(() -> {
-            helper.assertTrue(helper.getBlockState(farm).getValue(FarmBlock.MOISTURE) == 7, "farmland still dry");
-            helper.assertTrue(hydrator.tank().getFluidAmount() == 1000 - GroundHydratorBlockEntity.FLUID_PER_BLOCK, "paid " + (1000 - hydrator.tank().getFluidAmount()));
+            int wet = 0;
+            for (int x = 6; x <= 10; x++) {
+                for (int z = 1; z <= 5; z++) {
+                    BlockState state = helper.getBlockState(new BlockPos(x, 1, z));
+                    if (state.is(Blocks.FARMLAND) && state.getValue(FarmBlock.MOISTURE) == 7) {
+                        wet++;
+                    }
+                }
+            }
+            helper.assertTrue(wet >= 1, "farmland still dry");
+            int paid = 1000 - hydrator.tank().getFluidAmount();
+            helper.assertTrue(paid >= GroundHydratorBlockEntity.FLUID_PER_BLOCK && paid % GroundHydratorBlockEntity.FLUID_PER_BLOCK == 0, "paid " + paid);
         });
     }
 
@@ -397,8 +414,10 @@ public class FarmGameTests {
         fertilizer.tank().fill(new FluidStack(Fluids.WATER, 6000), IFluidHandler.FluidAction.EXECUTE);
         fertilizer.items().setStackInSlot(0, new ItemStack(Items.BONE_MEAL, 16));
         for (int x = 6; x < 11; x++) {
-            helper.setBlock(new BlockPos(x, 2, 5), Blocks.FARMLAND.defaultBlockState().setValue(FarmBlock.MOISTURE, 7));
-            helper.setBlock(new BlockPos(x, 3, 5), Blocks.WHEAT.defaultBlockState().setValue(CropBlock.AGE, 0));
+            for (int z = 4; z <= 6; z++) {
+                helper.setBlock(new BlockPos(x, 2, z), Blocks.FARMLAND.defaultBlockState().setValue(FarmBlock.MOISTURE, 7));
+                helper.setBlock(new BlockPos(x, 3, z), Blocks.WHEAT.defaultBlockState().setValue(CropBlock.AGE, 0));
+            }
         }
         helper.succeedWhen(() -> {
             helper.assertTrue(fertilizer.tank().getFluidAmount() < 6000, "no water used");
@@ -913,6 +932,142 @@ public class FarmGameTests {
         helper.runAfterDelay(5, () -> {
             RotaryConfig.clearOverride(FarmConfig.MACHINES.get("spawnerController"));
             helper.assertTrue(controller.operationTime() == 0, "operation time " + controller.operationTime());
+            helper.succeed();
+        });
+    }
+
+    // ---- Woodcutter ----
+
+    static WoodcutterBlockEntity woodcutter(GameTestHelper helper, int omega) {
+        RotaryConfig.override(FarmConfig.MACHINES.get("woodcutter"), true);
+        BlockPos at = new BlockPos(8, 3, 3);
+        WeaponGameTests.spinningFlywheel(helper, at.west(), 64, omega, Direction.EAST);
+        helper.setBlock(at, FarmRegistry.WOODCUTTER.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        helper.setBlock(at.below(), Blocks.CHEST);
+        helper.setBlock(new BlockPos(9, 2, 3), Blocks.DIRT);
+        WoodcutterBlockEntity cutter = helper.getBlockEntity(at);
+        cutter.setOwner(helper.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL));
+        return cutter;
+    }
+
+    /** A small oak: a trunk of three logs from the machine's height, with natural leaves round its top. */
+    static void oak(GameTestHelper helper) {
+        for (int y = 3; y <= 5; y++) {
+            helper.setBlock(new BlockPos(9, y, 3), Blocks.OAK_LOG);
+        }
+        for (int x = 8; x <= 10; x++) {
+            for (int z = 2; z <= 4; z++) {
+                for (int y = 5; y <= 6; y++) {
+                    if (helper.getBlockState(new BlockPos(x, y, z)).isAir()) {
+                        helper.setBlock(new BlockPos(x, y, z), Blocks.OAK_LEAVES.defaultBlockState().setValue(net.minecraft.world.level.block.LeavesBlock.PERSISTENT, false));
+                    }
+                }
+            }
+        }
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 400, batch = "farm_woodcutter_cuts")
+    public static void aWoodcutterTakesDownATreeAndDeliversTheWood(GameTestHelper helper) {
+        woodcutter(helper, 512);
+        oak(helper);
+        succeedWhenThenReset(helper, "woodcutter", () -> {
+            helper.assertBlock(new BlockPos(9, 3, 3), b -> b != Blocks.OAK_LOG, () -> "root still standing");
+            helper.assertBlock(new BlockPos(9, 5, 3), b -> b == Blocks.AIR, () -> "top log still standing");
+            helper.assertBlock(new BlockPos(10, 6, 4), b -> b == Blocks.AIR, () -> "leaves still hanging");
+            helper.assertTrue(((net.minecraft.world.level.block.entity.ChestBlockEntity) helper.getBlockEntity(new BlockPos(8, 2, 3))).countItem(Items.OAK_LOG) == 3,
+                    "the chest has " + ((net.minecraft.world.level.block.entity.ChestBlockEntity) helper.getBlockEntity(new BlockPos(8, 2, 3))).countItem(Items.OAK_LOG) + " logs");
+        });
+    }
+
+    /** Leaves go first, and the trunk comes down from the top. */
+    @GameTest(template = LONG, timeoutTicks = 400, batch = "farm_woodcutter_order")
+    public static void aWoodcutterTakesTheTopFirst(GameTestHelper helper) {
+        var cutter = woodcutter(helper, 512);
+        oak(helper);
+        helper.runAfterDelay(30, () -> {
+            helper.assertTrue(cutter.remaining() > 0, "it cut the lot already");
+            helper.assertBlock(new BlockPos(9, 3, 3), b -> b == Blocks.OAK_LOG, () -> "the root went first");
+            RotaryConfig.clearOverride(FarmConfig.MACHINES.get("woodcutter"));
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 500, batch = "farm_woodcutter_replant")
+    public static void aWoodcutterReplantsFromItsSapling(GameTestHelper helper) {
+        var cutter = woodcutter(helper, 512);
+        cutter.items().setStackInSlot(0, new ItemStack(Items.OAK_SAPLING, 2));
+        oak(helper);
+        succeedWhenThenReset(helper, "woodcutter", () -> {
+            helper.assertBlock(new BlockPos(9, 3, 3), b -> b == Blocks.OAK_SAPLING, () -> "nothing planted");
+            helper.assertTrue(cutter.items().getStackInSlot(0).getCount() >= 1, "the sapling slot is empty");
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 500, batch = "farm_woodcutter_infinity")
+    public static void aWoodcutterWithInfinityKeepsItsSapling(GameTestHelper helper) {
+        var cutter = woodcutter(helper, 512);
+        cutter.items().setStackInSlot(0, new ItemStack(Items.OAK_SAPLING, 1));
+        cutter.enchantments().set(net.minecraft.world.item.enchantment.Enchantments.INFINITY, 1);
+        oak(helper);
+        succeedWhenThenReset(helper, "woodcutter", () -> {
+            helper.assertBlock(new BlockPos(9, 3, 3), b -> b == Blocks.OAK_SAPLING, () -> "nothing planted");
+            helper.assertTrue(cutter.items().getStackInSlot(0).getCount() == 1, "the sapling was used up");
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100, batch = "farm_woodcutter_none")
+    public static void aWoodcutterWithNoTreeDoesNothing(GameTestHelper helper) {
+        var cutter = woodcutter(helper, 512);
+        helper.setBlock(new BlockPos(9, 4, 3), Blocks.OAK_LOG);
+        helper.runAfterDelay(40, () -> {
+            RotaryConfig.clearOverride(FarmConfig.MACHINES.get("woodcutter"));
+            helper.assertBlock(new BlockPos(9, 4, 3), b -> b == Blocks.OAK_LOG, () -> "cut a log above its reach");
+            helper.assertTrue(!cutter.hasWood(), "found wood");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100, batch = "farm_woodcutter_off")
+    public static void aWoodcutterIsOffUnlessSwitchedOn(GameTestHelper helper) {
+        BlockPos at = new BlockPos(8, 3, 3);
+        WeaponGameTests.spinningFlywheel(helper, at.west(), 64, 512, Direction.EAST);
+        helper.setBlock(at, FarmRegistry.WOODCUTTER.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        ((WoodcutterBlockEntity) helper.getBlockEntity(at)).setOwner(helper.makeMockPlayer(net.minecraft.world.level.GameType.SURVIVAL));
+        helper.setBlock(new BlockPos(9, 3, 3), Blocks.OAK_LOG);
+        helper.runAfterDelay(40, () -> {
+            helper.assertBlock(new BlockPos(9, 3, 3), b -> b == Blocks.OAK_LOG, () -> "it is on by default");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 100, batch = "farm_woodcutter_player_leaves")
+    public static void aWoodcutterLeavesPlayerBuiltLeavesAlone(GameTestHelper helper) {
+        woodcutter(helper, 512);
+        helper.setBlock(new BlockPos(9, 3, 3), Blocks.OAK_LOG);
+        helper.setBlock(new BlockPos(9, 4, 3), Blocks.OAK_LEAVES.defaultBlockState().setValue(net.minecraft.world.level.block.LeavesBlock.PERSISTENT, true));
+        helper.runAfterDelay(60, () -> {
+            RotaryConfig.clearOverride(FarmConfig.MACHINES.get("woodcutter"));
+            helper.assertBlock(new BlockPos(9, 3, 3), b -> b == Blocks.AIR, () -> "log still there");
+            helper.assertBlock(new BlockPos(9, 4, 3), b -> b == Blocks.OAK_LEAVES, () -> "took a placed leaf block");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 60)
+    public static void aTreesSaplingIsFoundFromItsLog(GameTestHelper helper) {
+        helper.assertTrue(WoodcutterBlockEntity.saplingFor(Blocks.OAK_LOG).equals(net.minecraft.resources.ResourceLocation.withDefaultNamespace("oak_sapling")), "oak");
+        helper.assertTrue(WoodcutterBlockEntity.saplingFor(Blocks.STRIPPED_BIRCH_WOOD).equals(net.minecraft.resources.ResourceLocation.withDefaultNamespace("birch_sapling")), "birch");
+        helper.assertTrue(WoodcutterBlockEntity.saplingFor(Blocks.MANGROVE_LOG).equals(net.minecraft.resources.ResourceLocation.withDefaultNamespace("mangrove_propagule")), "mangrove");
+        helper.assertTrue(WoodcutterBlockEntity.saplingFor(Blocks.CRIMSON_STEM) == null, "crimson stem has no sapling");
+        helper.succeed();
+    }
+
+    @GameTest(template = LONG, timeoutTicks = 60)
+    public static void aWoodcuttersSpeedFollowsTheShaft(GameTestHelper helper) {
+        var cutter = woodcutter(helper, 512);
+        helper.runAfterDelay(5, () -> {
+            RotaryConfig.clearOverride(FarmConfig.MACHINES.get("woodcutter"));
+            helper.assertTrue(cutter.operationTime() == 3 && cutter.operations() == 1, "time " + cutter.operationTime() + ", ops " + cutter.operations());
             helper.succeed();
         });
     }

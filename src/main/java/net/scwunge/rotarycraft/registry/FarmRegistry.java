@@ -18,6 +18,7 @@ import net.scwunge.rotarycraft.farm.DefoliatorBlockEntity;
 import net.scwunge.rotarycraft.farm.MobHarvesterBlockEntity;
 import net.scwunge.rotarycraft.farm.SpawnerControllerBlockEntity;
 import net.scwunge.rotarycraft.farm.VacuumBlockEntity;
+import net.scwunge.rotarycraft.farm.WoodcutterBlockEntity;
 import net.scwunge.rotarycraft.farm.FanBlockEntity;
 import net.scwunge.rotarycraft.farm.FarmBlock;
 import net.scwunge.rotarycraft.farm.FarmBlockEntity;
@@ -65,6 +66,10 @@ public final class FarmRegistry {
     public static final Machine<MobHarvesterBlockEntity> MOB_HARVESTER_M = machine("mob_harvester", MobHarvesterBlockEntity::new);
     public static final Machine<SpawnerControllerBlockEntity> SPAWNER_CONTROLLER_M = machine("spawner_controller", SpawnerControllerBlockEntity::new);
 
+    public static final Machine<WoodcutterBlockEntity> WOODCUTTER_M = machine("woodcutter", WoodcutterBlockEntity::new);
+    public static final DeferredBlock<FarmBlock> WOODCUTTER = WOODCUTTER_M.block();
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<WoodcutterBlockEntity>> WOODCUTTER_BE = WOODCUTTER_M.be();
+
     public static final DeferredBlock<FarmBlock> DEFOLIATOR = DEFOLIATOR_M.block();
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DefoliatorBlockEntity>> DEFOLIATOR_BE = DEFOLIATOR_M.be();
     public static final DeferredBlock<FarmBlock> BLOWER = BLOWER_M.block();
@@ -105,6 +110,7 @@ public final class FarmRegistry {
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, FERTILIZER_BE.get(), (be, side) -> FluidAccess.fillOnly(be.tank()));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FERTILIZER_BE.get(), (be, side) -> Handlers.insertOnly(be.items()));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, DEFOLIATOR_BE.get(), (be, side) -> Handlers.slots(be.items(), slot -> slot == 0, slot -> slot == 1));
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, WOODCUTTER_BE.get(), (be, side) -> Handlers.extractOnly(be.items()));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, VACUUM_BE.get(), (be, side) -> be.items());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, AUTO_BREEDER_BE.get(), (be, side) -> Handlers.insertOnly(be.items()));
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BAIT_BOX_BE.get(), (be, side) -> be.items());

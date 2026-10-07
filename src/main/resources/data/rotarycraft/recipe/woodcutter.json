@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "IS ",
+    "PGS",
+    "PPI"
+  ],
+  "key": {
+    "I": {
+      "tag": "c:ingots/steel"
+    },
+    "S": {
+      "item": "rotarycraft:saw"
+    },
+    "P": {
+      "item": "rotarycraft:base_panel"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear_unit_2"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:woodcutter",
+    "count": 1
+  }
+}

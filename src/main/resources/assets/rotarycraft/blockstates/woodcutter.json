@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/woodcutter"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/woodcutter"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/woodcutter"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/woodcutter"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/woodcutter"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/woodcutter"
+    }
+  }
+}

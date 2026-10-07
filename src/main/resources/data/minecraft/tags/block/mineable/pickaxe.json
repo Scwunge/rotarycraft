@@ -112,6 +112,7 @@
     "rotarycraft:auto_breeder",
     "rotarycraft:bait_box",
     "rotarycraft:mob_harvester",
-    "rotarycraft:spawner_controller"
+    "rotarycraft:spawner_controller",
+    "rotarycraft:woodcutter"
   ]
 }

@@ -184,8 +184,15 @@ shutil.copy(REF + '/Textures/GUI/spawnercontrollergui.png', T + '/gui/spawner_co
 shaped('spawner_controller', ['PCP', 'OGO', 'g g'], {'O': vanilla('obsidian'), 'P': PANEL, 'G': tag('c:ingots/gold'), 'g': vanilla('glowstone'),
                                                        'C': item('circuit_board')})
 
+# ---- Woodcutter ----
+model_texture('woodcuttertex.png', 'woodcutter')
+rendered_machine('woodcutter')
+MODELS.append('ModelWoodcutter:woodcutter')
+shaped('woodcutter', ['IS ', 'PGS', 'PPI'], {'I': STEEL, 'S': item('saw'), 'P': PANEL, 'G': item('steel_gear_unit_2')})
+
 lang.update({
     'block.rotarycraft.fan': 'Fan',
+    'block.rotarycraft.woodcutter': 'Woodcutter',
     'block.rotarycraft.sprinkler': 'Sprinkler',
     'block.rotarycraft.lawn_sprinkler': 'Lawn Sprinkler',
     'block.rotarycraft.ground_hydrator': 'Ground Hydrator',

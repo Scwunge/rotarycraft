@@ -18,6 +18,7 @@ import net.scwunge.rotarycraft.farm.DefoliatorBlockEntity;
 import net.scwunge.rotarycraft.farm.MobHarvesterBlockEntity;
 import net.scwunge.rotarycraft.farm.SpawnerControllerBlockEntity;
 import net.scwunge.rotarycraft.farm.VacuumBlockEntity;
+import net.scwunge.rotarycraft.farm.WoodcutterBlockEntity;
 import net.scwunge.rotarycraft.farm.FanBlockEntity;
 import net.scwunge.rotarycraft.farm.FarmBlock;
 import net.scwunge.rotarycraft.farm.FarmBlockEntity;
@@ -51,6 +52,10 @@ public final class FarmClient {
 
     static final FarmRenderer.Look<DefoliatorBlockEntity> DEFOLIATOR = new FarmRenderer.Look<>("defoliator", be -> "defoliator", Set.of("Shape1"), Axis.YP, 0, false,
             be -> be.getPower() < DefoliatorBlockEntity.REQUIREMENT.minPower() ? 0 : spin(be.getOmega(), 1));
+    static final FarmRenderer.Look<WoodcutterBlockEntity> WOODCUTTER = new FarmRenderer.Look<>("woodcutter", be -> "woodcutter",
+            Set.of("Shape1", "Shape2", "Shape3", "Shape4", "Shape5a", "Shape5b", "Shape5d", "Shape5e", "Shape5f", "Shape5", "Shape5c", "Shape5g", "Shape6", "Shape7",
+                    "Shape5fa", "Shape5aa", "Shape5ca", "Shape51", "Shape5ga", "Shape5ba", "Shape5ea", "Shape5da", "Shape5fab", "Shape5fa1"),
+            Axis.XP, 1, true, be -> be.getPower() < WoodcutterBlockEntity.REQUIREMENT.minPower() ? 0 : spin(be.getOmega(), 1));
     static final FarmRenderer.Look<VacuumBlockEntity> VACUUM = FarmRenderer.Look.still("vacuum", "vacuum");
     static final FarmRenderer.Look<AutoBreederBlockEntity> AUTO_BREEDER = new FarmRenderer.Look<>("auto_breeder", be -> be.hasFeedClient() ? "auto_breeder" : "auto_breeder_empty",
             Set.of(), null, 0, false, be -> 0);
@@ -67,6 +72,7 @@ public final class FarmClient {
         event.registerBlockEntityRenderer(FarmRegistry.FERTILIZER_BE.get(), c -> new FarmRenderer<>(FERTILIZER));
         event.registerBlockEntityRenderer(FarmRegistry.DEFOLIATOR_BE.get(), c -> new FarmRenderer<>(DEFOLIATOR));
         event.registerBlockEntityRenderer(FarmRegistry.VACUUM_BE.get(), c -> new FarmRenderer<>(VACUUM));
+        event.registerBlockEntityRenderer(FarmRegistry.WOODCUTTER_BE.get(), c -> new FarmRenderer<>(WOODCUTTER));
         event.registerBlockEntityRenderer(FarmRegistry.AUTO_BREEDER_BE.get(), c -> new FarmRenderer<>(AUTO_BREEDER));
         event.registerBlockEntityRenderer(FarmRegistry.BAIT_BOX_BE.get(), c -> new FarmRenderer<>(BAIT_BOX));
         event.registerBlockEntityRenderer(FarmRegistry.MOB_HARVESTER_BE.get(), c -> new FarmRenderer<>(MOB_HARVESTER));
@@ -103,6 +109,7 @@ public final class FarmClient {
         item(event, FarmRegistry.FERTILIZER, FERTILIZER, "fertilizer");
         item(event, FarmRegistry.DEFOLIATOR, DEFOLIATOR, "defoliator");
         item(event, FarmRegistry.VACUUM, VACUUM, "vacuum");
+        item(event, FarmRegistry.WOODCUTTER, WOODCUTTER, "woodcutter");
         item(event, FarmRegistry.AUTO_BREEDER, AUTO_BREEDER, "auto_breeder");
         item(event, FarmRegistry.BAIT_BOX, BAIT_BOX, "bait_box");
         item(event, FarmRegistry.MOB_HARVESTER, MOB_HARVESTER, "mob_harvester");
