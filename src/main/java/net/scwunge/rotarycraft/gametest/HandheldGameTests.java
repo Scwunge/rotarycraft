@@ -325,4 +325,18 @@ public class HandheldGameTests {
             helper.succeed();
         });
     }
+
+    @GameTest(template = LONG, timeoutTicks = 40, batch = "handheld")
+    public static void matchFilterScreenKeepsWhatIsPutInItsSlot(GameTestHelper helper) {
+        ItemStack filter = new ItemStack(HandheldRegistry.MATCH_FILTER.get());
+        ServerPlayer player = player(helper, filter, "filterscreen");
+        net.scwunge.rotarycraft.handheld.MatchFilterMenu menu = new net.scwunge.rotarycraft.handheld.MatchFilterMenu(1, player.getInventory(), InteractionHand.MAIN_HAND);
+        menu.getSlot(0).set(new ItemStack(Items.GOLD_INGOT, 3));
+        helper.assertTrue(MatchFilterItem.template(filter).is(Items.GOLD_INGOT) && MatchFilterItem.template(filter).getCount() == 1, "the filter did not keep it");
+        net.scwunge.rotarycraft.handheld.MatchFilterMenu again = new net.scwunge.rotarycraft.handheld.MatchFilterMenu(2, player.getInventory(), InteractionHand.MAIN_HAND);
+        helper.assertTrue(again.getSlot(0).getItem().is(Items.GOLD_INGOT), "the screen did not show what the filter holds");
+        again.getSlot(0).set(ItemStack.EMPTY);
+        helper.assertTrue(MatchFilterItem.template(filter).isEmpty(), "taking it out did not empty the filter");
+        helper.succeed();
+    }
 }
