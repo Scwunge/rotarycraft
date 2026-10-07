@@ -10,15 +10,15 @@ MAP|BEAMMIRROR|beam_mirror
 MAP|BEDAXE|bedrock_axe
 MAP|BEDBOOTS|bedrock_boots
 MAP|BEDCHEST|bedrock_chestplate
-PENDING|BEDGRAFTER|bedrock tools and armour (items, section 6)
+PENDING|BEDGRAFTER|stays: the Grafter works on Forestry trees and needs Forestry
 MAP|BEDHELM|bedrock_helmet
 MAP|BEDHOE|bedrock_hoe
-PENDING|BEDKNIFE|bedrock tools and armour (items, section 6)
+PENDING|BEDKNIFE|stays: commented out in the original (it needs Applied Energistics)
 MAP|BEDLEGS|bedrock_leggings
 MAP|BEDPICK|bedrock_pickaxe
 MAP|BEDPIPE|bedrock_pipe
 MAP|BEDROCKBREAKER|bedrock_breaker
-PENDING|BEDSAW|bedrock tools and armour (items, section 6)
+PENDING|BEDSAW|stays: the saw cuts ForgeMultipart microblocks, which need that mod
 MAP|BEDSHEARS|bedrock_shears
 MAP|BEDSHOVEL|bedrock_shovel
 MAP|BEDSICKLE|bedrock_sickle
@@ -31,7 +31,7 @@ MAP|BLOWER|blower
 MAP|BOILER|boiler
 MAP|BORER|borer
 MAP|BUCKETFILLER|bucket_filler
-PENDING|BUNDLEDBUS|not ported yet
+PENDING|BUNDLEDBUS|stays: the Bundled Bus needs ProjectRed (and Applied Energistics for its recipe)
 MAP|BUSCONTROLLER|bus_controller
 MAP|BYPASS|bypass
 MAP|CAVESCANNER|cave_scanner
@@ -86,7 +86,7 @@ MAP|GEARBOX|gearbox_wood_2x,gearbox_wood_4x,gearbox_wood_8x,gearbox_wood_16x,gea
 MAP|GEARUPGRADE|gear_upgrade_frame,gear_upgrade_2x,gear_upgrade_4x,gear_upgrade_8x,gear_upgrade_16x
 MAP|GENERATOR|generator
 MAP|GPR|gpr
-PENDING|GRAFTER|not ported yet
+PENDING|GRAFTER|stays: the Grafter works on Forestry trees and needs Forestry
 MAP|GRAVELGUN|gravel_gun
 MAP|GRINDER|grinder
 MAP|GRINDSTONE|grindstone
@@ -121,7 +121,7 @@ MAP|MOTION|motion_tracker
 MAP|MULTICLUTCH|multi_clutch
 MAP|MUSICBOX|music_box
 MAP|NVG|night_vision_goggles
-PENDING|NVH|not ported yet
+PENDING|NVH|stays: commented out in the original
 MAP|OBSIDIAN|obsidian_maker
 MAP|PARTICLE|particle_emitter
 MAP|PILEDRIVER|pile_driver

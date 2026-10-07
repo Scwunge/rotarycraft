@@ -38,6 +38,9 @@ ALIASES = {
 }
 # not ported, and what is in the way
 PENDING_NOTE = {
+    'BEDGRAFTER': 'stays: the Grafter works on Forestry trees and needs Forestry', 'GRAFTER': 'stays: the Grafter works on Forestry trees and needs Forestry',
+    'BEDSAW': 'stays: the saw cuts ForgeMultipart microblocks, which need that mod', 'BEDKNIFE': 'stays: commented out in the original (it needs Applied Energistics)',
+    'NVH': 'stays: commented out in the original', 'BUNDLEDBUS': 'stays: the Bundled Bus needs ProjectRed (and Applied Energistics for its recipe)',
     'BED': 'bedrock tools and armour (items, section 6)', 'STEEL': 'steel tools and armour (items, section 6)',
 }
 BY_TAG = {
