@@ -44,8 +44,8 @@ public final class FarmConfig {
         BAIT_RANGE = b.comment("The longest reach of the Bait Box (never under 24).").defineInRange("baitBoxRange", 24, 8, 256);
         BAIT_MOBS = b.comment("Most creatures a Bait Box works on at once (never under 24).").defineInRange("baitBoxMobs", 256, 8, 4096);
         BLOWER_SPILLS = b.comment("An Item Pump with nothing but air in front of it sprays its items out.").define("itemPumpSpills", true);
-        CONVERTER_TIER = b.comment("The tier of the Magnetic Motor, Steam Turbine and Pneumatic Engine: 8 x 4^tier N*m at up to 2^(8 + tier) rad/s (there are no upgrade items yet).")
-                .defineInRange("converterTier", 1, 0, 5);
+        CONVERTER_TIER = b.comment("The tier of the Magnetic Motor, Steam Turbine and Pneumatic Engine: 8 x 4^tier N*m at up to 2^(8 + tier) rad/s (the magnetostatic upgrade items raise it one at a time from here).")
+                .defineInRange("converterTier", 0, 0, 5);
         CONVERTER_EFFICIENCY = b.comment("Scales how much of its input each conversion machine (Boiler, Compressor, Dynamo, and the engines) gets out.")
                 .defineInRange("converterEfficiency", 1.0, 0.1, 1.0);
         FUEL_ENHANCER_ITEM_CHANCE = b.comment("The chance each tick that the Fuel Enhancer uses up each of its five ingredients (the original's medium difficulty: a quarter of a percent).")

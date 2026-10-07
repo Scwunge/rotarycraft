@@ -8,7 +8,9 @@ import net.minecraft.world.level.block.state.BlockState;
  * Base for engines. Like the original: while an engine can run it spins up towards its top speed by 4 x log2(top + 1) rad/s
  * per tick, and when it stops it coasts down by omega/256 + 1 per tick. Torque is the engine's rated torque while it turns.
  */
-public abstract class EngineBlockEntity extends PowerBlockEntity {
+public abstract class EngineBlockEntity extends PowerBlockEntity implements net.scwunge.rotarycraft.upgrade.Geared {
+    private int gear;
+
     protected EngineBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
@@ -34,7 +36,7 @@ public abstract class EngineBlockEntity extends PowerBlockEntity {
     @Override
     public void serverTick() {
         boolean running = canRun();
-        int target = running ? Math.max(0, (int) (targetSpeed() * throttle())) : 0;
+        int target = running ? Math.max(0, net.scwunge.rotarycraft.upgrade.Geared.speed((int) (targetSpeed() * throttle()), gear)) : 0;
         int w = omega;
         if (running && target > 0) {
             if (w < target) {
@@ -47,7 +49,48 @@ public abstract class EngineBlockEntity extends PowerBlockEntity {
             w -= w / 256 + 1;
         }
         w = Math.max(0, w);
-        setPower(w > 0 ? ratedTorque() : 0, w);
+        setPower(w > 0 ? net.scwunge.rotarycraft.upgrade.Geared.torque(ratedTorque(), gear) : 0, w);
         afterTick(running);
+    }
+
+    @Override
+    public int integratedGear() {
+        return gear;
+    }
+
+    @Override
+    public boolean applyIntegratedGear(int ratio) {
+        if (gear != 0 || ratio == 0 || omega > 0) {
+            return false;
+        }
+        gear = ratio;
+        setChanged();
+        return true;
+    }
+
+    @Override
+    public net.minecraft.world.item.ItemStack removeIntegratedGear() {
+        if (gear == 0) {
+            return net.minecraft.world.item.ItemStack.EMPTY;
+        }
+        net.minecraft.world.item.ItemStack stack = net.scwunge.rotarycraft.item.GearUpgradeItem.stackFor(gear, gear > 0,
+                net.scwunge.rotarycraft.registry.UpgradeRegistry.gearItems());
+        gear = 0;
+        setChanged();
+        return stack;
+    }
+
+    @Override
+    protected void saveAdditional(net.minecraft.nbt.CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        if (gear != 0) {
+            tag.putInt("gear", gear);
+        }
+    }
+
+    @Override
+    protected void loadAdditional(net.minecraft.nbt.CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        gear = tag.getInt("gear");
     }
 }

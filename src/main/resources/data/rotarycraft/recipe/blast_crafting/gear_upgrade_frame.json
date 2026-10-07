@@ -1,0 +1,25 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "sSS",
+    "SsS",
+    "SSG"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "G": {
+      "item": "minecraft:glass_pane"
+    },
+    "s": {
+      "item": "rotarycraft:bedrock_shaft_core"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:gear_upgrade_frame",
+    "count": 1
+  },
+  "temperature": 1200,
+  "speed": 2
+}

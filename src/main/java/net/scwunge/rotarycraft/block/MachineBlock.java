@@ -110,6 +110,9 @@ public class MachineBlock extends BaseEntityBlock {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock())) {
+            if (level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.upgrade.Geared geared && !level.isClientSide()) {
+                net.scwunge.rotarycraft.upgrade.Geared.drop(level, pos, geared);
+            }
             if (level.getBlockEntity(pos) instanceof net.scwunge.rotarycraft.blockentity.RefrigeratorBlockEntity fridge && !level.isClientSide()) {
                 fridge.onBroken();
             }

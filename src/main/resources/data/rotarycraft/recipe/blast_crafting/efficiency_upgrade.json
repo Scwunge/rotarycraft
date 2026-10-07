@@ -1,0 +1,43 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "IGI",
+    "FTF",
+    "BPB"
+  ],
+  "key": {
+    "G": {
+      "item": "rotarycraft:generator_unit"
+    },
+    "I": {
+      "item": "rotarycraft:red_gold_ingot"
+    },
+    "B": {
+      "item": "rotarycraft:water_plate"
+    },
+    "P": {
+      "item": "rotarycraft:power_module"
+    },
+    "F": {
+      "item": "rotarycraft:bedrock_ingot"
+    },
+    "T": {
+      "item": "rotarycraft:tungsten_ingot"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:efficiency_upgrade",
+    "count": 1
+  },
+  "temperature": 1980,
+  "speed": 32,
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "reactorcraft"
+      }
+    }
+  ]
+}

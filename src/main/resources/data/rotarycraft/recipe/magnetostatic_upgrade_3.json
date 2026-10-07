@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SES",
+    "ERE",
+    "ScS"
+  ],
+  "key": {
+    "c": {
+      "item": "rotarycraft:circuit_board"
+    },
+    "R": {
+      "item": "rotarycraft:tungsten_ingot"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "E": {
+      "item": "rotarycraft:red_gold_ingot"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:magnetostatic_upgrade_3",
+    "count": 1
+  }
+}

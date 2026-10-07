@@ -19,6 +19,10 @@ public class RotaryComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<net.neoforged.neoforge.fluids.SimpleFluidContent>> GAS_CONTENTS = COMPONENTS.register("gas_contents",
             () -> DataComponentType.<net.neoforged.neoforge.fluids.SimpleFluidContent>builder().persistent(net.neoforged.neoforge.fluids.SimpleFluidContent.CODEC)
                     .networkSynchronized(net.neoforged.neoforge.fluids.SimpleFluidContent.STREAM_CODEC).build());
+    /** What an item that holds a fluid (the integrated gearbox upgrade) has in it. */
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<net.neoforged.neoforge.fluids.SimpleFluidContent>> ITEM_FLUID = COMPONENTS.register("item_fluid",
+            () -> DataComponentType.<net.neoforged.neoforge.fluids.SimpleFluidContent>builder().persistent(net.neoforged.neoforge.fluids.SimpleFluidContent.CODEC)
+                    .networkSynchronized(net.neoforged.neoforge.fluids.SimpleFluidContent.STREAM_CODEC).build());
     /** A shaft core's magnetization in microtesla (Magnetizer charges it, the AC Engine uses it up). */
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Integer>> MAGNETIZATION = COMPONENTS.register("magnetization",
             () -> DataComponentType.<Integer>builder().persistent(com.mojang.serialization.Codec.intRange(1, Integer.MAX_VALUE))

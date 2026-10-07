@@ -121,6 +121,16 @@ public class RotaryItems {
                     Item item = i.get();
                     if (item instanceof net.scwunge.rotarycraft.tool.Forced forced) {
                         output.accept(net.scwunge.rotarycraft.tool.Forced.stackOf(item, params.holders(), forced.needs()));
+                    } else if (item instanceof net.scwunge.rotarycraft.item.GearUpgradeItem gear && gear.exponent() > 0) {
+                        output.accept(item);
+                        output.accept(net.scwunge.rotarycraft.item.GearUpgradeItem.stackFor(gear.ratio(), true, UpgradeRegistry.gearItems()));
+                        output.accept(net.scwunge.rotarycraft.item.GearUpgradeItem.stackFor(gear.ratio(), false, UpgradeRegistry.gearItems()));
+                    } else if (item instanceof net.scwunge.rotarycraft.item.EngineUpgradeItem upgrade
+                            && upgrade.kind() == net.scwunge.rotarycraft.item.EngineUpgradeItem.Kind.MAGNETOSTATIC2) {
+                        output.accept(item);
+                        ItemStack magnetized = new ItemStack(item);
+                        net.scwunge.rotarycraft.item.ShaftCoreItem.setMagnetization(magnetized, net.scwunge.rotarycraft.item.EngineUpgradeItem.REQUIRED_MAGNETIZATION);
+                        output.accept(magnetized);
                     } else {
                         output.accept(item);
                     }

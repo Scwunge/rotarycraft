@@ -25,7 +25,8 @@ ALIASES = {
     'FLYWHEEL': 'flywheel_wood,flywheel_stone,flywheel_iron,flywheel_gold,flywheel_bedrock',
     'SHAFT': 'shaft_wood,shaft_stone,shaft_steel,shaft_diamond,shaft_bedrock',
     'GEARBOX': ','.join('gearbox_%s_%dx' % (m, r) for m in ('wood', 'stone', 'steel', 'tungsten', 'diamond', 'bedrock') for r in (2, 4, 8, 16)),
-    'UPGRADE': 'afterburner_upgrade', 'KEY': 'cannon_key', 'METER': 'angular_transducer', 'SEPARATION': 'separator',
+    'UPGRADE': 'performance_upgrade,magnetostatic_upgrade_1,magnetostatic_upgrade_2,magnetostatic_upgrade_3,magnetostatic_upgrade_4,magnetostatic_upgrade_5,efficiency_upgrade,flux_upgrade,redstone_upgrade,afterburner_upgrade',
+    'GEARUPGRADE': 'gear_upgrade_frame,gear_upgrade_2x,gear_upgrade_4x,gear_upgrade_8x,gear_upgrade_16x', 'KEY': 'cannon_key', 'METER': 'angular_transducer', 'SEPARATION': 'separator',
     # parts, ItemStacks names
     'aluminumcylinder': 'silumin_cylinder', 'anthrablock': 'anthracite_block', 'bedingot': 'bedrock_ingot', 'bedrockshaft': 'bedrock_shaft_core',
     'compoundcompress': 'compound_compressor', 'compoundturb': 'compound_turbine', 'diamondshaft': 'diamond_shaft_core',

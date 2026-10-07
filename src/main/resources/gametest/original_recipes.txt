@@ -83,7 +83,7 @@ MAP|FUELLINE|fuel_line
 MAP|GASTANK|gas_tank
 MAP|GATLING|gatling
 MAP|GEARBOX|gearbox_wood_2x,gearbox_wood_4x,gearbox_wood_8x,gearbox_wood_16x,gearbox_stone_2x,gearbox_stone_4x,gearbox_stone_8x,gearbox_stone_16x,gearbox_steel_2x,gearbox_steel_4x,gearbox_steel_8x,gearbox_steel_16x,gearbox_tungsten_2x,gearbox_tungsten_4x,gearbox_tungsten_8x,gearbox_tungsten_16x,gearbox_diamond_2x,gearbox_diamond_4x,gearbox_diamond_8x,gearbox_diamond_16x,gearbox_bedrock_2x,gearbox_bedrock_4x,gearbox_bedrock_8x,gearbox_bedrock_16x
-PENDING|GEARUPGRADE|not ported yet
+MAP|GEARUPGRADE|gear_upgrade_frame,gear_upgrade_2x,gear_upgrade_4x,gear_upgrade_8x,gear_upgrade_16x
 MAP|GENERATOR|generator
 MAP|GPR|gpr
 PENDING|GRAFTER|not ported yet
@@ -178,7 +178,7 @@ MAP|TERRAFORMER|terraformer
 PENDING|TILESELECTOR|not ported yet
 MAP|TNTCANNON|tnt_cannon
 PENDING|ULTRASOUND|not ported yet
-MAP|UPGRADE|afterburner_upgrade
+MAP|UPGRADE|performance_upgrade,magnetostatic_upgrade_1,magnetostatic_upgrade_2,magnetostatic_upgrade_3,magnetostatic_upgrade_4,magnetostatic_upgrade_5,efficiency_upgrade,flux_upgrade,redstone_upgrade,afterburner_upgrade
 MAP|VACUUM|vacuum
 MAP|VALVE|valve
 MAP|VANDEGRAFF|van_de_graaff

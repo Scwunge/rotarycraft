@@ -22,7 +22,7 @@ import net.scwunge.rotarycraft.registry.RotaryMenus;
  * AC Electric Engine: 512 N*m at 256 rad/s (131 kW). Runs on an alternating redstone signal with a magnetized shaft core
  * inside, which loses 1 uT every 600 ticks of running (a tungsten core only half the time).
  */
-public class ACEngineBlockEntity extends EngineBlockEntity implements MenuProvider, OneSlotMenu.Host {
+public class ACEngineBlockEntity extends EngineBlockEntity implements MenuProvider, OneSlotMenu.Host, net.scwunge.rotarycraft.upgrade.Upgradable {
     public static final int TORQUE = 512;
     public static final int SPEED = 256;
     public static final int FUEL_UNIT_TICKS = 600;
@@ -87,6 +87,17 @@ public class ACEngineBlockEntity extends EngineBlockEntity implements MenuProvid
     }
 
     @Override
+    public boolean canUpgradeWith(ItemStack stack) {
+        return !redstone.hasIntegrated() && stack.getItem() instanceof net.scwunge.rotarycraft.item.EngineUpgradeItem up && up.kind() == net.scwunge.rotarycraft.item.EngineUpgradeItem.Kind.REDSTONE;
+    }
+
+    @Override
+    public void upgradeWith(ItemStack stack) {
+        redstone.addIntegrated();
+        setChanged();
+    }
+
+    @Override
     public Component getDisplayName() {
         return Component.translatable("block.rotarycraft.ac_engine");
     }
@@ -101,6 +112,7 @@ public class ACEngineBlockEntity extends EngineBlockEntity implements MenuProvid
         super.saveAdditional(tag, registries);
         tag.put("items", items.serializeNBT(registries));
         tag.putInt("fuelTicks", fuelTicks);
+        tag.putBoolean("integratedClock", redstone.hasIntegrated());
     }
 
     @Override
@@ -108,5 +120,8 @@ public class ACEngineBlockEntity extends EngineBlockEntity implements MenuProvid
         super.loadAdditional(tag, registries);
         items.deserializeNBT(registries, tag.getCompound("items"));
         fuelTicks = tag.getInt("fuelTicks");
+        if (tag.getBoolean("integratedClock")) {
+            redstone.addIntegrated();
+        }
     }
 }

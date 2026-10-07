@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BeB",
+    "tEt",
+    "BeB"
+  ],
+  "key": {
+    "e": {
+      "item": "rotarycraft:red_gold_ingot"
+    },
+    "B": {
+      "item": "rotarycraft:base_panel"
+    },
+    "E": {
+      "item": "rotarycraft:bedrock_ingot"
+    },
+    "t": {
+      "item": "rotarycraft:tungsten_ingot"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:flux_upgrade",
+    "count": 1
+  }
+}

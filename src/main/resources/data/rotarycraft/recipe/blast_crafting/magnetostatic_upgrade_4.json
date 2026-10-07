@@ -1,0 +1,28 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "cEc",
+    "ERE",
+    "SES"
+  ],
+  "key": {
+    "c": {
+      "item": "rotarycraft:cooling_fin"
+    },
+    "R": {
+      "item": "rotarycraft:bedrock_ingot"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "E": {
+      "item": "rotarycraft:tungsten_ingot"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:magnetostatic_upgrade_4",
+    "count": 1
+  },
+  "temperature": 1000,
+  "speed": 4
+}

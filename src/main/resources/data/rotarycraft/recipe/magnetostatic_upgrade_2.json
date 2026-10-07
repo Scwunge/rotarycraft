@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SCS",
+    "ERE",
+    "SCS"
+  ],
+  "key": {
+    "C": {
+      "item": "rotarycraft:red_gold_ingot"
+    },
+    "R": {
+      "item": "rotarycraft:gold_coil"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "E": {
+      "item": "rotarycraft:tungsten_shaft_core"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:magnetostatic_upgrade_2",
+    "count": 1
+  }
+}

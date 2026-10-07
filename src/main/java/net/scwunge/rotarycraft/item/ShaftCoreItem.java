@@ -13,7 +13,7 @@ import java.util.List;
  * A shaft core. Magnetized in the Magnetizer, it runs the AC Engine, which uses up 1 uT every 30 seconds of running
  * (a tungsten core only half the time). {@code chargeChance} is how often a Magnetizer cycle adds 1 uT (1 in N).
  */
-public class ShaftCoreItem extends Item {
+public class ShaftCoreItem extends Item implements Magnetizable {
     /** Magnetizer speed needed per uT of charge: a core holds at most speed / 2 uT. */
     public static final int SPEED_PER_MICROTESLA = 2;
 
@@ -26,6 +26,7 @@ public class ShaftCoreItem extends Item {
         this.durable = durable;
     }
 
+    @Override
     public int chargeChance() {
         return chargeChance;
     }

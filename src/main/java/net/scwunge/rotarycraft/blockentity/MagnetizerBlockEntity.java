@@ -23,7 +23,7 @@ import net.scwunge.rotarycraft.registry.RotaryMenus;
  * Magnetizer: needs 2048 rad/s and 16 kW plus an alternating redstone signal (a fast clock). Every cycle
  * (400 - 20 x log2(speed) ticks) it has a chance to add 1 uT to the shaft core inside, up to speed / 2 uT.
  */
-public class MagnetizerBlockEntity extends ConsumerBlockEntity implements MenuProvider, OneSlotMenu.Host {
+public class MagnetizerBlockEntity extends ConsumerBlockEntity implements MenuProvider, OneSlotMenu.Host, net.scwunge.rotarycraft.upgrade.Upgradable {
     public static final PowerRequirement REQUIREMENT = new PowerRequirement(1, 2048, 16384);
     private static final int MIN_DURATION = 2;
 
@@ -35,7 +35,7 @@ public class MagnetizerBlockEntity extends ConsumerBlockEntity implements MenuPr
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
-            return stack.getItem() instanceof ShaftCoreItem;
+            return stack.getItem() instanceof net.scwunge.rotarycraft.item.Magnetizable m && m.chargeChance() > 0;
         }
 
         @Override
@@ -46,6 +46,7 @@ public class MagnetizerBlockEntity extends ConsumerBlockEntity implements MenuPr
     private final AlternatingRedstone redstone = new AlternatingRedstone();
     private final ContainerData data = OneSlotMenu.data(() -> omega, () -> torque, () -> redstone.isAlternating() ? OneSlotMenu.FLAG_AC : 0);
     private int progress;
+    private boolean lodestone;
 
     public MagnetizerBlockEntity(BlockPos pos, BlockState state) {
         super(RotaryBlockEntities.MAGNETIZER.get(), pos, state);
@@ -61,8 +62,35 @@ public class MagnetizerBlockEntity extends ConsumerBlockEntity implements MenuPr
         return items;
     }
 
+    /** A lodestone upgrade makes it work as if it turned twice as fast. */
+    private int effectiveSpeed() {
+        return lodestone ? omega * 2 : omega;
+    }
+
     public int operationTime() {
-        return Math.max(MIN_DURATION, PowerRequirement.operationTime(400, 20, omega));
+        return Math.max(MIN_DURATION, PowerRequirement.operationTime(400, 20, effectiveSpeed()));
+    }
+
+    @Override
+    public boolean canUpgradeWith(ItemStack stack) {
+        if (!(stack.getItem() instanceof net.scwunge.rotarycraft.item.EngineUpgradeItem up)) {
+            return false;
+        }
+        return up.kind() == net.scwunge.rotarycraft.item.EngineUpgradeItem.Kind.REDSTONE ? !redstone.hasIntegrated() : up.kind() == net.scwunge.rotarycraft.item.EngineUpgradeItem.Kind.LODESTONE && !lodestone;
+    }
+
+    @Override
+    public void upgradeWith(ItemStack stack) {
+        if (((net.scwunge.rotarycraft.item.EngineUpgradeItem) stack.getItem()).kind() == net.scwunge.rotarycraft.item.EngineUpgradeItem.Kind.REDSTONE) {
+            redstone.addIntegrated();
+        } else {
+            lodestone = true;
+        }
+        setChanged();
+    }
+
+    public boolean hasLodestoneUpgrade() {
+        return lodestone;
     }
 
     @Override
@@ -79,9 +107,9 @@ public class MagnetizerBlockEntity extends ConsumerBlockEntity implements MenuPr
         }
         progress = 0;
         ItemStack core = items.getStackInSlot(0);
-        if (core.getItem() instanceof ShaftCoreItem item && level.random.nextInt(item.chargeChance()) == 0) {
+        if (core.getItem() instanceof net.scwunge.rotarycraft.item.Magnetizable item && level.random.nextInt(item.chargeChance()) == 0) {
             int m = ShaftCoreItem.magnetization(core);
-            if (m < omega / ShaftCoreItem.SPEED_PER_MICROTESLA) {
+            if (m < effectiveSpeed() / ShaftCoreItem.SPEED_PER_MICROTESLA) {
                 ItemStack charged = core.copy();
                 ShaftCoreItem.setMagnetization(charged, m + 1);
                 items.setStackInSlot(0, charged);
@@ -104,6 +132,8 @@ public class MagnetizerBlockEntity extends ConsumerBlockEntity implements MenuPr
         super.saveAdditional(tag, registries);
         tag.put("items", items.serializeNBT(registries));
         tag.putInt("progress", progress);
+        tag.putBoolean("lodestone", lodestone);
+        tag.putBoolean("integratedClock", redstone.hasIntegrated());
     }
 
     @Override
@@ -111,6 +141,10 @@ public class MagnetizerBlockEntity extends ConsumerBlockEntity implements MenuPr
         super.loadAdditional(tag, registries);
         items.deserializeNBT(registries, tag.getCompound("items"));
         progress = tag.getInt("progress");
+        lodestone = tag.getBoolean("lodestone");
+        if (tag.getBoolean("integratedClock")) {
+            redstone.addIntegrated();
+        }
     }
 
     private boolean hasCoreClient;

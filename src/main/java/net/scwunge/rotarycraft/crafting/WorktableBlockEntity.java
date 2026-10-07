@@ -42,7 +42,7 @@ import java.util.Optional;
  * <p>
  * Not here yet: the original's tool charging, jetpack and armour upgrades, which need items the port does not have.
  */
-public class WorktableBlockEntity extends BlockEntity implements MenuProvider {
+public class WorktableBlockEntity extends BlockEntity implements MenuProvider, net.scwunge.rotarycraft.upgrade.Upgradable {
     public static final int MATRIX = 9;
     public static final int FIRST_OUTPUT = 9;
     public static final int MAIN_OUTPUT = 13;
@@ -136,6 +136,16 @@ public class WorktableBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     // ---- redstone upgrade ----
+
+    @Override
+    public boolean canUpgradeWith(net.minecraft.world.item.ItemStack stack) {
+        return !hasUpgrade && stack.getItem() instanceof net.scwunge.rotarycraft.item.EngineUpgradeItem up && up.kind() == net.scwunge.rotarycraft.item.EngineUpgradeItem.Kind.REDSTONE;
+    }
+
+    @Override
+    public void upgradeWith(net.minecraft.world.item.ItemStack stack) {
+        addRedstoneUpgrade();
+    }
 
     public boolean hasRedstoneUpgrade() {
         return hasUpgrade;

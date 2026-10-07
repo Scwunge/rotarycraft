@@ -8,20 +8,30 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.scwunge.rotarycraft.blockentity.PowerBlockEntity;
 import net.scwunge.rotarycraft.config.FarmConfig;
 import net.scwunge.rotarycraft.config.RotaryConfig;
+import net.scwunge.rotarycraft.item.EngineUpgradeItem;
+import net.scwunge.rotarycraft.item.GearUpgradeItem;
+import net.scwunge.rotarycraft.registry.UpgradeRegistry;
+import net.scwunge.rotarycraft.upgrade.Geared;
+import net.scwunge.rotarycraft.upgrade.Upgradable;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * The original's "energy to power" machines (the Magnetic Motor, Steam Turbine and Pneumatic Engine): they store some energy unit (FE, mB of
  * steam, mB of compressed air), and while they hold enough of it they spin up to their top speed, by 4 x log2 of it a tick, and turn that
  * speed and their torque out of their front; without it they coast down. Each tick at speed they use up
  * ceil(units for the power they make / efficiency) of the stored energy (half as much again while still spinning up), the efficiency being
- * 0.9 less 0.08 for each tier of the machine, times the machine's own factor. The tier (set in the farm config, as there are no upgrade items
- * yet) gives 8 x 4^tier N*m and up to 2^(8 + tier) rad/s.
+ * 0.9 less 0.08 for each tier of the machine, times the machine's own factor. The tier, which the magnetostatic upgrades raise one at a time (in order) from the
+ * one the farm config starts it at, gives 8 x 4^tier N*m and up to 2^(8 + tier) rad/s. The efficiency upgrade lifts the efficiency; an integrated gearbox
+ * trades torque for speed or the other way.
  */
-public abstract class EnergyConverterBlockEntity extends PowerBlockEntity {
+public abstract class EnergyConverterBlockEntity extends PowerBlockEntity implements Upgradable, Geared {
     public static final int MAX_TIER = 5;
 
     protected int stored;
     private boolean switchedOn = true;
+    private int upgrades;
+    private boolean efficient;
+    private int gear;
 
     protected EnergyConverterBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -41,15 +51,69 @@ public abstract class EnergyConverterBlockEntity extends PowerBlockEntity {
     }
 
     public int tier() {
-        return Math.max(0, Math.min(MAX_TIER, RotaryConfig.get(FarmConfig.CONVERTER_TIER)));
+        return Math.max(0, Math.min(MAX_TIER, RotaryConfig.get(FarmConfig.CONVERTER_TIER) + upgrades));
+    }
+
+    public boolean isEfficient() {
+        return efficient;
     }
 
     public int ratedTorque() {
-        return 8 * (int) Math.pow(4, tier());
+        return Geared.torque(8 * (int) Math.pow(4, tier()), gear);
     }
 
     public int maxSpeed() {
-        return 1 << (8 + tier());
+        return Geared.speed(1 << (8 + tier()), gear);
+    }
+
+    @Override
+    public boolean canUpgradeWith(ItemStack stack) {
+        if (!(stack.getItem() instanceof EngineUpgradeItem upgrade)) {
+            return false;
+        }
+        if (upgrade.kind() == EngineUpgradeItem.Kind.EFFICIENCY) {
+            return !efficient;
+        }
+        int next = upgrade.kind().tier();
+        if (next == 0 || tier() >= MAX_TIER || next != tier() + 1) {
+            return false;
+        }
+        return upgrade.kind() != EngineUpgradeItem.Kind.MAGNETOSTATIC2 || EngineUpgradeItem.isMagnetized(stack);
+    }
+
+    @Override
+    public void upgradeWith(ItemStack stack) {
+        if (((EngineUpgradeItem) stack.getItem()).kind() == EngineUpgradeItem.Kind.EFFICIENCY) {
+            efficient = true;
+        } else {
+            upgrades++;
+        }
+        setChanged();
+    }
+
+    @Override
+    public int integratedGear() {
+        return gear;
+    }
+
+    @Override
+    public boolean applyIntegratedGear(int ratio) {
+        if (gear != 0 || ratio == 0 || omega > 0) {
+            return false;
+        }
+        gear = ratio;
+        setChanged();
+        return true;
+    }
+
+    @Override
+    public ItemStack removeIntegratedGear() {
+        if (gear == 0) {
+            return ItemStack.EMPTY;
+        }
+        ItemStack stack = GearUpgradeItem.stackFor(gear, gear > 0, UpgradeRegistry.gearItems());
+        gear = 0;
+        return stack;
     }
 
     public long ratedPower() {
@@ -57,7 +121,8 @@ public abstract class EnergyConverterBlockEntity extends PowerBlockEntity {
     }
 
     public double efficiency() {
-        return (0.9 - 0.08 * tier()) * relativeEfficiency() * RotaryConfig.get(FarmConfig.CONVERTER_EFFICIENCY);
+        double base = efficient ? 1 - Math.pow(tier(), 1.4) * 0.04 : 0.9 - 0.08 * tier();
+        return base * relativeEfficiency() * RotaryConfig.get(FarmConfig.CONVERTER_EFFICIENCY);
     }
 
     public int consumedPerTick() {
@@ -118,6 +183,9 @@ public abstract class EnergyConverterBlockEntity extends PowerBlockEntity {
         super.saveAdditional(tag, registries);
         tag.putInt("stored", stored);
         tag.putBoolean("on", switchedOn);
+        tag.putInt("upgrades", upgrades);
+        tag.putBoolean("efficient", efficient);
+        tag.putInt("gear", gear);
     }
 
     @Override
@@ -125,5 +193,8 @@ public abstract class EnergyConverterBlockEntity extends PowerBlockEntity {
         super.loadAdditional(tag, registries);
         stored = tag.getInt("stored");
         switchedOn = !tag.contains("on") || tag.getBoolean("on");
+        upgrades = tag.getInt("upgrades");
+        efficient = tag.getBoolean("efficient");
+        gear = tag.getInt("gear");
     }
 }

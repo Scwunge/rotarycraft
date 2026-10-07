@@ -10,9 +10,23 @@ import net.minecraft.world.level.Level;
 public class AlternatingRedstone {
     private final boolean[] last = new boolean[3];
     private boolean alternating;
+    private boolean integrated;
+
+    /** The redstone upgrade: a clock of the machine's own, so it needs no signal from outside. */
+    public void addIntegrated() {
+        integrated = true;
+    }
+
+    public boolean hasIntegrated() {
+        return integrated;
+    }
 
     /** Call once per tick. */
     public boolean update(Level level, BlockPos pos) {
+        if (integrated) {
+            alternating = true;
+            return true;
+        }
         boolean now = level.hasNeighborSignal(pos);
         boolean ac = false;
         for (boolean b : last) {

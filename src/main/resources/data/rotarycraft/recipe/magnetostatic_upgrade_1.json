@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "gRg",
+    "RER",
+    "SGS"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:gold_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "E": {
+      "item": "rotarycraft:ethanol_crystals"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "G": {
+      "item": "rotarycraft:impeller"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:magnetostatic_upgrade_1",
+    "count": 1
+  }
+}

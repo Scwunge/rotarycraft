@@ -18,9 +18,26 @@ import net.scwunge.rotarycraft.registry.ProcessRegistry;
  * The Dynamo, as the original's: shaft power in at its back, Forge Energy out of its front: torque up to 1024 N*m and speed up to 8192
  * rad/s count (so 8 MW at most), at the converter efficiency, and a watts-per-FE rate set in the main config. It does not pass the power on.
  */
-public class DynamoBlockEntity extends PowerBlockEntity {
+public class DynamoBlockEntity extends PowerBlockEntity implements net.scwunge.rotarycraft.upgrade.Upgradable {
     public static final int MAX_TORQUE = 1024;
+    public static final int MAX_TORQUE_UPGRADED = 2048;
     public static final int MAX_OMEGA = 8192;
+    private boolean flux;
+
+    public boolean isUpgraded() {
+        return flux;
+    }
+
+    @Override
+    public boolean canUpgradeWith(net.minecraft.world.item.ItemStack stack) {
+        return !flux && stack.getItem() instanceof net.scwunge.rotarycraft.item.EngineUpgradeItem up && up.kind() == net.scwunge.rotarycraft.item.EngineUpgradeItem.Kind.FLUX;
+    }
+
+    @Override
+    public void upgradeWith(net.minecraft.world.item.ItemStack stack) {
+        flux = true;
+        setChanged();
+    }
     private final MachineEnergy energy = new MachineEnergy(1_000_000, 0, 1_000_000, this::setChanged);
 
     public DynamoBlockEntity(BlockPos pos, BlockState state) {
@@ -38,7 +55,7 @@ public class DynamoBlockEntity extends PowerBlockEntity {
 
     /** FE made each tick at the power the dynamo is turned with. */
     public int generated() {
-        long power = (long) Math.min(torque, MAX_TORQUE) * Math.min(omega, MAX_OMEGA);
+        long power = (long) Math.min(torque, flux ? MAX_TORQUE_UPGRADED : MAX_TORQUE) * Math.min(omega, MAX_OMEGA);
         return (int) Math.min(Integer.MAX_VALUE, (long) (power / RotaryConfig.get(RotaryConfig.WATTS_PER_FE) * RotaryConfig.get(FarmConfig.CONVERTER_EFFICIENCY)));
     }
 
@@ -59,12 +76,14 @@ public class DynamoBlockEntity extends PowerBlockEntity {
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
+        tag.putBoolean("flux", flux);
         tag.put("energy", energy.serializeNBT(registries));
     }
 
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
+        flux = tag.getBoolean("flux");
         if (tag.get("energy") instanceof IntTag stored) {
             energy.deserializeNBT(registries, stored);
         }

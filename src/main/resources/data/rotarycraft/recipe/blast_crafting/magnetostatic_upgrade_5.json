@@ -1,0 +1,25 @@
+{
+  "type": "rotarycraft:blast_crafting",
+  "pattern": [
+    "SES",
+    "ERE",
+    "SES"
+  ],
+  "key": {
+    "R": {
+      "item": "rotarycraft:bedrock_gear"
+    },
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "E": {
+      "item": "rotarycraft:spring_tungsten_ingot"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:magnetostatic_upgrade_5",
+    "count": 1
+  },
+  "temperature": 1800,
+  "speed": 8
+}
