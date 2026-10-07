@@ -696,7 +696,7 @@ public class FarmGameTests {
         });
     }
 
-    @GameTest(template = LONG, timeoutTicks = 60, batch = "farm")
+    @GameTest(template = LONG, timeoutTicks = 60, batch = "farm_vacuum_xp")
     public static void aBrokenVacuumSpillsItsExperience(GameTestHelper helper) {
         var vacuum = vacuum(helper, 64, 512);
         var tag = new CompoundTag();

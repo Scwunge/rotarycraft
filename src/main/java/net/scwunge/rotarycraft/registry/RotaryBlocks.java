@@ -51,7 +51,7 @@ public class RotaryBlocks {
             SHAFTS.put(m, BLOCKS.register("shaft_" + m.id(), () -> new ShaftBlock(shaftProps(m), m)));
         }
         for (FlywheelType t : FlywheelType.values()) {
-            FLYWHEELS.put(t, BLOCKS.register("flywheel_" + t.id(), () -> new FlywheelBlock(machineProps(), t)));
+            FLYWHEELS.put(t, BLOCKS.register("flywheel_" + t.id(), () -> new FlywheelBlock(machineProps().noOcclusion(), t)));
         }
         for (ShaftMaterial m : GEARBOX_MATERIALS) {
             Map<Integer, DeferredBlock<GearboxBlock>> byRatio = new LinkedHashMap<>();
@@ -63,52 +63,52 @@ public class RotaryBlocks {
     }
 
     public static final DeferredBlock<MachineBlock> DC_ENGINE = BLOCKS.register("dc_engine",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.DC_ENGINE, DCEngineBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.DC_ENGINE, DCEngineBlockEntity::new));
     public static final DeferredBlock<MachineBlock> WIND_ENGINE = BLOCKS.register("wind_engine",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.WIND_ENGINE, WindEngineBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.WIND_ENGINE, WindEngineBlockEntity::new));
     public static final DeferredBlock<MachineBlock> STEAM_ENGINE = BLOCKS.register("steam_engine",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.STEAM_ENGINE, SteamEngineBlockEntity::new));
-    public static final DeferredBlock<ClutchBlock> CLUTCH = BLOCKS.register("clutch", () -> new ClutchBlock(machineProps()));
-    public static final DeferredBlock<SplitterBlock> SPLITTER = BLOCKS.register("splitter", () -> new SplitterBlock(machineProps()));
-    public static final DeferredBlock<BevelGearBlock> BEVEL_GEAR = BLOCKS.register("bevel_gear", () -> new BevelGearBlock(machineProps()));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.STEAM_ENGINE, SteamEngineBlockEntity::new));
+    public static final DeferredBlock<ClutchBlock> CLUTCH = BLOCKS.register("clutch", () -> new ClutchBlock(machineProps().noOcclusion()));
+    public static final DeferredBlock<SplitterBlock> SPLITTER = BLOCKS.register("splitter", () -> new SplitterBlock(machineProps().noOcclusion()));
+    public static final DeferredBlock<BevelGearBlock> BEVEL_GEAR = BLOCKS.register("bevel_gear", () -> new BevelGearBlock(machineProps().noOcclusion()));
     public static final DeferredBlock<MachineBlock> GENERATOR = BLOCKS.register("generator",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.GENERATOR, GeneratorBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.GENERATOR, GeneratorBlockEntity::new));
     public static final DeferredBlock<MachineBlock> ELECTRIC_MOTOR = BLOCKS.register("electric_motor",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.ELECTRIC_MOTOR, MotorBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.ELECTRIC_MOTOR, MotorBlockEntity::new));
     public static final DeferredBlock<MachineBlock> GRINDER = BLOCKS.register("grinder",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.GRINDER, GrinderBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.GRINDER, GrinderBlockEntity::new));
     public static final DeferredBlock<MachineBlock> EXTRACTOR = BLOCKS.register("extractor",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.EXTRACTOR, ExtractorBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.EXTRACTOR, ExtractorBlockEntity::new));
     public static final DeferredBlock<MachineBlock> BLAST_FURNACE = BLOCKS.register("blast_furnace",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.BLAST_FURNACE, BlastFurnaceBlockEntity::new));
     public static final DeferredBlock<MachineBlock> FRICTION_HEATER = BLOCKS.register("friction_heater",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.FRICTION_HEATER, FrictionHeaterBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.FRICTION_HEATER, FrictionHeaterBlockEntity::new));
     public static final DeferredBlock<MachineBlock> FERMENTER = BLOCKS.register("fermenter",
             () -> new MachineBlock(machineProps(), RotaryBlockEntities.FERMENTER, FermenterBlockEntity::new));
     public static final DeferredBlock<MachineBlock> CENTRIFUGE = BLOCKS.register("centrifuge",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.CENTRIFUGE, net.scwunge.rotarycraft.blockentity.CentrifugeBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.CENTRIFUGE, net.scwunge.rotarycraft.blockentity.CentrifugeBlockEntity::new));
     public static final DeferredBlock<MachineBlock> GAS_ENGINE = BLOCKS.register("gas_engine",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.GAS_ENGINE, net.scwunge.rotarycraft.blockentity.GasEngineBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.GAS_ENGINE, net.scwunge.rotarycraft.blockentity.GasEngineBlockEntity::new));
     public static final DeferredBlock<MachineBlock> PERFORMANCE_ENGINE = BLOCKS.register("performance_engine",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.PERFORMANCE_ENGINE, net.scwunge.rotarycraft.blockentity.PerformanceEngineBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.PERFORMANCE_ENGINE, net.scwunge.rotarycraft.blockentity.PerformanceEngineBlockEntity::new));
     public static final DeferredBlock<MachineBlock> MICROTURBINE = BLOCKS.register("microturbine",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.MICROTURBINE, net.scwunge.rotarycraft.blockentity.MicroturbineBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.MICROTURBINE, net.scwunge.rotarycraft.blockentity.MicroturbineBlockEntity::new));
     public static final DeferredBlock<net.scwunge.rotarycraft.block.JetEngineBlock> JET_ENGINE = BLOCKS.register("jet_engine",
-            () -> new net.scwunge.rotarycraft.block.JetEngineBlock(machineProps()));
+            () -> new net.scwunge.rotarycraft.block.JetEngineBlock(machineProps().noOcclusion()));
     public static final DeferredBlock<net.scwunge.rotarycraft.block.HydroEngineBlock> HYDRO_ENGINE = BLOCKS.register("hydro_engine",
-            () -> new net.scwunge.rotarycraft.block.HydroEngineBlock(machineProps()));
+            () -> new net.scwunge.rotarycraft.block.HydroEngineBlock(machineProps().noOcclusion()));
     public static final DeferredBlock<MachineBlock> AC_ENGINE = BLOCKS.register("ac_engine",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.AC_ENGINE, net.scwunge.rotarycraft.blockentity.ACEngineBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.AC_ENGINE, net.scwunge.rotarycraft.blockentity.ACEngineBlockEntity::new));
     public static final DeferredBlock<MachineBlock> MAGNETIZER = BLOCKS.register("magnetizer",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.MAGNETIZER, net.scwunge.rotarycraft.blockentity.MagnetizerBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.MAGNETIZER, net.scwunge.rotarycraft.blockentity.MagnetizerBlockEntity::new));
     public static final DeferredBlock<MachineBlock> FRACTIONATOR = BLOCKS.register("fractionator",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.FRACTIONATOR, net.scwunge.rotarycraft.blockentity.FractionatorBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.FRACTIONATOR, net.scwunge.rotarycraft.blockentity.FractionatorBlockEntity::new));
     public static final DeferredBlock<net.scwunge.rotarycraft.block.CoolingFinBlock> COOLING_FIN = BLOCKS.register("cooling_fin",
             () -> new net.scwunge.rotarycraft.block.CoolingFinBlock(machineProps().noOcclusion()));
     public static final DeferredBlock<MachineBlock> COMPACTOR = BLOCKS.register("compactor",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.COMPACTOR, net.scwunge.rotarycraft.blockentity.CompactorBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.COMPACTOR, net.scwunge.rotarycraft.blockentity.CompactorBlockEntity::new));
     public static final DeferredBlock<MachineBlock> CRYSTALLIZER = BLOCKS.register("crystallizer",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.CRYSTALLIZER, net.scwunge.rotarycraft.blockentity.CrystallizerBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.CRYSTALLIZER, net.scwunge.rotarycraft.blockentity.CrystallizerBlockEntity::new));
     public static final DeferredBlock<net.scwunge.rotarycraft.block.VanDeGraffBlock> VAN_DE_GRAAFF = BLOCKS.register("van_de_graaff",
             () -> new net.scwunge.rotarycraft.block.VanDeGraffBlock(machineProps().noOcclusion(), RotaryBlockEntities.VAN_DE_GRAAFF, net.scwunge.rotarycraft.blockentity.VanDeGraffBlockEntity::new));
     public static final DeferredBlock<net.scwunge.rotarycraft.block.ComposterBlock> COMPOSTER = BLOCKS.register("composter",
@@ -116,9 +116,9 @@ public class RotaryBlocks {
     public static final DeferredBlock<net.scwunge.rotarycraft.block.DryerBlock> DRYER = BLOCKS.register("dryer",
             () -> new net.scwunge.rotarycraft.block.DryerBlock(machineProps().noOcclusion()));
     public static final DeferredBlock<MachineBlock> REFRIGERATOR = BLOCKS.register("refrigerator",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.REFRIGERATOR, net.scwunge.rotarycraft.blockentity.RefrigeratorBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.REFRIGERATOR, net.scwunge.rotarycraft.blockentity.RefrigeratorBlockEntity::new));
     public static final DeferredBlock<MachineBlock> PULSE_FURNACE = BLOCKS.register("pulse_furnace",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.PULSE_FURNACE, net.scwunge.rotarycraft.blockentity.PulseFurnaceBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.PULSE_FURNACE, net.scwunge.rotarycraft.blockentity.PulseFurnaceBlockEntity::new));
     /** Glass that survives explosions; the Pulse Furnace makes it from obsidian. */
     public static final DeferredBlock<net.minecraft.world.level.block.TransparentBlock> BLAST_GLASS = BLOCKS.register("blast_glass",
             () -> new net.minecraft.world.level.block.TransparentBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NONE).strength(2.0F, 1200.0F)
@@ -129,11 +129,11 @@ public class RotaryBlocks {
     public static final DeferredBlock<Block> LONSDALEITE_BLOCK = BLOCKS.registerSimpleBlock("lonsdaleite_block",
             BlockBehaviour.Properties.of().mapColor(MapColor.DIAMOND).strength(5.0F, 6.0F).requiresCorrectToolForDrops());
     public static final DeferredBlock<MachineBlock> PUMP = BLOCKS.register("pump",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.PUMP, net.scwunge.rotarycraft.blockentity.PumpBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.PUMP, net.scwunge.rotarycraft.blockentity.PumpBlockEntity::new));
     public static final DeferredBlock<net.scwunge.rotarycraft.block.ReservoirBlock> RESERVOIR = BLOCKS.register("reservoir",
             () -> new net.scwunge.rotarycraft.block.ReservoirBlock(machineProps().noOcclusion()));
     public static final DeferredBlock<MachineBlock> ROCK_MELTER = BLOCKS.register("rock_melter",
-            () -> new MachineBlock(machineProps(), RotaryBlockEntities.ROCK_MELTER, net.scwunge.rotarycraft.blockentity.RockMelterBlockEntity::new));
+            () -> new MachineBlock(machineProps().noOcclusion(), RotaryBlockEntities.ROCK_MELTER, net.scwunge.rotarycraft.blockentity.RockMelterBlockEntity::new));
     /** Pipes by kind (hose, pipe, fuel line, bedrock pipe). */
     public static final Map<net.scwunge.rotarycraft.pipe.PipeType, DeferredBlock<net.scwunge.rotarycraft.block.PipeBlock>> PIPES = new EnumMap<>(net.scwunge.rotarycraft.pipe.PipeType.class);
 
@@ -168,10 +168,10 @@ public class RotaryBlocks {
 
     static BlockBehaviour.Properties gearboxProps(ShaftMaterial m) {
         return switch (m) {
-            case WOOD -> BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD);
-            case STONE -> BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 6.0F).sound(SoundType.STONE).requiresCorrectToolForDrops();
-            case BEDROCK -> BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5.0F, 3600000F).sound(SoundType.METAL).requiresCorrectToolForDrops();
-            default -> machineProps();
+            case WOOD -> BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).noOcclusion();
+            case STONE -> BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(2.5F, 6.0F).sound(SoundType.STONE).requiresCorrectToolForDrops().noOcclusion();
+            case BEDROCK -> BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5.0F, 3600000F).sound(SoundType.METAL).requiresCorrectToolForDrops().noOcclusion();
+            default -> machineProps().noOcclusion();
         };
     }
 
