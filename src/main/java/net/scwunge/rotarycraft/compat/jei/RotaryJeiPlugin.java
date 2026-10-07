@@ -81,7 +81,7 @@ public class RotaryJeiPlugin implements IModPlugin {
             new Kind("blast_crafting", "Blast Furnace Crafting", "blast_furnace"), new Kind("friction_heating", "Friction Heater", "friction_heater"),
             new Kind("compacting", "Compactor", "compactor"), new Kind("centrifuge", "Centrifuge", "centrifuge"), new Kind("crystallizing", "Crystallizer", "crystallizer"),
             new Kind("composting", "Composter", "composter"), new Kind("drying", "Dryer", "dryer"), new Kind("pulse_smelting", "Pulse Furnace", "pulse_furnace"),
-            new Kind("melting", "Rock Melter", "rock_melter"), new Kind("worktable", "Worktable", "worktable"));
+            new Kind("melting", "Rock Melter", "rock_melter"), new Kind("worktable", "Worktable", "worktable"), new Kind("wetting", "Wetter", "wetter"));
     private static final Kind BOILER = new Kind("boiler", "Boiler", "boiler");
     private static final Kind DISTILLER = new Kind("distiller", "Distiller", "distiller");
     private static final Kind ENHANCER = new Kind("fuel_enhancer", "Fuel Enhancer", "fuel_enhancer");
@@ -140,6 +140,15 @@ public class RotaryJeiPlugin implements IModPlugin {
                 List.of(new FluidStack(ProcessRegistry.steam(), BoilerBlockEntity.STEAM_PER_WATER)),
                 List.of("Needs shaft power; the boiler warms to over 100 C first", BoilerBlockEntity.ENERGY_PER_MB + " energy for each mB of water",
                         "Explodes past " + BoilerBlockEntity.MAX_TEMPERATURE + " C"))));
+        // what each machine does, from the descriptions in the lang file (info.rotarycraft.<id>)
+        for (var entry : BuiltInRegistries.ITEM.entrySet()) {
+            if (entry.getKey().location().getNamespace().equals(RotaryCraft.MOD_ID)) {
+                String key = "info.rotarycraft." + entry.getKey().location().getPath();
+                if (net.minecraft.client.resources.language.I18n.exists(key)) {
+                    registration.addItemStackInfo(new ItemStack(entry.getValue()), Component.translatable(key));
+                }
+            }
+        }
         registration.addRecipes(DISTILLER.type(), distillations());
         registration.addRecipes(ENHANCER.type(), enhancements());
         LOGGER.info("RotaryCraft: JEI pages added");
@@ -232,6 +241,13 @@ public class RotaryJeiPlugin implements IModPlugin {
             return new Page(List.of(stacks(r.ingredient())), List.of(), List.of(r.result()), List.of(), List.of("Needs " + r.temperature() + " C"));
         } else if (recipe instanceof MeltingRecipe r) {
             return new Page(List.of(stacks(r.ingredient())), List.of(), List.of(), List.of(r.result()), List.of("Needs " + r.temperature() + " C", r.energy() + " energy"));
+        } else if (recipe instanceof net.scwunge.rotarycraft.recipe.WettingRecipe r) {
+            List<FluidStack> fluids = new ArrayList<>();
+            for (FluidStack f : r.fluid().getFluids()) {
+                fluids.add(f);
+            }
+            return new Page(List.of(stacks(r.ingredient())), List.of(fluids), List.of(r.result()), List.of(),
+                    List.of("Needs 1024 rad/s and 4 kW", r.duration() + " ticks, less at higher speeds"));
         } else if (recipe instanceof WorktableRecipe r) {
             List<List<ItemStack>> in = new ArrayList<>();
             for (Ingredient i : r.pattern().ingredients()) {

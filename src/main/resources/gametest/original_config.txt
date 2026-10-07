@@ -13,7 +13,7 @@ MAP|VACUUMRANGE|vacuumRange
 MAP|FORCERANGE|forceFieldRange
 MAP|SONICBORERRANGE|sonicBorerRange
 MAP|SPAWNERLIMIT|spawnerMobLimit
-PENDING|DETECTORRANGE|the Player Detector (not ported)|playerDetectorRange
+MAP|DETECTORRANGE|detectorRange
 MAP|BREEDERRANGE|breederRange
 MAP|BAITRANGE|baitBoxRange
 MAP|LINEBUILDER|lineBuilderLength
@@ -87,5 +87,5 @@ PENDING|VACPOWER|the Item Vacuum's power per metre|vacuumPowerPerMetre
 NA|HYDROSTREAMFALLMAX|Streams mod only
 NA|TINKERFLAKES|Tinkers' Construct only
 NA|IC2BLAZECOMPRESS|IC2 only
-PENDING|FREEWATER|free water from pumps|freeWaterFactor
+MAP|FREEWATER|freeWaterFactor
 PENDING|SNEAKWINGS|the Jetpack (item 6)|jetpackWingsOnSneak

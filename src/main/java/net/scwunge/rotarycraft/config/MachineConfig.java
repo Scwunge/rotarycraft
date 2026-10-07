@@ -23,6 +23,7 @@ public final class MachineConfig {
     public static final ModConfigSpec.IntValue AEROSOLIZER_RANGE;
     public static final ModConfigSpec.IntValue LAMP_RANGE;
     public static final ModConfigSpec.IntValue DETECTOR_RANGE;
+    public static final ModConfigSpec.DoubleValue FREE_WATER_FACTOR;
 
     /** The original's machines in this group, with whether each is on by default (the ones that change blocks or burn things are not). */
     private static final Object[][] MACHINES = {
@@ -58,6 +59,8 @@ public final class MachineConfig {
                 .defineInRange("lampRange", 12, 1, 24);
         DETECTOR_RANGE = b.comment("Longest range a player detector can be set to, in blocks (never under 64); the power it gets limits it too.")
                 .defineInRange("detectorRange", 128, 64, 512);
+        FREE_WATER_FACTOR = b.comment("How much free water the Spillway makes from a column of water above its intake (the original's free water production factor).")
+                .defineInRange("freeWaterFactor", 1.0, 0.1, 2.0);
         b.pop();
         SPEC = b.build();
     }

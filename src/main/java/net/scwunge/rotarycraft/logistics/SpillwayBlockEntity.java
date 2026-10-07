@@ -33,7 +33,7 @@ import java.util.Set;
 
 /**
  * Spillway (TileEntitySpillway): an 8 bucket tank that takes the water from the side it faces, with no power. Water falling there gives 250 mB a tick
- * without being used up, and so does a source with water above it (50, scaled by the config); a pool of still water is drained a bucket a tick (the block nearest
+ * without being used up, and a source with water above it gives 50 (scaled by the free water factor in the config); a pool of still water is drained a bucket a tick (the block nearest
  * and highest first, within 64 blocks across and 24 up, and nothing the owner's claims forbid). Water that gets above the spillway is removed. Pipes
  * take the water from underneath. Off unless the server enables it, as it removes blocks.
  */
@@ -181,7 +181,8 @@ public class SpillwayBlockEntity extends InventoryMachineBlockEntity {
             }
         } else if (isWater(at) && isWater(above)) {
             pool.clear();
-            if (tank.getSpace() >= COLUMN && add(COLUMN) > 0) {
+            int column = (int) (COLUMN * MachineConfig.FREE_WATER_FACTOR.get());
+            if (tank.getSpace() >= column && add(column) > 0) {
                 markActive();
             }
         } else if (isWater(at)) {

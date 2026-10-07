@@ -182,4 +182,11 @@ gui('dropgui.png', 'drop_processor')
 shaped('drop_processor', ['PSP', 'PDP', 'PSP'], {'S': STEEL, 'D': item('drill'), 'P': BASEPANEL})
 names({'block.rotarycraft.drop_processor': 'Drop Processor'})
 
+names({'jade.rotarycraft.tank.contents': '%s: %s / %s mB', 'jade.rotarycraft.chest.slots': '%s slots on %s pages', 'jade.rotarycraft.chest.unstable': 'Unstable power (%s slots on %s pages)',
+       'jade.rotarycraft.drops.waiting': '%s stacks waiting for room'})
+
+# ---- what JEI says about each machine ----
+import runpy  # noqa: E402
+runpy.run_path(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'gen_info.py'))
+
 mg.finish()

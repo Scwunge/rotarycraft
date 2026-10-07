@@ -9,7 +9,7 @@ SRC = open('reference/RotaryCraft/Registry/ConfigRegistry.java', encoding='latin
 MAP = {
     'ENGINEVOLUME': 'engineVolume', 'MACHINEVOLUME': 'machineVolume', 'FLOODLIGHTRANGE': 'floodlightRange', 'HEATRAYRANGE': 'heatRayRange',
     'BRIDGERANGE': 'bridgeRange', 'FANRANGE': 'fanRange', 'AERORANGE': 'aerosolizerRange', 'VACUUMRANGE': 'vacuumRange', 'FORCERANGE': 'forceFieldRange',
-    'SONICBORERRANGE': 'sonicBorerRange', 'SPAWNERLIMIT': 'spawnerMobLimit', 'BREEDERRANGE': 'breederRange', 'BAITRANGE': 'baitBoxRange',
+    'SONICBORERRANGE': 'sonicBorerRange', 'SPAWNERLIMIT': 'spawnerMobLimit', 'BREEDERRANGE': 'breederRange', 'BAITRANGE': 'baitBoxRange', 'DETECTORRANGE': 'detectorRange', 'FREEWATER': 'freeWaterFactor',
     'LINEBUILDER': 'lineBuilderLength', 'BAITMOBS': 'baitBoxMobs', 'CAVEFINDERRANGE': 'caveScannerRange', 'BANRAIN': 'weatherControllerBansRain',
     'BLOCKDAMAGE': 'explosionsBreakBlocks', 'BIOMEBLOCKS': 'terraformerEditsBlocks', 'RAILGUNDAMAGE': 'railgunBlockDamage', 'TURRETPLAYERS': 'turretsTargetPlayers',
     'ATTACKBLOCKS': 'weaponBlockDamage', 'VOIDHOLE': 'bedrockBreakerVoidHole', 'BLOWERSPILL': 'itemPumpSpills', 'BORERMAINTAIN': 'borerRequiresMaintenance', 'BEDPICKSPAWNERS': 'bedrockPickHarvestsSpawners', 'PREENCHANT': 'lockBedrockEnchants',
@@ -32,7 +32,7 @@ NA = {
 PENDING = {
     'GPRORES': ('the GPR\'s ore display', 'gprShowsOres'), 'INSTACUT': ('the Woodcutter dropping its wood at once', 'woodcutterInstant'),
     'CRAFTABLEBEDROCK': ('the bedrock recipe', 'craftableBedrock'), 'LOCKMACHINES': ('owner-only use of machines', 'ownerOnlyMachines'),
-    'DETECTORRANGE': ('the Player Detector (not ported)', 'playerDetectorRange'), 'SPAWNERLEAK': ('bedrock tools (item 6)', 'spawnersLeakMobs'), 'DYNAMICHANDBOOK': ('the Handbook (not ported)', 'reloadHandbook'),
+    'SPAWNERLEAK': ('bedrock tools (item 6)', 'spawnersLeakMobs'), 'DYNAMICHANDBOOK': ('the Handbook (not ported)', 'reloadHandbook'),
     'EMPLOAD': ('the EMP\'s charging speed', 'empChargeSpeed'), 'GRAVELPLAYER': ('the Gravel Gun (item 6)', 'gravelGunPvp'), 'CHESTGEN': ('chest loot (not ported)', 'chestLootTier'),
     'PROJECTORLINES': ('a client option for the Projector', 'projectorLines'), 'COLORBLIND': ('a client option', 'colorBlindMode'),
     'SPRINKLER': ('a client option for the Sprinkler\'s particles', 'sprinklerParticles'), 'HANDBOOK': ('the Handbook (not ported)', 'spawnWithHandbook'),
@@ -42,7 +42,7 @@ PENDING = {
     'HARDGRAVELGUN': ('the Gravel Gun (item 6)', 'hardGravelGun'), 'PIPEHARDNESS': ('the pipes\' block hardness', 'pipeHardness'), 'FAKEBEDROCK': ('bedrock tools (item 6)', 'fakePlayerBedrockAbilities'),
     'BORERGEN': ('the Borer generating chunks', 'borerChunkRadius'), 'CRAFTERPROFILE': ('the Auto-Crafter\'s lag compensation', 'crafterProfiling'),
     'HSLAHARVEST': ('steel tools (item 6)', 'steelToolsHarvestHigher'), 'LATEDYNAMO': ('the Dynamo\'s recipe gate', 'dynamoRecipeGate'), 'VACPOWER': ('the Item Vacuum\'s power per metre', 'vacuumPowerPerMetre'),
-    'FREEWATER': ('free water from pumps', 'freeWaterFactor'), 'SNEAKWINGS': ('the Jetpack (item 6)', 'jetpackWingsOnSneak'),
+    'SNEAKWINGS': ('the Jetpack (item 6)', 'jetpackWingsOnSneak'),
 }
 
 

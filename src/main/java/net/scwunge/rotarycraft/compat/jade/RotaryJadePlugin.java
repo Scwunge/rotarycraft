@@ -51,7 +51,24 @@ public class RotaryJadePlugin implements IWailaPlugin {
             }
             data.putInt("torque", power.getTorque());
             data.putInt("omega", power.getOmega());
-            if (be instanceof FarmBlockEntity farm) {
+            if (be instanceof net.scwunge.rotarycraft.machine.InventoryMachineBlockEntity inventory && !inventory.tanks().isEmpty()) {
+                net.minecraft.nbt.ListTag tanks = new net.minecraft.nbt.ListTag();
+                for (var tank : inventory.tanks()) {
+                    CompoundTag entry = new CompoundTag();
+                    entry.putString("fluid", tank.isEmpty() ? "" : tank.getFluid().getHoverName().getString());
+                    entry.putInt("amount", tank.getFluidAmount());
+                    entry.putInt("capacity", tank.getCapacity());
+                    tanks.add(entry);
+                }
+                data.put("tanks", tanks);
+            }
+            if (be instanceof net.scwunge.rotarycraft.logistics.ScaleChestBlockEntity chest) {
+                data.putString("kind", "scaleChest");
+                data.putIntArray("status", new int[] {chest.numberSlots(), chest.numberPages(), chest.powerChanges()});
+            } else if (be instanceof net.scwunge.rotarycraft.logistics.DropProcessorBlockEntity drops) {
+                data.putString("kind", "dropProcessor");
+                data.putIntArray("status", new int[] {drops.overflowCount()});
+            } else if (be instanceof FarmBlockEntity farm) {
                 data.putString("kind", farm.kind());
                 int[] status = new int[FarmBlockEntity.DATA_COUNT - 2];
                 var values = farm.data();
@@ -90,6 +107,10 @@ public class RotaryJadePlugin implements IWailaPlugin {
             } else {
                 tooltip.add(Component.translatable("jade.rotarycraft.idle"));
             }
+            for (net.minecraft.nbt.Tag t : data.getList("tanks", net.minecraft.nbt.Tag.TAG_COMPOUND)) {
+                CompoundTag tank = (CompoundTag) t;
+                tooltip.add(Component.translatable("jade.rotarycraft.tank.contents", tank.getString("fluid").isEmpty() ? "-" : tank.getString("fluid"), tank.getInt("amount"), tank.getInt("capacity")));
+            }
             int[] s = data.getIntArray("status");
             switch (data.getString("kind")) {
                 case "boiler" -> {
@@ -107,6 +128,12 @@ public class RotaryJadePlugin implements IWailaPlugin {
                     tooltip.add(Component.translatable("jade.rotarycraft.temperature", s[0]));
                     tooltip.add(Component.translatable("jade.rotarycraft.tank.lava", s[1], s[2]));
                     tooltip.add(Component.translatable("jade.rotarycraft.progress", s[3] * 100 / Math.max(1, s[4])));
+                }
+                case "scaleChest" -> tooltip.add(Component.translatable(s[2] > 0 ? "jade.rotarycraft.chest.unstable" : "jade.rotarycraft.chest.slots", s[0], s[1]));
+                case "dropProcessor" -> {
+                    if (s[0] > 0) {
+                        tooltip.add(Component.translatable("jade.rotarycraft.drops.waiting", s[0]));
+                    }
                 }
                 case "pipePump" -> tooltip.add(Component.translatable("jade.rotarycraft.pump", s[0]));
                 case "converter" -> tooltip.add(Component.translatable("jade.rotarycraft.stored", s[0], s[1]));
