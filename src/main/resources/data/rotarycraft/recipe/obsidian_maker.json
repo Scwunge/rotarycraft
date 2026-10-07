@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SpS",
+    "PMP",
+    "BBB"
+  ],
+  "key": {
+    "S": {
+      "tag": "c:ingots/steel"
+    },
+    "p": {
+      "item": "minecraft:glass_pane"
+    },
+    "P": {
+      "item": "rotarycraft:pipe"
+    },
+    "M": {
+      "item": "rotarycraft:mixer"
+    },
+    "B": {
+      "item": "rotarycraft:base_panel"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:obsidian_maker",
+    "count": 1
+  }
+}

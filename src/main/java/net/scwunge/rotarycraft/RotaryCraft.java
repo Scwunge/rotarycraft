@@ -30,8 +30,12 @@ public class RotaryCraft {
 
     public RotaryCraft(IEventBus modBus, ModContainer container) {
         container.registerConfig(ModConfig.Type.SERVER, RotaryConfig.SPEC, "rotarycraft-server.toml");
+<<<<<<< HEAD
         container.registerConfig(ModConfig.Type.SERVER, net.scwunge.rotarycraft.config.FarmConfig.SPEC, "rotarycraft-farm.toml");
         container.registerConfig(ModConfig.Type.SERVER, net.scwunge.rotarycraft.config.SoundConfig.SPEC, "rotarycraft-sound.toml");
+=======
+        container.registerConfig(ModConfig.Type.SERVER, net.scwunge.rotarycraft.config.MachineConfig.SPEC, "rotarycraft-machines.toml");
+>>>>>>> 0eed8a5 (Add the Obsidian Maker and a shared layout framework for machine screens)
         // fluids add their blocks and buckets to the block and item registers, so they load first
         net.scwunge.rotarycraft.registry.RotaryFluids.TYPES.register(modBus);
         net.scwunge.rotarycraft.registry.RotaryFluids.FLUIDS.register(modBus);
@@ -41,8 +45,12 @@ public class RotaryCraft {
         net.scwunge.rotarycraft.registry.WeaponRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.SurveyRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.WorldMachineRegistry.init(modBus);
+<<<<<<< HEAD
         net.scwunge.rotarycraft.registry.FarmRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.MachineSoundRegistry.init(modBus);
+=======
+        net.scwunge.rotarycraft.registry.DecorRegistry.init(modBus);
+>>>>>>> 0eed8a5 (Add the Obsidian Maker and a shared layout framework for machine screens)
         RotaryItems.TABS.register(modBus);
         RotaryBlockEntities.TYPES.register(modBus);
         net.scwunge.rotarycraft.registry.RotaryRecipes.TYPES.register(modBus);

@@ -101,6 +101,7 @@
     "rotarycraft:bedrock_breaker",
     "rotarycraft:sonic_borer",
     "rotarycraft:terraformer",
+<<<<<<< HEAD
     "rotarycraft:fan",
     "rotarycraft:sprinkler",
     "rotarycraft:lawn_sprinkler",
@@ -114,5 +115,8 @@
     "rotarycraft:mob_harvester",
     "rotarycraft:spawner_controller",
     "rotarycraft:woodcutter"
+=======
+    "rotarycraft:obsidian_maker"
+>>>>>>> 0eed8a5 (Add the Obsidian Maker and a shared layout framework for machine screens)
   ]
 }

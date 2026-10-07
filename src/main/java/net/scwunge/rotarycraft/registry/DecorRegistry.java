@@ -1,0 +1,38 @@
+package net.scwunge.rotarycraft.registry;
+
+import net.minecraft.world.inventory.MenuType;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.scwunge.rotarycraft.RotaryCraft;
+import net.scwunge.rotarycraft.blockentity.ObsidianMakerBlockEntity;
+import net.scwunge.rotarycraft.machine.LayoutMachineBlock;
+import net.scwunge.rotarycraft.machine.LayoutMenu;
+import net.scwunge.rotarycraft.machine.LayoutMenus;
+
+/**
+ * The world and decoration machines (obsidian maker, pile driver, line builder, block filler, lights, beam mirror, aerosolizer, firework machine, music
+ * box, self destruct, particle emitter, decorative tank) and the extra cannons: blocks, block entities and items go into the mod's shared registers.
+ * Each has a switch in the machines config.
+ */
+@EventBusSubscriber(modid = RotaryCraft.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+public final class DecorRegistry {
+    // ---- Obsidian Maker ----
+    public static final Machines.Entry<ObsidianMakerBlockEntity, LayoutMachineBlock> OBSIDIAN_MAKER = Machines.machine("obsidian_maker", ObsidianMakerBlockEntity::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> OBSIDIAN_MAKER_MENU = LayoutMenus.register(ObsidianMakerBlockEntity.LAYOUT);
+
+    private DecorRegistry() {}
+
+    /** Loads the class, so its entries join the shared registers. */
+    public static void init(IEventBus modBus) {
+    }
+
+    @SubscribeEvent
+    public static void capabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, OBSIDIAN_MAKER.type().get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, OBSIDIAN_MAKER.type().get(), (be, side) -> be.fluidHandler(side));
+    }
+}
