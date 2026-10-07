@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "SW ",
+    " GS",
+    " M "
+  ],
+  "key": {
+    "S": {
+      "item": "rotarycraft:shaft_core"
+    },
+    "W": {
+      "item": "rotarycraft:worm_gear"
+    },
+    "G": {
+      "item": "rotarycraft:steel_gear"
+    },
+    "M": {
+      "item": "rotarycraft:mount"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:worm_drive",
+    "count": 1
+  }
+}

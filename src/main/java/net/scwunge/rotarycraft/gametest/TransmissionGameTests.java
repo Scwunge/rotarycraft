@@ -19,6 +19,8 @@ import net.scwunge.rotarycraft.power.ShaftMaterial;
 import net.scwunge.rotarycraft.registry.RotaryFluids;
 import net.scwunge.rotarycraft.registry.RotaryParts;
 import net.scwunge.rotarycraft.transmission.BusControllerBlockEntity;
+import net.scwunge.rotarycraft.transmission.AdvancedGearBlock;
+import net.scwunge.rotarycraft.transmission.AdvancedGearBlockEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.scwunge.rotarycraft.transmission.PortalShafts;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -665,6 +667,38 @@ public class TransmissionGameTests {
         helper.assertTrue(PortalShafts.otherSide(level, Blocks.NETHER_PORTAL.defaultBlockState()) == nether && PortalShafts.otherSide(nether, Blocks.NETHER_PORTAL.defaultBlockState()) == level, "nether portals join the overworld and the nether");
         helper.assertTrue(PortalShafts.otherSide(level, Blocks.END_PORTAL.defaultBlockState()).dimension() == net.minecraft.world.level.Level.END, "end portals lead to the end");
         helper.assertTrue(PortalShafts.otherSide(level, Blocks.STONE.defaultBlockState()) == null, "stone is no portal");
+        helper.succeed();
+    }
+
+    // ---- advanced gears ----
+
+    static AdvancedGearBlockEntity advancedGear(GameTestHelper helper, DeferredBlock<AdvancedGearBlock> block, int torque, int omega) {
+        WeaponGameTests.spinningFlywheel(helper, SOURCE, torque, omega, Direction.EAST);
+        helper.setBlock(CLUTCH, block.get().defaultBlockState().setValue(MachineBlock.FACING, Direction.EAST));
+        return helper.getBlockEntity(CLUTCH);
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void aWormGearTradesSpeedForTorqueAndLosesSomeToTheWorm(GameTestHelper helper) {
+        advancedGear(helper, TransmissionRegistry.WORM_DRIVE, 2, 4096);
+        DynamometerBlockEntity meter = meter(helper, CLUTCH.east(), Direction.EAST);
+        helper.succeedWhen(() -> {
+            helper.assertTrue(meter.getTorque() == 128, "torque " + meter.getTorque());
+            helper.assertTrue(meter.getOmega() == AdvancedGearBlockEntity.wormSpeed(4096) && meter.getOmega() == 51, "speed " + meter.getOmega());
+        });
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 40)
+    public static void aWormGearNeverGivesMoreThanTheLimit(GameTestHelper helper) {
+        AdvancedGearBlockEntity gear = advancedGear(helper, TransmissionRegistry.WORM_DRIVE, 40_000_000, 4096);
+        helper.succeedWhen(() -> helper.assertTrue(gear.getTorque() == AdvancedGearBlockEntity.LIMIT, "torque " + gear.getTorque()));
+    }
+
+    @GameTest(template = TEMPLATE, timeoutTicks = 20)
+    public static void theWormGearsLossFollowsTheOriginalsFormula(GameTestHelper helper) {
+        helper.assertTrue(Math.abs(AdvancedGearBlockEntity.wormLoss(1024) - 0.88) < 1.0E-9, "at 1024 rad/s " + AdvancedGearBlockEntity.wormLoss(1024));
+        helper.assertTrue(Math.abs(AdvancedGearBlockEntity.wormLoss(4096) - 0.80) < 1.0E-9, "at 4096 rad/s " + AdvancedGearBlockEntity.wormLoss(4096));
+        helper.assertTrue(AdvancedGearBlockEntity.wormSpeed(63) == 0, "below 64 rad/s nothing comes out");
         helper.succeed();
     }
 }

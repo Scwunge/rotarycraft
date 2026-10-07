@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/worm_drive"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/worm_drive"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/worm_drive"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/worm_drive"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/worm_drive"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/worm_drive"
+    }
+  }
+}

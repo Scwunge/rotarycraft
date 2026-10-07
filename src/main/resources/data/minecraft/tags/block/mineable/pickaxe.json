@@ -170,6 +170,7 @@
     "rotarycraft:engine_controller",
     "rotarycraft:belt_hub",
     "rotarycraft:chain_drive",
-    "rotarycraft:split_belt"
+    "rotarycraft:split_belt",
+    "rotarycraft:worm_drive"
   ]
 }

@@ -1,6 +1,9 @@
 package net.scwunge.rotarycraft.registry;
 
 import net.minecraft.world.inventory.MenuType;
+
+import java.util.EnumMap;
+import java.util.Map;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -20,6 +23,8 @@ import net.scwunge.rotarycraft.transmission.BusControllerBlock;
 import net.scwunge.rotarycraft.transmission.BusControllerBlockEntity;
 import net.scwunge.rotarycraft.transmission.PowerBusBlock;
 import net.scwunge.rotarycraft.transmission.PowerBusBlockEntity;
+import net.scwunge.rotarycraft.transmission.AdvancedGearBlock;
+import net.scwunge.rotarycraft.transmission.AdvancedGearBlockEntity;
 import net.scwunge.rotarycraft.transmission.BeltHubBlock;
 import net.scwunge.rotarycraft.transmission.BeltHubBlockEntity;
 import net.scwunge.rotarycraft.transmission.DistributionClutchBlock;
@@ -69,7 +74,21 @@ public final class TransmissionRegistry {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BeltHubBlockEntity>> BELT_HUB_BE =
             RotaryBlockEntities.TYPES.register("belt_hub", () -> BlockEntityType.Builder.of(BeltHubBlockEntity::new, BELT_HUB.get(), CHAIN_DRIVE.get(), SPLIT_BELT.get()).build(null));
 
+    /** The advanced gears, one block for each kind (worm gear, CVT, energy coil, 256x gear). */
+    public static final Map<AdvancedGearBlock.Kind, DeferredBlock<AdvancedGearBlock>> ADVANCED_GEARS = new EnumMap<>(AdvancedGearBlock.Kind.class);
+    public static final DeferredBlock<AdvancedGearBlock> WORM_DRIVE = gear(AdvancedGearBlock.Kind.WORM, "worm_drive");
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AdvancedGearBlockEntity>> ADVANCED_GEAR_BE =
+            RotaryBlockEntities.TYPES.register("advanced_gear", () -> BlockEntityType.Builder.of(AdvancedGearBlockEntity::new,
+                    ADVANCED_GEARS.values().stream().map(DeferredBlock::get).toArray(net.minecraft.world.level.block.Block[]::new)).build(null));
+
+    private static DeferredBlock<AdvancedGearBlock> gear(AdvancedGearBlock.Kind kind, String name) {
+        DeferredBlock<AdvancedGearBlock> block = RotaryBlocks.BLOCKS.register(name, () -> new AdvancedGearBlock(RotaryBlocks.machineProps().noOcclusion(), kind));
+        ADVANCED_GEARS.put(kind, block);
+        return block;
+    }
+
     static {
+        ADVANCED_GEARS.values().forEach(block -> RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(block)));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(BELT_HUB));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(CHAIN_DRIVE));
         RotaryItems.add(RotaryItems.ITEMS.registerSimpleBlockItem(SPLIT_BELT));

@@ -175,6 +175,12 @@ LANG.update({'block.rotarycraft.belt_hub': 'Belt Pulley', 'block.rotarycraft.cha
              'message.rotarycraft.belt.receiving': 'This pulley now receives the belt.',
              'message.rotarycraft.belt.driving': 'This pulley now drives the belt.'})
 
+# ---- Advanced gears: the worm gear ----
+MODELS.append('ModelWorm:worm_gear')
+rendered('worm_drive')
+shaped('worm_drive', ['SW ', ' GS', ' M '], {'S': item('shaft_core'), 'W': item('worm_gear'), 'G': item('steel_gear'), 'M': item('mount')})
+LANG.update({'block.rotarycraft.worm_drive': 'Worm Gear'})
+
 # ---- lang, tags, models ----
 lang_path = A + '/lang/en_us.json'
 lang = json.load(open(lang_path))

@@ -14,6 +14,7 @@ import net.scwunge.rotarycraft.blockentity.PowerBlockEntity;
 import net.scwunge.rotarycraft.client.machine.MachineRenderer;
 import net.scwunge.rotarycraft.client.machine.MachineRenderer.Look;
 import net.scwunge.rotarycraft.registry.TransmissionRegistry;
+import net.scwunge.rotarycraft.transmission.AdvancedGearBlockEntity;
 import net.scwunge.rotarycraft.transmission.DistributionClutchBlockEntity;
 import net.scwunge.rotarycraft.transmission.MultiClutchBlockEntity;
 
@@ -31,9 +32,21 @@ public final class TransmissionClient {
 
     static final Look<DistributionClutchBlockEntity> DISTRIBUTION_CLUTCH = Look.spinning("distribution_clutch", "distribution_clutch", MachineRenderer.BEAM, TransmissionClient::spin, 1);
 
+    /** The original's turning of the advanced gears' models for the side their output is on (west, east, north, south). */
+    static final float[] GEAR_YAWS = {180, 0, 270, 90};
+    static final Look<AdvancedGearBlockEntity> ADVANCED_GEAR = Look.<AdvancedGearBlockEntity>spinning("worm_gear", "clutch", GEAR_YAWS, TransmissionClient::spin, 1)
+            .modelled(be -> switch (be.kind()) {
+                case WORM -> "worm_gear";
+                default -> "worm_gear";
+            }).textured(be -> switch (be.kind()) {
+                case WORM -> "clutch";
+                default -> "clutch";
+            });
+
     @SubscribeEvent
     public static void renderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(TransmissionRegistry.MULTI_CLUTCH_BE.get(), c -> new MachineRenderer<>(MULTI_CLUTCH));
+        event.registerBlockEntityRenderer(TransmissionRegistry.ADVANCED_GEAR_BE.get(), c -> new MachineRenderer<>(ADVANCED_GEAR));
         event.registerBlockEntityRenderer(TransmissionRegistry.BELT_HUB_BE.get(), c -> new BeltRenderer());
         event.registerBlockEntityRenderer(TransmissionRegistry.DISTRIBUTION_CLUTCH_BE.get(), c -> new MachineRenderer<>(DISTRIBUTION_CLUTCH));
     }
@@ -59,6 +72,18 @@ public final class TransmissionClient {
                 return renderer;
             }
         }, TransmissionRegistry.MULTI_CLUTCH.get().asItem());
+        TransmissionRegistry.ADVANCED_GEARS.forEach((kind, block) -> event.registerItem(new IClientItemExtensions() {
+            private BlockEntityWithoutLevelRenderer renderer;
+
+            @Override
+            public BlockEntityWithoutLevelRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    Minecraft mc = Minecraft.getInstance();
+                    renderer = new MachineRenderer.Item<>(mc.getBlockEntityRenderDispatcher(), mc.getEntityModels(), new MachineRenderer<>(ADVANCED_GEAR), "worm_gear", "clutch");
+                }
+                return renderer;
+            }
+        }, block.get().asItem()));
         for (var block : java.util.List.of(TransmissionRegistry.BELT_HUB, TransmissionRegistry.CHAIN_DRIVE, TransmissionRegistry.SPLIT_BELT)) {
             event.registerItem(new IClientItemExtensions() {
                 private BlockEntityWithoutLevelRenderer renderer;
