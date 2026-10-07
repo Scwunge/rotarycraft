@@ -225,7 +225,11 @@ public class CannonGameTests {
         Runnable restore = DecorGameTests.enable("airGun");
         AirGunBlockEntity gun = airGun(helper, 512, 32);
         helper.runAfterDelay(3, () -> helper.assertTrue(gun.range() == 28 && gun.operationTime() == 11, "range " + gun.range() + ", time " + gun.operationTime()));
-        helper.setBlock(new BlockPos(6, 1, 2), Blocks.STONE);
+        for (int x = 4; x <= 14; x++) {
+            for (int z = 0; z <= 4; z++) {
+                helper.setBlock(new BlockPos(x, 1, z), Blocks.STONE);
+            }
+        }
         // an ordinary pig, not a no-AI one, which ignores being thrown
         Pig pig = helper.spawn(EntityType.PIG, new BlockPos(6, 2, 2));
         double start = pig.getX();
@@ -236,7 +240,11 @@ public class CannonGameTests {
     public static void airGunNeedsFiveHundredAndTwelveNewtonMetres(GameTestHelper helper) {
         Runnable restore = DecorGameTests.enable("airGun");
         airGun(helper, 511, 64);
-        helper.setBlock(new BlockPos(6, 1, 2), Blocks.STONE);
+        for (int x = 4; x <= 14; x++) {
+            for (int z = 0; z <= 4; z++) {
+                helper.setBlock(new BlockPos(x, 1, z), Blocks.STONE);
+            }
+        }
         Pig pig = helper.spawn(EntityType.PIG, new BlockPos(6, 2, 2));
         double start = pig.getX();
         helper.runAfterDelay(40, () -> {
@@ -250,7 +258,11 @@ public class CannonGameTests {
     public static void switchedOffAirGunDoesNothing(GameTestHelper helper) {
         Runnable restore = DecorGameTests.disable("airGun");
         airGun(helper, 512, 32);
-        helper.setBlock(new BlockPos(6, 1, 2), Blocks.STONE);
+        for (int x = 4; x <= 14; x++) {
+            for (int z = 0; z <= 4; z++) {
+                helper.setBlock(new BlockPos(x, 1, z), Blocks.STONE);
+            }
+        }
         Pig pig = helper.spawn(EntityType.PIG, new BlockPos(6, 2, 2));
         double start = pig.getX();
         helper.runAfterDelay(40, () -> {
@@ -258,5 +270,101 @@ public class CannonGameTests {
             helper.assertTrue(Math.abs(pig.getX() - start) < 2.5, "a switched-off air gun threw the pig");
             helper.succeed();
         });
+    }
+
+    // ---- Block Cannon ----
+
+    static net.scwunge.rotarycraft.blockentity.BlockCannonBlockEntity blockCannon(GameTestHelper helper, int torque, int omega) {
+        for (int x = 0; x < 20; x++) {
+            for (int z = 0; z < 7; z++) {
+                helper.setBlock(new BlockPos(x, 0, z), Blocks.STONE);
+            }
+        }
+        WeaponGameTests.spinningFlywheel(helper, A.below(), torque, omega);
+        helper.setBlock(A, DecorRegistry.BLOCK_CANNON.block().get().defaultBlockState());
+        var cannon = (net.scwunge.rotarycraft.blockentity.BlockCannonBlockEntity) helper.getBlockEntity(A);
+        cannon.items().setStackInSlot(0, new ItemStack(Items.COBBLESTONE, 5));
+        return cannon;
+    }
+
+    static boolean cobbleOnTheFloor(GameTestHelper helper) {
+        for (int x = 3; x < 20; x++) {
+            for (int z = 0; z < 7; z++) {
+                if (helper.getBlockState(new BlockPos(x, 1, z)).is(Blocks.COBBLESTONE)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @GameTest(template = WIDE, batch = "cannon_blockfire", timeoutTicks = 150)
+    public static void blockCannonThrowsABlockThatLandsOnTheFloor(GameTestHelper helper) {
+        Runnable restore = DecorGameTests.enable("blockCannon");
+        var cannon = blockCannon(helper, 16384, 16);
+        cannon.aim(10, 30, 0);
+        waitFor(helper, restore, 150, () -> cobbleOnTheFloor(helper) && cannon.items().getStackInSlot(0).getCount() < 5);
+    }
+
+    @GameTest(template = WIDE, batch = "cannon_blockweak", timeoutTicks = 80)
+    public static void blockCannonNeedsTorqueForTheBlockAndSpeed(GameTestHelper helper) {
+        Runnable restore = DecorGameTests.enable("blockCannon");
+        // stone at 10 blocks a second needs the next power of two over 25000, 32768, over four: 8192 N*m
+        helper.assertTrue(net.scwunge.rotarycraft.blockentity.BlockCannonBlockEntity.requiredTorque(Blocks.STONE.defaultBlockState(), 10) == 8192, "8192 N*m for 10 b/s of stone");
+        helper.assertTrue(net.scwunge.rotarycraft.blockentity.BlockCannonBlockEntity.requiredTorque(Blocks.STONE.defaultBlockState(), 20) == 16384, "16384 N*m at 20 b/s");
+        helper.assertTrue(net.scwunge.rotarycraft.blockentity.BlockCannonBlockEntity.requiredTorque(Blocks.GOLD_BLOCK.defaultBlockState(), 10) > 8192, "gold is heavier");
+        var cannon = blockCannon(helper, 8191, 16);
+        cannon.aim(10, 30, 0);
+        helper.runAfterDelay(50, () -> {
+            restore.run();
+            helper.assertTrue(cannon.items().getStackInSlot(0).getCount() == 5 && !cobbleOnTheFloor(helper), "it threw a block with too little torque");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = WIDE, batch = "cannon_blockclaim", timeoutTicks = 100)
+    public static void blockCannonWillNotLandABlockInAClaim(GameTestHelper helper) {
+        Runnable restore = DecorGameTests.enable("blockCannon");
+        Runnable release = DecorGameTests.claim(new net.minecraft.world.phys.AABB(helper.absolutePos(new BlockPos(0, 0, 0))).inflate(40));
+        var cannon = blockCannon(helper, 16384, 16);
+        cannon.aim(10, 30, 0);
+        helper.runAfterDelay(60, () -> {
+            restore.run();
+            release.run();
+            helper.assertTrue(cannon.items().getStackInSlot(0).getCount() == 5 && !cobbleOnTheFloor(helper), "it fired at a claim");
+            helper.succeed();
+        });
+    }
+
+    @GameTest(template = WIDE, batch = "cannon_blocktarget", timeoutTicks = 200)
+    public static void blockCannonInTargetModeWorksOutTheShot(GameTestHelper helper) {
+        Runnable restore = DecorGameTests.enable("blockCannon");
+        var cannon = blockCannon(helper, 65536, 16);
+        cannon.aimAt(helper.absolutePos(new BlockPos(11, 0, 2)));
+        waitFor(helper, restore, 200, () -> {
+            for (int x = 9; x <= 13; x++) {
+                for (int z = 1; z <= 3; z++) {
+                    if (helper.getBlockState(new BlockPos(x, 1, z)).is(Blocks.COBBLESTONE)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        });
+    }
+
+    @GameTest(template = WIDE, batch = "cannon_blockscreen", timeoutTicks = 40)
+    public static void blockCannonScreenFieldsAndModeButton(GameTestHelper helper) {
+        var cannon = blockCannon(helper, 1, 1);
+        Player player = helper.makeMockPlayer(GameType.SURVIVAL);
+        helper.assertTrue(cannon.setField(player, 0, 40) && cannon.setField(player, 1, 60) && cannon.setField(player, 2, 725), "boxes refused");
+        helper.assertTrue(cannon.velocity() == 40 && cannon.theta() == 60 && cannon.phi() == 5, "values " + cannon.velocity() + " " + cannon.theta() + " " + cannon.phi());
+        helper.assertTrue(cannon.setField(player, 3, 12) && cannon.setField(player, 4, 70) && cannon.setField(player, 5, -9) && cannon.target().equals(new BlockPos(12, 70, -9)), "target");
+        helper.assertFalse(cannon.targetMode(), "manual to begin with");
+        helper.assertTrue(cannon.menuButton(player, 0) && cannon.targetMode() && cannon.extra(6) == 1, "the button switches to target mode");
+        helper.assertFalse(cannon.menuButton(player, 3), "no such button");
+        var layout = net.scwunge.rotarycraft.blockentity.BlockCannonBlockEntity.LAYOUT;
+        helper.assertTrue(layout.fields().get(0).shownIn(0) && !layout.fields().get(0).shownIn(1) && layout.fields().get(3).shownIn(1) && !layout.fields().get(3).shownIn(0), "boxes are shown by mode");
+        helper.succeed();
     }
 }

@@ -24,6 +24,7 @@ public final class MachineClient {
     private static final PileDriverRenderer PILE_DRIVER = new PileDriverRenderer();
     private static final BeamMirrorRenderer BEAM_MIRROR = new BeamMirrorRenderer();
     private static final AirGunRenderer AIR_GUN = new AirGunRenderer();
+    private static final ModelMachineRenderer<net.scwunge.rotarycraft.blockentity.BlockCannonBlockEntity> BLOCK_CANNON = new ModelMachineRenderer<>("cannon", "block_cannon");
     private static final ModelMachineRenderer<net.scwunge.rotarycraft.blockentity.ItemCannonBlockEntity> ITEM_CANNON = new ModelMachineRenderer<>("item_cannon", "item_cannon");
 
     private MachineClient() {}
@@ -49,6 +50,7 @@ public final class MachineClient {
         event.registerBlockEntityRenderer(DecorRegistry.PILE_DRIVER.type().get(), c -> PILE_DRIVER);
         event.registerBlockEntityRenderer(DecorRegistry.BEAM_MIRROR.type().get(), c -> BEAM_MIRROR);
         event.registerBlockEntityRenderer(DecorRegistry.AIR_GUN.type().get(), c -> AIR_GUN);
+        event.registerBlockEntityRenderer(DecorRegistry.BLOCK_CANNON.type().get(), c -> BLOCK_CANNON);
         event.registerBlockEntityRenderer(DecorRegistry.DECO_TANK_BE.get(), c -> new DecoTankRenderer());
         event.registerBlockEntityRenderer(DecorRegistry.ITEM_CANNON.type().get(), c -> ITEM_CANNON);
     }
@@ -78,6 +80,7 @@ public final class MachineClient {
         event.registerItem(modelItem(PILE_DRIVER), DecorRegistry.PILE_DRIVER.block().get().asItem());
         event.registerItem(modelItem(BEAM_MIRROR), DecorRegistry.BEAM_MIRROR.block().get().asItem());
         event.registerItem(modelItem(AIR_GUN), DecorRegistry.AIR_GUN.block().get().asItem());
+        event.registerItem(modelItem(BLOCK_CANNON), DecorRegistry.BLOCK_CANNON.block().get().asItem());
         event.registerItem(modelItem(ITEM_CANNON), DecorRegistry.ITEM_CANNON.block().get().asItem());
     }
 }

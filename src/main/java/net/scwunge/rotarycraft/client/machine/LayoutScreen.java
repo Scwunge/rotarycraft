@@ -50,6 +50,7 @@ public class LayoutScreen extends AbstractContainerScreen<LayoutMenu> {
                 }
             });
             boxes.add(addRenderableWidget(box));
+            box.visible = field.shownIn(field.modeExtra() < 0 ? 0 : menu.extra(field.modeExtra()));
         }
         for (GuiLayout.Button button : layout.buttons()) {
             addRenderableWidget(Button.builder(buttonLabel(button), b -> minecraft.gameMode.handleInventoryButtonClick(menu.containerId, button.id()))
@@ -75,6 +76,7 @@ public class LayoutScreen extends AbstractContainerScreen<LayoutMenu> {
         int i = 0;
         for (GuiLayout.Field field : layout.fields()) {
             EditBox box = boxes.get(i++);
+            box.visible = field.shownIn(field.modeExtra() < 0 ? 0 : menu.extra(field.modeExtra()));
             if (!box.isFocused() && number(box.getValue()) != menu.extra(field.extra())) {
                 box.setValue(Integer.toString(menu.extra(field.extra())));
             }
@@ -94,7 +96,7 @@ public class LayoutScreen extends AbstractContainerScreen<LayoutMenu> {
     protected void renderLabels(GuiGraphics g, int mouseX, int mouseY) {
         super.renderLabels(g, mouseX, mouseY);
         for (GuiLayout.Field field : layout.fields()) {
-            if (field.label() != null) {
+            if (field.label() != null && field.shownIn(field.modeExtra() < 0 ? 0 : menu.extra(field.modeExtra()))) {
                 g.drawString(font, Component.translatable(field.label()), field.labelX(), field.labelY(), 0x404040, false);
             }
         }

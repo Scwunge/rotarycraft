@@ -232,4 +232,12 @@ w('%s/recipe/deco_tank_settings.json' % D, {'type': 'rotarycraft:deco_tank_setti
 names({'block.rotarycraft.deco_tank': 'Decorative Tank', 'item.rotarycraft.deco_tank': 'Decorative Tank',
        'tooltip.rotarycraft.deco_tank.full': 'Full of %s', 'tooltip.rotarycraft.deco_tank.empty': 'Empty'})
 
+# ---- Block Cannon (the TNT cannon's model and screen, with its own texture) ----
+rendered_machine('block_cannon', texture='blockcannontex.png')
+gui_copy('cannon', 'block_cannon')
+shaped('block_cannon', ['s c', 'pcp', 'pCr'], {'s': STEEL, 'c': CIRCUIT, 'p': BASEPANEL, 'C': COMPRESSOR, 'r': vanilla('chest')})
+names({'block.rotarycraft.block_cannon': 'Block Cannon', 'gui.rotarycraft.block_cannon.velocity': 'Velocity', 'gui.rotarycraft.block_cannon.launch_angle': 'Launch Angle',
+       'gui.rotarycraft.block_cannon.compass_angle': 'Compass Angle', 'gui.rotarycraft.block_cannon.x': 'X', 'gui.rotarycraft.block_cannon.y': 'Y', 'gui.rotarycraft.block_cannon.z': 'Z',
+       'gui.rotarycraft.block_cannon.button0.0': 'Manual', 'gui.rotarycraft.block_cannon.button0.1': 'Target'})
+
 mg.finish()

@@ -28,7 +28,11 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
      * A box on the screen for a whole number, between {@code min} and {@code max}: its number is machine extra {@code extra}, and typing in it sends the new
      * number to the machine ({@link MachineHost#setField}). {@code label} is a lang key drawn at ({@code labelX}, {@code labelY}), or null.
      */
-    public record Field(int index, int extra, int x, int y, int width, int min, int max, String label, int labelX, int labelY) {
+    public record Field(int index, int extra, int x, int y, int width, int min, int max, String label, int labelX, int labelY, int modeExtra, int modeValue) {
+        /** Whether the box is shown, given what the machine says its mode is: always, unless it was set to show in one mode only. */
+        public boolean shownIn(int mode) {
+            return modeExtra < 0 || mode == modeValue;
+        }
     }
 
     /** A button that sends {@code id} to the machine ({@link MachineHost#menuButton}) and says its state, machine extra {@code state}, in its words: the lang key gui.rotarycraft.&lt;layout&gt;.button&lt;id&gt;.&lt;state&gt;. */
@@ -123,8 +127,15 @@ public record GuiLayout(String name, int width, int height, List<SlotPos> slots,
 
         /** A number box (see {@link Field}); it takes the next free extra, so call {@link #extras} for the machine's own extras first. */
         public Builder field(int x, int y, int width, int min, int max, String label, int labelX, int labelY) {
-            fields.add(new Field(fields.size(), extras, x, y, width, min, max, label, labelX, labelY));
+            fields.add(new Field(fields.size(), extras, x, y, width, min, max, label, labelX, labelY, -1, 0));
             extras++;
+            return this;
+        }
+
+        /** Makes the box added last show only while machine extra {@code extra} is {@code value} (a machine with modes). */
+        public Builder shownWhen(int extra, int value) {
+            Field last = fields.remove(fields.size() - 1);
+            fields.add(new Field(last.index(), last.extra(), last.x(), last.y(), last.width(), last.min(), last.max(), last.label(), last.labelX(), last.labelY(), extra, value));
             return this;
         }
 

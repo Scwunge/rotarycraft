@@ -27,6 +27,7 @@ import net.scwunge.rotarycraft.blockentity.AerosolizerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.AirGunBlockEntity;
 import net.scwunge.rotarycraft.blockentity.ArrowGunBlockEntity;
 import net.scwunge.rotarycraft.blockentity.BeamMirrorBlockEntity;
+import net.scwunge.rotarycraft.blockentity.BlockCannonBlockEntity;
 import net.scwunge.rotarycraft.blockentity.BlockFillerBlockEntity;
 import net.scwunge.rotarycraft.blockentity.FireworkMachineBlockEntity;
 import net.scwunge.rotarycraft.blockentity.FloodlightBlockEntity;
@@ -114,6 +115,10 @@ public final class DecorRegistry {
     public static final DeferredHolder<RecipeSerializer<?>, RecipeSerializer<DecoTankSettingsRecipe>> DECO_TANK_SETTINGS = RotaryRecipes.SERIALIZERS.register("deco_tank_settings",
             DecoTankSettingsRecipe::serializer);
 
+    // ---- Block Cannon ----
+    public static final Machines.Entry<BlockCannonBlockEntity, LayoutMachineBlock> BLOCK_CANNON = Machines.machine("block_cannon", BlockCannonBlockEntity::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<LayoutMenu>> BLOCK_CANNON_MENU = LayoutMenus.register(BlockCannonBlockEntity.LAYOUT);
+
     private DecorRegistry() {}
 
     /** Loads the class, so its entries join the shared registers. */
@@ -133,6 +138,7 @@ public final class DecorRegistry {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, FIREWORK_MACHINE.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ITEM_CANNON.type().get(), (be, side) -> be.automationItems());
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ARROW_GUN.type().get(), (be, side) -> be.automationItems());
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, BLOCK_CANNON.type().get(), (be, side) -> be.automationItems());
         event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> new FluidHandlerItemStack(DecoTank.FLUID, stack, DecoTank.FILL), DECO_TANK.get());
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, SPILLER.type().get(), (be, side) -> be.fluidHandler(side));
     }
