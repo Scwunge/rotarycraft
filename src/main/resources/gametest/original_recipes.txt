@@ -26,7 +26,7 @@ PENDING|BEDSWORD|bedrock tools and armour (items, section 6)
 MAP|BELT|belt
 MAP|BEVELGEARS|bevel_gear
 MAP|BIGFURNACE|big_furnace
-PENDING|BLOCKCANNON|not ported yet
+MAP|BLOCKCANNON|block_cannon
 MAP|BLOWER|blower
 MAP|BOILER|boiler
 MAP|BORER|borer
@@ -119,7 +119,7 @@ MAP|MOBHARVESTER|mob_harvester
 MAP|MOBRADAR|mob_radar
 PENDING|MOTION|not ported yet
 PENDING|MULTICLUTCH|not ported yet
-PENDING|MUSICBOX|not ported yet
+MAP|MUSICBOX|music_box
 PENDING|NVG|not ported yet
 PENDING|NVH|not ported yet
 MAP|OBSIDIAN|obsidian_maker
