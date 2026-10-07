@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/player_detector"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/player_detector"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/player_detector"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/player_detector"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/player_detector"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/player_detector"
+    }
+  }
+}

@@ -16,6 +16,11 @@ public interface MachineInteractions {
     default void onBroken(net.minecraft.server.level.ServerLevel server) {
     }
 
+    /** The redstone signal the machine gives on every side, 0 to 15; only blocks that are {@link SignalMachineBlock}s give it. */
+    default int redstoneOutput() {
+        return 0;
+    }
+
     /** What a comparator reads from the machine, 0 to 15; below 0 for a machine that gives none. */
     default int comparatorSignal() {
         return -1;

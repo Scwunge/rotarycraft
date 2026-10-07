@@ -22,6 +22,7 @@ public final class MachineConfig {
     public static final ModConfigSpec.IntValue BRIDGE_RANGE;
     public static final ModConfigSpec.IntValue AEROSOLIZER_RANGE;
     public static final ModConfigSpec.IntValue LAMP_RANGE;
+    public static final ModConfigSpec.IntValue DETECTOR_RANGE;
 
     /** The original's machines in this group, with whether each is on by default (the ones that change blocks or burn things are not). */
     private static final Object[][] MACHINES = {
@@ -55,6 +56,8 @@ public final class MachineConfig {
         AEROSOLIZER_RANGE = b.comment("Furthest an aerosolizer reaches along each axis, in blocks (never under 64).").defineInRange("aerosolizerRange", 128, 64, 512);
         LAMP_RANGE = b.comment("How far a lamp lights along each axis, in blocks (the original's is 12); the diagonals reach four fifths as far.")
                 .defineInRange("lampRange", 12, 1, 24);
+        DETECTOR_RANGE = b.comment("Longest range a player detector can be set to, in blocks (never under 64); the power it gets limits it too.")
+                .defineInRange("detectorRange", 128, 64, 512);
         b.pop();
         SPEC = b.build();
     }

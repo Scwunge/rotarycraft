@@ -49,6 +49,7 @@ public class RotaryCraft {
         net.scwunge.rotarycraft.registry.ProcessRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.MachineSoundRegistry.init(modBus);
         net.scwunge.rotarycraft.registry.DecorRegistry.init(modBus);
+        net.scwunge.rotarycraft.registry.LogisticsRegistry.init(modBus);
         RotaryItems.TABS.register(modBus);
         RotaryBlockEntities.TYPES.register(modBus);
         net.scwunge.rotarycraft.registry.RotaryRecipes.TYPES.register(modBus);

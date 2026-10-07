@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": {
+      "model": "rotarycraft:block/firestarter"
+    },
+    "facing=down": {
+      "model": "rotarycraft:block/firestarter"
+    },
+    "facing=north": {
+      "model": "rotarycraft:block/firestarter"
+    },
+    "facing=south": {
+      "model": "rotarycraft:block/firestarter"
+    },
+    "facing=east": {
+      "model": "rotarycraft:block/firestarter"
+    },
+    "facing=west": {
+      "model": "rotarycraft:block/firestarter"
+    }
+  }
+}

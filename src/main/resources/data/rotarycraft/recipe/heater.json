@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "sBs",
+    "prp",
+    "scs"
+  ],
+  "key": {
+    "s": {
+      "tag": "c:ingots/steel"
+    },
+    "B": {
+      "item": "minecraft:iron_bars"
+    },
+    "p": {
+      "item": "rotarycraft:base_panel"
+    },
+    "r": {
+      "item": "rotarycraft:tungsten_ingot"
+    },
+    "c": {
+      "item": "rotarycraft:combustor"
+    }
+  },
+  "result": {
+    "id": "rotarycraft:heater",
+    "count": 1
+  }
+}
